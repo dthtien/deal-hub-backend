@@ -1,0 +1,100 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        ports: ["5432:5432"]
+        env:
+          POSTGRES_HOST_AUTH_METHOD: trust
+          POSTGRES_PASSWORD: ""
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      RAILS_ENV: test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3.1
+          bundler-cache: true
+      - name: Preparing database
+        run: bundle exec rake db:setup
+
+      - name: Run tests
+        run: bundle exec rspec
+
+  # push_to_registry:
+    # needs: test
+    # name: Push Docker image to GHCR
+    # runs-on: ubuntu-latest
+    # permissions:
+      # packages: write
+      # contents: read
+    # steps:
+      # - name: Check out the repo
+        # uses: actions/checkout@v4
+
+      # - name: Log in to the Container registry
+        # uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        # with:
+          # registry: ghcr.io
+          # username: ${{ github.actor }}
+          # password: ${{ secrets.GH_TOKEN }}
+
+      # - name: Extract metadata (tags, labels) for Docker
+        # id: meta
+        # uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        # with:
+          # images: ghcr.io/${{ github.repository }}
+
+      # - name: Build and push Docker images
+        # uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        # with:
+          # context: .
+          # push: true
+          # tags: ${{ steps.meta.outputs.tags }}
+          # labels: ${{ steps.meta.outputs.labels }}
+
+  # deploy:
+    # needs: push_to_registry
+    # runs-on: ubuntu-latest
+    # steps:
+      # - name: executing remote ssh commands using ssh key
+        # uses: appleboy/ssh-action@v1.0.0
+        # with:
+          # host: ${{ secrets.HOST }}
+          # username: ${{ secrets.USER }}
+          # key: ${{ secrets.KEY }}
+          # script: |
+            # cd ac_scrapper
+            # git pull origin main
+            # export POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+            # export SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}
+            # export MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}
+            # export UN=${{ secrets.UN }}
+            # export PW=${{ secrets.PW }}
+            # docker image prune -af
+            # docker compose down
+            # docker compose up -d --build
+            # docker ps
+
+
