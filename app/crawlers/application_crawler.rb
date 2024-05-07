@@ -1,0 +1,21 @@
+class ApplicationCrawler
+  def initialize(url)
+    @url = url
+  end
+
+  def crawl
+    raise NotImplementedError
+  end
+
+  private
+
+  attr_reader :url
+
+
+  def client
+    @client ||= Faraday.new(url: url) do |faraday|
+      faraday.request :url_encoded
+      faraday.adapter Faraday.default_adapter
+    end
+  end
+end
