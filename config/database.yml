@@ -82,6 +82,7 @@ test:
 #
 production:
   <<: *default
-  database: deal_hub_api_production
-  username: deal_hub_api
+  host: <%= ENV["DEAL_HUB_API_DATABASE_HOST"] %>
+  database: <%= ENV["DEAL_HUB_API_DATABASE_NAME"] %>
+  username: <%= ENV["DEAL_HUB_API_DATABASE_USERNAME"] %>
   password: <%= ENV["DEAL_HUB_API_DATABASE_PASSWORD"] %>
