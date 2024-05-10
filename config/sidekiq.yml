@@ -1,6 +1,7 @@
 :concurrency: 5
 production:
   :concurrency: 10
+pidfile: tmp/pids/sidekiq_development.pid
 :queues:
   - critical
   - default
