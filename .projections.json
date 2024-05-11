@@ -11,8 +11,16 @@
     "alternate": "spec/lib/{}_spec.rb",
     "type": "source"
   },
+  "lib/tasks/*.rake": {
+    "alternate": "spec/lib/tasks/{}_spec.rb",
+    "type": "source"
+  },
   "spec/lib/*_spec.rb": {
     "alternate": ["{}.rb", "lib/{}.rb"],
+    "type": "test"
+  },
+  "spec/lib/tasks/*_spec.rb": {
+    "alternate": ["{}.rb", "lib/tasks/{}.rake"],
     "type": "test"
   }
 }
