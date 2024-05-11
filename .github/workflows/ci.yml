@@ -69,7 +69,9 @@ jobs:
         uses: azure/setup-kubectl@v3
 
       - name: Setup Cluster Authentication
-        run: cat ${{ secrets.KUBECONFIG }} > /tmp/kubeconfig
+        run: echo "$KUBECONFIG" > /tmp/kubeconfig
+        env:
+          KUBECONFIG:  ${{secrets.KUBECONFIG}}
 
       - name: Deploying
         run: kubectl --kubeconfig=/tmp/kubeconfig rollout restart deals-hub-be-deployment
