@@ -64,3 +64,12 @@ jobs:
         run: |
           docker build . -t dthtien.azurecr.io/${{ github.repository }}:${{ github.sha }}
           docker push dthtien.azurecr.io/${{ github.repository }}:${{ github.sha }}
+
+      - name: Install Kubectl
+        uses: azure/setup-kubectl@v3
+
+      - name: Setup Cluster Authentication
+        run: cat ${{ secrets.KUBECONFIG }} > /tmp/kubeconfig
+
+      - name: Deploying
+        run: kubectl --kubeconfig=/tmp/kubeconfig rollout restart deals-hub-be-deployment
