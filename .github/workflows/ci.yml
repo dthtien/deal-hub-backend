@@ -74,4 +74,4 @@ jobs:
           KUBECONFIG:  ${{secrets.KUBECONFIG}}
 
       - name: Deploying
-        run: kubectl --kubeconfig=/tmp/kubeconfig rollout restart deals-hub-be-deployment
+        run: kubectl --kubeconfig=/tmp/kubeconfig rollout restart deployment deals-hub-be-deployment
