@@ -63,7 +63,7 @@ jobs:
       - name: Build and push
         run: |
           docker build . -t dthtien.azurecr.io/${{ github.repository }}:${{ github.sha }}
-          docker push dthtien.azurecr.io/${{ github.repository }}:$${ github.sha }
+          docker push dthtien.azurecr.io/${{ github.repository }}:${{ github.sha }}
 
       - name: Install Kubectl
         uses: azure/setup-kubectl@v3
