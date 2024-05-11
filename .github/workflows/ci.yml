@@ -62,8 +62,8 @@ jobs:
 
       - name: Build and push
         run: |
-          docker build . -t dthtien.azurecr.io/${{ github.repository }}:${{ github.sha }}
-          docker push dthtien.azurecr.io/${{ github.repository }}:${{ github.sha }}
+          docker build . -t dthtien.azurecr.io/${{ github.repository }}:latest
+          docker push dthtien.azurecr.io/${{ github.repository }}:latest
 
       - name: Install Kubectl
         uses: azure/setup-kubectl@v3
@@ -74,4 +74,6 @@ jobs:
           KUBECONFIG:  ${{secrets.KUBECONFIG}}
 
       - name: Deploying
-        run: kubectl --kubeconfig=/tmp/kubeconfig rollout restart deployment deals-hub-be-deployment
+        run: |
+          kubectl --kubeconfig=/tmp/kubeconfig rollout restart deployment deals-hub-be-deployment
+
