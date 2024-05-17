@@ -42,38 +42,47 @@ jobs:
       - name: Run tests
         run: bundle exec rspec
 
-  push_to_registry:
+  deploy:
     needs: test
     name: Push Docker image to Azure
     runs-on: ubuntu-latest
     permissions:
       packages: write
       contents: read
+
+    env:
+      RAILS_ENV: production
+      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+      REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
+      DEAL_HUB_API_DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
+      DEAL_HUB_API_DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+      DEAL_HUB_API_DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
+      DEAL_HUB_API_DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+      REDIS_URL: ${{ secrets.REDIS_URL }}
+
     steps:
-      - name: Check out the repo
-        uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: Docker login
-        uses: azure/docker-login@v1
+      - uses: webfactory/ssh-agent@v0.7.0
         with:
-          login-server: dthtien.azurecr.io
-          username: ${{ secrets.REGISTRY_USERNAME }}
-          password: ${{ secrets.REGISTRY_PASSWORD }}
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Build and push
-        run: |
-          docker build . -t dthtien.azurecr.io/${{ github.repository }}:latest
-          docker push dthtien.azurecr.io/${{ github.repository }}:latest
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3.1
 
-      - name: Install Kubectl
-        uses: azure/setup-kubectl@v3
+      - name: Install dependencies
+        run: gem install kamal
 
-      - name: Setup Cluster Authentication
-        run: echo "$KUBECONFIG" > /tmp/kubeconfig
-        env:
-          KUBECONFIG:  ${{secrets.KUBECONFIG}}
+      - uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Deploying
-        run: |
-          kubectl --kubeconfig=/tmp/kubeconfig rollout restart deployment deals-hub-be-deployment
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v2
 
+      - name: Run deploy command
+        run: kamal deploy

@@ -2,7 +2,7 @@
 service: deals-hub-be
 
 # Name of the container image.
-image: dthtien.azurecr.io/dthtien/deal-hub-backend
+image: dthtien/deal-hub-backend
 
 # Deploy to these servers.
 servers:
