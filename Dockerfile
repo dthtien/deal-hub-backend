@@ -49,6 +49,11 @@ COPY --from=build /rails /rails
 # Run and own only the runtime files as a non-root user for security
 RUN useradd rails --create-home --shell /bin/bash && \
     chown -R rails:rails db log storage tmp
+
+COPY config/crontab /etc/cron.d/cronfile
+RUN chmod 0644 /etc/cron.d/cronfile
+RUN crontab /etc/cron.d/cronfile
+
 USER rails:rails
 
 # Entrypoint prepares the database.
