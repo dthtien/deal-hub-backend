@@ -11,19 +11,20 @@ servers:
     hosts:
       - 67.219.97.246
     labels:
-      traefik.http.routers.domain.rule: Host(`ac.tcyrus.dev`)
-      traefik.http.routers.domain.entrypoints: websecure
-      traefik.http.routers.domain.tls.certresolver: letsencrypt
+      traefik.http.routers.kiqr_cloud.rule: Host(`ac.tcyrus.dev`)
+      traefik.http.routers.kiqr_cloud_secure.entrypoints: websecure
+      traefik.http.routers.kiqr_cloud_secure.rule: Host(`ac.tcyrus.dev`)
+      traefik.http.routers.kiqr_cloud_secure.tls: true
+      traefik.http.routers.kiqr_cloud_secure.tls.certresolver: letsencrypt
   job:
     hosts:
       - 67.219.97.246
-    # Or something like bin/job
     cmd: bundle exec sidekiq -C config/sidekiq.yml
-    # Limit workers resources
-    #
-    # options:
-    #   cap-add: true
-    #   cpu-count: 2
+  cron:
+    hosts:
+      - 67.219.97.246
+    cmd:
+      bash -c "cat config/crontab | crontab - && cron -f"
 
 # Credentials for your image host.
 registry:
@@ -96,8 +97,6 @@ traefik:
     entryPoints.web.http.redirections.entryPoint.to: websecure
     entryPoints.web.http.redirections.entryPoint.scheme: https
     entryPoints.web.http.redirections.entrypoint.permanent: true
-    entrypoints.websecure.http.tls: true
-    entrypoints.websecure.http.tls.domains[0].main: "ac.tcyrus.dev"
     certificatesResolvers.letsencrypt.acme.email: "tiendt2311@gmail.com"
     certificatesResolvers.letsencrypt.acme.storage: "/letsencrypt/acme.json"
     certificatesResolvers.letsencrypt.acme.httpchallenge: true
