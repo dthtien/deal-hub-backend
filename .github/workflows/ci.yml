@@ -71,6 +71,8 @@ jobs:
           context: .
           push: true
           tags: dthtien.azurecr.io/dthtien/deal-hub-backend:latest
+          labels:
+            - service="deals-hub-be"
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
