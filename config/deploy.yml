@@ -11,6 +11,9 @@ servers:
     hosts:
       - 67.219.97.246
     labels:
+      traefik.http.routers.domain.rule: Host(`ac.tcyrus.dev`)
+      traefik.http.routers.domain.entrypoints: websecure
+      traefik.http.routers.domain.tls.certresolver: letsencrypt
       traefik.http.routers.kiqr_cloud.rule: Host(`ac.tcyrus.dev`)
       traefik.http.routers.kiqr_cloud_secure.entrypoints: websecure
       traefik.http.routers.kiqr_cloud_secure.rule: Host(`ac.tcyrus.dev`)
