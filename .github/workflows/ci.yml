@@ -115,7 +115,3 @@ jobs:
 
       - name: Run deploy command
         run: VERSION=latest kamal deploy --skip-push
-        with:
-          context: .
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
