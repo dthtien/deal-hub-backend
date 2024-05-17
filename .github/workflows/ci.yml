@@ -44,7 +44,7 @@ jobs:
 
   deploy:
     needs: test
-    name: Push Docker image to Azure
+    name: Kamal deploy
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -86,3 +86,7 @@ jobs:
 
       - name: Run deploy command
         run: kamal deploy
+        with:
+          context: .
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
