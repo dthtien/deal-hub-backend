@@ -1,3 +1,3 @@
 craw_all:
-  cron: "* * * * *"
+  cron: "0 6,12,18 * * *"
   class: "Crawlers::DistributeJob"
