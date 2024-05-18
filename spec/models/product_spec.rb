@@ -16,7 +16,7 @@ RSpec.describe Product, :model, type: :model do
       expect(product.as_json).to eq(
         product.attributes.except('created_at').merge(
           store_url: nil,
-          'updated_at' => product.updated_at.iso8601(3)
+          'updated_at' => product.updated_at.strftime('%d/%m/%Y %H:%M:%S')
         )
       )
     end
