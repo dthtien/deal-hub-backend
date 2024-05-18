@@ -8,6 +8,7 @@ module Deals
       @min_price = params[:min_price]
       @max_price = params[:max_price]
       @categories = params[:categories]
+      @brand = params[:brand]
       @order = params[:order] || {}
       @products = Product.none
     end
@@ -25,13 +26,14 @@ module Deals
 
     private
 
-    attr_reader :store, :min_price, :max_price, :categories, :params, :order
+    attr_reader :store, :min_price, :max_price, :categories, :params, :order, :brand
 
     def filter
       scope = Product.all
       scope = scope.where(store:) if store.present?
       scope = scope.where('price >= ?', min_price) if min_price.present?
       scope = scope.where('price <= ?', max_price) if max_price.present?
+      scope = scope.where(brand:) if brand.present?
       categories.present? && scope = scope.where('categories && array[?]::varchar[]', [categories].flatten)
 
       @products = scope
