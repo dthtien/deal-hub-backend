@@ -1,6 +1,7 @@
 # frozen_string_literal: true
-#
+
 class Product < ApplicationRecord
+  DATE_FORMAT = '%d/%m/%Y %H:%M:%S'
   STORES = [
     OFFICE_WORKS = 'Office Works'
   ].freeze
@@ -12,7 +13,7 @@ class Product < ApplicationRecord
   def as_json(options = {})
     super(
       options.merge(except: %i[created_at])
-    ).merge(store_url:, updated_at: parse_updated_at)
+    ).merge(store_url:, 'updated_at' => parse_updated_at)
   end
 
   def store_url
@@ -25,6 +26,6 @@ class Product < ApplicationRecord
   private
 
   def parse_updated_at
-    updated_at.strftime('%d/%m/%Y %H:%M:%S')
+    updated_at.strftime(DATE_FORMAT)
   end
 end

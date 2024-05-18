@@ -12,11 +12,11 @@ RSpec.describe Product, :model, type: :model do
   describe '#as_json' do
     let(:product) { create(:product) }
 
-    it 'returns the product as a hash' do
-      expect(product.as_json).to eq(
+    it do
+      expect(product.as_json).to match(
         product.attributes.except('created_at').merge(
           store_url: nil,
-          'updated_at' => product.updated_at.strftime('%d/%m/%Y %H:%M:%S')
+          'updated_at' => product.updated_at.strftime(::Product::DATE_FORMAT)
         )
       )
     end
