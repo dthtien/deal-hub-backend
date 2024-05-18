@@ -19,11 +19,6 @@ servers:
     hosts:
       - 67.219.97.246
     cmd: bundle exec sidekiq -C config/sidekiq.yml
-  cron:
-    hosts:
-      - 67.219.97.246
-    cmd:
-      bash -c "cat config/crontab | crontab - && cron -f"
 
 # Credentials for your image host.
 registry:

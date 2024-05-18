@@ -11,14 +11,14 @@ class Product < ApplicationRecord
 
   def as_json(options = {})
     super(
-      options.merge(except: %i[updated_at])
+      options.merge(except: %i[created_at])
     ).merge(store_url:)
   end
 
   def store_url
     case store
     when OFFICE_WORKS
-      "https://www.officeworks.com.au#{store_path}"
+      "https://www.officeworks.com.au#{store_path}" if store_path.present?
     end
   end
 end
