@@ -6,7 +6,6 @@ image: dthtien/deal-hub-backend
 
 # Deploy to these servers.
 servers:
-  # - 67.219.97.246
   web:
     hosts:
       - 67.219.97.246

@@ -1,1 +1,1 @@
-0 6,12,16 * * * /rails/bin/rake crawler:crawl_all
+* * * * * /rails/bin/rake crawler:crawl_all
