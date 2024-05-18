@@ -13,6 +13,7 @@ gem "puma", ">= 5.0"
 
 gem 'redis', '~> 4.8.1'
 gem 'sidekiq', '~> 6.5.12'
+gem "sidekiq-cron"
 gem 'faraday', '~> 2.9.0'
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
