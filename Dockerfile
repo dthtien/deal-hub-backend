@@ -52,6 +52,8 @@ RUN useradd rails --create-home --shell /bin/bash && \
 
 RUN groupadd crond-users && \
     chgrp crond-users /var/run/ && \
+    chmod g+w /var/run/ && \
+    chown rails:crond-users /var/run/ && \
     usermod -a -G crond-users rails
 
 # COPY config/crontab /etc/cron.d/cronfile
