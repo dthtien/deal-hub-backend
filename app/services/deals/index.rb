@@ -20,7 +20,7 @@ module Deals
     end
 
     def paginate
-      @paginate ||= Pagination.new(products, params).call
+      @paginate ||= Pagination.new(products, params)
     end
 
     private

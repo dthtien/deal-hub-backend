@@ -1,20 +1,15 @@
 class Pagination
   DEFAULT = { page: 1, per_page: 25 }.freeze
 
-  attr_reader :collection
-
   def initialize(scope, params = {})
     @page     = (params[:page] || DEFAULT[:page]).to_i
     @per_page = params[:per_page] || DEFAULT[:per_page]
-    @collection = scope
     @scope = scope
     @include_count = params[:include_count] || true
   end
 
-  def call
-    @collection = collection.limit(per_page).offset(offset)
-
-    self
+  def collection
+    @collection ||= scope.limit(per_page).offset(offset)
   end
 
   def metadata

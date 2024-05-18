@@ -16,17 +16,13 @@ RSpec.describe Pagination do
 
   let(:pagination) { described_class.new(collection, params) }
 
-  before { pagination.call }
-
-  context '#call' do
-    it do
-      expect(pagination.collection).to eq([product1])
-      expect(pagination.metadata).to eq(
-        page: 1,
-        per_page: 1,
-        total_count: 3,
-        total_pages: 3
-      )
-    end
+  it do
+    expect(pagination.collection).to eq([product1])
+    expect(pagination.metadata).to eq(
+      page: 1,
+      per_page: 1,
+      total_count: 3,
+      total_pages: 3
+    )
   end
 end

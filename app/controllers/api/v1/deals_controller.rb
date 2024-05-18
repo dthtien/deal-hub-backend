@@ -2,7 +2,12 @@ module Api
   module V1
     class DealsController < ApplicationController
       def index
-        render json: Product.all
+        service = Deals::Index.call(params)
+
+        render json: {
+          products: service.paginate.collection,
+          metadata: service.paginate.metadata
+        }
       end
     end
   end
