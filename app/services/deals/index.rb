@@ -36,7 +36,7 @@ module Deals
       scope = scope.where('price <= ?', max_price) if max_price.present?
       scope = scope.where(brand:) if brand.present?
       scope = scope.where('name ILIKE ?', "%#{query}%") if query.present?
-      categories.present? && scope = scope.where('categories && array[?]::varchar[]', [categories].flatten)
+      categories.present? && scope = scope.where('categories && array[?]::varchar[]', [categories.values].flatten)
 
       @products = scope
     end
@@ -45,6 +45,5 @@ module Deals
       @products = products.order(price: order[:price]) if order[:price].present?
       @products = products.order(updated_at: order[:updated_at]) if order[:updated_at].present?
     end
-
   end
 end

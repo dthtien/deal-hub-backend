@@ -6,7 +6,7 @@ RSpec.describe Deals::Index do
       store: 'store',
       min_price: 10,
       max_price: 100,
-      categories: %w[category category2],
+      categories: { '0' => 'category', '1' => 'category2' },
       brand: 'brand',
       name: 'product',
       order: { price: :asc }
