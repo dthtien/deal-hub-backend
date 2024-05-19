@@ -14,9 +14,10 @@ RSpec.describe Product, :model, type: :model do
 
     it do
       expect(product.as_json).to match(
-        product.attributes.except('created_at').merge(
+        product.attributes.merge(
           store_url: nil,
-          'updated_at' => product.updated_at.strftime(::Product::DATE_FORMAT)
+          'updated_at' => product.updated_at.strftime(::Product::DATE_FORMAT),
+          'created_at' => product.created_at.strftime(::Product::DATE_FORMAT)
         )
       )
     end
