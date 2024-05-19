@@ -29,12 +29,12 @@ module OfficeWorks
         price: result['price'].to_f / 100,
         store_product_id: result['sku'],
         brand: result['brand']&.downcase,
-        available_states: result['availState'],
+        available_states: result['availState'].uniq,
         image_url: result['image'],
         store_path: result['seoPath'],
         store: Product::OFFICE_WORKS,
         description: result['descriptionShort'],
-        categories: result['categories']
+        categories: result['categories'].uniq
       }
     end
 

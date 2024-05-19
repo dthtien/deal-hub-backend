@@ -8,11 +8,21 @@ RSpec.describe Deals::Index do
       max_price: 100,
       categories: %w[category category2],
       brand: 'brand',
+      name: 'product',
       order: { price: :asc }
     }
   end
   let(:service) { described_class.new(params) }
-  let!(:product1) { create(:product, price: 50, categories: ['category'], store: 'store', brand: 'brand') }
+  let!(:product1) do
+    create(
+      :product,
+      price: 50,
+      categories: ['category'],
+      store: 'store',
+      brand: 'brand',
+      name: 'product'
+    )
+  end
   let!(:product2) { create(:product, price: 20, categories: ['category2'], store: 'store2') }
   let!(:product3) { create(:product, price: 30, categories: ['category3'], store: 'store') }
   let!(:product4) { create(:product, price: 140, categories: ['category'], store: 'store') }
