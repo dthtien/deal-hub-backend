@@ -20,9 +20,13 @@ class Product < ApplicationRecord
   end
 
   def store_url
+    return if store_path.blank?
+
     case store
     when OFFICE_WORKS
-      "https://www.officeworks.com.au#{store_path}" if store_path.present?
+      "https://www.officeworks.com.au#{store_path}"
+    when JB_HIFI
+      "https://www.jbhifi.com.au/products/#{store_path}"
     end
   end
 end
