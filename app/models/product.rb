@@ -11,6 +11,16 @@ class Product < ApplicationRecord
   validates :store_product_id, presence: true
   validates :store, presence: true
 
+  class << self
+    def brands
+      pluck('DISTINCT(brand)')
+    end
+
+    def categories
+      pluck('DISTINCT(categories)').flatten.uniq
+    end
+  end
+
   def as_json(options = {})
     super(options).merge(
       store_url:,
