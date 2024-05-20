@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module OfficeWorks
+module JbHifi
   class CrawlAll < Base
     def initialize
       super
@@ -25,16 +25,15 @@ module OfficeWorks
 
     def build_attributes(result)
       {
-        name: result['name'],
-        price: result['price'].to_f / 100,
-        store_product_id: result['sku'],
-        brand: result['brand']&.downcase,
-        available_states: result['availState'].uniq,
-        image_url: result['image'],
-        store_path: result['seoPath'],
-        store: Product::OFFICE_WORKS,
-        description: result['descriptionShort'],
-        categories: result['categories'].map(&:downcase).uniq
+        name: result['title'],
+        price: result['pricing']['displayPriceInc'].to_f,
+        store_product_id: result['sku'].presence || result['product']['id'],
+        brand: result['product']['brand']&.downcase,
+        image_url: result['product_image'],
+        store_path: result['handle'],
+        store: Product::JB_HIFI,
+        description: result['display']['keyFeatures']&.to_sentence,
+        categories: result['category_hierarchy'].map(&:downcase).uniq
       }
     end
 
@@ -44,8 +43,9 @@ module OfficeWorks
 
     def remove_old_products
       store_product_ids = attributes.map { |a| a[:store_product_id] }
-      Product.where(store: Product::OFFICE_WORKS)
+      Product.where(store: Product::JB_HIFI)
              .where.not(store_product_id: store_product_ids).delete_all
     end
   end
 end
+
