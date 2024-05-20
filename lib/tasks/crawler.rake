@@ -5,7 +5,8 @@ namespace :crawler do
     puts 'Crawling all stores!'
 
     jobs = {
-      Product::OFFICE_WORKS => Crawlers::OfficeWorksJob
+      Product::OFFICE_WORKS => Crawlers::OfficeWorksJob,
+      Product::JB_HIFI => Crawlers::JbHifiJob
     }
 
     Product::STORES.each do |store|

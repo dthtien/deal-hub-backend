@@ -14,6 +14,7 @@ class JbHifiCrawler < ApplicationCrawler
       break if results.empty?
 
       @data += results
+      @data = @data.uniq
       yield results if block_given?
     end
 

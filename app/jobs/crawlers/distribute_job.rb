@@ -6,7 +6,8 @@ module Crawlers
       Rails.logger.info 'Distributing jobs!'
 
       jobs = {
-        Product::OFFICE_WORKS => Crawlers::OfficeWorksJob
+        Product::OFFICE_WORKS => Crawlers::OfficeWorksJob,
+        Product::JB_HIFI => Crawlers::JbHifiJob
       }
 
       Product::STORES.each do |store|

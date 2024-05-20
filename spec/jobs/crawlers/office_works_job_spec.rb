@@ -4,6 +4,6 @@ RSpec.describe Crawlers::OfficeWorksJob, type: :job do
   it do
     expect(OfficeWorks::CrawlAll).to receive(:call)
 
-    Crawlers::OfficeWorksJob.new.perform
+    described_class.new.perform
   end
 end
