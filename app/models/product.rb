@@ -4,7 +4,8 @@ class Product < ApplicationRecord
   DATE_FORMAT = '%d/%m/%Y %H:%M:%S'
   STORES = [
     OFFICE_WORKS = 'Office Works',
-    JB_HIFI = 'JB Hi-Fi'
+    JB_HIFI = 'JB Hi-Fi',
+    GLUE_STORE = 'Glue Store',
   ].freeze
   validates :name, presence: true
   validates :price, presence: true
