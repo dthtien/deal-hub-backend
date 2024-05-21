@@ -1,24 +1,18 @@
 # README
+AuDealsHub - Aussie Deals Collectors
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# Stacks
+- Ruby on Rails 7: The application is built using the Ruby on Rails framework, providing a robust and scalable web
+application structure.
+- Ruby 3: The latest version of Ruby is used to power the application, ensuring performance and compatibility with modern libraries and tools.
+- PostgreSQL: PostgreSQL is used as the database management system to efficiently store and manage the scraped data.
+- Containerization (Docker): The application is containerized using Docker, making it easy to package and deploy in various environments.
+- CI/CD Github Actions: Continuous Integration and Continuous Deployment (CI/CD) pipelines are set up using GitHub Actions to automate testing and deployment processes.
+- Ubuntu server instance: The application is hosted on an Amazon Web Services (AWS) EC2 instance running Ubuntu, ensuring high availability and scalability.
+- SSL Let's Encrypt: SSL encryption provided by Let's Encrypt ensures secure communication between users and the application.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+# Todo list
+- [x] Crawl OfficeWorks
+- [x] Crawl JB-hifi
+- [ ] Crawl Footlocker
+- [ ] Crawl GlueStore
