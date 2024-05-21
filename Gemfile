@@ -15,6 +15,8 @@ gem 'redis', '~> 4.8.1'
 gem 'sidekiq', '~> 6.5.12'
 gem "sidekiq-cron"
 gem 'faraday', '~> 2.9.0'
+gem 'exception_notification'
+gem 'slack-notifier'
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"

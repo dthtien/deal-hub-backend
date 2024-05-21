@@ -98,6 +98,9 @@ GEM
     erubi (1.12.0)
     et-orbi (1.2.11)
       tzinfo
+    exception_notification (4.5.0)
+      actionmailer (>= 5.2, < 8)
+      activesupport (>= 5.2, < 8)
     factory_bot (6.4.6)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.4.3)
@@ -237,6 +240,7 @@ GEM
       fugit (~> 1.8)
       globalid (>= 1.0.1)
       sidekiq (>= 6)
+    slack-notifier (2.4.0)
     stringio (3.1.0)
     thor (1.3.1)
     timeout (0.4.1)
@@ -265,6 +269,7 @@ DEPENDENCIES
   bootsnap
   byebug
   debug
+  exception_notification
   factory_bot_rails
   faraday (~> 2.9.0)
   pg (~> 1.1)
@@ -276,6 +281,7 @@ DEPENDENCIES
   shoulda-matchers (~> 6.0)
   sidekiq (~> 6.5.12)
   sidekiq-cron
+  slack-notifier
   tzinfo-data
   webmock
 
