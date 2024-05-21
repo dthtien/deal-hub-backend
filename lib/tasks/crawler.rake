@@ -6,7 +6,8 @@ namespace :crawler do
 
     jobs = {
       Product::OFFICE_WORKS => Crawlers::OfficeWorksJob,
-      Product::JB_HIFI => Crawlers::JbHifiJob
+      Product::JB_HIFI => Crawlers::JbHifiJob,
+      Product::GLUE_STORE => Crawlers::GlueStoreJob
     }
 
     Product::STORES.each do |store|
