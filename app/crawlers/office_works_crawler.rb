@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OfficeWorksCrawler < ApplicationCrawler
   attr_reader :data
 
