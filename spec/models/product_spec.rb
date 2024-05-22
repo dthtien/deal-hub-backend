@@ -42,4 +42,14 @@ RSpec.describe Product, :model, type: :model do
       expect(described_class.categories).to match_array(%w[category1 category2])
     end
   end
+
+  describe '.stores' do
+    let!(:product1) { create(:product, store: 'store1') }
+    let!(:product2) { create(:product, store: 'store2') }
+    let!(:product3) { create(:product, store: 'store1') }
+
+    it do
+      expect(described_class.stores).to match_array(%w[store1 store2])
+    end
+  end
 end

@@ -20,6 +20,10 @@ class Product < ApplicationRecord
     def categories
       pluck('DISTINCT(categories)').flatten.uniq
     end
+
+    def stores
+      pluck('DISTINCT(store)')
+    end
   end
 
   def as_json(options = {})

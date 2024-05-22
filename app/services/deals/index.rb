@@ -2,7 +2,7 @@ module Deals
   class Index < ApplicationService
     attr_reader :products
 
-    def initialize(params)
+    def initialize(params, with_order: true)
       @params = params
       @stores = params[:stores]
       @min_price = params[:min_price]
@@ -12,6 +12,7 @@ module Deals
       @brands = params[:brands]
       @order = params[:order] || {}
       @products = Product.none
+      @with_order = with_order
     end
 
     def call
@@ -28,7 +29,8 @@ module Deals
 
     private
 
-    attr_reader :stores, :min_price, :max_price, :categories, :params, :order, :brands, :query
+    attr_reader :stores, :min_price, :max_price, :categories, :params, :order, :brands,
+                :query, :with_order
 
     def filter_by_brands
       @products = products.where(brand: [brands.values].flatten) if brands.present?
@@ -67,6 +69,8 @@ module Deals
     end
 
     def order_products
+      return unless with_order
+
       @products = products.order(price: order[:price]) if order[:price].present?
       return @products = products.order(updated_at: order[:updated_at]) if order[:updated_at].present?
       return @products = products.order(created_at: order[:created_at]) if order[:created_at].present?
