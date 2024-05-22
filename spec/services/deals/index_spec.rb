@@ -3,11 +3,11 @@ require 'rails_helper'
 RSpec.describe Deals::Index do
   let(:params) do
     {
-      store: 'store',
+      stores: { '0' => 'store' },
       min_price: 10,
       max_price: 100,
       categories: { '0' => 'category', '1' => 'category2' },
-      brand: 'brand',
+      brands: { '0' => 'brand' },
       name: 'product',
       order: { price: :asc }
     }
