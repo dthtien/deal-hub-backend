@@ -38,6 +38,8 @@ class Product < ApplicationRecord
       "https://www.officeworks.com.au#{store_path}"
     when JB_HIFI
       "https://www.jbhifi.com.au/products/#{store_path}"
+    when GLUE_STORE
+      "https://www.gluestore.com.au/products/#{store_path}"
     end
   end
 end
