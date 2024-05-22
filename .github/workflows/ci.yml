@@ -92,6 +92,7 @@ jobs:
       DEAL_HUB_API_DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
       DEAL_HUB_API_DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
       REDIS_URL: ${{ secrets.REDIS_URL }}
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
     steps:
       - name: Checkout
