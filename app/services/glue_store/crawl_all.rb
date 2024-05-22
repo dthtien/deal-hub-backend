@@ -37,8 +37,20 @@ module GlueStore
         store_path: result['handle'],
         store: Product::GLUE_STORE,
         description: result['body_html_safe'].strip,
-        categories: result['tags'].present? && result['tags'].map(&:downcase).uniq
+        categories: refine_categories(result['tags'])
       }
+    end
+
+    def refine_categories(tags)
+      return if tags.blank?
+
+      tags.uniq.reject { |tag| digits?(tag) }.map do |tag|
+        tag.include?('|') ? tag.downcase.split('|').last : tag.downcase
+      end.uniq
+    end
+
+    def digits?(str)
+      !str[/\d/].nil?
     end
 
     def ignore_product?(name, categories)

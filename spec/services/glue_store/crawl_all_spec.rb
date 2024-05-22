@@ -35,7 +35,7 @@ describe GlueStore::CrawlAll, :crawler do
             product_image: 'image.jpg',
             handle: 'seo-path',
             body_html_safe: 'description',
-            tags: ['category']
+            tags: ['category', '1234142', 'category|sub-category']
           }.with_indifferent_access,
           {
             title: 'Product 2',
@@ -80,6 +80,7 @@ describe GlueStore::CrawlAll, :crawler do
       product1.reload
       expect(Product.count).to eq 2
       expect(product1.price).to eq 150.0
+      expect(product1.categories).to eq %w[category sub-category]
 
       product = Product.where(store_product_id: '111111').first
       expect(product.price).to eq 200.0
