@@ -20,10 +20,13 @@ module JbHifi
     def crawler_and_build
       crawler.crawl_all
 
-      @attributes += crawler.data.map { |result| build_attributes(result) }
+      @attributes += crawler.data.map { |result| build_attributes(result) }.compact
     end
 
     def build_attributes(result)
+      categories = result['category_hierarchy'].map(&:downcase).uniq
+      return if ignore_product?(categories)
+
       {
         name: result['title'],
         price: result['pricing']['displayPriceInc'].to_f,
@@ -33,8 +36,14 @@ module JbHifi
         store_path: result['handle'],
         store: Product::JB_HIFI,
         description: result['display']['keyFeatures']&.to_sentence,
-        categories: result['category_hierarchy'].map(&:downcase).uniq
+        categories:
       }
+    end
+
+    def ignore_product?(categories)
+      categories.any? do |category|
+        category.include?('merchandise') || category.include?('figurines')
+      end
     end
 
     def upsert_products

@@ -56,6 +56,26 @@ RSpec.describe JbHifi::CrawlAll do
             handle: 'seo-path-3',
             display: { keyFeatures: ['description'] },
             category_hierarchy: ['category']
+          }.with_indifferent_access,
+          {
+            title: 'Product 4',
+            pricing: { displayPriceInc: 200 },
+            sku: '',
+            product: { brand: 'brand', id: '111113' },
+            product_image: 'image.jpg',
+            handle: 'seo-path-3',
+            display: { keyFeatures: ['description'] },
+            category_hierarchy: ['merchandise']
+          }.with_indifferent_access,
+          {
+            title: 'Product 5',
+            pricing: { displayPriceInc: 200 },
+            sku: '1111115',
+            product: { brand: 'brand' },
+            product_image: 'image.jpg',
+            handle: 'seo-path-3',
+            display: { keyFeatures: ['description'] },
+            category_hierarchy: ['figurines']
           }.with_indifferent_access
 
         ]
