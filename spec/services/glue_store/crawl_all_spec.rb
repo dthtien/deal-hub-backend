@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require 'spec_helper'
+require 'rails_helper'
 
 describe GlueStore::CrawlAll, :crawler do
   let(:service) { described_class.new }
@@ -46,6 +46,26 @@ describe GlueStore::CrawlAll, :crawler do
             handle: 'seo-path-2',
             body_html_safe: 'description',
             tags: ['category']
+          }.with_indifferent_access,
+          {
+            title: 'Product bikini',
+            price: 200,
+            sku: '1111112',
+            vendor: 'brand',
+            product_image: 'image.jpg',
+            handle: 'seo-path-3',
+            body_html_safe: 'description',
+            tags: ['category']
+          }.with_indifferent_access,
+          {
+            title: 'Product 5',
+            price: 200,
+            sku: '1111112',
+            vendor: 'brand',
+            product_image: 'image.jpg',
+            handle: 'seo-path-3',
+            body_html_safe: 'description',
+            tags: ['Swimwear']
           }.with_indifferent_access
         ]
       )

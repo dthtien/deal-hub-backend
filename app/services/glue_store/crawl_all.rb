@@ -20,10 +20,14 @@ module GlueStore
     def crawler_and_build
       crawler.crawl_all
 
-      @attributes += crawler.data.map { |result| build_attributes(result) }
+      @attributes += crawler.data.map { |result| build_attributes(result) }.compact
     end
 
     def build_attributes(result)
+      name = result['title']
+      categories = result['tags'].map(&:downcase).uniq
+      return if ignore_product?(name, categories)
+
       {
         name: result['title'],
         price: result['price'],
@@ -35,6 +39,19 @@ module GlueStore
         description: result['body_html_safe'].strip,
         categories: result['tags'].present? && result['tags'].map(&:downcase).uniq
       }
+    end
+
+    def ignore_product?(name, categories)
+      name.blank? ||
+        name.downcase.include?('bikini') ||
+        name.downcase.include?('swimwear') ||
+        invalid_category?(categories)
+    end
+
+    def invalid_category?(categories)
+      categories.any? do |category|
+        category.include?('bikini') || category.include?('swimwear')
+      end
     end
 
     def upsert_products
