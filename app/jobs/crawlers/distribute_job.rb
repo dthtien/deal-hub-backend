@@ -9,6 +9,7 @@ module Crawlers
         Product::OFFICE_WORKS => Crawlers::OfficeWorksJob,
         Product::JB_HIFI => Crawlers::JbHifiJob,
         Product::GLUE_STORE => Crawlers::GlueStoreJob,
+        Product::NIKE => Crawlers::NikeJob
       }
 
       Product::STORES.each do |store|
