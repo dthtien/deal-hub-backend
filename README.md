@@ -15,4 +15,4 @@ application structure.
 - [x] Crawl OfficeWorks
 - [x] Crawl JB-hifi
 - [ ] Crawl Footlocker
-- [ ] Crawl GlueStore
+- [x] Crawl GlueStore
