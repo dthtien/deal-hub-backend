@@ -45,12 +45,6 @@ module CultureKings
       }
     end
 
-    def calculate_discount(old_price, price)
-      return if old_price.blank? || price.blank?
-
-      ((old_price.to_f - price.to_f) / old_price.to_f * 100).round
-    end
-
     def ignore_product?(name)
       name.blank? ||
         name.downcase.include?('bikini') ||

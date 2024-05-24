@@ -27,9 +27,13 @@ module JbHifi
       categories = result['category_hierarchy'].map(&:downcase).uniq
       return if ignore_product?(categories)
 
+      price = result['pricing']['displayPriceInc'].to_f
+      old_price = result['pricing']['wasPrice'].to_f
       {
         name: result['title'],
-        price: result['pricing']['displayPriceInc'].to_f,
+        price:,
+        old_price:,
+        discount: calculate_discount(old_price, price),
         store_product_id: result['sku'].presence || result['product']['id'],
         brand: result['product']['brand']&.downcase,
         image_url: result['product_image'],

@@ -29,7 +29,7 @@ RSpec.describe JbHifi::CrawlAll do
         data: [
           {
             title: 'Product 1',
-            pricing: { displayPriceInc: 150 },
+            pricing: { displayPriceInc: 150, wasPrice: 200 },
             sku: product1.store_product_id,
             product: { brand: 'brand' },
             product_image: 'image.jpg',
@@ -91,6 +91,8 @@ RSpec.describe JbHifi::CrawlAll do
       product1.reload
       expect(Product.count).to eq 3
       expect(product1.price).to eq 150.0
+      expect(product1.old_price).to eq 200.0
+      expect(product1.discount).to eq 25.0
 
       product = Product.find_by(store_product_id: '111111')
       expect(product.price).to eq 200.0

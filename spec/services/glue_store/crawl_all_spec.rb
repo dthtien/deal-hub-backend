@@ -30,6 +30,7 @@ describe GlueStore::CrawlAll, :crawler do
           {
             title: 'Product 1',
             price: 150,
+            compare_at_price: 200,
             sku: product1.store_product_id,
             vendor: 'brand',
             product_image: 'image.jpg',
@@ -80,6 +81,8 @@ describe GlueStore::CrawlAll, :crawler do
       product1.reload
       expect(Product.count).to eq 2
       expect(product1.price).to eq 150.0
+      expect(product1.old_price).to eq 200.0
+      expect(product1.discount).to eq 25.0
       expect(product1.categories).to eq %w[category sub-category]
 
       product = Product.where(store_product_id: '111111').first

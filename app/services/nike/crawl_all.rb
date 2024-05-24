@@ -27,9 +27,13 @@ module Nike
       name = result['title']
       return if ignore_product?(name)
 
+      price = result['price']['currentPrice'].to_f
+      old_price = result['price']['fullPrice'].to_f
       {
         name:,
-        price: result['price']['currentPrice'].to_f,
+        price:,
+        old_price:,
+        discount: calculate_discount(old_price, price),
         store_product_id: result['id'],
         brand: 'nike',
         image_url: result['images']['portraitURL'],

@@ -28,9 +28,13 @@ module GlueStore
       categories = result['tags'].map(&:downcase).uniq
       return if ignore_product?(name, categories)
 
+      price = result['price'].to_f
+      old_price = result['compare_at_price'].to_f
       {
         name: result['title'],
-        price: result['price'],
+        price:,
+        old_price:,
+        discount: calculate_discount(old_price, price),
         store_product_id: result['sku'].presence,
         brand: result['vendor'].downcase,
         image_url: result['product_image'],
