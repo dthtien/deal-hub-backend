@@ -27,6 +27,7 @@ module OfficeWorks
       {
         name: result['name'],
         price: result['price'].to_f / 100,
+        discount: 0,
         store_product_id: result['sku'],
         brand: result['brand']&.downcase,
         available_states: result['availState'].uniq,
