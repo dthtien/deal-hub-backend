@@ -75,7 +75,7 @@ module Deals
       return @products = products.order(updated_at: order[:updated_at]) if order[:updated_at].present?
       return @products = products.order(created_at: order[:created_at]) if order[:created_at].present?
 
-      @products = products.order(discount: :desc)
+      @products = products.order('RANDOM()')
     end
   end
 end
