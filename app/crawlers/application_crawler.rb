@@ -15,7 +15,7 @@ class ApplicationCrawler
 
 
   def client
-    @client ||= Faraday.new(url: url) do |faraday|
+    @client ||= Faraday.new(url:) do |faraday|
       faraday.request :url_encoded
       faraday.adapter Faraday.default_adapter
     end
