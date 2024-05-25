@@ -10,7 +10,8 @@ module Crawlers
         Product::JB_HIFI => Crawlers::JbHifiJob,
         Product::GLUE_STORE => Crawlers::GlueStoreJob,
         Product::NIKE => Crawlers::NikeJob,
-        Product::CULTURE_KINGS => Crawlers::CultureKingsJob
+        Product::CULTURE_KINGS => Crawlers::CultureKingsJob,
+        Product::JD_SPORTS => Crawlers::JdSportsJob
       }
 
       Product::STORES.each do |store|

@@ -9,6 +9,7 @@ describe 'crawler:crawl_all' do
     expect(Crawlers::GlueStoreJob).to receive(:perform_async).once
     expect(Crawlers::NikeJob).to receive(:perform_async).once
     expect(Crawlers::CultureKingsJob).to receive(:perform_async).once
+    expect(Crawlers::JdSportsJob).to receive(:perform_async).once
 
     Rake::Task['crawler:crawl_all'].invoke
   end
