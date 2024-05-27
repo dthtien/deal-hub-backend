@@ -72,7 +72,7 @@ module Deals
       return @products = products.order(updated_at: order[:updated_at]) if order[:updated_at].present?
       return @products = products.order(created_at: order[:created_at]) if order[:created_at].present?
 
-      @products = products.order(created_at: :desc)
+      @products = products.order(updated_at: :desc) if order.empty?
     end
 
     def order_products
