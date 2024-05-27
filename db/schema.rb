@@ -10,8 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_23_221123) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_27_012255) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_trgm"
   enable_extension "plpgsql"
 
   create_table "products", force: :cascade do |t|
@@ -29,8 +30,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_23_221123) do
     t.datetime "updated_at", null: false
     t.decimal "discount"
     t.decimal "old_price"
+    t.index ["brand"], name: "products_brand_gin_index", opclass: :gin_trgm_ops, using: :gin
     t.index ["categories"], name: "index_products_on_categories", using: :gin
+    t.index ["description"], name: "products_description_gin_index", opclass: :gin_trgm_ops, using: :gin
     t.index ["name"], name: "index_products_on_name"
+    t.index ["name"], name: "products_name_gin_index", opclass: :gin_trgm_ops, using: :gin
     t.index ["store"], name: "index_products_on_store"
     t.index ["store_product_id", "store"], name: "index_products_on_store_product_id_and_store", unique: true
     t.index ["store_product_id"], name: "index_products_on_store_product_id"
