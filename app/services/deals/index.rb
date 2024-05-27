@@ -68,14 +68,19 @@ module Deals
       filter_by_stores
     end
 
-    def order_products
-      return unless with_order
-
-      @products = products.order(price: order[:price]) if order[:price].present?
+    def order_by_date
       return @products = products.order(updated_at: order[:updated_at]) if order[:updated_at].present?
       return @products = products.order(created_at: order[:created_at]) if order[:created_at].present?
 
-      @products = products.order('RANDOM()')
+      @products = products.order(created_at: :desc)
+    end
+
+    def order_products
+      return unless with_order
+
+      order_by_date
+      @products = products.order(price: order[:price]) if order[:price].present?
+      @products = products.order(discount: order[:discount]) if order[:discount].present?
     end
   end
 end
