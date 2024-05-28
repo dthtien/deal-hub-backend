@@ -94,6 +94,7 @@ GEM
       irb (~> 1.10)
       reline (>= 0.3.8)
     diff-lcs (1.5.1)
+    dotenv (3.1.2)
     drb (2.2.1)
     erubi (1.12.0)
     et-orbi (1.2.11)
@@ -269,6 +270,7 @@ DEPENDENCIES
   bootsnap
   byebug
   debug
+  dotenv
   exception_notification
   factory_bot_rails
   faraday (~> 2.9.0)
