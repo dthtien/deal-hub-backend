@@ -41,6 +41,9 @@ env:
     - DEAL_HUB_API_DATABASE_PASSWORD
     - REDIS_URL
     - SLACK_WEBHOOK_URL
+    - APP_URL
+    - FB_PAGE_ID
+    - FB_PAGE_TOKEN
 
 # Use a different ssh user than root
 ssh:
