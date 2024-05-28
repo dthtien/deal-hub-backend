@@ -1,3 +1,7 @@
 craw_all:
   cron: "0 6,12,18 * * *"
   class: "Crawlers::DistributeJob"
+post_bargain:
+  cron: "0 19 * * *"
+  class: "PostBargainJob"
+
