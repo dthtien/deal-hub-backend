@@ -95,7 +95,7 @@ jobs:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       APP_URL: ${{ secrets.APP_URL }}
       FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
-      FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
+      FB_USER_TOKEN: ${{ secrets.FB_USER_TOKEN }}
 
     steps:
       - name: Checkout

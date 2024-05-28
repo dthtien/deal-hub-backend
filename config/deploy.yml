@@ -43,7 +43,7 @@ env:
     - SLACK_WEBHOOK_URL
     - APP_URL
     - FB_PAGE_ID
-    - FB_PAGE_TOKEN
+    - FB_USER_TOKEN
 
 # Use a different ssh user than root
 ssh:

@@ -54,7 +54,7 @@ module Facebook
     private
 
     def page_token
-      @page_token ||= Facebook::User.new.page_token['access_token'] || ENV['FB_PAGE_TOKEN']
+      @page_token ||= Facebook::User.new.page_token
     end
   end
 end
