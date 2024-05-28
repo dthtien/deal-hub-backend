@@ -2,6 +2,8 @@
 
 module GlueStore
   class CrawlAll < Base
+    IGNORABLE_WORDS = %w[bikini swimwear bra underwear lingerie bodysuit].freeze
+
     def initialize
       super
       @attributes = []
@@ -59,14 +61,13 @@ module GlueStore
 
     def ignore_product?(name, categories)
       name.blank? ||
-        name.downcase.include?('bikini') ||
-        name.downcase.include?('swimwear') ||
+        IGNORABLE_WORDS.any? { |word| name.include?(word) } ||
         invalid_category?(categories)
     end
 
     def invalid_category?(categories)
       categories.any? do |category|
-        category.include?('bikini') || category.include?('swimwear')
+        IGNORABLE_WORDS.any? { |word| category.include?(word) }
       end
     end
 
