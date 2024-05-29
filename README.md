@@ -12,7 +12,12 @@ application structure.
 - SSL Let's Encrypt: SSL encryption provided by Let's Encrypt ensures secure communication between users and the application.
 
 # Todo list
-- [x] Crawl OfficeWorks
-- [x] Crawl JB-hifi
-- [ ] Crawl Footlocker
-- [x] Crawl GlueStore
+- [x] OfficeWorks
+- [x] JB-hifi
+- [x] GlueStore
+- [x] Jd Sport
+- [x] Culture Kings
+- [x] Nike
+- [ ] Myer
+- [ ] ASOS
+- [ ] The good guys
