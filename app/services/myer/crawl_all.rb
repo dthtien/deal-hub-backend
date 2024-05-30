@@ -55,7 +55,10 @@ module Myer
     end
 
     def image_url(result)
-      image = result['media'].first
+      images = result['media']
+      return if images.blank?
+
+      image = images.first
       return if image.blank?
 
       url = image['baseUrl']
@@ -69,6 +72,9 @@ module Myer
 
     def upsert_products(data)
       Product.upsert_all(data, unique_by: %i[store_product_id store])
+    rescue StandardError => e
+      Rails.logger.error e
+      ExceptionNotifier.notify_exception(e)
     end
 
     def remove_old_products

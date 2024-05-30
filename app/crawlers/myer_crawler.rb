@@ -13,12 +13,11 @@ class MyerCrawler < ApplicationCrawler
 
   def crawl_all
     while current_page.zero? || current_page < total_pages
-      puts "Crawling page #{current_page} of #{total_pages}..."
       results = parse fetch_list
       break if results.empty?
 
       @data += results
-      @data = @data.uniq
+      @data = @data.uniq { |product| product['id']}
       yield results if block_given?
     end
 
@@ -36,12 +35,12 @@ class MyerCrawler < ApplicationCrawler
       @total_pages = (total_count / PAGE_SIZE.to_f).ceil - 1
     end
 
-    @current_page += 1
     @data += result['productList'] if result['productList']
   end
 
   def fetch_list
     retry_count ||= 0
+    @current_page += 1
     client.get('v3/product/cat/byseo/sale-all', params) do |req|
       req.headers['Content-Type'] = 'application/json'
       req.headers['Accept'] = 'application/json'
