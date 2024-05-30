@@ -47,7 +47,7 @@ class MyerCrawler < ApplicationCrawler
       req.headers['Accept'] = 'application/json'
       req.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
     end
-  rescue StandardError => e
+  rescue StandardError => _e
     if retry_count < 3
       retry_count += 1
       retry
