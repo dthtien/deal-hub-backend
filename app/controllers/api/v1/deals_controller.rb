@@ -2,7 +2,7 @@ module Api
   module V1
     class DealsController < ApplicationController
       def index
-        service = Deals::Index.call(params)
+        service = Deals::Index.call(params.merge(exclude_count: true))
 
         render json: {
           products: service.paginate.collection,

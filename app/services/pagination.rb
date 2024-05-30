@@ -5,7 +5,7 @@ class Pagination
     @page     = (params[:page] || DEFAULT[:page]).to_i
     @per_page = params[:per_page] || DEFAULT[:per_page]
     @scope = scope
-    @include_count = params[:include_count] || true
+    @exclude_count = params[:exclude_count]
   end
 
   def collection
@@ -20,19 +20,25 @@ class Pagination
 
   attr_reader :page, :per_page, :scope
 
-  def include_count?
-    @include_count
+  def exclude_count?
+    @exclude_count
   end
 
   def build_metadata
     metadata = { page:, per_page: }
 
-    if include_count?
+    if exclude_count?
+      metadata[:show_next_page] = next_page?
+    else
       metadata[:total_count] = scope.count
       metadata[:total_pages] = (metadata[:total_count].to_f / per_page).ceil
     end
 
     metadata
+  end
+
+  def next_page?
+    scope.limit(1).offset(offset + per_page).exists?
   end
 
   def offset
