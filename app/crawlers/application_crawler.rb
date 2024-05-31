@@ -1,8 +1,10 @@
 class ApplicationCrawler
   TOTAL_PAGES_UNKNOWN = -1
+  attr_reader :data
 
   def initialize(url)
     @url = url
+    @data = []
   end
 
   def crawl

@@ -1,0 +1,201 @@
+{
+  "homepage": {
+    "bosch": {
+      "background_image": "",
+      "category_btn": {
+        "bg_colour": "",
+        "bg_hover_colour": "",
+        "text": ""
+      },
+      "end_date": "2024-07-07T13:59:00.000Z",
+      "header_bg_color": "",
+      "page_title": "bosch",
+      "row_number": 1,
+      "slider_title": "Popular Products From Bosch",
+      "slider_title_2": "",
+      "slider_title_3": "",
+      "start_date": "2023-09-13T07:55:00.000Z",
+      "title_color": "black"
+    },
+    "deals": {
+      "background_image": "",
+      "category_btn": {
+        "bg_colour": "",
+        "bg_hover_colour": "",
+        "text": ""
+      },
+      "end_date": "2024-11-30T12:59:59.000Z",
+      "header_bg_color": "",
+      "page_title": "deals",
+      "row_number": 3,
+      "slider_title": "Check out These Great Deals",
+      "slider_title_2": "",
+      "slider_title_3": "",
+      "start_date": "2024-05-17T13:55:00.000Z",
+      "title_color": "black"
+    },
+    "eofy-sale": {
+      "background_image": "",
+      "category_btn": {
+        "bg_colour": "",
+        "bg_hover_colour": "",
+        "text": ""
+      },
+      "end_date": "2024-12-31T12:59:59.000Z",
+      "header_bg_color": "",
+      "page_title": "eofy-sale",
+      "row_number": 3,
+      "slider_title": "",
+      "slider_title_2": "",
+      "slider_title_3": "",
+      "start_date": "2024-05-17T13:55:00.000Z",
+      "title_color": "white"
+    },
+    "homepage": {
+      "background_image": "",
+      "category_btn": {
+        "bg_colour": "",
+        "bg_hover_colour": "",
+        "text": ""
+      },
+      "end_date": "2024-12-31T12:59:59.000Z",
+      "header_bg_color": "",
+      "page_title": "homepage",
+      "row_number": 3,
+      "slider_title": "",
+      "slider_title_2": "",
+      "slider_title_3": "",
+      "start_date": "2024-05-17T13:55:00.000Z",
+      "title_color": "white"
+    },
+    "mobile-and-broadband-plans": {
+      "background_image": "",
+      "category_btn": {
+        "bg_colour": "",
+        "bg_hover_colour": "",
+        "text": ""
+      },
+      "end_date": "2024-11-30T12:59:59.000Z",
+      "header_bg_color": "",
+      "page_title": "mobile-and-broadband-plans",
+      "row_number": 3,
+      "slider_title": "Shop Mobile Phones & Smart Watches",
+      "slider_title_2": "",
+      "slider_title_3": "",
+      "start_date": "2024-05-22T07:55:00.000Z",
+      "title_color": "black"
+    },
+    "sp-testpage-2": {
+      "background_image": "",
+      "category_btn": {
+        "bg_colour": "",
+        "bg_hover_colour": "",
+        "text": ""
+      },
+      "end_date": "2024-12-31T12:59:59.000Z",
+      "header_bg_color": "",
+      "page_title": "sp-testpage-2",
+      "row_number": 3,
+      "slider_title": "",
+      "slider_title_2": "",
+      "slider_title_3": "",
+      "start_date": "2024-05-17T13:55:00.000Z",
+      "title_color": "white"
+    },
+    "test-59a2c189-d6dcgs1g2g1": {
+      "background_image": "",
+      "category_btn": {
+        "bg_colour": "",
+        "bg_hover_colour": "",
+        "text": ""
+      },
+      "end_date": "2025-05-17T13:59:00.000Z",
+      "header_bg_color": "",
+      "page_title": "test-59a2c189-d6dcgs1g2g1",
+      "row_number": "",
+      "slider_title": "",
+      "slider_title_2": "",
+      "slider_title_3": "",
+      "start_date": "2023-09-13T07:55:00.000Z",
+      "title_color": "black"
+    }
+  },
+  "whiteTilesData": [
+    {
+      "0": "",
+      "assigned_page": "bosch",
+      "category_description": "",
+      "category_image": "",
+      "category_link": "",
+      "category_secondary_text": "",
+      "category_title": "",
+      "custom_title": "",
+      "end_date": "2024-06-30T13:54:59.000Z",
+      "overlay_image": "",
+      "pk": false,
+      "position": 1,
+      "sku": 50075507,
+      "start_date": "2023-10-30T12:55:00.000Z",
+      "symbol": "",
+      "tnc": "",
+      "type": "Automate"
+    },
+    {
+      "0": "",
+      "assigned_page": "bosch",
+      "category_description": "",
+      "category_image": "",
+      "category_link": "",
+      "category_secondary_text": "",
+      "category_title": "",
+      "custom_title": "",
+      "end_date": "2024-06-30T13:54:59.000Z",
+      "overlay_image": "",
+      "pk": false,
+      "position": 2,
+      "sku": 50075506,
+      "start_date": "2023-10-30T12:55:00.000Z",
+      "symbol": "",
+      "tnc": "",
+      "type": "Automate"
+    },
+    {
+      "0": "",
+      "assigned_page": "bosch",
+      "category_description": "",
+      "category_image": "",
+      "category_link": "",
+      "category_secondary_text": "",
+      "category_title": "",
+      "custom_title": "",
+      "end_date": "2024-06-30T13:54:59.000Z",
+      "overlay_image": "",
+      "pk": false,
+      "position": 3,
+      "sku": 50084501,
+      "start_date": "2023-10-30T12:55:00.000Z",
+      "symbol": "",
+      "tnc": "",
+      "type": "Automate"
+    },
+    {
+      "0": "",
+      "assigned_page": "bosch",
+      "category_description": "",
+      "category_image": "",
+      "category_link": "",
+      "category_secondary_text": "",
+      "category_title": "",
+      "custom_title": "",
+      "end_date": "2024-06-30T13:54:59.000Z",
+      "overlay_image": "",
+      "pk": false,
+      "position": 4,
+      "sku": 50075504,
+      "start_date": "2023-10-30T12:55:00.000Z",
+      "symbol": "",
+      "tnc": "",
+      "type": "Automate"
+    }
+  ]
+}

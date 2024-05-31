@@ -1,0 +1,2717 @@
+[{
+  "document": {
+    "name": "projects/tgg-web-api/databases/(default)/documents/products/50084249",
+    "fields": {
+      "longDescription": {
+        "stringValue": "Experience real surround sound with one kit by JBL the Bar800 5.1.2 720W True Atmos Soundbar. Detach the sides of the main soundbar and position them how you like for unique and flexible surround sound profiles, behind or to the side. Turn up the bass with a 10 inch wireless subwoofer providing some boom for the room. Experience Dolby Atmos compatible content as the director does and use HDMI eARC 4k Dolby Vision passthrough to ensure no drop in visual quality for a cinematic experience. Calibrate in any room easily and customise/control the setup with the JBL One app. Connect to WIFi or Bluetooth to stream off your favourite platforms using the built in Chromecast, AirPlay and Alexa. Control with the included remote or your smart home voice assistant of choice such as Google Assistant, Amazon Alexa and Apple Siri. "
+      },
+      "inStockFlag": {
+        "stringValue": "Y"
+      },
+      "callouts": {
+        "arrayValue": {
+          "values": [
+            {
+              "mapValue": {
+                "fields": {
+                  "endDate": {
+                    "mapValue": {}
+                  },
+                  "type": {
+                    "stringValue": "Add Installation"
+                  },
+                  "startDate": {
+                    "mapValue": {}
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "images": {
+        "arrayValue": {
+          "values": [
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50084249/50084249_843090.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "1"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50084249/50084249_895305.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "2"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50084249/50084249_895306.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "3"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50084249/50084249_843074.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "4"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50084249/50084249_843076.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "5"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50084249/50084249_843079.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "6"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50084249/50084249_843081.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "7"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50084249/50084249_843089.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "8"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "wasPrice": {
+        "stringValue": "999"
+      },
+      "heading": {
+        "stringValue": "JBL Bar800 5.1.2 720W True Atmos Soundbar"
+      },
+      "minDeliveryPrice": {
+        "mapValue": {}
+      },
+      "itemRating": {
+        "stringValue": "4.8"
+      },
+      "shortDescription": {
+        "stringValue": "Bar800 5.1.2 720W True Atmos Soundbar"
+      },
+      "inventory": {
+        "stringValue": "442"
+      },
+      "promoPrice": {
+        "mapValue": {
+          "fields": {
+            "ticketSlashedPrice": {
+              "stringValue": "999"
+            },
+            "endDate": {
+              "stringValue": "2024-06-05"
+            },
+            "promoPriceType": {
+              "stringValue": "DOORBUSTER"
+            },
+            "startDate": {
+              "stringValue": "2024-05-29"
+            }
+          }
+        }
+      },
+      "reviewCount": {
+        "stringValue": "47"
+      },
+      "price": {
+        "stringValue": "745"
+      },
+      "productRange": {
+        "stringValue": "C"
+      },
+      "model": {
+        "stringValue": "5468770"
+      },
+      "attributes": {
+        "arrayValue": {
+          "values": [
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "1"
+                  },
+                  "Value": {
+                    "stringValue": "JBL Bar"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Family"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "2"
+                  },
+                  "Value": {
+                    "stringValue": "Black"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Colour"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "3"
+                  },
+                  "Value": {
+                    "stringValue": "720W"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Total Output"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "4"
+                  },
+                  "Value": {
+                    "stringValue": "5.1.2"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Channels"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "5"
+                  },
+                  "Value": {
+                    "stringValue": "MPEG 1 Layer 2/3, MPEG 2 Layer 3, MPEG 2.5 Layer 3"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Playback Format"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "6"
+                  },
+                  "Value": {
+                    "stringValue": "Dolby Atmos"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Sound Modes"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "7"
+                  },
+                  "Value": {
+                    "stringValue": "Bluetooth & Wifi"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Connectivity"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "8"
+                  },
+                  "Value": {
+                    "stringValue": "Chromecast Built-In, Airplay, Amazon Alexa"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Music Streaming"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "9"
+                  },
+                  "Value": {
+                    "stringValue": "Google Assistant, Apple Siri, Amazon Alexa"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Voice Assistant"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "10"
+                  },
+                  "Value": {
+                    "stringValue": "HDMI-eARC, HDMI, Optical, Ethernet, USB (Service use only, no playback)"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Input/Output"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "11"
+                  },
+                  "Value": {
+                    "stringValue": "USB - Type A"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "USB Input"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "13"
+                  },
+                  "Value": {
+                    "stringValue": "56"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Height (mm)"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "14"
+                  },
+                  "Value": {
+                    "stringValue": "1174"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Width (mm)"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "15"
+                  },
+                  "Value": {
+                    "stringValue": "120"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Depth (mm)"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "16"
+                  },
+                  "Value": {
+                    "stringValue": "14.7"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Weight (kg)"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "17"
+                  },
+                  "Value": {
+                    "stringValue": "Detachable satellite speakers to add true surround sound, 10\" wireless subwoofer, Easy sound calibration, 4K Dolby Vision passthrough, PureVoice dialogue enhancement, JBL One app customisation and control"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Additional Features"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "18"
+                  },
+                  "Value": {
+                    "stringValue": "Main Soundbar, 2 x Detachable Wireless Surround Speakers, Wireless Subwoofer, Remote Control w/ Batteries, Power Cords (up to 8pcs), HDMI Cable, 2 x L-shape Wall Mount Bracket (main bar) + 2 x U-shape Wall Mount Bracket (for surround speakers) w/ Screws,"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "What's In The Box"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "19"
+                  },
+                  "Value": {
+                    "stringValue": "2 Year"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Manufacturer's Warranty"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "categories": {
+        "mapValue": {
+          "fields": {
+            "l1": {
+              "mapValue": {
+                "fields": {
+                  "name": {
+                    "stringValue": "Audio"
+                  },
+                  "id": {
+                    "stringValue": "665"
+                  }
+                }
+              }
+            },
+            "l2": {
+              "mapValue": {
+                "fields": {
+                  "name": {
+                    "stringValue": "Home Audio"
+                  },
+                  "id": {
+                    "stringValue": "666"
+                  }
+                }
+              }
+            },
+            "l3": {
+              "mapValue": {
+                "fields": {
+                  "name": {
+                    "stringValue": "Sound Bars"
+                  },
+                  "id": {
+                    "stringValue": "402"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "fulfillment": {
+        "stringValue": "Y"
+      },
+      "sku": {
+        "stringValue": "50084249"
+      },
+      "productUrl": {
+        "stringValue": "https://thegoodguys.com.au/jbl-bar800-512-720w-true-atmos-soundbar-5468770"
+      },
+      "addToCartId": {
+        "stringValue": "3074457345621979169"
+      },
+      "brand": {
+        "mapValue": {
+          "fields": {
+            "name": {
+              "stringValue": "JBL"
+            },
+            "id": {
+              "stringValue": "3478513"
+            }
+          }
+        }
+      },
+      "webready": {
+        "stringValue": "Y"
+      }
+    },
+    "createTime": "2023-03-15T06:11:06.876477Z",
+    "updateTime": "2024-05-30T20:21:24.136977Z"
+  },
+  "readTime": "2024-05-31T05:38:08.800468Z"
+}
+,
+{
+  "document": {
+    "name": "projects/tgg-web-api/databases/(default)/documents/products/50086557",
+    "fields": {
+      "longDescription": {
+        "stringValue": "Make your kitchen shine with the Solt Freestanding Dishwasher in sleek black. This spacious 12 place setting dishwasher features 6 wash programs including Intensive, Heavy, ECO, Glass, 90 Minute, and Rapid cycles so you can tackle any load. The adjustable upper rack allows you to fit tall items with ease while the 3/6/9 hour delay start gives you flexibility. With an energy rating of 3 stars, this dishwasher aims to save you money on bills without compromising on performance. The 10.7 litre per minute water usage and Eco wash program help conserve water for more eco-friendly dishwashing. The child lock provides extra safety and peace of mind. Thanks to the intuitive electronic controls, operating this dishwasher is simple. It produces just 52 decibels of noise so you can run a cycle without disturbances. The stainless steel interior resists stains and rust to keep your dishwasher looking pristine wash after wash. With a width of 598mm, height of 895mm and depth of 600mm, this dishwasher is designed to fit most kitchen spaces. It sits on adjustable feet for leveling on uneven floors. Rely on this dishwasher to handle tough loads for years to come and enjoy the 2 year manufacturer's warranty for added assurance. The manufacturer's part number for this product is GGSDW6012B. Check out this Solt dishwasher if you want a quality appliance with modern styling and eco-friendly performance."
+      },
+      "inStockFlag": {
+        "stringValue": "Y"
+      },
+      "callouts": {
+        "arrayValue": {
+          "values": [
+            {
+              "mapValue": {
+                "fields": {
+                  "endDate": {
+                    "mapValue": {}
+                  },
+                  "type": {
+                    "stringValue": "Add Installation"
+                  },
+                  "startDate": {
+                    "mapValue": {}
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "images": {
+        "arrayValue": {
+          "values": [
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50086557/50086557_866130.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "1"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50086557/50086557_892060.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "2"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50086557/50086557_892061.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "3"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50086557/50086557_866129.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "4"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50086557/50086557_866128.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "5"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "wasPrice": {
+        "nullValue": null
+      },
+      "heading": {
+        "stringValue": "Solt Freestanding Dishwasher Black"
+      },
+      "minDeliveryPrice": {
+        "mapValue": {}
+      },
+      "itemRating": {
+        "mapValue": {}
+      },
+      "shortDescription": {
+        "stringValue": "Freestanding Dishwasher Black"
+      },
+      "inventory": {
+        "stringValue": "506"
+      },
+      "promoPrice": {
+        "mapValue": {
+          "fields": {
+            "ticketSlashedPrice": {
+              "nullValue": null
+            },
+            "endDate": {
+              "stringValue": "2024-06-05"
+            },
+            "promoPriceType": {
+              "stringValue": "DOORBUSTER"
+            },
+            "startDate": {
+              "stringValue": "2024-05-29"
+            }
+          }
+        }
+      },
+      "reviewCount": {
+        "mapValue": {}
+      },
+      "price": {
+        "stringValue": "449"
+      },
+      "productRange": {
+        "stringValue": "S"
+      },
+      "model": {
+        "stringValue": "GGSDW6012B"
+      },
+      "attributes": {
+        "arrayValue": {
+          "values": [
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "1"
+                  },
+                  "Value": {
+                    "stringValue": "Freestanding"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Type"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "2"
+                  },
+                  "Value": {
+                    "stringValue": "Black"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Dishwasher Colour"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "3"
+                  },
+                  "Value": {
+                    "stringValue": "3 Star"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Energy Rating"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "4"
+                  },
+                  "Value": {
+                    "stringValue": "3"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Water Rating (WELS)"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "5"
+                  },
+                  "Value": {
+                    "stringValue": "10.7"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Water Usage Litres (WELS)"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "6"
+                  },
+                  "Value": {
+                    "stringValue": "Eco Program"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Program Setting (WELS)"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "7"
+                  },
+                  "Value": {
+                    "stringValue": "D02733"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Registration Number (WELS)"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "8"
+                  },
+                  "Value": {
+                    "stringValue": "12"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Place Settings"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "9"
+                  },
+                  "Value": {
+                    "stringValue": "6"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Program No."
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "10"
+                  },
+                  "Value": {
+                    "stringValue": "Intensive, Heavy, ECO, Glass, 90 Minutes, Rapid"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Program Type"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "11"
+                  },
+                  "Value": {
+                    "stringValue": "Extra Dry, 3/6/9 Hour Delay Start"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Options"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "15"
+                  },
+                  "Value": {
+                    "stringValue": "52dBA"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Noise Level"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "16"
+                  },
+                  "Value": {
+                    "stringValue": "Child Lock Option"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Safety Features"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "17"
+                  },
+                  "Value": {
+                    "stringValue": "598"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Width (mm)"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "18"
+                  },
+                  "Value": {
+                    "stringValue": "895"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Height (mm)"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "19"
+                  },
+                  "Value": {
+                    "stringValue": "600"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Depth (mm)"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "20"
+                  },
+                  "Value": {
+                    "stringValue": "598"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Product Width (mm)"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "21"
+                  },
+                  "Value": {
+                    "stringValue": "845-895"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Product Height (mm)"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "22"
+                  },
+                  "Value": {
+                    "stringValue": "600"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Product Depth (mm)"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "23"
+                  },
+                  "Value": {
+                    "stringValue": "Adjustable Feet"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Additional Features"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "24"
+                  },
+                  "Value": {
+                    "stringValue": "2 Year"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Manufacturer's Warranty"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "categories": {
+        "mapValue": {
+          "fields": {
+            "l1": {
+              "mapValue": {
+                "fields": {
+                  "name": {
+                    "stringValue": "Cooking & Dishwashers"
+                  },
+                  "id": {
+                    "stringValue": "613"
+                  }
+                }
+              }
+            },
+            "l2": {
+              "mapValue": {
+                "fields": {
+                  "name": {
+                    "stringValue": "Dishwashers"
+                  },
+                  "id": {
+                    "stringValue": "24"
+                  }
+                }
+              }
+            },
+            "l3": {
+              "mapValue": {
+                "fields": {
+                  "name": {
+                    "stringValue": "Freestanding Dishwashers"
+                  },
+                  "id": {
+                    "stringValue": "630"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "fulfillment": {
+        "stringValue": "Y"
+      },
+      "sku": {
+        "stringValue": "50086557"
+      },
+      "productUrl": {
+        "stringValue": "https://thegoodguys.com.au/solt-freestanding-dishwasher-black-ggsdw6012b"
+      },
+      "addToCartId": {
+        "stringValue": "3074457345622367170"
+      },
+      "brand": {
+        "mapValue": {
+          "fields": {
+            "name": {
+              "stringValue": "Solt"
+            },
+            "id": {
+              "stringValue": "24662779"
+            }
+          }
+        }
+      },
+      "webready": {
+        "stringValue": "Y"
+      }
+    },
+    "createTime": "2023-10-23T00:10:14.315689Z",
+    "updateTime": "2024-05-30T20:30:21.277542Z"
+  },
+  "readTime": "2024-05-31T05:38:08.800468Z"
+}
+,
+{
+  "document": {
+    "name": "projects/tgg-web-api/databases/(default)/documents/products/50089313",
+    "fields": {
+      "longDescription": {
+        "stringValue": "Discover a new world of detail and colour with the LG 65\" OLED B4 4K Smart TV 24. This stunning OLED TV delivers over 8 million self-lit pixels for infinite contrast and perfect black, bringing images to life with incredible clarity and realism. Its powerful a8 AI Processor 4K transforms everything you watch into an immersive 4K viewing experience. Enjoy your favourite shows in cinematic 4K on Netflix, Stan, Disney and more, or ask LG ThinQ to find content with the built-in voice assistant. Designed for next-level gaming, it supports 4K at 120Hz, VRR, and has ultra-fast response times. With convenient smart features like Apple AirPlay, Google Assistant, and webOS 24 Smart TV platform, you can stream, control, and share like never before. At just 45.9mm deep, this TV looks as good off as it performs on. Backed by LG's 1 year warranty, the LG 65 OLED B4 brings the future of TV viewing home. With stunning OLED picture quality, smart connectivity, and a slim design, its the ultimate entertainment hub for movie buffs, gamers and streamers alike. The manufacturer's part number for this product is OLED65B4PSA. Make your next TV an LG."
+      },
+      "inStockFlag": {
+        "stringValue": "Y"
+      },
+      "callouts": {
+        "arrayValue": {
+          "values": [
+            {
+              "mapValue": {
+                "fields": {
+                  "endDate": {
+                    "mapValue": {}
+                  },
+                  "type": {
+                    "stringValue": "Add Installation"
+                  },
+                  "startDate": {
+                    "mapValue": {}
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "images": {
+        "arrayValue": {
+          "values": [
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50089313/50089313_898558.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "1"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50089313/50089313_901196.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "2"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50089313/50089313_901197.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "3"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50089313/50089313_898567.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "4"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50089313/50089313_898573.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "5"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50089313/50089313_898645.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "6"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50089313/50089313_898691.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "7"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50089313/50089313_898700.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "8"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50089313/50089313_898658.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "9"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "wasPrice": {
+        "nullValue": null
+      },
+      "heading": {
+        "stringValue": "LG 65\" OLED B4 4K Smart TV 24"
+      },
+      "minDeliveryPrice": {
+        "mapValue": {}
+      },
+      "itemRating": {
+        "mapValue": {}
+      },
+      "shortDescription": {
+        "stringValue": "65\" OLED B4 4K Smart TV 24"
+      },
+      "inventory": {
+        "stringValue": "185"
+      },
+      "promoPrice": {
+        "mapValue": {
+          "fields": {
+            "ticketSlashedPrice": {
+              "nullValue": null
+            },
+            "endDate": {
+              "stringValue": "2024-07-03"
+            },
+            "promoPriceType": {
+              "stringValue": "TOP DEAL"
+            },
+            "startDate": {
+              "stringValue": "2024-05-31"
+            }
+          }
+        }
+      },
+      "ruleBasedCategory": {
+        "arrayValue": {
+          "values": [
+            {
+              "mapValue": {
+                "fields": {
+                  "name": {
+                    "stringValue": "2024 TVs"
+                  },
+                  "id": {
+                    "stringValue": "RBC720N11"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "reviewCount": {
+        "mapValue": {}
+      },
+      "price": {
+        "stringValue": "2971"
+      },
+      "productRange": {
+        "stringValue": "C"
+      },
+      "model": {
+        "stringValue": "OLED65B4PSA"
+      },
+      "attributes": {
+        "arrayValue": {
+          "values": [
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "1"
+                  },
+                  "Value": {
+                    "stringValue": "OLED"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Screen Technology"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "3"
+                  },
+                  "Value": {
+                    "stringValue": "65\""
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Screen Size"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "4"
+                  },
+                  "Value": {
+                    "stringValue": "3840 x 2160"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Screen Resolution"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "5"
+                  },
+                  "Value": {
+                    "stringValue": "4K Ultra HD"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Display Resolution"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "6"
+                  },
+                  "Value": {
+                    "stringValue": "Wide Colour Gamut"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Colour Technology"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "7"
+                  },
+                  "Value": {
+                    "stringValue": "a8 AI Processor 4K"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "TV Processor"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "8"
+                  },
+                  "Value": {
+                    "stringValue": "Yes"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Smart TV"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "9"
+                  },
+                  "Value": {
+                    "stringValue": "WEBOS 24"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Smart TV Platform"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "10"
+                  },
+                  "Value": {
+                    "stringValue": "Stan, Netflix, TenPlay, 7Plus, 9Now, SBS On Demand, ABC iView, Foxtel Now, britbox, Twitch, Optus Sports, Apple TV+, Amazon Prime, YouTube, Paramount+, Kayo, Disney+, Binge"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Compatible Video Streaming Apps"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "11"
+                  },
+                  "Value": {
+                    "stringValue": "Yes - Amazon Alexa, Google Assistant"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Built-in Voice Assistant (Hands-free)"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "12"
+                  },
+                  "Value": {
+                    "stringValue": "Yes - LG ThinQ, Apple HomeKit, Google Assistant"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Built-in Voice Assistant (Via Remote Control)"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "13"
+                  },
+                  "Value": {
+                    "stringValue": "Pixel Dimming"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Dimming"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "14"
+                  },
+                  "Value": {
+                    "stringValue": "HDR10/HLG, Dolby Vision"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "HDR Format"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "15"
+                  },
+                  "Value": {
+                    "stringValue": "20W x 2.0CH, Dolby Atmos"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Sound"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "16"
+                  },
+                  "Value": {
+                    "stringValue": "Yes"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Gaming Ready"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "17"
+                  },
+                  "Value": {
+                    "stringValue": "120Hz"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Refresh Rate"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "18"
+                  },
+                  "Value": {
+                    "stringValue": "200 Motion Rate"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Motion Rate"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "19"
+                  },
+                  "Value": {
+                    "stringValue": "4"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "HDMI Input"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "20"
+                  },
+                  "Value": {
+                    "stringValue": "2"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "USB Input"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "21"
+                  },
+                  "Value": {
+                    "stringValue": "5.5"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Energy Rating (Star)"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "23"
+                  },
+                  "Value": {
+                    "stringValue": "2024"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Release Year"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "24"
+                  },
+                  "Value": {
+                    "stringValue": "B4"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Series"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "25"
+                  },
+                  "Value": {
+                    "stringValue": "300X200"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "VESA Wall Mount Size (mm)"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "26"
+                  },
+                  "Value": {
+                    "stringValue": "896"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Height (mm)"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "27"
+                  },
+                  "Value": {
+                    "stringValue": "1449"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Width (mm)"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "28"
+                  },
+                  "Value": {
+                    "stringValue": "235"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Depth (mm)"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "29"
+                  },
+                  "Value": {
+                    "stringValue": "17.3kg (17.1kg)"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Weight with stand (without stand)"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "30"
+                  },
+                  "Value": {
+                    "stringValue": "832 - 896"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Product Height (mm)"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "31"
+                  },
+                  "Value": {
+                    "stringValue": "1449"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Product Width (mm)"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "32"
+                  },
+                  "Value": {
+                    "stringValue": "45.9 - 235"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Product Depth (mm)"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "34"
+                  },
+                  "Value": {
+                    "stringValue": "Convenient smart features, including ThinQ AI, Chromecast Built-in, Apple Airplay, and AI Picture Wizard"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Additional Features"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "35"
+                  },
+                  "Value": {
+                    "stringValue": "LG 65\" OLED B4 4K Smart TV 24, included accessories, user manuals - Magic Remote MR24, Power cable, Remote Control Batteries (2x AA)"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "What's In The Box"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "36"
+                  },
+                  "Value": {
+                    "stringValue": "1 Year"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Manufacturer's Warranty"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "categories": {
+        "mapValue": {
+          "fields": {
+            "l1": {
+              "mapValue": {
+                "fields": {
+                  "name": {
+                    "stringValue": "Televisions"
+                  },
+                  "id": {
+                    "stringValue": "644"
+                  }
+                }
+              }
+            },
+            "l2": {
+              "mapValue": {
+                "fields": {
+                  "name": {
+                    "stringValue": "OLED TVs"
+                  },
+                  "id": {
+                    "stringValue": "648"
+                  }
+                }
+              }
+            },
+            "l3": {
+              "mapValue": {
+                "fields": {
+                  "name": {
+                    "stringValue": "OLED TVs Over 60 inches"
+                  },
+                  "id": {
+                    "stringValue": "663"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "fulfillment": {
+        "stringValue": "Y"
+      },
+      "sku": {
+        "stringValue": "50089313"
+      },
+      "productUrl": {
+        "stringValue": "https://thegoodguys.com.au/lg-65-inches-oled-b4-4k-smart-tv-24-oled65b4psa"
+      },
+      "addToCartId": {
+        "stringValue": "3074457345622576196"
+      },
+      "brand": {
+        "mapValue": {
+          "fields": {
+            "name": {
+              "stringValue": "LG"
+            },
+            "id": {
+              "stringValue": "148"
+            }
+          }
+        }
+      },
+      "webready": {
+        "stringValue": "Y"
+      }
+    },
+    "createTime": "2024-03-13T13:10:09.902860Z",
+    "updateTime": "2024-05-31T04:10:19.882270Z"
+  },
+  "readTime": "2024-05-31T05:38:08.800468Z"
+}
+,
+{
+  "document": {
+    "name": "projects/tgg-web-api/databases/(default)/documents/products/50089444",
+    "fields": {
+      "longDescription": {
+        "stringValue": "Make entertaining and hosting a breeze with the stylish LG 655L Side By Side Refrigerator. This spacious fridge comes with a matte black finish that will complement any modern kitchen. Boasting a total capacity of 655 litres, you'll have 416 litres of cooling space on the fridge side and 239 litres in the freezer, providing ample room for all your fresh and frozen favourites. The energy-efficient 4 star rating helps reduce running costs while still providing optimal temperature control. Dual hinged doors give you flexible access, and the Pure N Fresh filtration system eliminates odours and keeps air circulating for fresher food storage. With a width of 913mm, height of 1790mm and depth of 735mm, this fridge is designed to fit most standard kitchen spaces. Additional highlights like cooling from the front and back ensure an even, consistent temperature throughout the interior. Bring stylish and functional refrigeration into your home with the LG 655L Side By Side Refrigerator. The manufacturer's part number for this product is GS-B600MBL."
+      },
+      "inStockFlag": {
+        "stringValue": "Y"
+      },
+      "images": {
+        "arrayValue": {
+          "values": [
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50089444/50089444_900778.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "1"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50089444/50089444_900783.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "2"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50089444/50089444_900782.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "3"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50089444/50089444_900770.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "4"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50089444/50089444_900772.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "5"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50089444/50089444_900339.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "6"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50089444/50089444_900331.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "7"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50089444/50089444_900332.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "8"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50089444/50089444_900771.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "9"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50089444/50089444_900775.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "10"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50089444/50089444_900776.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "11"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50089444/50089444_900769.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "12"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50089444/50089444_900773.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "13"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Url": {
+                    "stringValue": "https://thegoodguys.sirv.com/products/50089444/50089444_900774.PNG?profile=pa"
+                  },
+                  "Seq": {
+                    "stringValue": "14"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "wasPrice": {
+        "nullValue": null
+      },
+      "heading": {
+        "stringValue": "LG 655L Side By Side Refrigerator"
+      },
+      "minDeliveryPrice": {
+        "mapValue": {}
+      },
+      "itemRating": {
+        "mapValue": {}
+      },
+      "shortDescription": {
+        "stringValue": "655L Side By Side Refrigerator"
+      },
+      "inventory": {
+        "stringValue": "128"
+      },
+      "promoPrice": {
+        "mapValue": {
+          "fields": {
+            "ticketSlashedPrice": {
+              "nullValue": null
+            },
+            "endDate": {
+              "stringValue": "2024-06-30"
+            },
+            "promoPriceType": {
+              "stringValue": "DEALDAYS"
+            },
+            "startDate": {
+              "stringValue": "2024-05-30"
+            }
+          }
+        }
+      },
+      "reviewCount": {
+        "mapValue": {}
+      },
+      "price": {
+        "stringValue": "1595"
+      },
+      "productRange": {
+        "stringValue": "C"
+      },
+      "model": {
+        "stringValue": "GS-B600MBL"
+      },
+      "attributes": {
+        "arrayValue": {
+          "values": [
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "1"
+                  },
+                  "Value": {
+                    "stringValue": "Black"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Fridge Colour"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "2"
+                  },
+                  "Value": {
+                    "stringValue": "Matte Black"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Supplier Finish"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "3"
+                  },
+                  "Value": {
+                    "stringValue": "655L"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Total Capacity"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "4"
+                  },
+                  "Value": {
+                    "stringValue": "416L"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Fridge Capacity"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "5"
+                  },
+                  "Value": {
+                    "stringValue": "239L"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Freezer Capacity"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "6"
+                  },
+                  "Value": {
+                    "stringValue": "4 Star"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Energy Rating"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "7"
+                  },
+                  "Value": {
+                    "stringValue": "Dual"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Door Hinge"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "8"
+                  },
+                  "Value": {
+                    "stringValue": "No"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Reversible Door"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "9"
+                  },
+                  "Value": {
+                    "stringValue": "No"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Dispenser"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "11"
+                  },
+                  "Value": {
+                    "stringValue": "600-699"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Capacity Range"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "12"
+                  },
+                  "Value": {
+                    "stringValue": "913"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Width (mm)"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "13"
+                  },
+                  "Value": {
+                    "stringValue": "1790"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Height (mm)"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "14"
+                  },
+                  "Value": {
+                    "stringValue": "735"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Depth (mm)"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "15"
+                  },
+                  "Value": {
+                    "stringValue": "913"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Product Width (mm)"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "16"
+                  },
+                  "Value": {
+                    "stringValue": "1790"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Product Height (mm)"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "17"
+                  },
+                  "Value": {
+                    "stringValue": "735"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Product Depth (mm)"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "18"
+                  },
+                  "Value": {
+                    "stringValue": "Pure N Fresh Air Filtration System, Cools From Front and Back,"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Additional Features"
+                  }
+                }
+              }
+            },
+            {
+              "mapValue": {
+                "fields": {
+                  "Order": {
+                    "stringValue": "19"
+                  },
+                  "Value": {
+                    "stringValue": "2 Year"
+                  },
+                  "Featured": {
+                    "stringValue": "Y"
+                  },
+                  "Name": {
+                    "stringValue": "Manufacturer's Warranty"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "categories": {
+        "mapValue": {
+          "fields": {
+            "l1": {
+              "mapValue": {
+                "fields": {
+                  "name": {
+                    "stringValue": "Fridges & Freezers"
+                  },
+                  "id": {
+                    "stringValue": "03"
+                  }
+                }
+              }
+            },
+            "l2": {
+              "mapValue": {
+                "fields": {
+                  "name": {
+                    "stringValue": "Refrigerators"
+                  },
+                  "id": {
+                    "stringValue": "44"
+                  }
+                }
+              }
+            },
+            "l3": {
+              "mapValue": {
+                "fields": {
+                  "name": {
+                    "stringValue": "Side by Side Fridges"
+                  },
+                  "id": {
+                    "stringValue": "122"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "fulfillment": {
+        "stringValue": "Y"
+      },
+      "sku": {
+        "stringValue": "50089444"
+      },
+      "productUrl": {
+        "stringValue": "https://thegoodguys.com.au/lg-655l-side-by-side-refrigerator-gs-b600mbl"
+      },
+      "addToCartId": {
+        "stringValue": "3074457345622635169"
+      },
+      "brand": {
+        "mapValue": {
+          "fields": {
+            "name": {
+              "stringValue": "LG"
+            },
+            "id": {
+              "stringValue": "148"
+            }
+          }
+        }
+      },
+      "webready": {
+        "stringValue": "Y"
+      }
+    },
+    "createTime": "2024-04-12T09:10:10.546321Z",
+    "updateTime": "2024-05-30T20:37:44.228086Z"
+  },
+  "readTime": "2024-05-31T05:38:08.800468Z"
+}
+]

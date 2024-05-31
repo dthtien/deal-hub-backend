@@ -18,6 +18,6 @@ application structure.
 - [x] Jd Sport
 - [x] Culture Kings
 - [x] Nike
-- [ ] Myer
+- [x] Myer
 - [ ] ASOS
 - [ ] The good guys
