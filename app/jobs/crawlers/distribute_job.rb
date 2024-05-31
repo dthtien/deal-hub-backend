@@ -12,7 +12,8 @@ module Crawlers
         Product::NIKE => Crawlers::NikeJob,
         Product::CULTURE_KINGS => Crawlers::CultureKingsJob,
         Product::JD_SPORTS => Crawlers::JdSportsJob,
-        Product::MYER => Crawlers::MyerJob
+        Product::MYER => Crawlers::MyerJob,
+        Product::THE_GOOD_GUYS => Crawlers::TheGoodGuysJob
       }
 
       Product::STORES.each do |store|
