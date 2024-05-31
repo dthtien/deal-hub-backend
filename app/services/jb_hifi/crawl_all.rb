@@ -39,7 +39,7 @@ module JbHifi
         image_url: result['product_image'],
         store_path: result['handle'],
         store: Product::JB_HIFI,
-        description: result['display']['keyFeatures']&.to_sentence,
+        description: refine_description(result['display']['keyFeatures']&.to_sentence, categories),
         categories:
       }
     end

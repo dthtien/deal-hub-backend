@@ -27,7 +27,7 @@ module GlueStore
 
     def build_attributes(result)
       name = result['title']
-      categories = result['tags'].map(&:downcase).uniq
+      categories = refine_categories(result['tags'])
       return if ignore_product?(name, categories)
 
       price = result['price'].to_f
@@ -42,8 +42,8 @@ module GlueStore
         image_url: result['product_image'],
         store_path: result['handle'],
         store: Product::GLUE_STORE,
-        description: result['body_html_safe'].strip,
-        categories: refine_categories(result['tags'])
+        description: refine_description(result['body_html_safe'].strip, categories),
+        categories:
       }
     end
 

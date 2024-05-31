@@ -40,7 +40,7 @@ module CultureKings
         image_url: result['image'],
         store_path: result['handle'],
         store: Product::CULTURE_KINGS,
-        description: result['description'],
+        description: refine_description(result['description'], result['categoriesNormalised']),
         categories: result['categoriesNormalised']
       }
     end

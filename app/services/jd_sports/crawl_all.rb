@@ -31,7 +31,8 @@ module JdSports
 
       result.merge(
         discount: calculate_discount(result[:old_price], result[:price]),
-        store: Product::JD_SPORTS
+        store: Product::JD_SPORTS,
+        description: refine_description(result[:description], result[:categories])
       )
     end
 

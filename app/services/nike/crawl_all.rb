@@ -29,6 +29,7 @@ module Nike
 
       price = result['price']['currentPrice'].to_f
       old_price = result['price']['fullPrice'].to_f
+      categories = [result['productType'].downcase]
       {
         name:,
         price:,
@@ -39,8 +40,8 @@ module Nike
         image_url: result['images']['portraitURL'],
         store_path: result['url'].gsub('{countryLang}', 'au'),
         store: Product::NIKE,
-        description: result['subtitle'],
-        categories: [result['productType'].downcase]
+        description: refine_description(result['subtitle'], categories),
+        categories:
       }
     end
 

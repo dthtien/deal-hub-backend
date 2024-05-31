@@ -87,6 +87,6 @@ class JdSportsCrawler < ApplicationCrawler
   end
 
   def identify_brand(name)
-    brands.find { |brand| name.downcase.include?(brand) }
+    brands.find { |brand| name.downcase.include?(brand) }.to_s.downcase.strip
   end
 end

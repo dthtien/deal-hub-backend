@@ -46,7 +46,6 @@ module Deals
       @products = @products.where('name ILIKE ?', "%#{query}%")
                            .or(@products.where('description ILIKE ?', "%#{query}%"))
                            .or(@products.where('brand ILIKE ?', "%#{query}%"))
-                           .or(@products.where('categories::text iLIKE ?', "%#{query}%"))
     end
 
     def filter_by_categories
