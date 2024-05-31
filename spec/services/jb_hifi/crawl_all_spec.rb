@@ -24,7 +24,7 @@ RSpec.describe JbHifi::CrawlAll do
     end
     let(:crawler) do
       instance_double(
-        OfficeWorksCrawler,
+        JbHifiCrawler,
         crawl_all: true,
         data: [
           {

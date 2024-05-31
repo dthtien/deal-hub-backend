@@ -30,7 +30,7 @@ class TheGoodGuysCrawler < ApplicationCrawler
   end
 
   def build_ids_query(ids)
-    ids.map { |id| { stringValue: id.to_s } }
+    ids.map { |id| { stringValue: id.to_s } }.uniq
   end
 
   def fetch_sale_ids
