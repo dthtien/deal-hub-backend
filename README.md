@@ -19,5 +19,5 @@ application structure.
 - [x] Culture Kings
 - [x] Nike
 - [x] Myer
+- [x] The good guys
 - [ ] ASOS
-- [ ] The good guys

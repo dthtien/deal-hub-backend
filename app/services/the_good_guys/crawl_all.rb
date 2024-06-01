@@ -35,7 +35,7 @@ module TheGoodGuys
       {
         name:,
         price:,
-        old_price:,
+        old_price: old_price.zero? ? nil : old_price,
         discount: calculate_discount(old_price, price),
         store_product_id: fields.dig('sku', 'stringValue'),
         brand: fields.dig('brand', 'mapValue', 'fields', 'name', 'stringValue'),
@@ -44,7 +44,7 @@ module TheGoodGuys
         store: Product::THE_GOOD_GUYS,
         description: refine_description(description, categories),
         categories:
-      }
+      }.compact
     end
 
     def parse_categories(categories)

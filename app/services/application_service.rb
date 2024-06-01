@@ -10,7 +10,7 @@ class ApplicationService
   private
 
   def calculate_discount(old_price, price)
-    return if old_price.zero? || price.zero?
+    return 0 if old_price.zero? || price.zero?
 
     ((old_price.to_f - price.to_f) / old_price.to_f * 100).round
   end
