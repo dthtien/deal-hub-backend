@@ -13,7 +13,6 @@ class AsosCrawler < ApplicationCrawler
 
   def crawl_all
     while offset.zero? || offset < max_offset
-      puts "Fetching page #{offset}/#{max_offset}"
       results = parse(fetch_list)
       break if results.empty?
 
