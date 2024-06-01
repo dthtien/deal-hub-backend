@@ -20,4 +20,8 @@ application structure.
 - [x] Nike
 - [x] Myer
 - [x] The good guys
-- [ ] ASOS
+- [x] ASOS
+- [ ] Adias
+- [ ] The iconic
+- [ ] David john
+- [ ] Find affiliate solution

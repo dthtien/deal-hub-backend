@@ -13,7 +13,8 @@ module Crawlers
         Product::CULTURE_KINGS => Crawlers::CultureKingsJob,
         Product::JD_SPORTS => Crawlers::JdSportsJob,
         Product::MYER => Crawlers::MyerJob,
-        Product::THE_GOOD_GUYS => Crawlers::TheGoodGuysJob
+        Product::THE_GOOD_GUYS => Crawlers::TheGoodGuysJob,
+        Product::ASOS => Crawlers::AsosJob
       }
 
       Product::STORES.each do |store|

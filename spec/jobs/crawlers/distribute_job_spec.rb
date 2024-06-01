@@ -10,6 +10,7 @@ RSpec.describe Crawlers::DistributeJob, type: :job do
     expect(Crawlers::JdSportsJob).to receive(:perform_async).once
     expect(Crawlers::MyerJob).to receive(:perform_async).once
     expect(Crawlers::TheGoodGuysJob).to receive(:perform_async).once
+    expect(Crawlers::AsosJob).to receive(:perform_async).once
 
     described_class.new.perform
   end

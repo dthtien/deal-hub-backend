@@ -44,7 +44,7 @@ module TheGoodGuys
         store: Product::THE_GOOD_GUYS,
         description: refine_description(description, categories),
         categories:
-      }.compact
+      }
     end
 
     def parse_categories(categories)
