@@ -21,6 +21,7 @@ application structure.
 - [x] Myer
 - [x] The good guys
 - [x] ASOS
+- [ ] Use redis in image
 - [ ] Adias
 - [ ] The iconic
 - [ ] David john
