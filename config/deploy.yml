@@ -16,11 +16,14 @@ servers:
       traefik.http.routers.kiqr_cloud_secure.tls: true
       traefik.http.routers.kiqr_cloud_secure.tls.certresolver: letsencrypt
     options:
-      "add-host": host.docker.internal:host-gateway
+      network: "private"
   job:
     hosts:
       - 67.219.97.246
     cmd: bundle exec sidekiq -C config/sidekiq.yml
+    options:
+      network: "private"
+
 
 # Credentials for your image host.
 registry:
@@ -40,7 +43,7 @@ accessories:
     directories:
       - redis:/data
     options:
-      "add-host": host.docker.internal:host-gateway
+      network: "private"
 
   # db:
     # image: postgres:15
@@ -61,7 +64,7 @@ accessories:
 # Remember to run `kamal env push` after making changes!
 env:
   clear:
-    REDIS_URL: redis://67.219.97.246:6379/0
+    REDIS_URL: redis://deals-hub-be-redis:6379
   secret:
     - RAILS_MASTER_KEY
     - DEAL_HUB_API_DATABASE_HOST
@@ -81,7 +84,7 @@ ssh:
 # Configure custom arguments for Traefik. Be sure to reboot traefik when you modify it.
 traefik:
   options:
-    "add-host": host.docker.internal:host-gateway
+    network: "private"
     publish:
       - "443:443"
     volume:
