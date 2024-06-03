@@ -15,6 +15,8 @@ servers:
       traefik.http.routers.kiqr_cloud_secure.rule: Host(`ac.tcyrus.dev`)
       traefik.http.routers.kiqr_cloud_secure.tls: true
       traefik.http.routers.kiqr_cloud_secure.tls.certresolver: letsencrypt
+    options:
+      "add-host": host.docker.internal:host-gateway
   job:
     hosts:
       - 67.219.97.246
@@ -30,16 +32,42 @@ registry:
   password:
     - REGISTRY_PASSWORD
 
+accessories:
+  redis:
+    image: redis:latest
+    port: 6379
+    host: 67.219.97.246
+    directories:
+      - redis:/data
+    options:
+      "add-host": host.docker.internal:host-gateway
+
+  # db:
+    # image: postgres:15
+    # port: 5432
+    # host: <%= ENV['BACKEND_IP_ADDRESS'] %>
+    # env:
+      # secret:
+        # - POSTGRES_USER
+        # - POSTGRES_PASSWORD
+    # files:
+      # - db/production.sql:/docker-entrypoint-initdb.d/setup.sql
+    # directories:
+      # - data:/var/lib/postgresql/data
+    # options:
+      # "add-host": host.docker.internal:host-gateway
+
 # Inject ENV variables into containers (secrets come from .env).
 # Remember to run `kamal env push` after making changes!
 env:
+  clear:
+    REDIS_URL: redis://67.219.97.246:6379/0
   secret:
     - RAILS_MASTER_KEY
     - DEAL_HUB_API_DATABASE_HOST
     - DEAL_HUB_API_DATABASE_NAME
     - DEAL_HUB_API_DATABASE_USERNAME
     - DEAL_HUB_API_DATABASE_PASSWORD
-    - REDIS_URL
     - SLACK_WEBHOOK_URL
     - APP_URL
     - FB_PAGE_ID
@@ -53,6 +81,7 @@ ssh:
 # Configure custom arguments for Traefik. Be sure to reboot traefik when you modify it.
 traefik:
   options:
+    "add-host": host.docker.internal:host-gateway
     publish:
       - "443:443"
     volume:
