@@ -63,10 +63,13 @@ module Deals
       def message(bargain)
         price_text = "Price: $#{bargain.price}"
         price_text += " - discount #{bargain.discount}%" if bargain.discount&.positive?
-        "We found a good deal: #{bargain.name}\n\n"\
-        "#{price_text}\n"\
-        "At #{bargain.store_url}\n"\
-        "More deals at #{ENV['APP_URL']}"
+
+        "🎉🎉🎉 Good deal 🎉🎉🎉\n\n"\
+        "👉 #{bargain.name}\n"\
+        "👉 #{current_time.strftime('%d/%m/%Y')}\n"\
+        "👉 #{price_text}\n"\
+        "👉 #{bargain.store_url}\n"\
+        "👉 More deals at #{ENV['APP_URL']}"
       end
     end
   end
