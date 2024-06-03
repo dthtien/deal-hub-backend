@@ -2,7 +2,7 @@
 
 module GlueStore
   class CrawlAll < Base
-    IGNORABLE_WORDS = %w[bikini swimwear bra underwear lingerie bodysuit].freeze
+    IGNORABLE_WORDS = %w[bikini swimwear bra underwear lingerie bodysuit brief panty].freeze
 
     def initialize
       super

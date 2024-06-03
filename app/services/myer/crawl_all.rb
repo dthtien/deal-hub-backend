@@ -4,7 +4,7 @@ module Myer
   class CrawlAll < Base
     ASSET_URL = 'https://myer-media.com.au/wcsstore/MyerCatalogAssetStore'
     IMAGE_SIZE = '720x928'
-    IGNORABLE_WORDS = %w[bikini swimwear bra underwear lingerie bodysuit].freeze
+    IGNORABLE_WORDS = %w[bikini swimwear bra underwear lingerie bodysuit brief panty].freeze
 
     def initialize
       super
