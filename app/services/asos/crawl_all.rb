@@ -51,7 +51,8 @@ module Asos
         image_url: "https://#{result['imageUrl']}",
         store_path: result['url'],
         store: Product::ASOS,
-        categories: [category]
+        categories: [category],
+        description: refine_description(name, [category])
       }
     end
 

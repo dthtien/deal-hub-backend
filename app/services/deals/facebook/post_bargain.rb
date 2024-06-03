@@ -59,12 +59,12 @@ module Deals
       end
 
       def message(bargain)
-        "🎉🎉🎉 Bargain Alert 🎉🎉🎉\n\n"\
-        "👉 #{bargain.name}\n"\
-        "👉 #{current_time.strftime('%d/%m/%Y')}\n"\
-        "👉 $#{bargain.price}#{bargain.discount&.positive? ? " - #{bargain.discount}%" : ''}\n"\
-        "👉 #{bargain.store_url}\n"\
-        "👉 More deals at #{ENV['APP_URL']}"
+        price_text = "Price: $#{bargain.price}"
+        price_text += " - discount #{bargain.discount}%" if bargain.discount&.positive?
+        "We found a good deal: #{bargain.name}\n\n"\
+        "#{price_text}\n"\
+        "At #{bargain.store_url}\n"\
+        "More deals at #{ENV['APP_URL']}"
       end
     end
   end
