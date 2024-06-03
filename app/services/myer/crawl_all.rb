@@ -67,7 +67,7 @@ module Myer
     end
 
     def build_categories(result)
-      [result['merchCategory'].split('/').last]
+      [result['merchCategory'].split('/').last.to_s.downcase]
     end
 
     def upsert_products(data)
