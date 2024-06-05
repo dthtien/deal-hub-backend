@@ -1,5 +1,6 @@
 # README
 AuDealsHub - Aussie Deals Collectors
+https://deal-hub-fe.vercel.app/
 
 # Stacks
 - Ruby on Rails 7: The application is built using the Ruby on Rails framework, providing a robust and scalable web
@@ -21,8 +22,8 @@ application structure.
 - [x] Myer
 - [x] The good guys
 - [x] ASOS
-- [ ] Use redis in image
-- [ ] Adias
+- [x] Use redis in image
 - [ ] The iconic
+- [ ] Adias
 - [ ] David john
 - [ ] Find affiliate solution
