@@ -62,6 +62,7 @@ module Deals
 
       def message(bargain)
         price_text = "Price: $#{bargain.price}"
+        price_text += " (was $#{bargain.old_price})" if bargain.old_price&.positive?
         price_text += " - discount #{bargain.discount}%" if bargain.discount&.positive?
 
         "🎉🎉🎉 Good deal 🎉🎉🎉\n\n"\
