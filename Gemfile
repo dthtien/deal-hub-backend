@@ -11,8 +11,8 @@ gem "pg", "~> 1.1"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 
-gem 'redis', '~> 4.8.1'
-gem 'sidekiq', '~> 6.5.12'
+gem 'redis', '~> 5.1'
+gem 'sidekiq', '~> 7.2.4'
 gem "sidekiq-cron"
 gem 'faraday', '~> 2.9.0'
 gem 'exception_notification'
