@@ -7,7 +7,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins 'localhost:5173', 'deal-hub-fe.vercel.app', 'localhost:3000', 'beneficiumvilis.com', 'api.beneficiumvilis.com'
+    origins 'localhost:5173', 'deal-hub-fe.vercel.app', 'localhost:3000', 'beneficiumvilis.com', 'api.beneficiumvilis.com', 'www.beneficiumvilis.com'
 
     resource '*',
       headers: :any,
