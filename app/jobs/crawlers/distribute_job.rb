@@ -1,7 +1,5 @@
 module Crawlers
-  class DistributeJob
-    include Sidekiq::Worker
-
+  class DistributeJob < ApplicationJob
     def perform
       Rails.logger.info 'Distributing jobs!'
 

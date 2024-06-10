@@ -13,7 +13,7 @@ gem "puma", ">= 5.0"
 
 gem 'redis', '~> 5.1'
 gem 'sidekiq', '~> 7.2.4'
-gem "sidekiq-cron"
+gem 'sidekiq-scheduler'
 gem 'faraday', '~> 2.9.0'
 gem 'exception_notification'
 gem 'slack-notifier'
