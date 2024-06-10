@@ -10,9 +10,9 @@ servers:
     hosts:
       - 67.219.97.246
     labels:
-      traefik.http.routers.kiqr_cloud.rule: Host(`ac.tcyrus.dev`)
+      traefik.http.routers.kiqr_cloud.rule: Host(`api.beneficiumvilis.com`)
       traefik.http.routers.kiqr_cloud_secure.entrypoints: websecure
-      traefik.http.routers.kiqr_cloud_secure.rule: Host(`ac.tcyrus.dev`)
+      traefik.http.routers.kiqr_cloud_secure.rule: Host(`api.beneficiumvilis.com`)
       traefik.http.routers.kiqr_cloud_secure.tls: true
       traefik.http.routers.kiqr_cloud_secure.tls.certresolver: letsencrypt
     options:
