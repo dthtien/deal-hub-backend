@@ -65,6 +65,7 @@ accessories:
 env:
   clear:
     REDIS_URL: redis://deals-hub-be-redis:6379
+    APP_URL: https://www.beneficiumvilis.com/
   secret:
     - RAILS_MASTER_KEY
     - DEAL_HUB_API_DATABASE_HOST
@@ -72,7 +73,6 @@ env:
     - DEAL_HUB_API_DATABASE_USERNAME
     - DEAL_HUB_API_DATABASE_PASSWORD
     - SLACK_WEBHOOK_URL
-    - APP_URL
     - FB_PAGE_ID
     - FB_USER_TOKEN
 
