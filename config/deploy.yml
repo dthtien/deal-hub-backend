@@ -38,8 +38,9 @@ registry:
 accessories:
   redis:
     image: redis:latest
-    port: 6379
-    host: 67.219.97.246
+    roles:
+      - web
+      - job
     directories:
       - redis:/data
     options:
