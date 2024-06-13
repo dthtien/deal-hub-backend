@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-#
+
 module Insurances
   module Suncorp
     class Quote < ApplicationService

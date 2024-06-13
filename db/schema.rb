@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_27_012255) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_13_012648) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -38,6 +38,53 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_27_012255) do
     t.index ["store"], name: "index_products_on_store"
     t.index ["store_product_id", "store"], name: "index_products_on_store_product_id_and_store", unique: true
     t.index ["store_product_id"], name: "index_products_on_store_product_id"
+  end
+
+  create_table "quote_items", force: :cascade do |t|
+    t.string "provider"
+    t.decimal "annual_price"
+    t.decimal "monthly_price"
+    t.string "quote_id"
+    t.jsonb "response_details"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "quotes", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "status"
+    t.date "policy_start_date"
+    t.string "current_insurer"
+    t.string "state"
+    t.string "suburb"
+    t.string "postcode"
+    t.string "address_line1"
+    t.string "plate"
+    t.boolean "financed"
+    t.string "primary_usage"
+    t.string "days_wfh"
+    t.boolean "peak_hour_driving"
+    t.string "cover_type"
+    t.date "driver_dob"
+    t.string "driver_gender"
+    t.boolean "has_claim_occurrences"
+    t.jsonb "claim_occurrences", default: []
+    t.jsonb "additional_drivers", default: []
+    t.jsonb "parking", default: {}
+    t.integer "km_per_year"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_quotes_on_user_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "email"
+    t.string "phone_number"
+    t.string "first_name"
+    t.string "last_name"
+    t.date "date_of_birth"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end
