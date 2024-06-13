@@ -13,16 +13,8 @@ module Insurances
       end
 
       def call
-        response = http_client.post(BASE_URL) do |request|
-          request.body = request_body.to_json
-        end
-
-        unless response.success?
-          @errors << 'Error while fetching data from the API'
-          return self
-        end
-
-        @data = parse_response(response)
+        perform_request
+        store_quote_item
         self
       end
 
@@ -33,6 +25,26 @@ module Insurances
       private
 
       attr_reader :quote
+
+      def perform_request
+        response = http_client.post(BASE_URL) do |request|
+          request.body = request_body.to_json
+        end
+
+        unless response.success?
+          @errors << 'Error while fetching data from the API'
+          return self
+        end
+
+        @data = parse_response(response)
+      end
+
+      def store_quote_item
+        return unless success?
+
+        service = QuoteItems::Store.new(quote, data)
+        service.call
+      end
 
       def http_client
         @http_client ||= Faraday.new(url: BASE_URL) do |faraday|

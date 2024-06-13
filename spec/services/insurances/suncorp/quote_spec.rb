@@ -13,6 +13,8 @@ describe Insurances::Suncorp::Quote do
     before do
       expect(Insurances::Suncorp::BuildParams)
         .to receive(:new).and_return(double(call: nil, params:))
+      expect(Insurances::Suncorp::QuoteItems::Store)
+        .to receive(:new).and_return(double(call: nil))
       stub_request(:post, described_class::BASE_URL)
         .to_return(status: 200, body: File.read('spec/fixtures/suncorp/quote.json'))
 
