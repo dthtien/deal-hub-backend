@@ -4,20 +4,35 @@ module Insurances
   module Suncorp
     class Quote < ApplicationService
       BASE_URL = 'https://api.suncorp.com.au/motor-insurance-quote/api/v1/insurance/motor/brands/AAMI/quotes'
+      attr_reader :data, :errors
 
-      def initialize(details)
-        @details = details
+      def initialize(quote)
+        @quote = quote
+        @errors = []
+        @data = nil
       end
 
       def call
-        http_client.post(BASE_URL) do |request|
+        response = http_client.post(BASE_URL) do |request|
           request.body = request_body.to_json
         end
+
+        unless response.success?
+          @errors << 'Error while fetching data from the API'
+          return self
+        end
+
+        @data = parse_response(response)
+        self
+      end
+
+      def success?
+        @errors.empty?
       end
 
       private
 
-      attr_reader :details
+      attr_reader :quote
 
       def http_client
         @http_client ||= Faraday.new(url: BASE_URL) do |faraday|
@@ -30,6 +45,21 @@ module Insurances
           faraday.headers['X-Client-Version'] = '1.0'
           faraday.headers['X-Request-ID'] = 'd94af332-f212-4b54-8a7c-b899e08d70ac'
         end
+      end
+
+      def details
+        @details ||= quote.attributes
+                          .except('id', 'created_at', 'updated_at')
+                          .with_indifferent_access
+      end
+
+      def parse_response(response)
+        JSON.parse(response.body)
+      rescue JSON::ParserError
+        @errors << 'Error while parsing the response'
+        {
+          data: response.body
+        }
       end
 
       def request_body
