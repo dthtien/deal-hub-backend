@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-describe Insurances::NumberPlates::Check do
+describe Insurances::CompareTheMarket::VehicleSearch do
   let(:state) { 'NSW' }
   let(:plate) { 'ABC123' }
   let(:service) { described_class.new(state, plate) }

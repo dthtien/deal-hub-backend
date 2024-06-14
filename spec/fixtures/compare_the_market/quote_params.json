@@ -1,0 +1,95 @@
+{
+  "transaction": {
+    "journeyId": 18093241,
+    "accountId": 19786345,
+    "vertical": "CAR",
+    "phase": "INITIAL",
+    "brandCode": "CTM",
+    "created": "2024-06-13T10:47:56.43Z",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "ipAddress": "2406:3400:31c:eb40:ccab:2caa:856a:ad01"
+  },
+  "control": {
+    "transactionChecksum": "eyJhbGciOiJIUzUxMiJ9.eyJzZXNzaW9uSWQiOm51bGwsInVzZXJJZCI6bnVsbCwidHJhbnNhY3Rpb24iOiIxODA5MzI0MTE5Nzg2MzQ1Q1RNQ0FSMjAyNC0wNi0xM1QxMDo0Nzo1Ni40M1pbVVRDXSJ9.IEJrtGYXCk5X3boJx3f2Klrz6zsd4aNpJPhlH3Tdcwm9C3-r_LdO_xUcRCrf31ZSLLerh_pWieQ5YVi9FuCbLw",
+    "formChecksum": "eyJhbGciOiJIUzUxMiJ9.eyJmb3JtIjoiMzE4NjA3MzcifQ.jK8pUTrRfgPfRoxiHlsO223BmN2NzZG1y0BdPZuWguehD0eS1K9FtILiJPWdHupu1chUqRylCVbLvAqH9WKQZw"
+  },
+  "prefill": {
+    "lastViewedPage": "/car-insurance/journey/results",
+    "eligiblePage": true
+  },
+  "form": {
+    "coverDetail": {
+      "useType": "PRIVATE_AND_COMMUTING_TO_WORK",
+      "previousInsurer": "AAMI",
+      "requestedExcess": "600",
+      "commencementDate": "2024-07-01",
+      "currentlyInsured": true,
+      "annualKilometres": 4000,
+      "requestedExcessHigh": "900",
+      "requestedExcessLow": "800",
+      "driver": {
+        "gender": "MALE",
+        "dob": "1990-09-01",
+        "employmentStatus": "EMPLOYED_FULL_TIME",
+        "licenceAge": 25,
+        "anyPreviousClaims": "NO",
+        "noClaimRating": "RATING_3",
+        "firstName": "John",
+        "lastName": "Doe"
+      },
+      "ownsHome": false,
+      "vehicle": {
+        "body": "5HBK",
+        "redbookCodeLong": "AUVVOLK2009AELQ",
+        "badge": "118T COMF",
+        "transmission": "NOT_MANUAL",
+        "redbookCode": "VOLK09LQ",
+        "modified": false,
+        "model": "GOLF",
+        "glassCode": "VWNGLF8T1614J8A2009C",
+        "colour": "SILVER",
+        "nviCode": "J8A09C",
+        "make": "VOLK",
+        "state": "VIC",
+        "alarmFitted": false,
+        "marketValue": 7700,
+        "damaged": null,
+        "fuel": "PETROL",
+        "immobiliserFitted": true,
+        "hasOtherAccessories": "NO",
+        "rego": "ZZB619",
+        "description": "118TSI VI comfortline | 1.4 Turbo | 7 Speed Sports Automatic Dual Clutch | 118kW | Front Wheel Drive | February Release",
+        "year": "2009"
+      },
+      "coverType": "COMPREHENSIVE",
+      "hasYoungerDriver": false,
+      "financeType": "NONE",
+      "overnightParking": {
+        "address": {
+          "suburb": "ARDEER",
+          "postcode": "3022",
+          "state": "VIC",
+          "streetName": "ESMOND ST",
+          "streetNumber": "78",
+          "gnafId": "GAVIC421375789"
+        },
+        "parkingType": "GARAGED"
+      },
+      "driverOption": "DRIVERS_21_AND_OVER",
+      "ownsAnotherCar": false
+    },
+    "applicant": {
+      "firstName": "John",
+      "lastName": "Doe",
+      "mobile": "0412345678",
+      "email": "test@gmail.com",
+      "optInPrivacy": true
+    },
+    "leadCapture": {
+      "health": false
+    },
+    "helpers": {
+      "isDisclaimerContentExpanded": false
+    }
+  }
+}
