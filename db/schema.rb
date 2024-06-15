@@ -78,7 +78,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_13_012648) do
     t.string "driver_employment_status"
     t.string "driver_licence_age"
     t.string "driver_option"
-    t.string "modified"
+    t.boolean "modified", default: false
     t.boolean "has_claim_occurrences", default: false
     t.boolean "has_other_accessories", default: false
     t.jsonb "claim_occurrences", default: []
@@ -97,6 +97,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_13_012648) do
     t.string "first_name"
     t.string "last_name"
     t.date "date_of_birth"
+    t.string "gender"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

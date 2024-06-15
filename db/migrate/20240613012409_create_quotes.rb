@@ -24,7 +24,7 @@ class CreateQuotes < ActiveRecord::Migration[7.1]
       t.string :driver_employment_status
       t.string :driver_licence_age
       t.string :driver_option
-      t.string :modified
+      t.boolean :modified, default: false
       t.boolean :has_claim_occurrences, default: false
       t.boolean :has_other_accessories, default: false
       t.jsonb :claim_occurrences, default: []
