@@ -22,6 +22,8 @@ describe Insurances::Suncorp::QuoteItems::Store do
       expect(quote_item.quote).to eq(quote)
       expect(quote_item.annual_price).to eq(data[:quoteDetails][:premium][:annualPremium])
       expect(quote_item.monthly_price).to eq(data[:quoteDetails][:premium][:monthlyPremium])
+      expect(quote_item.description).to eq(data[:personalisedClaimsQSPMessage])
+      expect(quote_item.cover_type).to eq('Car Comprehensive')
     end
   end
 end

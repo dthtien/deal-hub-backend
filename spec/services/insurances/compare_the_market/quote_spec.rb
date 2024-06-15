@@ -15,8 +15,8 @@ describe Insurances::CompareTheMarket::Quote do
         .to receive(:new).and_return(double(call: double(params:)))
       expect(Insurances::CompareTheMarket::RefreshToken)
         .to receive(:call).and_return(double(data: {}))
-      # expect(Insurances::Suncorp::QuoteItems::Store)
-        # .to receive(:new).and_return(double(call: nil))
+      expect(Insurances::CompareTheMarket::QuoteItems::Store)
+        .to receive(:new).and_return(double(call: nil))
       stub_request(:post, described_class::BASE_URL)
         .to_return(status: 200, body: File.read('spec/fixtures/compare_the_market/quote.json'))
 

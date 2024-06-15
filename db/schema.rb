@@ -44,10 +44,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_13_012648) do
     t.string "provider"
     t.decimal "annual_price"
     t.decimal "monthly_price"
+    t.text "description"
+    t.string "cover_type"
     t.string "quote_id"
     t.jsonb "response_details"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["quote_id", "provider", "cover_type"], name: "index_quote_items_on_quote_id_and_provider_and_cover_type", unique: true
+    t.index ["quote_id"], name: "index_quote_items_on_quote_id"
   end
 
   create_table "quotes", force: :cascade do |t|

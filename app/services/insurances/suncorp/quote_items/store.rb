@@ -16,9 +16,13 @@ module Insurances
           @quote_item = quote.quote_items.find_or_initialize_by(provider: QuoteItem::AAMI)
           annual_price = data.dig('quoteDetails', 'premium', 'annualPremium')
           monthly_price = data.dig('quoteDetails', 'premium', 'monthlyPremium')
+          cover_type = data.dig('coverDetails', 'coverType')
+          description = data['personalisedClaimsQSPMessage']
           quote_item.update!(
             annual_price:,
             monthly_price:,
+            cover_type:,
+            description:,
             response_details: data
           )
 

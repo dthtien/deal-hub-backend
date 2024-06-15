@@ -7,6 +7,8 @@ module Insurances
 
       def call
         perform_request
+        store_quote_item
+
         self
       end
 
@@ -25,6 +27,15 @@ module Insurances
         end
 
         @data = parse_response(response)
+
+        self
+      end
+
+      def store_quote_item
+        return unless success?
+
+        service = QuoteItems::Store.new(quote, data)
+        service.call
       end
 
       def http_client
