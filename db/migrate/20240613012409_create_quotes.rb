@@ -1,6 +1,8 @@
 class CreateQuotes < ActiveRecord::Migration[7.1]
   def change
-    create_table :quotes do |t|
+    enable_extension 'pgcrypto'
+
+    create_table :quotes, id: :uuid do |t|
       t.integer :user_id, index: true
       t.string :status
       t.date :policy_start_date

@@ -10,6 +10,9 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :deals, only: :index
       resource :metadata, only: :show
+      namespace :insurances do
+        resources :quotes, only: %w[create show]
+      end
     end
   end
 end

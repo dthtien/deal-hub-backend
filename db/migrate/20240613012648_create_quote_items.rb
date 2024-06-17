@@ -6,7 +6,7 @@ class CreateQuoteItems < ActiveRecord::Migration[7.1]
       t.decimal :monthly_price
       t.text :description
       t.string :cover_type
-      t.string :quote_id, index: true
+      t.uuid :quote_id, index: true
       t.jsonb :response_details
 
       t.timestamps

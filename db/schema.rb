@@ -13,6 +13,7 @@
 ActiveRecord::Schema[7.1].define(version: 2024_06_13_012648) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
   create_table "products", force: :cascade do |t|
@@ -46,7 +47,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_13_012648) do
     t.decimal "monthly_price"
     t.text "description"
     t.string "cover_type"
-    t.string "quote_id"
+    t.uuid "quote_id"
     t.jsonb "response_details"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -54,7 +55,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_13_012648) do
     t.index ["quote_id"], name: "index_quote_items_on_quote_id"
   end
 
-  create_table "quotes", force: :cascade do |t|
+  create_table "quotes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.integer "user_id"
     t.string "status"
     t.date "policy_start_date"

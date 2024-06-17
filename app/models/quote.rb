@@ -26,4 +26,11 @@ class Quote < ApplicationRecord
   def initiated?
     status == INITIATED
   end
+
+  def as_json(options = {})
+    super(options).merge(
+      'user' => user.as_json,
+      'quote_items' => quote_items.as_json
+    )
+  end
 end
