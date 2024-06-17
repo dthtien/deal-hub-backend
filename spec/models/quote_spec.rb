@@ -1,5 +1,31 @@
 require 'rails_helper'
 
 RSpec.describe Quote, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'associations' do
+    it { is_expected.to belong_to(:user) }
+    it { is_expected.to have_many(:quote_items) }
+  end
+
+  Quote::STATUSES.each do |status|
+    describe "##{status}?" do
+      it "returns true if status is #{status}" do
+        quote = build(:quote, status: )
+
+        expect(quote.send("#{status}?")).to be_truthy
+      end
+    end
+  end
+
+  describe '#as_json' do
+    it 'returns user and quote_items as json' do
+      user = build(:user)
+      quote_items = [build(:quote_item)]
+      quote = build(:quote, user: user, quote_items: quote_items)
+
+      expect(quote.as_json).to include(
+        'user' => user.as_json,
+        'quote_items' => quote_items.as_json
+      )
+    end
+  end
 end

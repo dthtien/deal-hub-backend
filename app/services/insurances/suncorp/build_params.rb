@@ -39,8 +39,8 @@ module Insurances
         'none' => "I don't work or study"
       }
       GENDERS = {
-        'male' => 'MALE',
-        'female' => 'FEAMLE'
+        'male' => 'Male',
+        'female' => 'Female'
       }.freeze
 
 
