@@ -38,6 +38,11 @@ module Insurances
         '5_plus' => '5+ Days',
         'none' => "I don't work or study"
       }
+      GENDERS = {
+        'male' => 'MALE',
+        'female' => 'FEAMLE'
+      }.freeze
+
 
       attr_reader :params
 
@@ -64,9 +69,9 @@ module Insurances
         {
           "mainDriver": {
             "dateOfBirth": details[:driver_dob],
-            "gender": details[:driver_gender],
+            "gender": GENDERS[details[:driver_gender]] || 'Male',
             "hasClaimOccurrences": details[:has_claim_occurrences],
-            "claimOccurrences": details[:claim_occurrences],
+            "claimOccurrences": details[:claim_occurrences]
           },
           "additionalDrivers": details[:additional_drivers]
         }
@@ -84,18 +89,16 @@ module Insurances
           spatialReferenceId: address_details.dig('geocodedNationalAddressFileData', 'gnafSrid'),
           hopewiserVersion: 'V3 AUS GNAF',
           matchStatus: 'HAPPY',
-          structuredStreetAddress: address_details['addressInBrokenDownForm'].except('streetNumber1')
+          structuredStreetAddress: structured_street_address
         }
       end
 
-      def address_details
-        @address_details ||=
-          begin
-            service = Address::Check.new(details[:suburb], details[:postcode], details[:state], details[:address_line1])
-            service.call
-
-            service.data['matchedAddress']
-          end
+      def structured_street_address
+        {
+          streetName: address_details['addressInBrokenDownForm']['streetName'],
+          streetNumber1: address_details['addressInBrokenDownForm']['streetNumber1'],
+          streetTypeCode: address_details['addressInBrokenDownForm']['streetType']
+        }
       end
 
       def cover_details
@@ -115,7 +118,7 @@ module Insurances
           "financed": details[:financed],
           "usage": {
             "primaryUsage": USAGE_TYPES[details[:primary_usage]],
-            "businessType": BUSINESS_TYPES[details[:business_type]],
+            "businessType": BUSINESS_TYPES[details[:business_type]].to_s,
             "showStampDutyModal": false,
             "backFromJeopardy": false
           },
@@ -179,6 +182,16 @@ module Insurances
             service = VehicleSearch.new(details[:state], details[:plate], details[:policy_start_date])
             service.call
             service.data
+          end
+      end
+
+      def address_details
+        @address_details ||=
+          begin
+            service = Address::Check.new(details[:suburb], details[:postcode], details[:state], details[:address_line1])
+            service.call
+
+            service.data['matchedAddress']
           end
       end
     end

@@ -89,7 +89,7 @@ describe Api::V1::Insurances::QuotesController, type: :controller do
       instance_double(
         Insurances::Quotes::Show,
         call: true,
-        quote: quote,
+        quote: ,
         success?: true
       )
     end

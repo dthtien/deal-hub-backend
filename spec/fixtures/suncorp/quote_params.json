@@ -17,7 +17,7 @@
     "financed": false,
     "usage": {
       "primaryUsage": "Private",
-      "businessType": null,
+      "businessType": "",
       "showStampDutyModal": false,
       "backFromJeopardy": false
     },
@@ -73,9 +73,9 @@
     "hopewiserVersion": "V3 AUS GNAF",
     "matchStatus": "HAPPY",
     "structuredStreetAddress": {
-      "streetNumber": "78",
+      "streetNumber1": "78",
       "streetName": "ESMOND",
-      "streetType": "ST"
+      "streetTypeCode": "ST"
     }
   },
   "driverDetails": {
