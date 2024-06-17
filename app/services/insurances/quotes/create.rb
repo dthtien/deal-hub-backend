@@ -16,6 +16,8 @@ module Insurances
           create_quote
         end
 
+        workflow = Insurances::QuoteWorkflow.create(quote.id)
+        workflow.start!
         self
       rescue ActiveRecord::RecordInvalid => e
         @errors << e.message

@@ -7,6 +7,23 @@ class Quote < ApplicationRecord
   STATUSES = [
     INITIATED = 'initiated',
     PENDING = 'pending',
+    FAILED = 'failed',
     COMPLETED = 'completed'
   ].freeze
+
+  def failed?
+    status == FAILED
+  end
+
+  def completed?
+    status == COMPLETED
+  end
+
+  def pending?
+    status == PENDING
+  end
+
+  def initiated?
+    status == INITIATED
+  end
 end

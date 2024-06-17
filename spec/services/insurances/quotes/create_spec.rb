@@ -45,7 +45,11 @@ describe Insurances::Quotes::Create do
   let(:service) { described_class.new(params) }
 
   describe '#call' do
-    before { service.call }
+    before do
+      expect(Insurances::QuoteWorkflow)
+        .to receive(:create).and_return(double(start!: true))
+      service.call
+    end
 
     it do
       user = service.user
