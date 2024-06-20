@@ -42,7 +42,7 @@ module GlueStore
         image_url: result['product_image'],
         store_path: result['handle'],
         store: Product::GLUE_STORE,
-        description: refine_description(result['body_html_safe'].strip, categories),
+        description: refine_description(result['body_html_safe'].to_s.strip, categories),
         categories:
       }
     end
