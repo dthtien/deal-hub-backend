@@ -9,10 +9,10 @@ pidfile: tmp/pids/sidekiq_development.pid
 :scheduler:
   :schedule:
     craw_all:
-      cron: "0 6,12,18 * * *"
+      cron: "0 6,9,12,15,18 * * *"
       class: "Crawlers::DistributeJob"
     post_bargain:
-      cron: "0 19 * * *"
+      cron: "30 6,9,12,15,18 * * *"
       class: "PostBargainJob"
 
 

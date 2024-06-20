@@ -47,7 +47,7 @@ module Deals
 
       def bargains
         @bargains ||= Product.where(
-          created_at: [current_time.beginning_of_day..current_time.end_of_day]
+          created_at: [1.hour.ago..current_time]
         ).order(discount: :desc)
       end
 
