@@ -1,0 +1,24 @@
+[
+  {
+    "text": "78 Esmond St, Ardeer, VIC, 3022",
+    "houseNoSel": "78",
+    "streetName": "Esmond St",
+    "suburbName": "Ardeer",
+    "unitSel": "",
+    "unitType": "",
+    "postCode": "3022",
+    "state": "VIC",
+    "gnafId": "GAVIC421375789"
+  },
+  {
+    "text": "2/78 Esmond St, Ardeer, VIC, 3022",
+    "houseNoSel": "78",
+    "streetName": "Esmond St",
+    "suburbName": "Ardeer",
+    "unitSel": "2",
+    "unitType": "UNIT",
+    "postCode": "3022",
+    "state": "VIC",
+    "gnafId": "GAVIC410777202"
+  }
+]

@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       resource :metadata, only: :show
       namespace :insurances do
         resources :quotes, only: %w[create show]
+        resources :addresses, only: :index
       end
     end
   end
