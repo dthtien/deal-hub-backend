@@ -181,7 +181,7 @@ module Insurances
         {
           gender: GENDERS[details[:driver_gender]],
           dob: details[:driver_dob],
-          employmentStatus: EMPLOYMENT_STATUSES[details[:driver_employment_status]],
+          employmentStatus: EMPLOYMENT_STATUSES[details[:driver_employment_status] || 'full_time'],
           licenceAge: details[:driver_licence_age],
           anyPreviousClaims: PREVIOUS_CLAIMS[previous_claims],
           noClaimRating: calculate_no_claim_rating,

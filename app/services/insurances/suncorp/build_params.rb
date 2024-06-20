@@ -147,7 +147,7 @@ module Insurances
 
       def parking_params
         {
-          "indicator": PARKING_INDICATORS[details.dig(:parking, :indicator)],
+          "indicator": PARKING_INDICATORS[details.dig(:parking, :indicator) || 'same_suburb'],
           "suburb": details.dig(:parking, :suburb),
           "postcode": details.dig(:parking, :postcode)
         }
