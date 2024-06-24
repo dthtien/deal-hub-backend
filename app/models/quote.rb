@@ -30,7 +30,7 @@ class Quote < ApplicationRecord
   def as_json(options = {})
     super(options).merge(
       'user' => user.as_json,
-      'quote_items' => quote_items.as_json
+      'quote_items' => quote_items.order(annual_price: :asc).as_json
     )
   end
 end

@@ -18,13 +18,13 @@ RSpec.describe Quote, type: :model do
 
   describe '#as_json' do
     it 'returns user and quote_items as json' do
-      user = build(:user)
-      quote_items = [build(:quote_item)]
-      quote = build(:quote, user: user, quote_items: quote_items)
+      user = create(:user)
+      quote = build(:quote, user:)
+      quote_item = create(:quote_item, quote:)
 
       expect(quote.as_json).to include(
         'user' => user.as_json,
-        'quote_items' => quote_items.as_json
+        'quote_items' => [quote_item.as_json]
       )
     end
   end

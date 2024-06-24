@@ -38,6 +38,8 @@ module Api
               :modified,
               :driver_option,
               :km_per_year,
+              :plate_state,
+              :acknowledged,
               driver: %i[date_of_birth first_name last_name gender email phone_number employment_status licence_age],
               parking: %i[indicator type]
             )

@@ -9,8 +9,14 @@ class QuoteItem < ApplicationRecord
     OCEANIA = 'Oceania',
     OZICARE = 'Ozicare',
     HUDDLE = 'Huddle',
-    CARPEESH = 'Carpeesh',
+    CARPEESH = 'Carpeesh'
   ].freeze
 
   belongs_to :quote
+
+  def as_json(options = {})
+    super(options).merge(
+      'created_at' => created_at&.strftime('%Y-%m-%d %H:%M:%S')
+    )
+  end
 end
