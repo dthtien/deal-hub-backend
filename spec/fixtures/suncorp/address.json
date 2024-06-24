@@ -1,0 +1,53 @@
+{
+  "responseTime": "2024-06-12T14:26:32.188+10:00",
+  "operationResult": "SUCCESS",
+  "matchedAddress": {
+    "status": {
+      "code": "PERFECT",
+      "description": "A match was found for this address"
+    },
+    "addressId": "70325ESNDST  0050         0000        ",
+    "addressQualityLevel": "1",
+    "geocodedNationalAddressFileData": {
+      "gnafAddressDetailPID": "GAVIC421375789",
+      "gnafLocalityPID": "locc7baa224b862",
+      "gnafMbCode": "20085450000",
+      "absStatisticalAreas": {
+        "gnafSa1": "21301132804",
+        "gnafSa2": "213011328",
+        "gnafSa3": "21301",
+        "gnafSa4": "213"
+      },
+      "gnafStreetLocalityLatitude": "-37.77436726",
+      "gnafStreetLocalityLongitude": "144.79694197",
+      "gnafStreetLocalityPID": "VIC1967871",
+      "gnafSuburbLatitude": "-37.77621429",
+      "gnafSuburbLongitude": "144.80152382",
+      "gnafSrid": 4283
+    },
+    "pointLevelCoordinates": {
+      "longLatLatitude": "-37.772413",
+      "longLatLongitude": "144.797495"
+    },
+    "addressInFreeForm": {
+      "addressLine1": "80 Esmond St"
+    },
+    "addressInBrokenDownForm": {
+      "streetNumber": "78",
+      "streetName": "ESMOND",
+      "streetType": "ST",
+      "streetNumber1": "78"
+    },
+    "postcode": "3022",
+    "suburb": "ARDEER",
+    "state": "VIC",
+    "country": "AUSTRALIA"
+  },
+  "suggestedAddresses": {
+    "addresses": [],
+    "status": {
+      "code": "NOTFOUND",
+      "description": "No address suggestions were found"
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "2-0-0",
+  "version": 1,
+  "transaction": {
+    "journeyId": 18093241,
+    "accountId": 19786345,
+    "vertical": "CAR",
+    "phase": "INITIAL",
+    "brandCode": "CTM",
+    "created": "2024-06-13T10:47:56.43Z",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "ipAddress": "2406:3400:31c:eb40:ccab:2caa:856a:ad01"
+  },
+  "form": {},
+  "control": {
+    "transactionChecksum": "eyJhbGciOiJIUzUxMiJ9.eyJzZXNzaW9uSWQiOm51bGwsInVzZXJJZCI6bnVsbCwidHJhbnNhY3Rpb24iOiIxODA5MzI0MTE5Nzg2MzQ1Q1RNQ0FSMjAyNC0wNi0xM1QxMDo0Nzo1Ni40M1pbVVRDXSJ9.IEJrtGYXCk5X3boJx3f2Klrz6zsd4aNpJPhlH3Tdcwm9C3-r_LdO_xUcRCrf31ZSLLerh_pWieQ5YVi9FuCbLw",
+    "formChecksum": "eyJhbGciOiJIUzUxMiJ9.eyJmb3JtIjoiMzE4NjA3MzcifQ.jK8pUTrRfgPfRoxiHlsO223BmN2NzZG1y0BdPZuWguehD0eS1K9FtILiJPWdHupu1chUqRylCVbLvAqH9WKQZw"
+  },
+  "journeyMarketings": [
+    {
+      "id": 21264905,
+      "created": "2024-06-13T10:47:56.436Z"
+    }
+  ],
+  "clientMetadata": {
+    "client": {
+      "clientDeviceCategory": "DESKTOP",
+      "clientDeviceOS": "macOS",
+      "clientDeviceOSVersion": "",
+      "clientBrowser": "Chromium",
+      "clientBrowserVersion": "124",
+      "anonymousId": "da96b81a-980a-48da-91d0-7b486457ec1f",
+      "userId": ""
+    },
+    "clientSessionScope": {
+      "sessionId": "aba3e397-fbef-41c4-bcc3-55b880d7fb77",
+      "referrer": "www.google.com",
+      "mktCloud_subscriberId": "",
+      "reportingChannel": "Direct"
+    }
+  },
+  "journeyOrigin": "ONLINE_JOURNEY",
+  "prefill": {
+    "lastViewedPage": "/car-insurance/journey/start",
+    "eligiblePage": false,
+    "attempt": 0
+  }
+}

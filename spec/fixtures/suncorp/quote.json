@@ -1,0 +1,136 @@
+{
+  "quoteDetails": {
+    "id": "R1BSUVVPVEVYWFgxNVFURTY2MTUzNjY1OA==",
+    "quoteNumber": "QTE615366586",
+    "quoteId": null,
+    "acceptDutyOfDisclosure": true,
+    "policyStartDate": "2024-07-07",
+    "policyExpiryDate": "2025-07-07",
+    "paymentFrequency": "Annual",
+    "campaignCode": null,
+    "promoAppliedCode": "ONLINE",
+    "currentInsurer": "AAMI",
+    "sumInsured": {
+      "sumInsuredType": "Agreed Value",
+      "agreedValue": 4600,
+      "marketValue": 4600
+    },
+    "premium": {
+      "originalPremium": null,
+      "originalMonthlyPremium": null,
+      "annualPremium": 1143.85,
+      "monthlyPremium": 115.21,
+      "fortnightlyPremium": null,
+      "offlineAnnualPremium": null,
+      "offlineMonthlyPremium": null,
+      "offlineFortnightlyPremium": null,
+      "comprehensiveDiscount": null,
+      "thirdPartyDiscount": null,
+      "fortnightlyDiscount": null,
+      "annualBasePremium": 945.33,
+      "annualStampDuty": 103.99,
+      "annualFSL": 0.0,
+      "annualGST": 94.53,
+      "annualisedMonthlyBasePremium": null,
+      "annualisedMonthlyStampDuty": null,
+      "annualisedMonthlyFSL": null,
+      "annualisedMonthlyGST": null,
+      "annualisedMonthlyPremium": null,
+      "annualisedFortnightlyBasePremium": null,
+      "annualisedFortnightlyStampDuty": null,
+      "annualisedFortnightlyFSL": null,
+      "annualisedFortnightlyGST": null,
+      "annualisedFortnightlyPremium": null
+    }
+  },
+  "driverDetails": {
+    "additionalDrivers": [],
+    "mainDriver": {
+      "id": "R1BSRFJJVkVSWFgxNVFURTY2MTUzNjY1ODAwMDEwMDAx",
+      "hasClaimOccurrences": false,
+      "gender": "Male",
+      "firstName": null,
+      "title": null,
+      "surname": null,
+      "dateOfBirth": "1997-10-01",
+      "claimOccurrences": [],
+      "policyHolder": null
+    }
+  },
+  "coverDetails": {
+    "id": "R1BSQ09WRVJNT1QxNVFURTY2MTUzNjY1ODAwMDE=",
+    "coverType": "Car Comprehensive",
+    "subCoverType": null,
+    "standardExcess": 750,
+    "hasWindscreenExcessWaiver": false,
+    "hasFireAndTheft": false,
+    "hasHireCar": false,
+    "voluntaryExcess": 0,
+    "hasRoadAssist": false
+  },
+  "riskAddress": {
+    "structuredStreetAddress": {
+      "building": null,
+      "levelCode": null,
+      "streetName": "ESMOND ST",
+      "unitCode": null,
+      "levelNumber": null,
+      "unitNumber": null,
+      "streetNumber2": null,
+      "streetNumber1": "76",
+      "streetTypeCode": null,
+      "streetTypeSuffixCode": null
+    },
+    "lurnScale": "1",
+    "lurn": "70325ESNDST  004C         0000",
+    "geocodedNationalAddressFileData": {
+      "gnafAddressDetailPID": "GAVIC421742155",
+      "gnafLocalityPID": "locc7baa224b862",
+      "gnafMbCode": "20085450000",
+      "absStatisticalAreas": {
+        "gnafSa1": "21301132804",
+        "gnafSa2": "213011328",
+        "gnafSa3": "21301",
+        "gnafSa4": "213"
+      },
+      "gnafStreetLocalityLatitude": "-37.77436726",
+      "gnafStreetLocalityLongitude": "144.79694197",
+      "gnafStreetLocalityPID": "VIC1967871",
+      "gnafSuburbLatitude": "-37.77621429",
+      "gnafSuburbLongitude": "144.80152382"
+    },
+    "pointLevelCoordinates": {
+      "longLatLatitude": "-37.772547",
+      "longLatLongitude": "144.797468"
+    },
+    "hopewiserVersion": "V3 AUS GNAF",
+    "spatialReferenceId": 4283,
+    "postcode": "3022",
+    "suburb": "ARDEER",
+    "state": "VIC"
+  },
+  "vehicleDetails": {
+    "nvic": "J8A09C",
+    "highPerformance": null,
+    "hasDamage": null,
+    "usage": null,
+    "regoNumber": "ZZB619",
+    "kmPerYear": null,
+    "financed": null,
+    "financeProvider": null,
+    "vehicleInfo": {
+      "year": null,
+      "make": "VOLKSWAGEN",
+      "family": "GOLF",
+      "variant": null
+    },
+    "daytimeParking": {
+      "indicator": "Same suburb",
+      "suburb": null,
+      "postcode": null
+    },
+    "daysWfh": "I don't work or study",
+    "peakHourDriving": false,
+    "personalisedClaimsQSPMessage": "In 2022 AAMI paid out over $9 million worth of claims to our Volkswagen Golf owners."
+  }
+}

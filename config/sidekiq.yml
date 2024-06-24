@@ -5,6 +5,7 @@ pidfile: tmp/pids/sidekiq_development.pid
 :queues:
   - critical
   - default
+  - gush
   - low
 :scheduler:
   :schedule:

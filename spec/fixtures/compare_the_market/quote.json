@@ -1,0 +1,2832 @@
+{
+  "schemaVersion": "2-0-0",
+  "version": 3,
+  "transaction": {
+    "journeyId": 18107126,
+    "accountId": 19796917,
+    "vertical": "CAR",
+    "phase": "RESULT",
+    "brandCode": "CTM",
+    "created": "2024-06-14T09:04:00.223Z",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome",
+    "ipAddress": "2406:3400:31c:eb40:4578:ca02:905a:3170"
+  },
+  "form": {
+    "coverDetail": {
+      "coverType": "COMPREHENSIVE",
+      "financeType": "NONE",
+      "annualKilometres": 4000,
+      "useType": "PRIVATE_AND_COMMUTING_TO_WORK",
+      "requestedExcess": 600,
+      "ownsAnotherCar": false,
+      "ownsHome": false,
+      "commencementDate": "2024-07-01",
+      "hasYoungerDriver": false,
+      "driver": {
+        "firstName": "John",
+        "lastName": "Doe",
+        "dob": "1990-09-01",
+        "gender": "MALE",
+        "licenceAge": 25,
+        "employmentStatus": "EMPLOYED_FULL_TIME",
+        "noClaimRating": "RATING_3",
+        "anyPreviousClaims": "NO"
+      },
+      "driverOption": "DRIVERS_21_AND_OVER",
+      "overnightParking": {
+        "address": {
+          "streetNumber": "78",
+          "streetName": "ESMOND ST",
+          "state": "VIC",
+          "suburb": "ARDEER",
+          "postcode": "3022",
+          "gnafId": "GAVIC421375789"
+        },
+        "parkingType": "GARAGED"
+      },
+      "vehicle": {
+        "colour": "SILVER",
+        "rego": "ZZB619",
+        "redbookCode": "VOLK09LQ",
+        "redbookCodeLong": "AUVVOLK2009AELQ",
+        "body": "5HBK",
+        "make": "VOLK",
+        "model": "GOLF",
+        "description": "118TSI VI comfortline | 1.4 Turbo | 7 Speed Sports Automatic Dual Clutch | 118kW | Front Wheel Drive | February Release",
+        "state": "VIC",
+        "fuel": "PETROL",
+        "year": "2009",
+        "transmission": "NOT_MANUAL",
+        "badge": "118T COMF",
+        "glassCode": "VWNGLF8T1614J8A2009C",
+        "nviCode": "J8A09C",
+        "marketValue": 7700,
+        "modified": false,
+        "alarmFitted": false,
+        "immobiliserFitted": true,
+        "hasOtherAccessories": "NO"
+      },
+      "currentlyInsured": true,
+      "previousInsurer": "AAMI"
+    },
+    "applicant": {
+      "firstName": "John",
+      "lastName": "Doe",
+      "mobile": "0412345678",
+      "email": "test@gmail.com",
+      "optInEmail": true,
+      "optInPhone": true,
+      "optInSms": true,
+      "optInPrivacy": true
+    },
+    "leadCapture": {
+      "health": false
+    }
+  },
+  "control": {
+    "transactionChecksum": "eyJhbGciOiJIUzUxMiJ9.eyJzZXNzaW9uSWQiOm51bGwsInVzZXJJZCI6bnVsbCwidHJhbnNhY3Rpb24iOiIxODEwNzEyNjE5Nzk2OTE3Q1RNQ0FSMjAyNC0wNi0xNFQwOTowNDowMC4yMjNaW1VUQ10ifQ.28xT28ungJv8cdR52tEos8w1bdOIQug96gfc4hwA0_e4Nv2Pj5O--ZjKdRuUEi6azVWVR8an27-3_nxAa9Pkxw",
+    "formChecksum": "eyJhbGciOiJIUzUxMiJ9.eyJmb3JtIjoiLTEwNjc2OTc2MDQifQ.gkHkxezQ2HhZKHcnd7Yz3ag4DuGqgXUQYGl-Cf3UfoWo2gGAmc5sSJRdeHDZRjd8GMwaUTt8pXq1IyZFWojXtQ"
+  },
+  "quote": {
+    "payload": {
+      "resultsMeta": {
+        "totalCount": 18,
+        "availableCount": 10,
+        "quoteId": 14020595,
+        "createTime": "2024-06-14T09:04:06.361Z",
+        "omittedProviders": []
+      },
+      "results": [
+        {
+          "descriptor": "SINGLE CAR QUOTE",
+          "quotes": [
+            {
+              "providerMeta": {
+                "name": "Budget Direct",
+                "code": "BUDD",
+                "blurb": "Budget Direct has helped over 3 million Aussies since its inception in 2000. Winning various awards including Money magazine’s Best Value Car Insurance award multiple times, it offers customers low cost, value focused insurance. Customers can access 24/7 claim service, restriction options \u0026 free access to its hail tracking and warning system.",
+                "quoteNumber": "X4FEG9536"
+              },
+              "productMeta": {
+                "id": "BUDD-05-15",
+                "name": "Gold Low Kilometres Comprehensive",
+                "available": true,
+                "availableOnline": true,
+                "contact": {
+                  "isCallBackAllowed": true,
+                  "isCallDirectAllowed": true,
+                  "phoneNumber": "1800041124",
+                  "callCentreHours": "Mon - Fri 8:00am - 10:30pm AEST, Sat 8:00am - 5:00pm AEST"
+                },
+                "price": {
+                  "annualPremium": 1249.97,
+                  "monthlyPremium": 119.85,
+                  "monthlyFirstMonth": 119.97,
+                  "annualisedMonthlyPremium": 1438.32,
+                  "annualAvailable": true,
+                  "monthlyAvailable": true
+                },
+                "discount": {
+                  "discountOffer": "Includes 15% off your first year’s premium for a new Car Insurance policy purchased online.",
+                  "discountOfferTerms": "\u003cp\u003e\u003cstrong\u003eOnline Discount Terms \u0026 Conditions\u003c/strong\u003e\u003c/p\u003e\u003cp\u003e1. Discounts apply to the first year’s premium paid for a new Budget Direct Gold Comprehensive Car Insurance, Gold Comprehensive Car Insurance - Low Kilometres, Third Party Property Only or Third Party Property, Fire \u0026 Theft Insurance policy initiated online on or after 29 March 2017. Discounts do not apply to optional Roadside Assistance.\u003c/p\u003e\u003cp\u003e2. The new policy discount amount is 15% on Gold Comprehensive Car Insurance, Gold Comprehensive Car Insurance - Low Kilometres, Third Party Property Only and Third Party Property, Fire \u0026 Theft.\u003c/p\u003e\u003cp\u003e3. Discounts do not apply to any renewal offer of insurance.\u003c/p\u003e\u003cp\u003e4. Discounts only apply to the insurance portion of the premium. Discounts are applied before government charges, taxes, levies and fees, including instalment processing fees (as applicable). The full extent of discounts may, therefore, be impacted.\u003c/p\u003e\u003cp\u003e5. Budget Direct reserves the right to change the offer without notice.\u003c/p\u003e"
+                },
+                "productDisclosures": [
+                  {
+                    "code": "pdsa",
+                    "title": "Product Disclosure Statement",
+                    "url": "https://www.autogeneral.com.au/apps/find-pds/budd/car?singleProduct=true\u0026current=true"
+                  }
+                ],
+                "glassExcess": "700",
+                "additionalExcesses": [
+                  {
+                    "description": "Drivers between the age of 21 and 24.",
+                    "amount": "500"
+                  },
+                  {
+                    "description": "Drivers who have not held a full or open Australian licence for 2 or more years.",
+                    "amount": "500"
+                  },
+                  {
+                    "description": "Unlisted Drivers.",
+                    "amount": "600"
+                  },
+                  {
+                    "description": "Yearly Kilometre Limit Exceeded / Odometer Reading Not Provided (Applies, in case of a claim, if you failed to provide your odometer reading within 21 days of purchase/renewal, or you have exceeded the maximum annual km limit, or the odometer reading at the time of claim is less than the one listed on your Insurance Certificate)",
+                    "amount": "1000"
+                  }
+                ],
+                "features": [
+                  {
+                    "code": "hireCarNFC",
+                    "name": "Hire car following a not at-fault claim",
+                    "value": "Until the car is repaired or the claim is paid, whichever comes first"
+                  },
+                  {
+                    "code": "lifeGntRep",
+                    "name": "Lifetime guarantee on authorised repairs",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "personalEf",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "agreeVal",
+                    "name": "Agreed Value",
+                    "value": "O"
+                  },
+                  {
+                    "code": "childSeatC",
+                    "name": "Child seat/baby capsule",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "chRep",
+                    "name": "Choice of repairer",
+                    "value": "O"
+                  },
+                  {
+                    "code": "emrTranAc",
+                    "name": "Emergency transport and accommodation",
+                    "value": "$200 per day, up to $1000"
+                  },
+                  {
+                    "code": "dmgFire",
+                    "name": "Damage caused by fire",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "insPayOp",
+                    "name": "Instalment payment options",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "disclaimer",
+                    "value": "The indicative quote is subject to meeting the insurer's underwriting criteria. Please see below for further details."
+                  },
+                  {
+                    "code": "cvrTyp",
+                    "name": "Cover Type",
+                    "value": "Comprehensive"
+                  },
+                  {
+                    "code": "lockKeyRep",
+                    "name": "Lock and key replacement",
+                    "value": "$1,000"
+                  },
+                  {
+                    "code": "lifRep",
+                    "name": "Lifetime repair guarantee",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "hireCarAFC",
+                    "name": "Hire car following an at-fault claim",
+                    "value": "O"
+                  },
+                  {
+                    "code": "stoCost",
+                    "name": "Storage costs",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "excWindRep",
+                    "name": "Excess-free windscreen replacement",
+                    "value": "N"
+                  },
+                  {
+                    "code": "redWinGla",
+                    "name": "Reduced window glass excess",
+                    "value": "O"
+                  },
+                  {
+                    "code": "roadAsst",
+                    "name": "Roadside assistance",
+                    "value": "O"
+                  },
+                  {
+                    "code": "liability",
+                    "name": "Legal Liability",
+                    "value": "$20M"
+                  },
+                  {
+                    "code": "newCarRep",
+                    "name": "New car replacement",
+                    "value": "2 Years or 40,000km, whichever comes first"
+                  },
+                  {
+                    "code": "towCost",
+                    "name": "Towing costs",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "dmgMalAct",
+                    "name": "Damage caused by malicious acts",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "kangaC",
+                    "name": "Kanga cover",
+                    "value": "N"
+                  },
+                  {
+                    "code": "dmgVehAcc",
+                    "name": "Damage to the insured vehicle caused by an accident",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "dmgTheft",
+                    "name": "Damage caused by theft",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "trailerCar",
+                    "name": "Trailer and caravan",
+                    "value": "$1,000"
+                  },
+                  {
+                    "code": "kmLimit",
+                    "name": "KM Limit",
+                    "value": "Low KM"
+                  },
+                  {
+                    "code": "perEffect",
+                    "name": "Personal effects",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "dmgSHF",
+                    "name": "Damage caused by storm, hail or flood",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "emrRep",
+                    "name": "Emergency repairs",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "marVal",
+                    "name": "Market Value",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "hireCarTH",
+                    "name": "Hire car after theft",
+                    "value": "$1,000 or 14 days, whichever comes first"
+                  },
+                  {
+                    "code": "sportGC",
+                    "name": "Sports gear cover",
+                    "value": "N"
+                  },
+                  {
+                    "code": "product",
+                    "name": "Product",
+                    "value": "Gold Car Insurance - Low Kilometres"
+                  }
+                ],
+                "underwriter": {
+                  "afsl": "285571",
+                  "name": "Auto \u0026 General Insurance Company Limited",
+                  "acn": "111 586 353"
+                },
+                "vehicleSettlement": {
+                  "agreedValue": "MAYBE",
+                  "agreedValueDescription": "MAY BE AVAILABLE (CONDITIONS APPLY)",
+                  "marketValue": "YES_DEFAULT",
+                  "marketValueDescription": "AVAILABLE (DEFAULT)"
+                },
+                "description": "\u003cb\u003eSAVE 15% ONLINE\u003c/b\u003e (see T\u0026Cs). Winner of CANSTAR award for \"Outstanding Value Car Insurance\" 2007-2016.",
+                "inclusions": "\u003cul\u003e\u003cli\u003e24 months or 40,000km (whichever comes first) new car replacement, see PDS for full details\u003c/li\u003e\u003cli\u003eNo excess to pay when third party is identified and at fault\u003c/li\u003e\u003cli\u003eNo Claim Discount preserved when third party is identified and at fault\u003c/li\u003e\u003cli\u003ePersonal Effects cover in the event of a collision, theft or forced entry (up to $500)\u003c/li\u003e\u003cli\u003eKey \u0026amp; remote replacement cover for theft (up to $1,000)\u003c/li\u003e\u003cli\u003eChild seat or capsule cover in the event of a collision, theft or forced entry (up to $500)\u003c/li\u003e\u003cli\u003eHire car that meets your needs following a no fault accident or theft\u003c/li\u003e\u003cli\u003eDamage to trailer and caravan if attached to your car (belonging to you) (up to $1,000)\u003c/li\u003e\u003cli\u003eDeath Benefit (up to $5,000)\u003c/li\u003e\u003cli\u003eEmergency Transport \u0026amp; Accommodation cover ($200 per day, up to $1,000 in total)\u003c/li\u003e\u003c/ul\u003e",
+                "productSuitability": "https://www.autogeneral.com.au/apps/find-pds/budd/car?singleProduct=true\u0026current=true",
+                "optionalExtras": "\u003cul\u003e\u003cli\u003eReduced Window Glass excess\u003c/li\u003e\u003cli\u003eAccident Hire Car Cover\u003c/li\u003e\u003cli\u003eRestricted Driver discounts\u003c/li\u003e\u003cli\u003eVariable Excess to reduce premium\u003c/li\u003e\u003cli\u003eYour choice of Agreed (Conditions apply) or Market value for your car\u003c/li\u003e\u003cli\u003eChoice of Repairer\u003c/li\u003e\u003c/ul\u003e",
+                "benefits": "\u003cul\u003e\u003cli\u003eAll authorised repairs guaranteed for as long as you own the car\u003c/li\u003e\u003cli\u003eNo paper forms to fill in ever\u003c/li\u003e\u003cli\u003eOver the phone claims\u003c/li\u003e\u003cli\u003eOption to pay fortnightly, monthly or annually\u003c/li\u003e\u003c/ul\u003e",
+                "disclaimer": "The indicative quote includes any applicable online discount and is subject to meeting the insurer's underwriting criteria and may change due to factors such as:\u003cbr\u003e- Driver's history or offences or claims\u003cbr\u003e- Age or licence type of additional drivers\u003cbr\u003e- Vehicle condition, accessories and modifications\u003cbr\u003e- Residential status\u003cbr\u003e",
+                "specialConditions": "\u003cul\u003e\u003cli\u003e5,000 km per year limit; odometer reading required within 21 days of purchase\u003c/li\u003e\u003cli\u003eDrivers must be at least 21 years old\u003c/li\u003e\u003c/ul\u003e",
+                "providerId": "X4FEG9536",
+                "excess": 700,
+                "validUntil": "2024-07-13",
+                "handoverUrl": "https://secure.budgetdirect.com.au/car/3/?token=QL2JDZ5IQPMU54PY27U7FVWT47SMTEMJS33IQTVGUTR4LJ6GYPBIRF7HYSEMTZKOU2SOHRNHY3BZFE7I4PCJH5UIJ34NPZOYS7I6NRPR6WKMLBVFZDY6JUOWY2ENLZXGQ2SIN4FHULT4QTUG46U7TE6E4OE6TZXCVDUNSTXYQ3EKT6NFY3MKN5EF46TPJYWGQ2J4JREI5HT4JCGJ4VHOJUXGYWJ6P55J7HLYNJ7EZHD4LCGU42KZNFPXU3SNDBMRSOBZJRMGULLZD4OXYSTPRV6EU34NPVOYS2LZJRFI5DMU56GXYSTPRV6EU34NPRFG7DMH47Q-\u0026ledNo=X4FEG9536\u0026clientNumber=X4FEG9536\u0026aggregator=CTM\u0026brand=BUDD\u0026LinkId=9586"
+              }
+            },
+            {
+              "providerMeta": {
+                "name": "Budget Direct",
+                "code": "BUDD",
+                "blurb": "Budget Direct has helped over 3 million Aussies since its inception in 2000. Winning various awards including Money magazine’s Best Value Car Insurance award multiple times, it offers customers low cost, value focused insurance. Customers can access 24/7 claim service, restriction options \u0026 free access to its hail tracking and warning system.",
+                "quoteNumber": "X4FEG9526"
+              },
+              "productMeta": {
+                "id": "BUDD-05-04",
+                "name": "Gold Comprehensive",
+                "available": true,
+                "availableOnline": true,
+                "contact": {
+                  "isCallBackAllowed": true,
+                  "isCallDirectAllowed": true,
+                  "phoneNumber": "1800041124",
+                  "callCentreHours": "Mon - Fri 8:00am - 10:30pm AEST, Sat 8:00am - 5:00pm AEST"
+                },
+                "price": {
+                  "annualPremium": 1371.99,
+                  "monthlyPremium": 131.49,
+                  "monthlyFirstMonth": 131.52,
+                  "annualisedMonthlyPremium": 1577.91,
+                  "annualAvailable": true,
+                  "monthlyAvailable": true
+                },
+                "discount": {
+                  "discountOffer": "Includes 15% off your first year’s premium for a new Car Insurance policy purchased online.",
+                  "discountOfferTerms": "\u003cp\u003e\u003cstrong\u003eOnline Discount Terms \u0026 Conditions\u003c/strong\u003e\u003c/p\u003e\u003cp\u003e1. Discounts apply to the first year’s premium paid for a new Budget Direct Gold Comprehensive Car Insurance, Gold Comprehensive Car Insurance - Low Kilometres, Third Party Property Only or Third Party Property, Fire \u0026 Theft Insurance policy initiated online on or after 29 March 2017. Discounts do not apply to optional Roadside Assistance.\u003c/p\u003e\u003cp\u003e2. The new policy discount amount is 15% on Gold Comprehensive Car Insurance, Gold Comprehensive Car Insurance - Low Kilometres, Third Party Property Only and Third Party Property, Fire \u0026 Theft.\u003c/p\u003e\u003cp\u003e3. Discounts do not apply to any renewal offer of insurance.\u003c/p\u003e\u003cp\u003e4. Discounts only apply to the insurance portion of the premium. Discounts are applied before government charges, taxes, levies and fees, including instalment processing fees (as applicable). The full extent of discounts may, therefore, be impacted.\u003c/p\u003e\u003cp\u003e5. Budget Direct reserves the right to change the offer without notice.\u003c/p\u003e"
+                },
+                "productDisclosures": [
+                  {
+                    "code": "pdsa",
+                    "title": "Product Disclosure Statement",
+                    "url": "https://www.autogeneral.com.au/apps/find-pds/budd/car?singleProduct=true\u0026current=true"
+                  }
+                ],
+                "glassExcess": "700",
+                "additionalExcesses": [
+                  {
+                    "description": "Drivers between the age of 21 and 24.",
+                    "amount": "500"
+                  },
+                  {
+                    "description": "Drivers who have not held a full or open Australian licence for 2 or more years.",
+                    "amount": "500"
+                  },
+                  {
+                    "description": "Unlisted Drivers.",
+                    "amount": "600"
+                  }
+                ],
+                "features": [
+                  {
+                    "code": "lifeGntRep",
+                    "name": "Lifetime guarantee on authorised repairs",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "hireCarNFC",
+                    "name": "Hire car following a not at-fault claim",
+                    "value": "Until the car is repaired or the claim is paid, whichever comes first"
+                  },
+                  {
+                    "code": "personalEf",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "agreeVal",
+                    "name": "Agreed Value",
+                    "value": "O"
+                  },
+                  {
+                    "code": "childSeatC",
+                    "name": "Child seat/baby capsule",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "chRep",
+                    "name": "Choice of repairer",
+                    "value": "O"
+                  },
+                  {
+                    "code": "emrTranAc",
+                    "name": "Emergency transport and accommodation",
+                    "value": "$200 per day, up to $1000"
+                  },
+                  {
+                    "code": "dmgFire",
+                    "name": "Damage caused by fire",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "insPayOp",
+                    "name": "Instalment payment options",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "disclaimer",
+                    "value": "The indicative quote is subject to meeting the insurer's underwriting criteria. Please see below for further details."
+                  },
+                  {
+                    "code": "cvrTyp",
+                    "name": "Cover Type",
+                    "value": "Comprehensive"
+                  },
+                  {
+                    "code": "lockKeyRep",
+                    "name": "Lock and key replacement",
+                    "value": "$1,000"
+                  },
+                  {
+                    "code": "lifRep",
+                    "name": "Lifetime repair guarantee",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "hireCarAFC",
+                    "name": "Hire car following an at-fault claim",
+                    "value": "O"
+                  },
+                  {
+                    "code": "stoCost",
+                    "name": "Storage costs",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "excWindRep",
+                    "name": "Excess-free windscreen replacement",
+                    "value": "N"
+                  },
+                  {
+                    "code": "roadAsst",
+                    "name": "Roadside assistance",
+                    "value": "O"
+                  },
+                  {
+                    "code": "redWinGla",
+                    "name": "Reduced window glass excess",
+                    "value": "O"
+                  },
+                  {
+                    "code": "liability",
+                    "name": "Legal Liability",
+                    "value": "$20M"
+                  },
+                  {
+                    "code": "newCarRep",
+                    "name": "New car replacement",
+                    "value": "2 Years or 40,000km, whichever comes first"
+                  },
+                  {
+                    "code": "kmLimit",
+                    "name": "KM Limit",
+                    "value": "Unlimited"
+                  },
+                  {
+                    "code": "towCost",
+                    "name": "Towing costs",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "kangaC",
+                    "name": "Kanga cover",
+                    "value": "N"
+                  },
+                  {
+                    "code": "dmgMalAct",
+                    "name": "Damage caused by malicious acts",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "dmgVehAcc",
+                    "name": "Damage to the insured vehicle caused by an accident",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "dmgTheft",
+                    "name": "Damage caused by theft",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "trailerCar",
+                    "name": "Trailer and caravan",
+                    "value": "$1,000"
+                  },
+                  {
+                    "code": "perEffect",
+                    "name": "Personal effects",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "dmgSHF",
+                    "name": "Damage caused by storm, hail or flood",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "emrRep",
+                    "name": "Emergency repairs",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "marVal",
+                    "name": "Market Value",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "hireCarTH",
+                    "name": "Hire car after theft",
+                    "value": "$1,000 or 14 days, whichever comes first"
+                  },
+                  {
+                    "code": "sportGC",
+                    "name": "Sports gear cover",
+                    "value": "N"
+                  },
+                  {
+                    "code": "product",
+                    "name": "Product",
+                    "value": "Gold"
+                  }
+                ],
+                "underwriter": {
+                  "afsl": "285571",
+                  "name": "Auto \u0026 General Insurance Company Limited",
+                  "acn": "111 586 353"
+                },
+                "vehicleSettlement": {
+                  "agreedValue": "MAYBE",
+                  "agreedValueDescription": "MAY BE AVAILABLE (CONDITIONS APPLY)",
+                  "marketValue": "YES_DEFAULT",
+                  "marketValueDescription": "AVAILABLE (DEFAULT)"
+                },
+                "description": "\u003cb\u003eSAVE 15% ONLINE\u003c/b\u003e (see T\u0026Cs). Winner of CANSTAR award for \"Outstanding Value Car Insurance\" 2007-2016.",
+                "inclusions": "\u003cul\u003e\u003cli\u003e24 months or 40,000km (whichever comes first) new car replacement, see PDS for full details\u003c/li\u003e\u003cli\u003eNo excess to pay when third party is identified and at fault\u003c/li\u003e\u003cli\u003eNo Claim Discount preserved when third party is identified and at fault\u003c/li\u003e\u003cli\u003ePersonal Effects cover in the event of a collision, theft or forced entry (up to $500)\u003c/li\u003e\u003cli\u003eKey \u0026amp; remote replacement cover for theft (up to $1,000)\u003c/li\u003e\u003cli\u003eChild seat or capsule cover in the event of a collision, theft or forced entry (up to $500)\u003c/li\u003e\u003cli\u003eHire car that meets your needs following a no fault accident or theft\u003c/li\u003e\u003cli\u003eDamage to trailer and caravan if attached to your car (belonging to you) (up to $1,000)\u003c/li\u003e\u003cli\u003eDeath Benefit (up to $5,000)\u003c/li\u003e\u003cli\u003eEmergency Transport \u0026amp; Accommodation cover ($200 per day, up to $1,000 in total)\u003c/li\u003e\u003c/ul\u003e",
+                "productSuitability": "https://www.autogeneral.com.au/apps/find-pds/budd/car?singleProduct=true\u0026current=true",
+                "optionalExtras": "\u003cul\u003e\u003cli\u003eReduced Window Glass excess\u003c/li\u003e\u003cli\u003eAccident Hire Car Cover\u003c/li\u003e\u003cli\u003eRestricted Driver discounts\u003c/li\u003e\u003cli\u003eVariable Excess to reduce premium\u003c/li\u003e\u003cli\u003eYour choice of Agreed (Conditions apply) or Market value for your car\u003c/li\u003e\u003cli\u003eChoice of Repairer\u003c/li\u003e\u003c/ul\u003e",
+                "benefits": "\u003cul\u003e\u003cli\u003eAll authorised repairs guaranteed for as long as you own the car\u003c/li\u003e\u003cli\u003eNo paper forms to fill in ever\u003c/li\u003e\u003cli\u003eOver the phone claims\u003c/li\u003e\u003cli\u003eOption to pay fortnightly, monthly or annually\u003c/li\u003e\u003c/ul\u003e",
+                "disclaimer": "The indicative quote includes any applicable online discount and is subject to meeting the insurer's underwriting criteria and may change due to factors such as:\u003cbr\u003e- Driver's history or offences or claims\u003cbr\u003e- Age or licence type of additional drivers\u003cbr\u003e- Vehicle condition, accessories and modifications\u003cbr\u003e- Residential status\u003cbr\u003e",
+                "specialConditions": "\u003cul\u003e\u003cli\u003eDrivers must be at least 21 years old\u003c/li\u003e\u003c/ul\u003e",
+                "providerId": "X4FEG9526",
+                "excess": 700,
+                "validUntil": "2024-07-13",
+                "handoverUrl": "https://secure.budgetdirect.com.au/car/3/?token=QL2JDZ5IQPMU54PY27U7FVWT47SMTEMJS33IQTVGUTR4LJ6GYPBIRF7HYSEMTZKOU2SOHRNHY3BZFE7I4PCJH5UIJ34NPZOYS7I6NRPR6WKMLBVFYTYOJUOWY2ENLZXGQ2SIN4FHULT4QTUG46UPTE6E4OE6TZXCVDUNSTSOQ3T7J6MTYTCIR5MGYSEMTZKO4TKNNRUTQPLMLCHH6XMJP2HC4WDKLV7Q7FQ4NWEH5DRMLJ4BQWEYNJOC3CJ7NVXFVDUNSTVGJ3L6J6GXYSTPRV6EU34PDQ4JSTUNPUMIZD32N6GXYSTPRV6EU34NPRFH\u0026ledNo=X4FEG9526\u0026clientNumber=X4FEG9526\u0026aggregator=CTM\u0026brand=BUDD\u0026LinkId=9586"
+              }
+            },
+            {
+              "providerMeta": {
+                "name": "Virgin Money",
+                "code": "VIRG",
+                "blurb": "Virgin Money launched in 2003 as part of the global Virgin brand . They have won the Mozo experts choice award for exceptional value several times offering their customers competitively priced products. Customers can access: 24/7 claims, flexible cover options SMS hail alerts and a no fault, no excess policy.",
+                "quoteNumber": "X4FEG9531"
+              },
+              "productMeta": {
+                "id": "VIRG-05-17",
+                "name": "Virgin Comprehensive Car Insurance Price Saver",
+                "available": true,
+                "availableOnline": true,
+                "contact": {
+                  "isCallBackAllowed": true,
+                  "isCallDirectAllowed": true,
+                  "phoneNumber": "1800010414",
+                  "callCentreHours": "Mon - Fri 8:00am - 10:30pm AEST, Sat 8:00am - 5:00pm AEST"
+                },
+                "price": {
+                  "annualPremium": 1399.43,
+                  "monthlyPremium": 133.92,
+                  "monthlyFirstMonth": 133.97,
+                  "annualisedMonthlyPremium": 1607.09,
+                  "annualAvailable": true,
+                  "monthlyAvailable": true
+                },
+                "discount": {
+                  "discountOffer": "Price includes a 15% discount on your first year’s premium when buying online.",
+                  "discountOfferTerms": "\u003cp\u003e\u003cstrong\u003eImportant information\u003c/strong\u003e\u003c/p\u003e\u003cp\u003eLimits, Terms, Conditions \u0026 Exclusions apply. See the Product Disclosure Statement for full details.\u003c/p\u003e\u003cp\u003ePrice discount displayed available for 1\u003csup\u003est\u003c/sup\u003e year’s premium on new policies only.\u003c/p\u003e\u003cp\u003e\u003cstrong\u003eOnline Discount\u003c/strong\u003e\u003c/p\u003e\u003cp\u003eThe discount applies to the first year’s premium paid for a new Virgin Car Insurance policy initiated online on or after 30 March 2017. The discount applies to Comprehensive, Third Party Property Only and Third Party Property, Fire and Theft Car policies. Base rate premiums subject to change. The discount does not apply to any renewal offer of insurance. Discount applies only to the insurance portion of the premium before any fees, charges or levies that may apply. This may impact the full extent of the discount.\u003c/p\u003e\u003cp\u003eVirgin Car Insurance and Home \u0026 Contents Insurance Promoted by Virgin Money (Australia) Pty Limited ABN 75 103 478 897 (Virgin Money) Authorised Representative No. 280884 of Virgin Money Financial Services Pty Ltd AFSL 286869. Auto \u0026 General Services Pty Ltd (ABN 61 003 617 909; AFSL 241411) (\"AGS\") arranges the insurance on behalf of the product Issuer, Auto \u0026 General Insurance Company Limited (ABN 42 111 586 353; AFSL 285571) (\"AGIC\"). AGS and AGIC together are referred to as \"Auto \u0026 General\".\u003c/p\u003e\u003cp\u003eThis information is of a general nature only and does not take into account your personal financial situation, needs or objectives. As Virgin Money and Auto \u0026 General don`t know your financial needs they can`t advise if the products will suit you. Please consider the relevant Product Disclosure Statement, Target Market Determination and Financial Services Guide available at virginmoney.com.au before making a decision about the Product. Virgin Money and Auto \u0026 General reserve the right to change the offer without notice.\u003c/p\u003e"
+                },
+                "productDisclosures": [
+                  {
+                    "code": "pdsa",
+                    "title": "Product Disclosure Statement",
+                    "url": "https://www.autogeneral.com.au/apps/find-pds/virg/car?singleProduct=true\u0026current=true"
+                  }
+                ],
+                "glassExcess": "700",
+                "additionalExcesses": [
+                  {
+                    "description": "Drivers between the age of 21 and 24.",
+                    "amount": "500"
+                  },
+                  {
+                    "description": "Drivers who have not held a full or open Australian licence for 2 or more years.",
+                    "amount": "500"
+                  },
+                  {
+                    "description": "Unlisted Drivers.",
+                    "amount": "600"
+                  }
+                ],
+                "features": [
+                  {
+                    "code": "lifeGntRep",
+                    "name": "Lifetime guarantee on authorised repairs",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "hireCarNFC",
+                    "name": "Hire car following a not at-fault claim",
+                    "value": "Until the car is repaired or the claim is paid, whichever comes first"
+                  },
+                  {
+                    "code": "personalEf",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "emrTranAc",
+                    "name": "Emergency transport and accommodation",
+                    "value": "$200 per day, up to $1,000"
+                  },
+                  {
+                    "code": "agreeVal",
+                    "name": "Agreed Value",
+                    "value": "O"
+                  },
+                  {
+                    "code": "childSeatC",
+                    "name": "Child seat/baby capsule",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "chRep",
+                    "name": "Choice of repairer",
+                    "value": "O"
+                  },
+                  {
+                    "code": "insPayOp",
+                    "name": "Instalment payment options",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "dmgFire",
+                    "name": "Damage caused by fire",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "disclaimer",
+                    "value": "The indicative quote is subject to meeting the insurer's underwriting criteria. Please see below for further details."
+                  },
+                  {
+                    "code": "cvrTyp",
+                    "name": "Cover Type",
+                    "value": "Comprehensive"
+                  },
+                  {
+                    "code": "lockKeyRep",
+                    "name": "Lock and key replacement",
+                    "value": "$1,000"
+                  },
+                  {
+                    "code": "lifRep",
+                    "name": "Lifetime repair guarantee",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "hireCarAFC",
+                    "name": "Hire car following an at-fault claim",
+                    "value": "O"
+                  },
+                  {
+                    "code": "stoCost",
+                    "name": "Storage costs",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "excWindRep",
+                    "name": "Excess-free windscreen replacement",
+                    "value": "N"
+                  },
+                  {
+                    "code": "roadAsst",
+                    "name": "Roadside assistance",
+                    "value": "O"
+                  },
+                  {
+                    "code": "redWinGla",
+                    "name": "Reduced window glass excess",
+                    "value": "O"
+                  },
+                  {
+                    "code": "liability",
+                    "name": "Legal Liability",
+                    "value": "$20M"
+                  },
+                  {
+                    "code": "product",
+                    "name": "Product",
+                    "value": "Price Saver"
+                  },
+                  {
+                    "code": "newCarRep",
+                    "name": "New car replacement",
+                    "value": "2 Years or 40,000km, whichever comes first"
+                  },
+                  {
+                    "code": "towCost",
+                    "name": "Towing costs",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "kmLimit",
+                    "name": "KM Limit",
+                    "value": "Unlimited"
+                  },
+                  {
+                    "code": "dmgMalAct",
+                    "name": "Damage caused by malicious acts",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "kangaC",
+                    "name": "Kanga cover",
+                    "value": "N"
+                  },
+                  {
+                    "code": "dmgVehAcc",
+                    "name": "Damage to the insured vehicle caused by an accident",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "dmgTheft",
+                    "name": "Damage caused by theft",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "trailerCar",
+                    "name": "Trailer and caravan",
+                    "value": "$1,000"
+                  },
+                  {
+                    "code": "perEffect",
+                    "name": "Personal effects",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "dmgSHF",
+                    "name": "Damage caused by storm, hail or flood",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "marVal",
+                    "name": "Market Value",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "emrRep",
+                    "name": "Emergency repairs",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "hireCarTH",
+                    "name": "Hire car after theft",
+                    "value": "$1,000 or 14 days, whichever comes first"
+                  },
+                  {
+                    "code": "sportGC",
+                    "name": "Sports gear cover",
+                    "value": "N"
+                  }
+                ],
+                "underwriter": {
+                  "afsl": "285571",
+                  "name": "Auto \u0026 General Insurance Company Limited",
+                  "acn": "111 586 353"
+                },
+                "vehicleSettlement": {
+                  "agreedValue": "MAYBE",
+                  "agreedValueDescription": "MAY BE AVAILABLE (CONDITIONS APPLY)",
+                  "marketValue": "YES_DEFAULT",
+                  "marketValueDescription": "AVAILABLE (DEFAULT)"
+                },
+                "description": "Price includes 15% online discount when you buy Comprehensive cover.",
+                "inclusions": "\u003cul\u003e\u003cli\u003eSave 15%* \u003csup\u003eSee Offer terms\u003c/sup\u003e – Buy Virgin Car Insurance Price Saver (Comprehensive cover) online and save 15% on your first year’s premium\u003c/li\u003e\u003cli\u003e24 months or 40,000km (whichever is earlier) new car replacement, see PDS for full details\u003c/li\u003e\u003cli\u003eAll authorised repairs guaranteed for as long as you own the car\u003c/li\u003e\u003cli\u003eEmergency transport and accommodation cover ($200 per day, up to $1000 in total)\u003c/li\u003e\u003cli\u003eHire car that meets your needs following a no fault accident\u003c/li\u003e\u003cli\u003eHire car that meets your needs following theft (up to 14 days, up to $1,000 in total)\u003c/li\u003e\u003cli\u003ePersonal Effects cover in the event of a collision, theft or forced entry (up to $500)\u003c/li\u003e\u003cli\u003eChild seat or capsule cover in the event of a collision, theft or forced entry (up to $500)\u003c/li\u003e\u003cli\u003eReplacement key and remote (up to $1,000)\u003c/li\u003e\u003cli\u003eDamage to your trailer and caravan if attached to your car (belonging to you, up to $1,000)\u003c/li\u003e\u003cli\u003eDeath benefit (up to $5,000)\u003c/li\u003e\u003cli\u003eNo excess to pay when third party is identified and at fault\u003c/li\u003e\u003cli\u003eNo claim discount preserved when third party is identified and at fault\u003c/li\u003e\u003cli\u003eLegal liability (up to $20 million)\u003c/li\u003e\u003cli\u003eAccident clean up (up to $500)\u003c/li\u003e\u003c/ul\u003e",
+                "productSuitability": "https://www.autogeneral.com.au/apps/find-pds/virg/car?singleProduct=true\u0026current=true",
+                "optionalExtras": "\u003cul\u003e\u003cli\u003eReduced window glass excess\u003c/li\u003e\u003cli\u003eAccident Hire Car cover\u003c/li\u003e\u003cli\u003eRestricted driver discounts\u003c/li\u003e\u003cli\u003eVariable excess to reduce premium\u003c/li\u003e\u003cli\u003eYour choice of agreed (eligibility criteria applies) or market value for your car\u003c/li\u003e\u003cli\u003eChoice of Repairer\u003c/li\u003e\u003cli\u003eRoadside Assistance\u003c/li\u003e\u003c/ul\u003e",
+                "benefits": "\u003cul\u003e\u003cli\u003eNo paper forms to fill in, ever\u003c/li\u003e\u003cli\u003eOver the phone claims\u003c/li\u003e\u003cli\u003eAfter hours claims helpline\u003c/li\u003e\u003cli\u003eOption to pay fortnightly, monthly or annually\u003c/li\u003e\u003cli\u003eSee PDS for full details\u003c/li\u003e\u003c/ul\u003e",
+                "disclaimer": "The indicative quote includes any applicable online discount and is subject to meeting the insurer's underwriting criteria and may change due to factors such as:\u003cbr\u003e- Driver's history or offences or claims\u003cbr\u003e- Age or licence type of additional drivers\u003cbr\u003e- Vehicle condition, accessories and modifications\u003cbr\u003e- Residential status\u003cbr\u003e",
+                "specialConditions": "\u003cul\u003e\u003cli\u003eDrivers must be at least 21 years old\u003c/li\u003e\u003c/ul\u003e",
+                "providerId": "X4FEG9531",
+                "excess": 700,
+                "validUntil": "2024-07-13",
+                "handoverUrl": "https://virgin.disconline.com.au/car/3/?token=QL2JDZ5IQPMU54PY27U7FVWT47SMTEMJS33IQTXVQOK6TJ7RYPBIRF7HYSEMTZKO6WBZL2NH6HBZFE7I4PCJH5UIJ34NPZOYS7I6NRPR6WKMLBVFZDZ6JUOWY2ENLZXGQ2SIN4FHULT4QTUG46U7RZOE4OE6TZXCVDUNSTSOQ2BKN6HFYTCIR5MGYSEMTZKO4TKNNRUTQPLMLCHH6XMJP2HC4WDKLSHT7HL4FWEH5DRMLJ4BQWEYNJOC3CJ7NVXFVDUNSTVGJ3L6J6GXYSTPRV6EU34PDQ4JSTUNPUMIZD32N6GXYSTPRV6EU34NPRHQ\u0026ledNo=X4FEG9531\u0026clientNumber=X4FEG9531\u0026aggregator=CTM\u0026brand=VIRG\u0026LinkId=9601"
+              }
+            },
+            {
+              "providerMeta": {
+                "name": "Everyday Insurance",
+                "code": "WOOL",
+                "blurb": "Everyday Insurance (formerly Woolworths Insurance) launched its insurance product in 2011. Their car insurance has been recognised for exceptional value, quality service and low cost, winning multiple awards. Customers can make quick online claims, manage their insurance products through their self-service portal and get discounts on their groceries.",
+                "quoteNumber": "569257643"
+              },
+              "productMeta": {
+                "id": "WOOL-01-01",
+                "name": "Everyday Insurance Drive Less Pay Less",
+                "available": true,
+                "availableOnline": true,
+                "contact": {
+                  "isCallBackAllowed": false,
+                  "isCallDirectAllowed": true,
+                  "phoneNumber": "1300782182",
+                  "callCentreHours": "Mon – Fri (8am – 8pm EST) and Sat (9am-5pm EST)"
+                },
+                "price": {
+                  "annualPremium": 1404.82,
+                  "monthlyPremium": 140.07,
+                  "monthlyFirstMonth": 140.07,
+                  "annualisedMonthlyPremium": 1680.84,
+                  "annualAvailable": true,
+                  "monthlyAvailable": true
+                },
+                "discount": {
+                  "discountOffer": "As an Everyday Insurance customer, get 10% off your grocery shop once a month.",
+                  "discountOfferTerms": "*The 10% off your in-store shop at Woolworths Supermarkets offer, applies to eligible purchases during the Offer Period for active Everyday Insurance policyholders and Woolworths Mobile Customers who have a registered Everyday Rewards card linked to their eligible active Insurance policy or Mobile account(s).\r\nCompulsory Third Party (CTP) Green Slip policyholders, Roadside Assist and Everyday Travel Insurance policyholders are excluded from this offer.\r\n\u003cbr/\u003e\r\nYou can redeem this offer once per calendar month, regardless of the number of Everyday Insurance Policies, Woolworths Mobile Accounts or Woolworths Credit Cards you hold. This offer is limited to one Woolworths Supermarket transaction up to $500, with a maximum saving of $50 per Everyday Rewards card, per month.\r\n\u003cbr/\u003e\u003cbr/\u003e\r\nWhilst our team will try to apply the offer quickly to your Insurance policy or Mobile account(s), there will be instances where it could take up to 45 days. It's just our way of making sure every eligible member is included in the offer. For full terms and conditions, visit https://insurance.everyday.com.au/help.html?id=313. In addition to the above terms and conditions, by participating in the Everyday Rewards program, you agree to the Everyday Rewards Terms and Conditions(https://www.woolworthsrewards.com.au/terms.html)."
+                },
+                "productDisclosures": [
+                  {
+                    "code": "pdsa",
+                    "title": "Product Disclosure Statement",
+                    "url": "https://insurance.everyday.com.au/useful-documents"
+                  }
+                ],
+                "additionalExcesses": [
+                  {
+                    "description": "Outside odometer excess for Drive Less Pay Less option (Applies if you have a claim and you are either below the start odometer or above the end odometer reading as shown on your Certificate of Insurance)",
+                    "amount": "$1,000"
+                  },
+                  {
+                    "description": "Undeclared young driver excess",
+                    "amount": "$800"
+                  },
+                  {
+                    "description": "Learner driver excess",
+                    "amount": "$800"
+                  },
+                  {
+                    "description": "Age 21 - 24 years excess",
+                    "amount": "$800"
+                  },
+                  {
+                    "description": "Inexperienced driver excess",
+                    "amount": "$800"
+                  },
+                  {
+                    "description": "Age under 21 years excess",
+                    "amount": "$1,200"
+                  }
+                ],
+                "features": [
+                  {
+                    "code": "lifeGntRep",
+                    "name": "Lifetime guarantee on authorised repairs",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "personalEf",
+                    "value": "Y",
+                    "description": " "
+                  },
+                  {
+                    "code": "childSeatC",
+                    "name": "Child seat/baby capsule",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "chRep",
+                    "name": "Choice of repairer",
+                    "value": "N"
+                  },
+                  {
+                    "code": "emrTranAc",
+                    "name": "Emergency transport and accommodation",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "dmgFire",
+                    "name": "Damage caused by fire",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "insPayOp",
+                    "name": "Instalment payment options",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "disclaimer",
+                    "value": "The indicative quote is subject to meeting the insurer's underwriting criteria. Please see below for further details."
+                  },
+                  {
+                    "code": "cvrTyp",
+                    "name": "Cover Type",
+                    "value": "Comprehensive"
+                  },
+                  {
+                    "code": "product",
+                    "name": "Product",
+                    "value": "Comprehensive"
+                  },
+                  {
+                    "code": "lockKeyRep",
+                    "name": "Lock and key replacement",
+                    "value": "$1,000"
+                  },
+                  {
+                    "code": "lifRep",
+                    "name": "Lifetime repair guarantee",
+                    "value": "Y",
+                    "description": " "
+                  },
+                  {
+                    "code": "hireCarAFC",
+                    "name": "Hire car following an at-fault claim",
+                    "value": "O"
+                  },
+                  {
+                    "code": "newCarRep",
+                    "name": "New car replacement",
+                    "value": "2 Years"
+                  },
+                  {
+                    "code": "redWinGla",
+                    "name": "Reduced window glass excess",
+                    "value": "N"
+                  },
+                  {
+                    "code": "excWindRep",
+                    "name": "Excess-free windscreen replacement",
+                    "value": "O"
+                  },
+                  {
+                    "code": "roadAsst",
+                    "name": "Roadside assistance",
+                    "value": "O"
+                  },
+                  {
+                    "code": "liability",
+                    "name": "Legal Liability",
+                    "value": "$20M"
+                  },
+                  {
+                    "code": "stoCost",
+                    "name": "Storage costs",
+                    "value": "N"
+                  },
+                  {
+                    "code": "kangaC",
+                    "name": "Kanga cover",
+                    "value": "N"
+                  },
+                  {
+                    "code": "dmgMalAct",
+                    "name": "Damage caused by malicious acts",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "dmgVehAcc",
+                    "name": "Damage to the insured vehicle caused by an accident",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "dmgTheft",
+                    "name": "Damage caused by theft",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "trailerCar",
+                    "name": "Trailer and caravan",
+                    "value": "$1,000"
+                  },
+                  {
+                    "code": "kmLimit",
+                    "name": "KM Limit",
+                    "value": "Low KM"
+                  },
+                  {
+                    "code": "perEffect",
+                    "name": "Personal effects",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "dmgSHF",
+                    "name": "Damage caused by storm, hail or flood",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "hireCarTH",
+                    "name": "Hire car after theft",
+                    "value": "up to $50 per day up to 14 days"
+                  },
+                  {
+                    "code": "emrRep",
+                    "name": "Emergency repairs",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "hireCarNFC",
+                    "name": "Hire car following a not at-fault claim",
+                    "value": "O"
+                  },
+                  {
+                    "code": "marVal",
+                    "name": "Market Value",
+                    "value": "N"
+                  },
+                  {
+                    "code": "sportGC",
+                    "name": "Sports gear cover",
+                    "value": "N"
+                  },
+                  {
+                    "code": "towCost",
+                    "name": "Towing costs",
+                    "value": "Reasonable Costs"
+                  },
+                  {
+                    "code": "agreeVal",
+                    "name": "Agreed Value",
+                    "value": "Y"
+                  }
+                ],
+                "underwriter": {
+                  "afsl": "241436",
+                  "name": "The Hollard Insurance Company",
+                  "acn": "603 039 023"
+                },
+                "vehicleSettlement": {
+                  "agreedValue": "YES_DEFAULT",
+                  "agreedValueDescription": "AVAILABLE (DEFAULT)",
+                  "marketValue": "NO",
+                  "marketValueDescription": "NOT AVAILABLE"
+                },
+                "description": "Available to people who drive less than average for their age and postcode. See how this can lower your comprehensive insurance premium.",
+                "inclusions": "\u003cul\u003e \u003cli\u003e24-month new for old car replacement cover if the car is a total loss. You must be the first registered owner.\u003c/li\u003e  \u003cli\u003eCover for reasonable towing costs\u003c/li\u003e  \u003cli\u003eCover for accidental loss or damage to your trailer or caravan if attached to your car during a collision (up to $1,000)\u003c/li\u003e  \u003cli\u003eDamage to certain personal property in your car at the time of an event (up to $500)\u003c/li\u003e  \u003cli\u003eChild safety seats and prams replacement that were in your car (up to $500)\u003c/li\u003e  \u003cli\u003eEmergency travel and accommodation cover (up to $500)\u003c/li\u003e  \u003cli\u003eLegal liability cover for substitute car\u003c/li\u003e  \u003cli\u003eLocks and keys replacement (up to $1,000)\u003c/li\u003e  \u003cli\u003eCover for loss or damage to your car caused whilst in transit between any places in Australia\u003c/li\u003e  \u003cli\u003eEssential repairs after an accident(up to $500)\u003c/li\u003e \u003cli\u003eHire Car After Theft\u003c/li\u003e\u003c/ul\u003e",
+                "productSuitability": "https://insurance.everyday.com.au/content/dam/Everyday/Insurance/Car/UsefulDocumentsCar/Everyday_Target_Market_Determination-Sep-21.pdf",
+                "optionalExtras": "\u003cul\u003e \u003cli\u003eHire car cover (up to $50 per day with maximum hire period shown on certificate of insurance)\u003c/li\u003e  \u003cli\u003eExcess-free windscreen cover\u003c/li\u003e\u003cli\u003eRoadside Assist, an optional service product provided by Digicall Assist Pty Ltd ABN 92 152 605 340\u003c/li\u003e \u003c/ul\u003e",
+                "benefits": "\u003cul\u003e  \u003cli\u003eSelect an Agreed value from the range provided\u003c/li\u003e\u003cli\u003eAdjust your excess to find a premium suitable to you\u003c/li\u003e\u003cli\u003e24/7 emergency claims lodgement and assistance\u003c/li\u003e \u003c/ul\u003e",
+                "disclaimer": "The indicative quote includes any applicable online discount and is subject to meeting the insurer's underwriting criteria and may change due to factors such as:\u003cul\u003e\u003cli\u003eDriver's history or offences or claims\u003c/li\u003e\u003cli\u003eAge or licence type of additional drivers\u003c/li\u003e\u003cli\u003eVehicle condition, accessories and modifications\u003c/li\u003e\u003c/ul\u003e",
+                "specialConditions": "Indicative quote based on 4,000 annual kilometres.\u003cbr\u003e",
+                "providerId": "569257643",
+                "excess": 600,
+                "validUntil": "2024-07-13",
+                "handoverUrl": "https://www.everydaycarinsurance.com.au/car/ls/comparethemarket?t=806jSQl2RK%2blMzt1NdYF0GRCBkwR8%2fdQtol1oBZQZCUM%3dI\u0026n=569257643\u0026p=PAYD\u0026utm_source=comparethemarket\u0026utm_medium=referral\u0026utm_campaign=websale\u0026cvosrc=affiliate.comparethemarket.car,payd\u0026cvo_product=car"
+              }
+            },
+            {
+              "providerMeta": {
+                "name": "Oceania",
+                "code": "EXOA",
+                "blurb": "Oceania is a start-up aiming to use technology to take the industry into a new era. Thinking digital first, customers can manage their insurance from application to claim completely online. Even customer service has been made digital with an online chat system 24/7 rather than a call centre to help with customer claims.",
+                "quoteNumber": "X4FEG9528"
+              },
+              "productMeta": {
+                "id": "EXOA-05-18",
+                "name": "Digital First Comprehensive",
+                "available": true,
+                "availableOnline": true,
+                "contact": {
+                  "isCallBackAllowed": false,
+                  "isCallDirectAllowed": false,
+                  "phoneNumber": "1800 109 257",
+                  "callCentreHours": "Mon - Fri 8:00am - 10:30pm AEST, Sat 8:00am - 5:00pm AEST"
+                },
+                "price": {
+                  "annualPremium": 1516.97,
+                  "monthlyPremium": 145.66,
+                  "monthlyFirstMonth": 145.68,
+                  "annualisedMonthlyPremium": 1747.94,
+                  "annualAvailable": true,
+                  "monthlyAvailable": true
+                },
+                "discount": {
+                  "discountOffer": "Australia's digital-first insurer, backed by one of the best",
+                  "discountOfferTerms": "\u003cp\u003e\u003cstrong\u003eChat Like Mates\u003c/strong\u003e\u003c/p\u003e                                    \u003cp\u003e                                                                        Oceania Insurance was born in the 21st century, and it shows. Instead of the long delays listening to repetitive on-hold music or waiting in queues at the local branch, you'll have all your favourite chat options to rely on for help with your insurance. With Facebook Messenger, WhatsApp, SMS, iMessage, email and website chat all available - Oceania Insurance is at your fingertips.\u003c/p\u003e                                                                                                                                          \u003cp\u003e\u003cstrong\u003eBacked by Auto \u0026 General\u003c/strong\u003e\u003c/p\u003e                           \u003cp\u003e                                                                        Auto \u0026 General Insurance Company Limited is an Australian insurance company. Whether it's been cars, homes, travel, pets or motorcycles, they've been insuring a wide variety of Aussies since the year 2000.\u003c/p\u003e \u003cp\u003e            They are also regulated by APRA and are a member of the Insurance Council  of Australia.\u003c/p\u003e"
+                },
+                "productDisclosures": [
+                  {
+                    "code": "pdsa",
+                    "title": "Product Disclosure Statement",
+                    "url": "https://www.autogeneral.com.au/apps/find-pds/exoa/car?singleProduct=true\u0026current=true"
+                  }
+                ],
+                "glassExcess": "700",
+                "additionalExcesses": [
+                  {
+                    "description": "Drivers between the age of 21 and 24.",
+                    "amount": "500"
+                  },
+                  {
+                    "description": "Drivers who have not held a full or open Australian licence for 2 or more years.",
+                    "amount": "500"
+                  },
+                  {
+                    "description": "Unlisted Drivers.",
+                    "amount": "600"
+                  }
+                ],
+                "features": [
+                  {
+                    "code": "lifeGntRep",
+                    "name": "Lifetime guarantee on authorised repairs",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "personalEf",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "emrTranAc",
+                    "name": "Emergency transport and accommodation",
+                    "value": "$200 per day, up to $1,000"
+                  },
+                  {
+                    "code": "agreeVal",
+                    "name": "Agreed Value",
+                    "value": "O"
+                  },
+                  {
+                    "code": "childSeatC",
+                    "name": "Child seat/baby capsule",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "chRep",
+                    "name": "Choice of repairer",
+                    "value": "N"
+                  },
+                  {
+                    "code": "insPayOp",
+                    "name": "Instalment payment options",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "dmgFire",
+                    "name": "Damage caused by fire",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "cvrTyp",
+                    "name": "Cover Type",
+                    "value": "Comprehensive"
+                  },
+                  {
+                    "code": "lockKeyRep",
+                    "name": "Lock and key replacement",
+                    "value": "$1,000"
+                  },
+                  {
+                    "code": "lifRep",
+                    "name": "Lifetime repair guarantee",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "hireCarAFC",
+                    "name": "Hire car following an at-fault claim",
+                    "value": "O"
+                  },
+                  {
+                    "code": "stoCost",
+                    "name": "Storage costs",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "roadAsst",
+                    "name": "Roadside assistance",
+                    "value": "N"
+                  },
+                  {
+                    "code": "excWindRep",
+                    "name": "Excess-free windscreen replacement",
+                    "value": "N"
+                  },
+                  {
+                    "code": "redWinGla",
+                    "name": "Reduced window glass excess",
+                    "value": "O"
+                  },
+                  {
+                    "code": "liability",
+                    "name": "Legal Liability",
+                    "value": "$20M"
+                  },
+                  {
+                    "code": "newCarRep",
+                    "name": "New car replacement",
+                    "value": "2 Years or 40,000km, whichever comes first"
+                  },
+                  {
+                    "code": "towCost",
+                    "name": "Towing costs",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "kmLimit",
+                    "name": "KM Limit",
+                    "value": "Unlimited"
+                  },
+                  {
+                    "code": "dmgMalAct",
+                    "name": "Damage caused by malicious acts",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "kangaC",
+                    "name": "Kanga cover",
+                    "value": "N"
+                  },
+                  {
+                    "code": "dmgVehAcc",
+                    "name": "Damage to the insured vehicle caused by an accident",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "dmgTheft",
+                    "name": "Damage caused by theft",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "trailerCar",
+                    "name": "Trailer and caravan",
+                    "value": "$1,000"
+                  },
+                  {
+                    "code": "perEffect",
+                    "name": "Personal effects",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "dmgSHF",
+                    "name": "Damage caused by storm, hail or flood",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "marVal",
+                    "name": "Market Value",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "emrRep",
+                    "name": "Emergency repairs",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "hireCarNFC",
+                    "name": "Hire car following a not at-fault claim",
+                    "value": "O"
+                  },
+                  {
+                    "code": "hireCarTH",
+                    "name": "Hire car after theft",
+                    "value": "$1,000 or 14 days, whichever comes first"
+                  },
+                  {
+                    "code": "sportGC",
+                    "name": "Sports gear cover",
+                    "value": "N"
+                  }
+                ],
+                "underwriter": {
+                  "afsl": "285571",
+                  "name": "Auto \u0026 General Insurance Company Limited",
+                  "acn": "111 586 353"
+                },
+                "vehicleSettlement": {
+                  "agreedValue": "MAYBE",
+                  "agreedValueDescription": "MAY BE AVAILABLE (CONDITIONS APPLY)",
+                  "marketValue": "YES_DEFAULT",
+                  "marketValueDescription": "AVAILABLE (DEFAULT)"
+                },
+                "inclusions": "\u003cul\u003e\u003cli\u003e24 months or 40,000km new for old car replacement, see PDS for full details\u003c/li\u003e\u003cli\u003e Legal Liability ($20 million)\u003c/li\u003e\u003cli\u003eNo excess to pay when third party is identified and at fault\u003c/li\u003e\u003cli\u003eNo Claim Discount preserved when third party is identified and at fault\u003c/li\u003e\u003cli\u003ePersonal Effects cover in the event of a collision, theft or forced entry (up to $500)\u003c/li\u003e\u003cli\u003eKey \u0026 remote replacement cover ($1,000)\u003c/li\u003e\u003cli\u003eChild seat or capsule cover in the event of a collision, theft or forced entry (up to $500)\u003c/li\u003e\u003cli\u003eHire car that meets your needs following theft\u003c/li\u003e\u003cli\u003eDamage to trailer or caravan (belonging to you) if attached to your car ($1,000)\u003c/li\u003e\u003cli\u003eDeath Benefit ($5,000)\u003c/li\u003e\u003cli\u003eEmergency Transport \u0026 Accommodation ($200 per day, $1,000 in total)\u003c/li\u003e\u003c/ul\u003e",
+                "productSuitability": "https://www.autogeneral.com.au/apps/find-pds/exoa/car?singleProduct=true\u0026current=true",
+                "optionalExtras": "\u003cul\u003e\u003cli\u003eReduced Window Glass excess\u003c/li\u003e\u003cli\u003eAccident Hire Car cover\u003c/li\u003e\u003cli\u003eRestricted Driver discounts\u003c/li\u003e\u003cli\u003eVariable Excess to reduce premium\u003c/li\u003e\u003cli\u003eYour choice of Agreed value (Conditions apply) or Market value for your car\u003c/li\u003e\u003c/ul\u003e",
+                "benefits": "All authorised repairs guaranteed for life (as long as you own the car),\u003cbr\u003eOption to pay fortnightly, monthly or annually",
+                "disclaimer": "The indicative quote is subject to meeting the insurer’s underwriting criteria and may change due to factors such as:\u003cbr\u003e- Driver’s history or offences or claims\u003cbr\u003e- Age or licence type of additional drivers\u003cbr\u003e- Vehicle condition, accessories and modifications",
+                "specialConditions": "\u003cul\u003e\u003cli\u003eDrivers must be at least 21 years old\u003c/li\u003e\u003c/ul\u003e",
+                "providerId": "X4FEG9528",
+                "excess": 700,
+                "validUntil": "2024-07-13",
+                "handoverUrl": "https://secure.oceaniainsurance.com.au/car/3/?token=QL2JDZ5IQPMU54PY27U7FVWT47SMTEMJS33IQTVHQWDONJXFYPBIRF7HYSEMTZKOVCBZDQVHSPBZFE7I4PCJH5UIJ34NPZOYS7I6NRPR6WKMLBVFZD2OJUOWY2ENLZXGQ2SIN4FHULT4QTUG46UE5RWE4OE6TZXCVDUNSTXYQ3R2R6DB2XMKN5EF46TPJYWGQ2S4JJXYUWI2PZGU23DJHA6WYWEOP55H7DLYN4PZY3BZHCGR4VHPRBUC6L46LQ6CRDE6HRUX63IU56GGYPTZN5PH2GEMR56E6T46HJXY27CKN6GXYSU6JUWS5GD7RFGFQ2S4JJXY27CKN6GXYSTPRBWFPY------\u0026ledNo=X4FEG9528\u0026clientNumber=X4FEG9528\u0026aggregator=CTM\u0026brand=EXOA\u0026entity=10754\u0026LinkId=14233"
+              }
+            },
+            {
+              "providerMeta": {
+                "name": "Ozicare",
+                "code": "OZIC",
+                "blurb": "Ozicare, has been providing Australians with hassle free car insurance at a price which won’t break the bank since 2001. Customers can take advantage of its 24-hour one stop claim assessment centres, competitive standard features and fortnightly, monthly or annual payments, all with no paper forms to fill in.",
+                "quoteNumber": "X4FEG9529"
+              },
+              "productMeta": {
+                "id": "OZIC-05-01",
+                "name": "Standard Comprehensive",
+                "available": true,
+                "availableOnline": true,
+                "contact": {
+                  "isCallBackAllowed": true,
+                  "isCallDirectAllowed": true,
+                  "phoneNumber": "1800015512",
+                  "callCentreHours": "Mon - Fri 8:00am - 10:30pm AEST, Sat 8:00am - 5:00pm AEST"
+                },
+                "price": {
+                  "annualPremium": 1591.5,
+                  "monthlyPremium": 152.22,
+                  "monthlyFirstMonth": 152.35,
+                  "annualisedMonthlyPremium": 1826.77,
+                  "annualAvailable": true,
+                  "monthlyAvailable": true
+                },
+                "discount": {
+                  "discountOffer": "Cares for you and your car, at competitive prices",
+                  "discountOfferTerms": "Our Standard Comprehensive cover has a lot of great features and offers a broad spectrum of cover. Not only will it insure you against damage to your car, but it will meet the cost of repairing damage to other vehicles as well, when you are deemed to be at fault."
+                },
+                "productDisclosures": [
+                  {
+                    "code": "pdsa",
+                    "title": "Product Disclosure Statement",
+                    "url": "https://www.autogeneral.com.au/apps/find-pds/ozic/car?singleProduct=true\u0026current=true"
+                  }
+                ],
+                "glassExcess": "700",
+                "additionalExcesses": [
+                  {
+                    "description": "Drivers between the age of 21 and 24.",
+                    "amount": "500"
+                  },
+                  {
+                    "description": "Drivers who have not held a full or open Australian licence for 2 or more years.",
+                    "amount": "500"
+                  },
+                  {
+                    "description": "Unlisted Drivers.",
+                    "amount": "600"
+                  }
+                ],
+                "features": [
+                  {
+                    "code": "lifeGntRep",
+                    "name": "Lifetime guarantee on authorised repairs",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "hireCarNFC",
+                    "name": "Hire car following a not at-fault claim",
+                    "value": "Until the car is repaired or the claim is paid, whichever comes first"
+                  },
+                  {
+                    "code": "personalEf",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "trailerCar",
+                    "name": "Trailer and caravan",
+                    "value": "$500 Trailer only"
+                  },
+                  {
+                    "code": "agreeVal",
+                    "name": "Agreed Value",
+                    "value": "O"
+                  },
+                  {
+                    "code": "chRep",
+                    "name": "Choice of repairer",
+                    "value": "O"
+                  },
+                  {
+                    "code": "product",
+                    "name": "Product",
+                    "value": "Standard"
+                  },
+                  {
+                    "code": "insPayOp",
+                    "name": "Instalment payment options",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "dmgFire",
+                    "name": "Damage caused by fire",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "disclaimer",
+                    "value": "The indicative quote is subject to meeting the insurer's underwriting criteria. Please see below for further details."
+                  },
+                  {
+                    "code": "cvrTyp",
+                    "name": "Cover Type",
+                    "value": "Comprehensive"
+                  },
+                  {
+                    "code": "lockKeyRep",
+                    "name": "Lock and key replacement",
+                    "value": "$1,000"
+                  },
+                  {
+                    "code": "lifRep",
+                    "name": "Lifetime repair guarantee",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "hireCarAFC",
+                    "name": "Hire car following an at-fault claim",
+                    "value": "O"
+                  },
+                  {
+                    "code": "stoCost",
+                    "name": "Storage costs",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "excWindRep",
+                    "name": "Excess-free windscreen replacement",
+                    "value": "N"
+                  },
+                  {
+                    "code": "roadAsst",
+                    "name": "Roadside assistance",
+                    "value": "O"
+                  },
+                  {
+                    "code": "redWinGla",
+                    "name": "Reduced window glass excess",
+                    "value": "O"
+                  },
+                  {
+                    "code": "liability",
+                    "name": "Legal Liability",
+                    "value": "$20M"
+                  },
+                  {
+                    "code": "kmLimit",
+                    "name": "KM Limit",
+                    "value": "Unlimited"
+                  },
+                  {
+                    "code": "towCost",
+                    "name": "Towing costs",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "kangaC",
+                    "name": "Kanga cover",
+                    "value": "N"
+                  },
+                  {
+                    "code": "dmgMalAct",
+                    "name": "Damage caused by malicious acts",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "dmgVehAcc",
+                    "name": "Damage to the insured vehicle caused by an accident",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "dmgTheft",
+                    "name": "Damage caused by theft",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "dmgSHF",
+                    "name": "Damage caused by storm, hail or flood",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "emrRep",
+                    "name": "Emergency repairs",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "marVal",
+                    "name": "Market Value",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "childSeatC",
+                    "name": "Child seat/baby capsule",
+                    "value": "Included in personal effects limit"
+                  },
+                  {
+                    "code": "hireCarTH",
+                    "name": "Hire car after theft",
+                    "value": "$1,000 or 14 days, whichever comes first"
+                  },
+                  {
+                    "code": "newCarRep",
+                    "name": "New car replacement",
+                    "value": "1 Year or 20,000km, whichever comes first"
+                  },
+                  {
+                    "code": "sportGC",
+                    "name": "Sports gear cover",
+                    "value": "N"
+                  },
+                  {
+                    "code": "perEffect",
+                    "name": "Personal effects",
+                    "value": "$250"
+                  },
+                  {
+                    "code": "emrTranAc",
+                    "name": "Emergency transport and accommodation",
+                    "value": "$150 per day, up to $600"
+                  }
+                ],
+                "underwriter": {
+                  "afsl": "285571",
+                  "name": "Auto \u0026 General Insurance Company Limited",
+                  "acn": "111 586 353"
+                },
+                "vehicleSettlement": {
+                  "agreedValue": "MAYBE",
+                  "agreedValueDescription": "MAY BE AVAILABLE (CONDITIONS APPLY)",
+                  "marketValue": "YES_DEFAULT",
+                  "marketValueDescription": "AVAILABLE (DEFAULT)"
+                },
+                "description": "Hassle free car insurance at a price that won't break the bank",
+                "inclusions": "\u003cul\u003e\u003cli\u003e12 months or 20,000km (whichever is earlier) new car replacement cover. See PDS for full details\u003c/li\u003e\u003cli\u003eNo excess to pay when third party is identified and at fault\u003c/li\u003e\u003cli\u003eNo Claim Discount preserved when third party is identified and at fault\u003c/li\u003e\u003cli\u003ePersonal Effects cover in the event of a collision (up to $250)\u003c/li\u003e\u003cli\u003eHire car that meets your needs following a no fault accident\u003c/li\u003e\u003cli\u003eHire car that meets your needs following a theft (up to $1,000)\u003c/li\u003e\u003cli\u003eKey \u0026 Remote replacement cover for theft (up to $1,000)\u003c/li\u003e\u003cli\u003eDamage to trailer if attached to your car (belonging to you) (up to $500)\u003c/li\u003e\u003cli\u003eEmergency Transport \u0026 Accommodation cover ($150 per day, up to $600 in total)\u003c/li\u003e\u003c/ul\u003e",
+                "productSuitability": "https://www.autogeneral.com.au/apps/find-pds/ozic/car?singleProduct=true\u0026current=true",
+                "optionalExtras": "\u003cul\u003e  \u003cli\u003eReduced Window glass excess\u003c/li\u003e  \u003cli\u003eAccident Hire Car cover\u003c/li\u003e  \u003cli\u003eRestricted Driver discounts\u003c/li\u003e  \u003cli\u003eVariable Excess to reduce premium\u003c/li\u003e  \u003cli\u003eAgreed (conditions apply) or Market value for your car\u003c/li\u003e \u003cli\u003eChoice of Repairer\u003c/li\u003e \u003cli\u003eOption to take out Roadside Assistance cover\u003c/li\u003e \u003c/ul\u003e",
+                "benefits": "\u003cul\u003e\u003cli\u003eAll authorised repairs guaranteed for as long as you own the car\u003c/li\u003e\u003cli\u003eNo paper forms to fill in ever\u003c/li\u003e\u003cli\u003eOver the phone claims\u003c/li\u003e\u003cli\u003eOption to pay fortnightly, monthly or annually\u003c/li\u003e\u003c/ul\u003e",
+                "disclaimer": "The indicative quote includes any applicable online discount and is subject to meeting the insurer's underwriting criteria and may change due to factors such as:\u003cbr\u003e- Driver's history or offences or claims\u003cbr\u003e- Age or licence type of additional drivers\u003cbr\u003e- Vehicle condition, accessories and modifications\u003cbr\u003e- Residential status\u003cbr\u003e",
+                "specialConditions": "\u003cul\u003e\u003cli\u003eDrivers must be at least 21 years old\u003c/li\u003e\u003c/ul\u003e",
+                "providerId": "X4FEG9529",
+                "excess": 700,
+                "validUntil": "2024-07-13",
+                "handoverUrl": "https://ozicare.disconline.com.au/car/3/?token=QL2JDZ5IQPMU54PY27U7FVWT47SMTEMJS33IQTXRUSK5DJXRYPBIRF7HYSEMTZKO6GSJLUNG6HBZFE7I4PCJH5UIJ34NPZOYS7I6NRPR6WKMLBVFYST6JUOWY2ENLZXGQ2SIN4FHULT4QTUG46UE5ZOE4OE6TZXCVDUNSTSOQ3T7L6GGYTCIR5MGYSEMTZKO4TKNNRUTQPLMLCHH6XMJP2HC4WDKLV7Q7FQ6LWEH5DRMLJ4BQWEYNJOC3CJ7NVXFVDUNSTVGJ3L6J6GXYSTPRV6EU34PDQ4JSTUNPUMIZD32N6GXYSTPRV6EU34NPRHT\u0026ledNo=X4FEG9529\u0026clientNumber=X4FEG9529\u0026aggregator=CTM\u0026brand=OZIC\u0026LinkId=9590"
+              }
+            },
+            {
+              "providerMeta": {
+                "name": "Huddle",
+                "code": "HUDD",
+                "blurb": "Huddle, has earned multiple awards and high customer satisfaction ratings since their inception in 2016. With over 35k customers they pay out over 1 million in claims each month and are focused on sustainability committing 1% of their revenue to the planet. Customers have access to a 24hr Australian based claims hotline.",
+                "quoteNumber": "CTM3334869"
+              },
+              "productMeta": {
+                "id": "HUDD-01-02",
+                "name": "Comprehensive Pay As You Drive",
+                "available": true,
+                "contact": {
+                  "isCallBackAllowed": false,
+                  "isCallDirectAllowed": false,
+                  "phoneNumber": "1300 715 919",
+                  "callCentreHours": "Mon-Thurs(8am-6pm EST), Fri(8am-5pm EST) and Sat(8am-4:30pm EST)"
+                },
+                "price": {
+                  "annualPremium": 1675.28,
+                  "monthlyPremium": 156.89,
+                  "monthlyFirstMonth": 200.89,
+                  "annualisedMonthlyPremium": 1926.68,
+                  "annualAvailable": true,
+                  "monthlyAvailable": true
+                },
+                "discount": {
+                  "discountOffer": "Award winning 24/7 online claims. Australia-based support teams. Underwritten by Hollard.",
+                  "discountOfferTerms": "Huddle won a Good Design award in 2019 in the Digital Apps and Software category for its instant claims experience.\nThe 24/7 claims service is available on the Huddle website or via the Huddle app."
+                },
+                "productDisclosures": [
+                  {
+                    "code": "pdsa",
+                    "title": "Product Disclosure Statement",
+                    "url": "https://huddle.com.au/pds"
+                  }
+                ],
+                "additionalExcesses": [
+                  {
+                    "description": "Undeclared drivers aged under 21",
+                    "amount": "2000"
+                  },
+                  {
+                    "description": "Named drivers aged under 21 years",
+                    "amount": "1200"
+                  },
+                  {
+                    "description": "Outside odometer excess for Pay As You Drive Cover Excess option (applies if you have a claim and you are either below the start odometer or above the end odometer reading as shown on your Certificate of Insurance)",
+                    "amount": "1000"
+                  },
+                  {
+                    "description": "Undeclared drivers aged 21-24",
+                    "amount": "1600"
+                  },
+                  {
+                    "description": "Learner drivers",
+                    "amount": "800"
+                  },
+                  {
+                    "description": "Inexperienced drivers",
+                    "amount": "800"
+                  },
+                  {
+                    "description": "Named drivers aged 21-24 years",
+                    "amount": "800"
+                  }
+                ],
+                "features": [
+                  {
+                    "code": "lifeGntRep",
+                    "name": "Lifetime guarantee on authorised repairs",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "personalEf",
+                    "name": "Unlimited annual kilometres",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "agreeVal",
+                    "name": "Agreed Value",
+                    "value": "O"
+                  },
+                  {
+                    "code": "sportGC",
+                    "name": "Sports gear cover",
+                    "value": "O"
+                  },
+                  {
+                    "code": "childSeatC",
+                    "name": "Child seat/baby capsule",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "chRep",
+                    "name": "Choice of repairer",
+                    "value": "N"
+                  },
+                  {
+                    "code": "install",
+                    "name": "Instalment payment option available",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "emrTranAc",
+                    "name": "Emergency transport and accommodation",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "insPayOp",
+                    "name": "Instalment payment options",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "dmgFire",
+                    "name": "Damage caused by fire",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "lockKeyRep",
+                    "name": "Lock and key replacement",
+                    "value": "$1,000"
+                  },
+                  {
+                    "code": "lifRep",
+                    "name": "Lifetime repair guarantee",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "hireCarAFC",
+                    "name": "Hire car following an at-fault claim",
+                    "value": "O"
+                  },
+                  {
+                    "code": "newCarRep",
+                    "name": "New car replacement",
+                    "value": "2 Years"
+                  },
+                  {
+                    "code": "redWinGla",
+                    "name": "Reduced window glass excess",
+                    "value": "N"
+                  },
+                  {
+                    "code": "roadAsst",
+                    "name": "Roadside assistance",
+                    "value": "O"
+                  },
+                  {
+                    "code": "excWindRep",
+                    "name": "Excess-free windscreen replacement",
+                    "value": "O"
+                  },
+                  {
+                    "code": "stoCost",
+                    "name": "Storage costs",
+                    "value": "N"
+                  },
+                  {
+                    "code": "liability",
+                    "name": "Legal Liability",
+                    "value": "$20M"
+                  },
+                  {
+                    "code": "hirecar",
+                    "name": "Accident Hire Car option available",
+                    "value": "O"
+                  },
+                  {
+                    "code": "kangaC",
+                    "name": "Kanga cover",
+                    "value": "O"
+                  },
+                  {
+                    "code": "dmgMalAct",
+                    "name": "Damage caused by malicious acts",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "dmgVehAcc",
+                    "name": "Damage to the insured vehicle caused by an accident",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "dmgTheft",
+                    "name": "Damage caused by theft",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "trailerCar",
+                    "name": "Trailer and caravan",
+                    "value": "$1,000"
+                  },
+                  {
+                    "code": "perEffect",
+                    "name": "Personal effects",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "kmLimit",
+                    "name": "KM Limit",
+                    "value": "Low KM"
+                  },
+                  {
+                    "code": "roadSide",
+                    "name": "Roadside assistance option available",
+                    "value": "O"
+                  },
+                  {
+                    "code": "dmgSHF",
+                    "name": "Damage caused by storm, hail or flood",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "newRep",
+                    "name": "New for new replacement",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "annKilo",
+                    "name": "Unlimited annual kilometres",
+                    "value": "N"
+                  },
+                  {
+                    "code": "marVal",
+                    "name": "Market Value",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "emrRep",
+                    "name": "Emergency repairs",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "childSeat",
+                    "name": "Unlimited annual kilometres",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "hireCarNFC",
+                    "name": "Hire car following a not at-fault claim",
+                    "value": "O"
+                  },
+                  {
+                    "code": "ncdPro",
+                    "name": "Maximum NCD protection option available",
+                    "value": "N"
+                  },
+                  {
+                    "code": "windscreen",
+                    "name": "Windscreen excess reduction",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "towCost",
+                    "name": "Towing costs",
+                    "value": "Reasonable Costs"
+                  },
+                  {
+                    "code": "hireCarTH",
+                    "name": "Hire car after theft",
+                    "value": "O"
+                  }
+                ],
+                "underwriter": {
+                  "afsl": "241436",
+                  "name": "The Hollard Insurance Company",
+                  "acn": "603 039 023"
+                },
+                "vehicleSettlement": {
+                  "agreedValue": "YES_DEFAULT",
+                  "agreedValueDescription": "AVAILABLE (DEFAULT)",
+                  "marketValue": "YES",
+                  "marketValueDescription": "AVAILABLE"
+                },
+                "description": "Comprehensive Pay As You Drive description",
+                "inclusions": "\u003cul\u003e\u003cli\u003e24 month new for old car replacement if your car is a total loss\u003c/li\u003e\u003cli\u003eChild safety seats and prams replacement ($500)\u003c/li\u003e\u003cli\u003eCover for towing costs\u003c/li\u003e\u003cli\u003eDamage to personal property in your car ($500)\u003c/li\u003e\u003cli\u003eEmergency travel and accommodation ($500)\u003c/li\u003e\u003cli\u003eEssential repairs to restore your car to a roadworthy and safe condition ($500)\u003c/li\u003e\u003cli\u003eHire car after your car is stolen ($70 per day, up to 14 days)\u003c/li\u003e\u003cli\u003eLegal liability cover ($20 million)\u003c/li\u003e\u003cli\u003eLocks and keys replacement ($1,000)\u003c/li\u003e\u003cli\u003eTrailer and caravan cover while it's attached to your car ($1,000)\u003c/li\u003e\u003cli\u003eTransit cover while your car is being transported between places in Australia\u003c/li\u003e\u003c/ul\u003e",
+                "productSuitability": "https://huddle.com.au/pds",
+                "optionalExtras": "\u003cul\u003e\u003cli\u003eExcess-free windscreen cover\u003c/li\u003e\u003cli\u003eHire car\u003c/li\u003e\u003cli\u003eKanga Cover for excess free animal collisions\u003c/li\u003e\u003cli\u003ePay As You Drive Cover - pay only for the kilometres you drive (your agreed kilometres can be increased during your period of insurance)\u003c/li\u003e\u003cli\u003eRoadside assistance, an optional service product\u003c/li\u003e\u003cli\u003eSports gear cover whilst it's in or on your car\u003c/li\u003e\u003c/ul\u003e",
+                "benefits": "\u003cul\u003e\u003cli\u003e24/7 emergency helpline\u003c/li\u003e\u003cli\u003eBecome part of Huddle's Member Council to help make changes to their products and services.\u003c/li\u003e\u003cli\u003eMost claims can be lodged 24/7 with the Huddle App and in some cases you'll get a decision within minutes.\u003c/li\u003e\u003c/ul\u003e",
+                "disclaimer": "The quote is indicative and is subject to meeting the insurer's underwriting criteria and may change due to factors such as, but not limited to: Driver's history, offenses or claims, Age or licence type of the drivers, Vehicle condition, accessories and modifications",
+                "providerId": "CTM3334869",
+                "excess": 600,
+                "validUntil": "2024-07-13",
+                "handoverUrl": "https://portal.huddleinsurance.com/refer/quote/hy8pzGB9fyvBtbknJYLWwt?utm_source=compare-the-market\u0026utm_medium=web\u0026utm_campaign=partner\u0026utm_content=car\u0026product_slug=hdl-car-comp-23\u0026cover_type=comp\u0026cover_level=payd"
+              }
+            },
+            {
+              "providerMeta": {
+                "name": "Carpeesh",
+                "code": "CARP",
+                "blurb": "Carpeesh is a technology focused brand aiming to lower the cost of car insurance and make roads safer. Their innovative app allows customers to earn rewards for safe driving, update their policy details and report and claim at the time of the incident. Customers have access to Carpeesh’s preferred repairer network and a variety of payment options.",
+                "quoteNumber": "2024068132408"
+              },
+              "productMeta": {
+                "id": "CARP-01-01",
+                "name": "Good Driver",
+                "available": true,
+                "availableOnline": true,
+                "contact": {
+                  "isCallBackAllowed": false,
+                  "isCallDirectAllowed": false,
+                  "phoneNumber": "1300 100 311",
+                  "callCentreHours": "Monday - Friday 8.30am - 6.00pm, Sat 8.30am - noon (AEST)"
+                },
+                "price": {
+                  "annualPremium": 2280.24,
+                  "monthlyPremium": 0,
+                  "monthlyFirstMonth": 0,
+                  "annualisedMonthlyPremium": 0,
+                  "annualAvailable": true,
+                  "monthlyAvailable": false
+                },
+                "discount": {
+                  "discountOffer": "Underwritten by RACQ Insurance"
+                },
+                "productDisclosures": [
+                  {
+                    "code": "PEG",
+                    "title": "Premium and Excess Guide",
+                    "url": "https://carpeesh.com/policy-documents/"
+                  },
+                  {
+                    "code": "PDS",
+                    "title": "Product Disclosure Statement",
+                    "url": "https://carpeesh.com/policy-documents/"
+                  },
+                  {
+                    "code": "FSG",
+                    "title": "Financial Services Guide",
+                    "url": "https://carpeesh.com/policy-documents/"
+                  }
+                ],
+                "features": [
+                  {
+                    "code": "lifeGntRep",
+                    "name": "Lifetime guarantee on authorised repairs",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "personalEf",
+                    "name": "Unlimited annual kilometres",
+                    "value": "Y",
+                    "description": "Anything left on or in the car"
+                  },
+                  {
+                    "code": "agreeVal",
+                    "name": "Agreed Value",
+                    "value": "O"
+                  },
+                  {
+                    "code": "childSeatC",
+                    "name": "Child seat/baby capsule",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "chRep",
+                    "name": "Choice of repairer",
+                    "value": "N"
+                  },
+                  {
+                    "code": "install",
+                    "name": "Instalment payment option available",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "towCost",
+                    "name": "Towing costs",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "dmgFire",
+                    "name": "Damage caused by fire",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "insPayOp",
+                    "name": "Instalment payment options",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "lifRep",
+                    "name": "Lifetime repair guarantee",
+                    "value": "Y",
+                    "description": "For manufacturer parts only"
+                  },
+                  {
+                    "code": "trailerCar",
+                    "name": "Trailer and caravan",
+                    "value": "$500 Trailer Only"
+                  },
+                  {
+                    "code": "hireCarAFC",
+                    "name": "Hire car following an at-fault claim",
+                    "value": "O"
+                  },
+                  {
+                    "code": "newCarRep",
+                    "name": "New car replacement",
+                    "value": "2 Years"
+                  },
+                  {
+                    "code": "excWindRep",
+                    "name": "Excess-free windscreen replacement",
+                    "value": "N"
+                  },
+                  {
+                    "code": "roadAsst",
+                    "name": "Roadside assistance",
+                    "value": "N"
+                  },
+                  {
+                    "code": "redWinGla",
+                    "name": "Reduced window glass excess",
+                    "value": "O"
+                  },
+                  {
+                    "code": "liability",
+                    "name": "Legal Liability",
+                    "value": "$20M"
+                  },
+                  {
+                    "code": "hirecar",
+                    "name": "Accident Hire Car option available",
+                    "value": "O",
+                    "description": "Optional 14 day hire of a rental car following a collision"
+                  },
+                  {
+                    "code": "kmLimit",
+                    "name": "KM Limit",
+                    "value": "Unlimited"
+                  },
+                  {
+                    "code": "kangaC",
+                    "name": "Kanga cover",
+                    "value": "N"
+                  },
+                  {
+                    "code": "dmgMalAct",
+                    "name": "Damage caused by malicious acts",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "dmgVehAcc",
+                    "name": "Damage to the insured vehicle caused by an accident",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "stoCost",
+                    "name": "Storage costs",
+                    "value": "Included in towing limit"
+                  },
+                  {
+                    "code": "dmgTheft",
+                    "name": "Damage caused by theft",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "dmgSHF",
+                    "name": "Damage caused by storm, hail or flood",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "newRep",
+                    "name": "New for new replacement",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "roadSide",
+                    "name": "Roadside assistance option available",
+                    "value": "N"
+                  },
+                  {
+                    "code": "emrTranAc",
+                    "name": "Emergency transport and accommodation",
+                    "value": "$750"
+                  },
+                  {
+                    "code": "emrRep",
+                    "name": "Emergency repairs",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "marVal",
+                    "name": "Market Value",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "childSeat",
+                    "name": "Unlimited annual kilometres",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "hireCarNFC",
+                    "name": "Hire car following a not at-fault claim",
+                    "value": "O"
+                  },
+                  {
+                    "code": "ncdPro",
+                    "name": "Maximum NCD protection option available",
+                    "value": "N",
+                    "description": "Calculated using DrivePoints"
+                  },
+                  {
+                    "code": "windscreen",
+                    "name": "Windscreen excess reduction",
+                    "value": "Y",
+                    "description": "Optional cover added to your premium"
+                  },
+                  {
+                    "code": "hireCarTH",
+                    "name": "Hire car after theft",
+                    "value": "$750 or 14 days, whichever comes first"
+                  },
+                  {
+                    "code": "sportGC",
+                    "name": "Sports gear cover",
+                    "value": "N"
+                  },
+                  {
+                    "code": "perEffect",
+                    "name": "Personal effects",
+                    "value": "$250"
+                  },
+                  {
+                    "code": "lockKeyRep",
+                    "name": "Lock and key replacement",
+                    "value": "$700"
+                  },
+                  {
+                    "code": "annKilo",
+                    "name": "Unlimited annual kilometres",
+                    "value": "Y",
+                    "description": "Annual"
+                  }
+                ],
+                "underwriter": {
+                  "afsl": "233082",
+                  "name": "RACQ Insurance",
+                  "acn": "009 704 152",
+                  "abn": "50 009 704 152"
+                },
+                "vehicleSettlement": {
+                  "agreedValue": "YES",
+                  "agreedValueDescription": "AVAILABLE",
+                  "marketValue": "YES_DEFAULT",
+                  "marketValueDescription": "AVAILABLE (DEFAULT)"
+                },
+                "inclusions": "\u003cul\u003e\u003cli\u003e14 days free cover for old and new car during changeover\u003c/li\u003e\u003cli\u003e24 month new for old car replacement\u003c/li\u003e\u003cli\u003eCover for reasonable towing\u003c/li\u003e\u003cli\u003eEmergency travel and accommodation costs\u003c/li\u003e\u003cli\u003eRecovery of injured wildlife\u003c/li\u003e\u003c/ul\u003e",
+                "productSuitability": "https://carpeesh.com/tmd-13-03-2023/",
+                "optionalExtras": "\u003cul\u003e\u003cli\u003eHire Car cover\u003c/li\u003e\u003cli\u003eWindscreen Excess Reduction\u003c/li\u003e\u003c/ul\u003e",
+                "benefits": "\u003cul\u003e\u003cli\u003eDriver Safety App with self-service and claims reporting\u003c/li\u003e\u003cli\u003eExcess free windscreen scratch repair\u003c/li\u003e\u003cli\u003ePay annual or monthly\u003c/li\u003e\u003c/ul\u003e",
+                "disclaimer": "This indicative quote is subject to meeting the insurer's underwriting criteria and may change due to factors such as: Driver's history, Age of additional drivers, Vehicle condition and Kept Address location",
+                "specialConditions": "\u003cul\u003e\u003cli\u003eUse of the Driver Safety app is a required condition for the policy. Please refer to the PDS, SPDS and PEG\u003c/li\u003e\u003c/ul\u003e",
+                "specialConditionsReadMore": "You are required to download the Carpeesh driver safety app within 14 days from the beginning of the period of insurance. Additional excesses may apply if you don’t download the app. The app samples driving data, gives you access to update policy details and allows you to report a claim at the scene of the accident. Please refer to the PDS, SPDS and PEG for full details.",
+                "providerId": "2024068132408",
+                "excess": 695,
+                "validUntil": "2024-07-13",
+                "handoverUrl": "https://quote-api.carpeesh.com/generic_client/cp_ctm_callback.php?OTAzWUU0ZHRDclEydVc2SzdBVTFIMlFsRjZwaVpNbkF4VWZLTlRTdFgyST0=\u0026unique_code=QCGEIAQZQCGEIAS"
+              }
+            },
+            {
+              "providerMeta": {
+                "name": "Everyday Insurance",
+                "code": "WOOL",
+                "blurb": "Everyday Insurance (formerly Woolworths Insurance) launched its insurance product in 2011. Their car insurance has been recognised for exceptional value, quality service and low cost, winning multiple awards. Customers can make quick online claims, manage their insurance products through their self-service portal and get discounts on their groceries.",
+                "quoteNumber": "569257643"
+              },
+              "productMeta": {
+                "id": "WOOL-01-02",
+                "name": "Everyday Insurance Comprehensive",
+                "available": true,
+                "availableOnline": true,
+                "contact": {
+                  "isCallBackAllowed": false,
+                  "isCallDirectAllowed": true,
+                  "phoneNumber": "1300782182",
+                  "callCentreHours": "Mon – Fri (8am – 8pm EST) and Sat (9am-5pm EST)"
+                },
+                "price": {
+                  "annualPremium": 2452.33,
+                  "monthlyPremium": 227.24,
+                  "monthlyFirstMonth": 227.24,
+                  "annualisedMonthlyPremium": 2726.88,
+                  "annualAvailable": true,
+                  "monthlyAvailable": true
+                },
+                "discount": {
+                  "discountOffer": "As an Everyday Insurance customer, get 10% off your grocery shop once a month.",
+                  "discountOfferTerms": "*The 10% off your in-store shop at Woolworths Supermarkets offer, applies to eligible purchases during the Offer Period for active Everyday Insurance policyholders and Woolworths Mobile Customers who have a registered Everyday Rewards card linked to their eligible active Insurance policy or Mobile account(s).\r\nCompulsory Third Party (CTP) Green Slip policyholders, Roadside Assist and Everyday Travel Insurance policyholders are excluded from this offer.\r\n\u003cbr/\u003e\r\nYou can redeem this offer once per calendar month, regardless of the number of Everyday Insurance Policies, Woolworths Mobile Accounts or Woolworths Credit Cards you hold. This offer is limited to one Woolworths Supermarket transaction up to $500, with a maximum saving of $50 per Everyday Rewards card, per month.\r\n\u003cbr/\u003e\u003cbr/\u003e\r\nWhilst our team will try to apply the offer quickly to your Insurance policy or Mobile account(s), there will be instances where it could take up to 45 days. It's just our way of making sure every eligible member is included in the offer. For full terms and conditions, visit https://insurance.everyday.com.au/help.html?id=313. In addition to the above terms and conditions, by participating in the Everyday Rewards program, you agree to the Everyday Rewards Terms and Conditions(https://www.woolworthsrewards.com.au/terms.html)."
+                },
+                "productDisclosures": [
+                  {
+                    "code": "pdsa",
+                    "title": "Product Disclosure Statement",
+                    "url": "https://insurance.everyday.com.au/useful-documents"
+                  }
+                ],
+                "additionalExcesses": [
+                  {
+                    "description": "Undeclared young driver excess",
+                    "amount": "$800"
+                  },
+                  {
+                    "description": "Age under 21 years excess",
+                    "amount": "$1,200"
+                  },
+                  {
+                    "description": "Learner driver excess",
+                    "amount": "$800"
+                  },
+                  {
+                    "description": "Inexperienced driver excess",
+                    "amount": "$800"
+                  },
+                  {
+                    "description": "Age 21 - 24 years excess",
+                    "amount": "$800"
+                  }
+                ],
+                "features": [
+                  {
+                    "code": "lifeGntRep",
+                    "name": "Lifetime guarantee on authorised repairs",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "personalEf",
+                    "value": "Y",
+                    "description": " "
+                  },
+                  {
+                    "code": "childSeatC",
+                    "name": "Child seat/baby capsule",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "chRep",
+                    "name": "Choice of repairer",
+                    "value": "N"
+                  },
+                  {
+                    "code": "emrTranAc",
+                    "name": "Emergency transport and accommodation",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "insPayOp",
+                    "name": "Instalment payment options",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "dmgFire",
+                    "name": "Damage caused by fire",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "disclaimer",
+                    "value": "The indicative quote is subject to meeting the insurer's underwriting criteria. Please see below for further details."
+                  },
+                  {
+                    "code": "cvrTyp",
+                    "name": "Cover Type",
+                    "value": "Comprehensive"
+                  },
+                  {
+                    "code": "lockKeyRep",
+                    "name": "Lock and key replacement",
+                    "value": "$1,000"
+                  },
+                  {
+                    "code": "lifRep",
+                    "name": "Lifetime repair guarantee",
+                    "value": "Y",
+                    "description": " "
+                  },
+                  {
+                    "code": "hireCarAFC",
+                    "name": "Hire car following an at-fault claim",
+                    "value": "O"
+                  },
+                  {
+                    "code": "redWinGla",
+                    "name": "Reduced window glass excess",
+                    "value": "N"
+                  },
+                  {
+                    "code": "roadAsst",
+                    "name": "Roadside assistance",
+                    "value": "O"
+                  },
+                  {
+                    "code": "excWindRep",
+                    "name": "Excess-free windscreen replacement",
+                    "value": "O"
+                  },
+                  {
+                    "code": "stoCost",
+                    "name": "Storage costs",
+                    "value": "N"
+                  },
+                  {
+                    "code": "liability",
+                    "name": "Legal Liability",
+                    "value": "$20M"
+                  },
+                  {
+                    "code": "newCarRep",
+                    "name": "New car replacement",
+                    "value": "2 Years "
+                  },
+                  {
+                    "code": "kmLimit",
+                    "name": "KM Limit",
+                    "value": "Unlimited"
+                  },
+                  {
+                    "code": "dmgMalAct",
+                    "name": "Damage caused by malicious acts",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "kangaC",
+                    "name": "Kanga cover",
+                    "value": "N"
+                  },
+                  {
+                    "code": "dmgVehAcc",
+                    "name": "Damage to the insured vehicle caused by an accident",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "dmgTheft",
+                    "name": "Damage caused by theft",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "trailerCar",
+                    "name": "Trailer and caravan",
+                    "value": "$1,000"
+                  },
+                  {
+                    "code": "product",
+                    "name": "Product",
+                    "value": "Drive Less Pay Less Comprehensive"
+                  },
+                  {
+                    "code": "perEffect",
+                    "name": "Personal effects",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "dmgSHF",
+                    "name": "Damage caused by storm, hail or flood",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "hireCarTH",
+                    "name": "Hire car after theft",
+                    "value": "up to $50 per day up to 14 days"
+                  },
+                  {
+                    "code": "emrRep",
+                    "name": "Emergency repairs",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "hireCarNFC",
+                    "name": "Hire car following a not at-fault claim",
+                    "value": "O"
+                  },
+                  {
+                    "code": "marVal",
+                    "name": "Market Value",
+                    "value": "N"
+                  },
+                  {
+                    "code": "sportGC",
+                    "name": "Sports gear cover",
+                    "value": "N"
+                  },
+                  {
+                    "code": "towCost",
+                    "name": "Towing costs",
+                    "value": "Reasonable Costs"
+                  },
+                  {
+                    "code": "agreeVal",
+                    "name": "Agreed Value",
+                    "value": "Y"
+                  }
+                ],
+                "underwriter": {
+                  "afsl": "241436",
+                  "name": "The Hollard Insurance Company",
+                  "acn": "603 039 023"
+                },
+                "vehicleSettlement": {
+                  "agreedValue": "YES_DEFAULT",
+                  "agreedValueDescription": "AVAILABLE (DEFAULT)",
+                  "marketValue": "NO",
+                  "marketValueDescription": "NOT AVAILABLE"
+                },
+                "description": "Thorough cover from bonnet to boot. Super insurance at a low supermarket price.",
+                "inclusions": "\u003cul\u003e \u003cli\u003e24-month new for old car replacement cover if the car is a total loss. You must be the first registered owner.\u003c/li\u003e  \u003cli\u003eCover for reasonable towing costs\u003c/li\u003e  \u003cli\u003eCover for accidental loss or damage to your trailer or caravan if attached to your car during a collision (up to $1,000)\u003c/li\u003e  \u003cli\u003eDamage to certain personal property in your car at the time of an event (up to $500)\u003c/li\u003e  \u003cli\u003eChild safety seats and prams replacement that were in your car (up to $500)\u003c/li\u003e  \u003cli\u003eEmergency travel and accommodation cover (up to $500)\u003c/li\u003e  \u003cli\u003eLegal liability cover for substitute car\u003c/li\u003e  \u003cli\u003eLocks and keys replacement (up to $1,000)\u003c/li\u003e  \u003cli\u003eCover for loss or damage to your car caused whilst in transit between any places in Australia\u003c/li\u003e  \u003cli\u003eEssential repairs after an accident(up to $500)\u003c/li\u003e \u003cli\u003eHire Car After Theft\u003c/li\u003e\u003c/ul\u003e",
+                "productSuitability": "https://insurance.everyday.com.au/content/dam/Everyday/Insurance/Car/UsefulDocumentsCar/Everyday_Target_Market_Determination-Sep-21.pdf",
+                "optionalExtras": "\u003cul\u003e \u003cli\u003eHire car cover (up to $50 per day with maximum hire period shown on certificate of insurance)\u003c/li\u003e  \u003cli\u003eExcess-free windscreen cover\u003c/li\u003e\u003cli\u003eRoadside Assist, an optional service product provided by Digicall Assist Pty Ltd ABN 92 152 605 340\u003c/li\u003e \u003c/ul\u003e",
+                "benefits": "\u003cul\u003e  \u003cli\u003eSelect an Agreed value from the range provided\u003c/li\u003e\u003cli\u003eAdjust your excess to find a premium suitable to you\u003c/li\u003e\u003cli\u003e24/7 emergency claims lodgement and assistance\u003c/li\u003e \u003c/ul\u003e",
+                "disclaimer": "The indicative quote includes any applicable online discount and is subject to meeting the insurer's underwriting criteria and may change due to factors such as:\u003cul\u003e\u003cli\u003eDriver's history or offences or claims\u003c/li\u003e\u003cli\u003eAge or licence type of additional drivers\u003c/li\u003e\u003cli\u003eVehicle condition, accessories and modifications\u003c/li\u003e\u003c/ul\u003e",
+                "providerId": "569257643",
+                "excess": 600,
+                "validUntil": "2024-07-13",
+                "handoverUrl": "https://www.everydaycarinsurance.com.au/car/ls/comparethemarket?t=806jSQl2RK%2blMzt1NdYF0GRCBkwR8%2fdQtol1oBZQZCUM%3dI\u0026n=569257643\u0026p=COMP\u0026utm_source=comparethemarket\u0026utm_medium=referral\u0026utm_campaign=websale\u0026cvosrc=affiliate.comparethemarket.car,comp\u0026cvo_product=car"
+              }
+            },
+            {
+              "providerMeta": {
+                "name": "Huddle",
+                "code": "HUDD",
+                "blurb": "Huddle, has earned multiple awards and high customer satisfaction ratings since their inception in 2016. With over 35k customers they pay out over 1 million in claims each month and are focused on sustainability committing 1% of their revenue to the planet. Customers have access to a 24hr Australian based claims hotline.",
+                "quoteNumber": "CTM3334869"
+              },
+              "productMeta": {
+                "id": "HUDD-01-01",
+                "name": "Comprehensive",
+                "available": true,
+                "contact": {
+                  "isCallBackAllowed": false,
+                  "isCallDirectAllowed": false,
+                  "phoneNumber": "1300 715 919",
+                  "callCentreHours": "Mon-Thurs(8am-6pm EST), Fri(8am-5pm EST) and Sat(8am-4:30pm EST)"
+                },
+                "price": {
+                  "annualPremium": 2928.48,
+                  "monthlyPremium": 269.4,
+                  "monthlyFirstMonth": 313.4,
+                  "annualisedMonthlyPremium": 3276.8,
+                  "annualAvailable": true,
+                  "monthlyAvailable": true
+                },
+                "discount": {
+                  "discountOffer": "Award winning 24/7 online claims. Australia-based support teams. Underwritten by Hollard.",
+                  "discountOfferTerms": "Huddle won a Good Design award in 2019 in the Digital Apps and Software category for its instant claims experience.\nThe 24/7 claims service is available on the Huddle website or via the Huddle app."
+                },
+                "productDisclosures": [
+                  {
+                    "code": "pdsa",
+                    "title": "Product Disclosure Statement",
+                    "url": "https://huddle.com.au/pds"
+                  }
+                ],
+                "additionalExcesses": [
+                  {
+                    "description": "Undeclared drivers aged under 21",
+                    "amount": "2000"
+                  },
+                  {
+                    "description": "Named drivers aged under 21 years",
+                    "amount": "1200"
+                  },
+                  {
+                    "description": "Undeclared drivers aged 21-24",
+                    "amount": "1600"
+                  },
+                  {
+                    "description": "Learner drivers",
+                    "amount": "800"
+                  },
+                  {
+                    "description": "Inexperienced drivers",
+                    "amount": "800"
+                  },
+                  {
+                    "description": "Named drivers aged 21-24 years",
+                    "amount": "800"
+                  }
+                ],
+                "features": [
+                  {
+                    "code": "personalEf",
+                    "name": "Unlimited annual kilometres",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "agreeVal",
+                    "name": "Agreed Value",
+                    "value": "O"
+                  },
+                  {
+                    "code": "sportGC",
+                    "name": "Sports gear cover",
+                    "value": "O"
+                  },
+                  {
+                    "code": "childSeatC",
+                    "name": "Child seat/baby capsule",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "chRep",
+                    "name": "Choice of repairer",
+                    "value": "N"
+                  },
+                  {
+                    "code": "install",
+                    "name": "Instalment payment option available",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "emrTranAc",
+                    "name": "Emergency transport and accommodation",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "lifeGntRep",
+                    "name": "Lifetime guarantee on authorised repairs",
+                    "value": "N"
+                  },
+                  {
+                    "code": "insPayOp",
+                    "name": "Instalment payment options",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "dmgFire",
+                    "name": "Damage caused by fire",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "lockKeyRep",
+                    "name": "Lock and key replacement",
+                    "value": "$1,000"
+                  },
+                  {
+                    "code": "lifRep",
+                    "name": "Lifetime repair guarantee",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "towCost",
+                    "name": "Towing costs",
+                    "value": "Reasonable costs"
+                  },
+                  {
+                    "code": "hireCarAFC",
+                    "name": "Hire car following an at-fault claim",
+                    "value": "O"
+                  },
+                  {
+                    "code": "redWinGla",
+                    "name": "Reduced window glass excess",
+                    "value": "N"
+                  },
+                  {
+                    "code": "excWindRep",
+                    "name": "Excess-free windscreen replacement",
+                    "value": "O"
+                  },
+                  {
+                    "code": "roadAsst",
+                    "name": "Roadside assistance",
+                    "value": "O"
+                  },
+                  {
+                    "code": "stoCost",
+                    "name": "Storage costs",
+                    "value": "N"
+                  },
+                  {
+                    "code": "liability",
+                    "name": "Legal Liability",
+                    "value": "$20M"
+                  },
+                  {
+                    "code": "hirecar",
+                    "name": "Accident Hire Car option available",
+                    "value": "O"
+                  },
+                  {
+                    "code": "kangaC",
+                    "name": "Kanga cover",
+                    "value": "O"
+                  },
+                  {
+                    "code": "kmLimit",
+                    "name": "KM Limit",
+                    "value": "Unlimited"
+                  },
+                  {
+                    "code": "dmgMalAct",
+                    "name": "Damage caused by malicious acts",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "dmgVehAcc",
+                    "name": "Damage to the insured vehicle caused by an accident",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "trailerCar",
+                    "name": "Trailer and caravan",
+                    "value": "$1,000"
+                  },
+                  {
+                    "code": "dmgTheft",
+                    "name": "Damage caused by theft",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "perEffect",
+                    "name": "Personal effects",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "roadSide",
+                    "name": "Roadside assistance option available",
+                    "value": "O"
+                  },
+                  {
+                    "code": "dmgSHF",
+                    "name": "Damage caused by storm, hail or flood",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "newRep",
+                    "name": "New for new replacement",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "emrRep",
+                    "name": "Emergency repairs",
+                    "value": "$500"
+                  },
+                  {
+                    "code": "marVal",
+                    "name": "Market Value",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "childSeat",
+                    "name": "Unlimited annual kilometres",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "hireCarNFC",
+                    "name": "Hire car following a not at-fault claim",
+                    "value": "O"
+                  },
+                  {
+                    "code": "ncdPro",
+                    "name": "Maximum NCD protection option available",
+                    "value": "N"
+                  },
+                  {
+                    "code": "windscreen",
+                    "name": "Windscreen excess reduction",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "newCarRep",
+                    "name": "New car replacement",
+                    "value": "2 years"
+                  },
+                  {
+                    "code": "annKilo",
+                    "name": "Unlimited annual kilometres",
+                    "value": "Y"
+                  },
+                  {
+                    "code": "hireCarTH",
+                    "name": "Hire car after theft",
+                    "value": "O"
+                  }
+                ],
+                "underwriter": {
+                  "afsl": "241436",
+                  "name": "The Hollard Insurance Company",
+                  "acn": "603 039 023"
+                },
+                "vehicleSettlement": {
+                  "agreedValue": "YES_DEFAULT",
+                  "agreedValueDescription": "AVAILABLE (DEFAULT)",
+                  "marketValue": "YES",
+                  "marketValueDescription": "AVAILABLE"
+                },
+                "description": "Comprehensive description",
+                "inclusions": "\u003cul\u003e\u003cli\u003e24 month new for old car replacement if your car is a total loss\u003c/li\u003e\u003cli\u003eChild safety seats and prams replacement ($500)\u003c/li\u003e\u003cli\u003eCover for towing costs\u003c/li\u003e\u003cli\u003eDamage to personal property in your car ($500)\u003c/li\u003e\u003cli\u003eEmergency travel and accommodation ($500)\u003c/li\u003e\u003cli\u003eEssential repairs to restore your car to a roadworthy and safe condition ($500)\u003c/li\u003e\u003cli\u003eHire car after your car is stolen ($70 per day, up to 14 days)\u003c/li\u003e\u003cli\u003eLegal liability cover ($20 million)\u003c/li\u003e\u003cli\u003eLocks and keys replacement ($1,000)\u003c/li\u003e\u003cli\u003eTrailer and caravan cover while it's attached to your car ($1,000)\u003c/li\u003e\u003cli\u003eTransit cover while your car is being transported between places in Australia\u003c/li\u003e\u003c/ul\u003e",
+                "productSuitability": "https://huddle.com.au/pds",
+                "optionalExtras": "\u003cul\u003e\u003cli\u003eExcess-free windscreen cover\u003c/li\u003e\u003cli\u003eHire car\u003c/li\u003e\u003cli\u003eKanga Cover for excess free animal collisions\u003c/li\u003e\u003cli\u003ePay As You Drive Cover - pay only for the kilometres you drive (your agreed kilometres can be increased during your period of insurance)\u003c/li\u003e\u003cli\u003eRoadside Assistance, an optional service product\u003c/li\u003e\u003cli\u003eSports gear cover whilst it's in or on your car\u003c/li\u003e\u003c/ul\u003e",
+                "benefits": "\u003cul\u003e\u003cli\u003e24/7 emergency helpline\u003c/li\u003e\u003cli\u003eBecome part of Huddle's Member Council to help make changes to their products and services.\u003c/li\u003e\u003cli\u003eMost claims can be lodged 24/7 with the Huddle App and in some cases you'll get a decision within minutes.\u003c/li\u003e\u003c/ul\u003e",
+                "disclaimer": "The quote is indicative and is subject to meeting the insurer's underwriting criteria and may change due to factors such as, but not limited to: Driver's history, offenses or claims, Age or licence type of the drivers, Vehicle condition, accessories and modifications",
+                "providerId": "CTM3334869",
+                "excess": 600,
+                "validUntil": "2024-07-13",
+                "handoverUrl": "https://portal.huddleinsurance.com/refer/quote/hy8pzGB9fyvBtbknJYLWwt?utm_source=compare-the-market\u0026utm_medium=web\u0026utm_campaign=partner\u0026utm_content=car\u0026product_slug=hdl-car-comp-23\u0026cover_type=comp\u0026cover_level=comp"
+              }
+            },
+            {
+              "providerMeta": {
+                "name": "1st For Women",
+                "code": "1FOW",
+                "blurb": "1st for Women, was founded in 2003 with products tailor-made exclusively for the needs of Australian women. They are focused on ensuring that individual risks are identified accurately and assessed correctly to provide customers the right price. Customers can access 24-Hour phone claims helpline, 21-day cooling-off period and a no claims discount."
+              },
+              "productMeta": {
+                "id": "1FOW-05-02",
+                "name": "Lady Driver Comprehensive",
+                "available": false
+              }
+            },
+            {
+              "providerMeta": {
+                "name": "Ozicare",
+                "code": "OZIC",
+                "blurb": "Ozicare, has been providing Australians with hassle free car insurance at a price which won’t break the bank since 2001. Customers can take advantage of its 24-hour one stop claim assessment centres, competitive standard features and fortnightly, monthly or annual payments, all with no paper forms to fill in."
+              },
+              "productMeta": {
+                "id": "OZIC-05-04",
+                "name": "Gold Comprehensive",
+                "available": false
+              }
+            },
+            {
+              "providerMeta": {
+                "name": "Retirease",
+                "code": "RETI",
+                "blurb": "Retirease recognises that older drivers are some of Australia’s most careful drivers and rewards this with discounts (such as restricted driver discounts) and variable excess options to provide affordable car insurance for retirees. They have no paper forms to fill in and Australian-based contact-centres ready to help with a claim."
+              },
+              "productMeta": {
+                "id": "RETI-05-03",
+                "name": "Retired Driver Comprehensive",
+                "available": false
+              }
+            },
+            {
+              "providerMeta": {
+                "name": "Carpeesh",
+                "code": "CARP",
+                "blurb": "Carpeesh is a technology focused brand aiming to lower the cost of car insurance and make roads safer. Their innovative app allows customers to earn rewards for safe driving, update their policy details and report and claim at the time of the incident. Customers have access to Carpeesh’s preferred repairer network and a variety of payment options."
+              },
+              "productMeta": {
+                "id": "CARP-01-03",
+                "name": "Worker",
+                "available": false
+              }
+            },
+            {
+              "providerMeta": {
+                "name": "Carpeesh",
+                "code": "CARP",
+                "blurb": "Carpeesh is a technology focused brand aiming to lower the cost of car insurance and make roads safer. Their innovative app allows customers to earn rewards for safe driving, update their policy details and report and claim at the time of the incident. Customers have access to Carpeesh’s preferred repairer network and a variety of payment options."
+              },
+              "productMeta": {
+                "id": "CARP-01-04",
+                "name": "Rideshare",
+                "available": false
+              }
+            },
+            {
+              "providerMeta": {
+                "name": "Huddle",
+                "code": "HUDD",
+                "blurb": "Huddle, has earned multiple awards and high customer satisfaction ratings since their inception in 2016. With over 35k customers they pay out over 1 million in claims each month and are focused on sustainability committing 1% of their revenue to the planet. Customers have access to a 24hr Australian based claims hotline."
+              },
+              "productMeta": {
+                "id": "HUDD-01-05",
+                "name": "Huddle Black",
+                "available": false
+              }
+            },
+            {
+              "providerMeta": {
+                "name": "Carpeesh",
+                "code": "CARP",
+                "blurb": "Carpeesh is a technology focused brand aiming to lower the cost of car insurance and make roads safer. Their innovative app allows customers to earn rewards for safe driving, update their policy details and report and claim at the time of the incident. Customers have access to Carpeesh’s preferred repairer network and a variety of payment options."
+              },
+              "productMeta": {
+                "id": "CARP-01-02",
+                "name": "Young Driver",
+                "available": false
+              }
+            },
+            {
+              "providerMeta": {
+                "name": "Budget Direct",
+                "code": "BUDD",
+                "blurb": "Budget Direct has helped over 3 million Aussies since its inception in 2000. Winning various awards including Money magazine’s Best Value Car Insurance award multiple times, it offers customers low cost, value focused insurance. Customers can access 24/7 claim service, restriction options \u0026 free access to its hail tracking and warning system."
+              },
+              "productMeta": {
+                "id": "BUDD-05-01",
+                "name": "Car Insurance",
+                "available": false
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "quoteReceipts": [
+    {
+      "quoteId": 14020595,
+      "receiptTime": "2024-06-14T09:04:06.576Z",
+      "products": [
+        "BUDD-05-15",
+        "BUDD-05-04",
+        "VIRG-05-17",
+        "WOOL-01-01",
+        "EXOA-05-18",
+        "OZIC-05-01",
+        "HUDD-01-02",
+        "CARP-01-01",
+        "WOOL-01-02",
+        "HUDD-01-01"
+      ],
+      "propensityScore": 0.0342479691,
+      "omittedProviderCodes": []
+    }
+  ],
+  "journeyMarketings": [
+    {
+      "id": 21276908,
+      "created": "2024-06-14T09:04:00.227Z"
+    }
+  ],
+  "clientMetadata": {
+    "client": {
+      "clientDeviceCategory": "DESKTOP",
+      "clientDeviceOS": "macOS",
+      "clientDeviceOSVersion": "",
+      "clientBrowser": "Chromium",
+      "clientBrowserVersion": "124",
+      "anonymousId": "ebb5334e-176a-4e96-ab5e-955c6dc30113",
+      "userId": ""
+    },
+    "clientSessionScope": {
+      "sessionId": "a0fa822f-a4c2-46d2-9e35-982c8b7fbedf",
+      "referrer": "www.google.com",
+      "mktCloud_subscriberId": "",
+      "reportingChannel": "Direct"
+    }
+  },
+  "journeyOrigin": "ONLINE_JOURNEY",
+  "prefill": {
+    "lastViewedPage": "/car-insurance/journey/results",
+    "eligiblePage": true,
+    "attempt": 0
+  }
+}

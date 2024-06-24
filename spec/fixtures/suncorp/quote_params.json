@@ -1,0 +1,90 @@
+{
+  "quoteDetails": {
+    "quoteNumber": "",
+    "policyStartDate": "2024-07-01",
+    "acceptDutyOfDisclosure": true,
+    "currentInsurer": "AAMI",
+    "sumInsured": {
+      "marketValue": 4600,
+      "agreedValue": 4600,
+      "sumInsuredType": "Agreed Value"
+    },
+    "campaignCode": ""
+  },
+  "vehicleDetails": {
+    "nvic": "J8A09C",
+    "highPerformance": null,
+    "financed": false,
+    "usage": {
+      "primaryUsage": "Private",
+      "businessType": "",
+      "showStampDutyModal": false,
+      "backFromJeopardy": false
+    },
+    "kmPerYear": "Up to 5,000 kms a year",
+    "regoNumber": "ZZB619",
+    "daysWfh": "1 - 2 Days",
+    "daytimeParking": {
+      "indicator": "Same suburb",
+      "suburb": null,
+      "postcode": null
+    },
+    "peakHourDriving": false,
+    "vehicleInfo": {
+      "make": "VOLKSWAGEN",
+      "family": "GOLF"
+    }
+  },
+  "coverDetails": {
+    "coverType": "Car Comprehensive",
+    "hasWindscreenExcessWaiver": false,
+    "hasHireCar": false,
+    "hasRoadAssist": false,
+    "hasFireAndTheft": false
+  },
+  "riskAddress": {
+    "postcode": "3022",
+    "state": "VIC",
+    "suburb": "ARDEER",
+    "lurn": "70325ESNDST  0050         0000        ",
+    "lurnScale": "1",
+    "geocodedNationalAddressFileData": {
+      "gnafAddressDetailPID": "GAVIC421375789",
+      "gnafLocalityPID": "locc7baa224b862",
+      "gnafMbCode": "20085450000",
+      "absStatisticalAreas": {
+        "gnafSa1": "21301132804",
+        "gnafSa2": "213011328",
+        "gnafSa3": "21301",
+        "gnafSa4": "213"
+      },
+      "gnafStreetLocalityLatitude": "-37.77436726",
+      "gnafStreetLocalityLongitude": "144.79694197",
+      "gnafStreetLocalityPID": "VIC1967871",
+      "gnafSuburbLatitude": "-37.77621429",
+      "gnafSuburbLongitude": "144.80152382",
+      "gnafSrid": 4283
+    },
+    "pointLevelCoordinates": {
+      "longLatLatitude": "-37.772413",
+      "longLatLongitude": "144.797495"
+    },
+    "spatialReferenceId": 4283,
+    "hopewiserVersion": "V3 AUS GNAF",
+    "matchStatus": "HAPPY",
+    "structuredStreetAddress": {
+      "streetNumber1": "78",
+      "streetName": "ESMOND",
+      "streetTypeCode": "ST"
+    }
+  },
+  "driverDetails": {
+    "mainDriver": {
+      "dateOfBirth": "1990-09-01",
+      "gender": "Male",
+      "hasClaimOccurrences": false,
+      "claimOccurrences": []
+    },
+    "additionalDrivers": []
+  }
+}
