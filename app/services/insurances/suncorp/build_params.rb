@@ -179,7 +179,7 @@ module Insurances
       def car_details
         @car_details ||=
           begin
-            service = VehicleSearch.new(details[:state], details[:plate], details[:policy_start_date])
+            service = VehicleSearch.new(details[:plate_state], details[:plate], details[:policy_start_date])
             service.call
             service.data
           end

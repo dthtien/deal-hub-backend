@@ -7,6 +7,7 @@ describe Insurances::Suncorp::BuildParams do
       policy_start_date: '2024-07-01',
       current_insurer: 'AAMI',
       state: 'VIC',
+      plate_state: 'VIC',
       suburb: 'Ardeer',
       postcode: '3022',
       address_line1: '78 Esmond Street',

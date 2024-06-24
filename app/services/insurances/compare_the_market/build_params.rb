@@ -172,7 +172,7 @@ module Insurances
       end
 
       def car_detail
-        @car_detail ||= VehicleSearch.new(details[:state], details[:plate], token_data[:access_token])
+        @car_detail ||= VehicleSearch.new(details[:plate_state], details[:plate], token_data[:access_token])
                                      .call.data
       end
 
