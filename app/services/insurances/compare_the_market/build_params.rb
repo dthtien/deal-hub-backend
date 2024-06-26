@@ -135,11 +135,15 @@ module Insurances
       def address_details
         @address_details ||=
           begin
-            service = Address::Check.new(details[:suburb], details[:postcode], details[:state], details[:address_line1])
+            service = Address::Check.new(details[:suburb], details[:postcode], details[:state], parsed_address_line1)
             service.call
 
             service.data['matchedAddress']
           end
+      end
+
+      def parsed_address_line1
+        details[:address_line1].split(',').first
       end
 
       def vehicle_detail

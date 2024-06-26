@@ -52,7 +52,7 @@ module Insurances
 
       def quote_params
         params.except(:driver).merge(
-          driver_dob: user_params[:date_of_birth],
+          driver_dob: '1996-01-01' || user_params[:date_of_birth],
           driver_first_name: user_params[:first_name],
           driver_last_name: user_params[:last_name],
           driver_gender: user_params[:gender],
