@@ -114,8 +114,6 @@ module Insurances
         {
           firstName: details[:first_name] || details[:driver_first_name],
           lastName: details[:last_name] || details[:driver_last_name],
-          mobile: details[:phone_number] || details[:driver_phone_number],
-          email: details[:email] || details[:driver_email],
           optInPrivacy: true
         }
       end

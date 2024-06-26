@@ -81,8 +81,6 @@
     "applicant": {
       "firstName": "John",
       "lastName": "Doe",
-      "mobile": "0412345678",
-      "email": "test@gmail.com",
       "optInPrivacy": true
     },
     "leadCapture": {
