@@ -71,9 +71,22 @@ class TheIconicCrawler < ApplicationCrawler
       image_url: parse_image_url(element),
       name: element.css('.name').text.strip,
       old_price: element.css('.price.original').text.strip.gsub('$', '').to_f,
-      price: element.css('.price.final').text.strip.gsub('$', '').to_f,
+      price: parse_price(element),
       brand: element.css('.brand').text.strip
     }
+  end
+
+  def parse_price(element)
+    price = element.css('.price.final').text.strip.gsub('$', '').to_f
+    return price if price.positive?
+
+    element.css('.price').text.strip.gsub('$', '').to_f
+  end
+
+  def parse_old_price(element)
+    price = element.css('.price.original').text.strip.gsub('$', '').to_f
+
+    price.positive? ? price : nil
   end
 
   def parse_image_url(element)
