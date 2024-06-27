@@ -7,4 +7,3 @@ RSpec.describe Crawlers::TheGoodGuysJob, type: :job do
     described_class.new.perform
   end
 end
-
