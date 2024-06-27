@@ -11,7 +11,8 @@ class Product < ApplicationRecord
     JD_SPORTS = 'JD Sports',
     MYER = 'Myer',
     THE_GOOD_GUYS = 'The Good Guys',
-    ASOS = 'ASOS'
+    ASOS = 'ASOS',
+    THE_ICONIC = 'The Iconic'
   ].freeze
   validates :name, presence: true
   validates :price, presence: true
@@ -60,6 +61,8 @@ class Product < ApplicationRecord
       "https://www.myer.com.au/p/#{store_path}"
     when ASOS
       "https://www.asos.com/au/#{store_path}"
+    when THE_ICONIC
+      "https://www.theiconic.com.au#{store_path}"
     when THE_GOOD_GUYS
       store_path
     end
