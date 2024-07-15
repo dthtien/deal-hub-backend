@@ -24,6 +24,8 @@ module TheGoodGuys
     end
 
     def build_attributes(result)
+      return if result.blank?
+
       fields = result['fields']
       name = fields['heading']['stringValue']
       return if name.blank?
@@ -32,9 +34,7 @@ module TheGoodGuys
       old_price = fields.dig('wasPrice', 'stringValue').to_f
       description = fields.dig('shortDescription', 'stringValue')
       categories = parse_categories(fields['categories'])
-      {
-        name:,
-        price:,
+      { name:, price:, categories:,
         old_price: old_price.zero? ? nil : old_price,
         discount: calculate_discount(old_price, price),
         store_product_id: fields.dig('sku', 'stringValue'),
@@ -42,8 +42,7 @@ module TheGoodGuys
         image_url: parse_image_url(fields['images']),
         store_path: fields.dig('productUrl', 'stringValue'),
         store: Product::THE_GOOD_GUYS,
-        description: refine_description(description, categories),
-        categories:
+        description: refine_description(description, categories)
       }
     end
 

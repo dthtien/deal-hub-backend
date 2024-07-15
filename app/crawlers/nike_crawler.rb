@@ -37,8 +37,12 @@ class NikeCrawler < ApplicationCrawler
   def parse(response)
     result = JSON.parse(response.body)['data']['products']
     page = result['pages']
-    @total_pages = result['pages']['totalPages'] if total_pages == TOTAL_PAGES_UNKNOWN
-    @current_page = page['next']
+    if page.blank?
+      @current_page = nil
+    else
+      @total_pages = result['pages']['totalPages'] if total_pages == TOTAL_PAGES_UNKNOWN
+      @current_page = page['next']
+    end
     result['products']
   end
 
