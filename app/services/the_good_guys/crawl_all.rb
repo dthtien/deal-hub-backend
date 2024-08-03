@@ -55,8 +55,9 @@ module TheGoodGuys
     end
 
     def parse_image_url(images)
-      image = images.dig('arrayValue', 'values').first
+      return if images.blank?
 
+      image = images.dig('arrayValue', 'values').first
       image.dig('mapValue', 'fields', 'Url', 'stringValue')
     end
 
