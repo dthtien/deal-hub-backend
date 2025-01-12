@@ -24,6 +24,5 @@ application structure.
 - [x] ASOS
 - [x] Use redis in image
 - [ ] The iconic
-- [ ] Adias
 - [ ] David john
 - [ ] Find affiliate solution
