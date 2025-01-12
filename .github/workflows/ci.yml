@@ -110,7 +110,7 @@ jobs:
           ruby-version: 3.3.1
 
       - name: Install dependencies
-        run: gem install kamal
+        run: gem install kamal -v 1.9.0
 
       - uses: webfactory/ssh-agent@v0.7.0
         with:
@@ -121,4 +121,4 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Run deploy command
-        run: VERSION=latest kamal deploy --skip-push
+        run: VERSION=latest bundle exec kamal deploy --skip-push
