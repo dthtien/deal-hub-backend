@@ -123,7 +123,7 @@ module Insurances
             "backFromJeopardy": false
           },
           "kmPerYear": km_per_year,
-          "regoNumber": details[:plate],
+          "regoNumber": details[:plate].upcase,
           "daysWfh": DAY_WFH_TYPES[details[:days_wfh]],
           "daytimeParking": parking_params,
           "peakHourDriving": details[:peak_hour_driving],

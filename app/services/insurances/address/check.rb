@@ -46,7 +46,7 @@ module Insurances
             postcode:,
             state:,
             addressInFreeForm: {
-              addressLine1: address_line1,
+              addressLine1: address_line1.split(',').first
             }
           },
           expectedQualityLevels: %w[1 2 3 4 5 6],

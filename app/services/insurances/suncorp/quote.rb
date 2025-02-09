@@ -52,10 +52,11 @@ module Insurances
           faraday.adapter Faraday.default_adapter
           faraday.headers['Content-Type'] = 'application/json'
           faraday.headers['Accept'] = 'application/vnd.api+json'
-          faraday.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome'
+          faraday.headers['Cache-Control'] = 'no-cache'
+          faraday.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'
           faraday.headers['X-Client-ID'] = 'aami-motor-ui'
           faraday.headers['X-Client-Version'] = '1.0'
-          faraday.headers['X-Request-ID'] = 'd94af332-f212-4b54-8a7c-b899e08d70ac'
+          faraday.headers['X-Request-ID'] = '800b20f5-05b7-4966-a65a-4155571e68a5'
         end
       end
 

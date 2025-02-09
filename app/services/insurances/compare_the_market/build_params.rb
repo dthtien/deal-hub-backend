@@ -183,6 +183,7 @@ module Insurances
         {
           gender: GENDERS[details[:driver_gender]],
           dob: details[:driver_dob],
+          licenceType: (details[:licence_type] || 'FULL').upcase,
           employmentStatus: EMPLOYMENT_STATUSES[details[:driver_employment_status] || 'full_time'],
           licenceAge: details[:driver_licence_age],
           anyPreviousClaims: PREVIOUS_CLAIMS[previous_claims],

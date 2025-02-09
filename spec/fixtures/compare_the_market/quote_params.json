@@ -30,6 +30,7 @@
       "driver": {
         "gender": "MALE",
         "dob": "1990-09-01",
+        "licenceType": "FULL",
         "employmentStatus": "EMPLOYED_FULL_TIME",
         "licenceAge": 25,
         "anyPreviousClaims": "NO",
