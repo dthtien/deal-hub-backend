@@ -23,6 +23,8 @@ application structure.
 - [x] The good guys
 - [x] ASOS
 - [x] Use redis in image
-- [ ] The iconic
+- [x] The iconic
+- [ ] Update image registry
+- [ ] Use postgresql in image
 - [ ] David john
 - [ ] Find affiliate solution
