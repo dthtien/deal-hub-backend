@@ -44,7 +44,7 @@ jobs:
 
   push_to_registry:
     needs: test
-    name: Push Docker image to Azure
+    name: Push Docker image
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -72,7 +72,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: dthtien.azurecr.io/dthtien/deal-hub-backend:latest
+          tags: ${{ env.REGISTRY }}/dthtien/deal-hub-backend:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
           labels: service=deals-hub-be
