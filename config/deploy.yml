@@ -46,30 +46,27 @@ accessories:
     options:
       network: "private"
 
-  # db:
-    # image: postgres:15
-    # port: 5432
-    # host: <%= ENV['BACKEND_IP_ADDRESS'] %>
-    # env:
-      # secret:
-        # - POSTGRES_USER
-        # - POSTGRES_PASSWORD
-    # files:
-      # - db/production.sql:/docker-entrypoint-initdb.d/setup.sql
-    # directories:
-      # - data:/var/lib/postgresql/data
-    # options:
-      # "add-host": host.docker.internal:host-gateway
+  postgres:
+    image: postgres:15
+    host: 67.219.97.246
+    port: 5432:5432
+    env:
+      secret:
+        - POSTGRES_PASSWORD
+        - POSTGRES_DB
+        - POSTGRES_USER
+    directories:
+      - data:/var/lib/postgresql/data
+    options:
+      network: "private"
 
-# Inject ENV variables into containers (secrets come from .env).
-# Remember to run `kamal env push` after making changes!
 env:
   clear:
     REDIS_URL: redis://deals-hub-be-redis:6379
     APP_URL: https://www.beneficiumvilis.com/
+    DEAL_HUB_API_DATABASE_HOST: deals-hub-be-postgres
   secret:
     - RAILS_MASTER_KEY
-    - DEAL_HUB_API_DATABASE_HOST
     - DEAL_HUB_API_DATABASE_NAME
     - DEAL_HUB_API_DATABASE_USERNAME
     - DEAL_HUB_API_DATABASE_PASSWORD
