@@ -115,7 +115,7 @@ jobs:
           ruby-version: 3.3.1
 
       - name: Install dependencies
-        run: gem install kamal -v 1.9.0
+        run: gem install kamal -v 2.1.0
 
       - uses: webfactory/ssh-agent@v0.7.0
         with:

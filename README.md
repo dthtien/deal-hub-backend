@@ -24,7 +24,8 @@ application structure.
 - [x] ASOS
 - [x] Use redis in image
 - [x] The iconic
-- [ ] Update image registry
-- [ ] Use postgresql in image
+- [x] Update image registry
+- [x] Use postgresql in image
+- [x] Upgrade Kamal
 - [ ] David john
 - [ ] Find affiliate solution
