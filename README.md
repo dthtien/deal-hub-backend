@@ -27,5 +27,6 @@ application structure.
 - [x] Update image registry
 - [x] Use postgresql in image
 - [x] Upgrade Kamal
+- [ ] Upgrade Rails
 - [ ] David john
 - [ ] Find affiliate solution
