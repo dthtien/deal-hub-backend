@@ -23,12 +23,22 @@ module Insurances
 
         unless response.success?
           @errors << 'Error while fetching data from the API'
+          create_item_error(response)
           return self
         end
 
         @data = parse_response(response)
 
         self
+      end
+
+      def create_item_error(response)
+        quote_item = quote.quote_items.find_or_initialize_by(provider: QuoteItem::COMPARE_THE_MARKET)
+        quote_item.update!(
+          response_details: response.body,
+          description: response.body,
+          status: QuoteItem.statuses[:failed]
+        )
       end
 
       def store_quote_item

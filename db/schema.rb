@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_24_102919) do
+ActiveRecord::Schema[7.1].define(version: 2025_02_19_052521) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
@@ -51,6 +51,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_24_102919) do
     t.jsonb "response_details"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status", default: 0
     t.index ["quote_id", "provider", "cover_type"], name: "index_quote_items_on_quote_id_and_provider_and_cover_type", unique: true
     t.index ["quote_id"], name: "index_quote_items_on_quote_id"
   end

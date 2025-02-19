@@ -9,10 +9,12 @@ class QuoteItem < ApplicationRecord
     OCEANIA = 'Oceania',
     OZICARE = 'Ozicare',
     HUDDLE = 'Huddle',
-    CARPEESH = 'Carpeesh'
+    CARPEESH = 'Carpeesh',
+    COMPARE_THE_MARKET = 'Compare the Market'
   ].freeze
 
   belongs_to :quote
+  enum status: { pending: 0, completed: 1, failed: 2 }
 
   def as_json(options = {})
     super(options).merge(
