@@ -43,7 +43,10 @@ class CultureKingsCrawler < ApplicationCrawler
   end
 
   def parse(response)
-    result = JSON.parse(response.body)['results'].first
+    parsed_body = JSON.parse(response.body)
+    return [] if parsed_body['results'].empty?
+
+    result = parsed_body['results'].first
 
     @total_pages = result['nbPages'] if total_pages == TOTAL_PAGES_UNKNOWN
     @current_page += 1
