@@ -44,7 +44,7 @@ class CultureKingsCrawler < ApplicationCrawler
 
   def parse(response)
     parsed_body = JSON.parse(response.body)
-    return [] if parsed_body['results'].empty?
+    return [] if parsed_body['results'].blank?
 
     result = parsed_body['results'].first
 
