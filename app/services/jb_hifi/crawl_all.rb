@@ -20,7 +20,9 @@ module JbHifi
     def crawler_and_build
       crawler.crawl_all
 
-      @attributes += crawler.data.map { |result| build_attributes(result) }.compact
+      @attributes += crawler.data.map { |result| build_attributes(result) }
+                              .compact
+                              .uniq { |a| a[:store_product_id] }
     end
 
     def build_attributes(result)
