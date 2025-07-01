@@ -37,7 +37,11 @@ class TheGoodGuysCrawler < ApplicationCrawler
     response = client.get(SALE_IDS_URL)
     response_body = JSON.parse(response.body)
 
-    response_body['whiteTilesData'].compact.map { |a| a['sku'] }
+    product_data = response_body['whiteTilesData']
+
+    return [] if product_data.blank?
+
+    product_data.compact.map { |a| a['sku'] }
   end
 
   def build_params(ids)
