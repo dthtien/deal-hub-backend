@@ -57,7 +57,7 @@ accessories:
 env:
   clear:
     REDIS_URL: redis://deals-hub-be-redis:6379
-    APP_URL: https://www.beneficiumvilis.com/
+    APP_URL: https://www.ozvfy.com/
     DEAL_HUB_API_DATABASE_HOST: deals-hub-be-postgres
   secret:
     - RAILS_MASTER_KEY
