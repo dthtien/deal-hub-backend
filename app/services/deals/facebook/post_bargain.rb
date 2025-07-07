@@ -3,6 +3,7 @@
 module Deals
   module Facebook
     class PostBargain < ApplicationService
+      ErrorResponse = Struct.new(:body, :success?)
       attr_reader :errors
 
       def initialize
@@ -35,7 +36,7 @@ module Deals
       def post_bargain(bargain)
         fb_page.post_with_images!(message(bargain), images(bargain))
       rescue StandardError => e
-        Struct.new(body: e.message, success?: false)
+        ErrorResponse.new(body: e.message, success?: false)
       end
 
       def current_time

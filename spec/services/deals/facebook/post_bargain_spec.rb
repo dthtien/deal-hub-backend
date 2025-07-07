@@ -30,11 +30,12 @@ RSpec.describe Deals::Facebook::PostBargain do
       let(:facebook_page_double) do
         double(
           'Facebook::Page',
-          post_with_images!: double(success?: false, body: 'Failed')
+          post_with_images!: double(success?: false, body: 'Error occurred')
         )
       end
 
       it do
+        allow(facebook_page_double).to receive(:post_with_images!).and_raise(StandardError.new('Network error'))
         service.call
         expect(service.success?).to be_falsey
       end
