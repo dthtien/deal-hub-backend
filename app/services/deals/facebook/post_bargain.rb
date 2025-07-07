@@ -6,6 +6,7 @@ module Deals
       attr_reader :errors
 
       def initialize
+        super
         @errors = []
       end
 
@@ -34,7 +35,7 @@ module Deals
       def post_bargain(bargain)
         fb_page.post_with_images!(message(bargain), images(bargain))
       rescue StandardError => e
-        OpenStruct.new(body: e.message, success?: false)
+        Struct.new(body: e.message, success?: false)
       end
 
       def current_time
