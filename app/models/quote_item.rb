@@ -14,7 +14,7 @@ class QuoteItem < ApplicationRecord
   ].freeze
 
   belongs_to :quote
-  enum status: { pending: 0, completed: 1, failed: 2 }
+  enum :status, { pending: 0, completed: 1, failed: 2 }
 
   def as_json(options = {})
     super(options).merge(
