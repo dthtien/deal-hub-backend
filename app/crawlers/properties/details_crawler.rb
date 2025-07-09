@@ -47,7 +47,9 @@ module Properties
         bathrooms: extract_detail(BATHROOMS),
         car_spaces: extract_detail(CAR_SPACES),
         land_size: extract_detail(LAND_SIZE),
-        floor_area: extract_detail(FLOOR_AREA)
+        floor_area: extract_detail(FLOOR_AREA),
+        estimated_value:,
+        estimated_value_confidence:
       }
 
       self
@@ -73,6 +75,18 @@ module Properties
 
     def property_information_div
       @property_information_div ||= document.at_css('[title="Property type"]').parent
+    end
+
+    def estimated_value
+      @estimated_value ||= property_value_div.css('[data-testid="valuation-sub-brick-price-text"]')&.text&.strip
+    end
+
+    def estimated_value_confidence
+      @estimated_value_confidence ||= property_value_div.css('[data-testid="valuation-sub-brick-confidence"]')&.text&.strip
+    end
+
+    def property_value_div
+      @property_value_div ||= document.at_xpath("//h3[normalize-space(text())='Property value']/ancestor::section[1]")
     end
   end
 end

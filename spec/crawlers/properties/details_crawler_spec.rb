@@ -15,12 +15,14 @@ RSpec.describe Properties::DetailsCrawler do
 
     it 'fetches property details' do
       expected_data = {
-        property_type: "House",
-        bedrooms: "-",
-        bathrooms: "-",
-        car_spaces: "-",
-        land_size: "648m²",
-        floor_area: "328m²"
+        property_type: 'House',
+        bedrooms: '-',
+        bathrooms: '-',
+        car_spaces: '-',
+        land_size: '648m²',
+        floor_area: '328m²',
+        estimated_value: '$1,177,000',
+        estimated_value_confidence: 'Medium Confidence'
       }
 
       expect(crawler.data).to include(expected_data)
