@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      resources :address_suggestions, only: :index
       resources :deals, only: :index
       resource :metadata, only: :show
       namespace :insurances do
