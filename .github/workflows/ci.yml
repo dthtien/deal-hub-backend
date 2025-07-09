@@ -126,6 +126,7 @@ jobs:
           APP_URL=${{ secrets.APP_URL }}
           FB_PAGE_ID=${{ secrets.FB_PAGE_ID }}
           FB_USER_TOKEN=${{ secrets.FB_USER_TOKEN }}
+          PROPERTY_COM_COOKIE=${{ secrets.PROPERTY_COM_COOKIE }}
           EOL
 
       - name: Run deploy command
