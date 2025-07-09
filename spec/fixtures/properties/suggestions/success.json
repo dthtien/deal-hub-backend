@@ -1,0 +1,162 @@
+{
+  "_embedded": {
+    "suggestions": [
+      {
+        "_links": {
+          "self": {
+            "href": "./address/8585466"
+          }
+        },
+        "display": {
+          "subtext": "Property history",
+          "text": "28 Grovedale Cct, Cairnlea, VIC 3023"
+        },
+        "id": "8585466",
+        "source": {
+          "streetName": "Grovedale Cct",
+          "suburb": "Cairnlea",
+          "streetNumber": "28",
+          "shortAddress": "28 Grovedale Cct",
+          "state": "VIC",
+          "url": "https://www.realestate.com.au/property/lookup?id=8585466",
+          "streetType": "Cct",
+          "postcode": "3023",
+          "street": "Grovedale",
+          "streetNumberFrom": "28"
+        },
+        "type": "address"
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "./address/3384390"
+          }
+        },
+        "display": {
+          "subtext": "Property history",
+          "text": "28 Grovedale Rd, Surrey Hills, VIC 3127"
+        },
+        "id": "3384390",
+        "source": {
+          "streetName": "Grovedale Rd",
+          "suburb": "Surrey Hills",
+          "streetNumber": "28",
+          "shortAddress": "28 Grovedale Rd",
+          "state": "VIC",
+          "url": "https://www.realestate.com.au/property/lookup?id=3384390",
+          "streetType": "Rd",
+          "postcode": "3127",
+          "street": "Grovedale",
+          "streetNumberFrom": "28"
+        },
+        "type": "address"
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "./address/14685381"
+          }
+        },
+        "display": {
+          "subtext": "Property history",
+          "text": "28 Grovedale Way, Manor Lakes, VIC 3024"
+        },
+        "id": "14685381",
+        "source": {
+          "streetName": "Grovedale Way",
+          "suburb": "Manor Lakes",
+          "streetNumber": "28",
+          "shortAddress": "28 Grovedale Way",
+          "state": "VIC",
+          "url": "https://www.realestate.com.au/property/lookup?id=14685381",
+          "streetType": "Way",
+          "postcode": "3024",
+          "street": "Grovedale",
+          "streetNumberFrom": "28"
+        },
+        "type": "address"
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "./address/11824677"
+          }
+        },
+        "display": {
+          "subtext": "Property history",
+          "text": "289 Grovedale Rd, Trunkey Creek, NSW 2795"
+        },
+        "id": "11824677",
+        "source": {
+          "streetName": "Grovedale Rd",
+          "suburb": "Trunkey Creek",
+          "streetNumber": "289",
+          "shortAddress": "289 Grovedale Rd",
+          "state": "NSW",
+          "url": "https://www.realestate.com.au/property/lookup?id=11824677",
+          "streetType": "Rd",
+          "postcode": "2795",
+          "street": "Grovedale",
+          "streetNumberFrom": "289"
+        },
+        "type": "address"
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "./address/8574574"
+          }
+        },
+        "display": {
+          "subtext": "Property history",
+          "text": "2 Grovedale Cct, Cairnlea, VIC 3023"
+        },
+        "id": "8574574",
+        "source": {
+          "streetName": "Grovedale Cct",
+          "suburb": "Cairnlea",
+          "streetNumber": "2",
+          "shortAddress": "2 Grovedale Cct",
+          "state": "VIC",
+          "url": "https://www.realestate.com.au/property/lookup?id=8574574",
+          "streetType": "Cct",
+          "postcode": "3023",
+          "street": "Grovedale",
+          "streetNumberFrom": "2"
+        },
+        "type": "address"
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "./address/3384359"
+          }
+        },
+        "display": {
+          "subtext": "Property history",
+          "text": "2 Grovedale Cl, Thomastown, VIC 3074"
+        },
+        "id": "3384359",
+        "source": {
+          "streetName": "Grovedale Cl",
+          "suburb": "Thomastown",
+          "streetNumber": "2",
+          "shortAddress": "2 Grovedale Cl",
+          "state": "VIC",
+          "url": "https://www.realestate.com.au/property/lookup?id=3384359",
+          "streetType": "Cl",
+          "postcode": "3074",
+          "street": "Grovedale",
+          "streetNumberFrom": "2"
+        },
+        "type": "address"
+      }
+    ]
+  },
+  "_links": {
+    "self": {
+      "href": "/consumer-suggest/suggestions?max=6&type=address%2Csuburb%2Cpostcode%2Cstate%2Cregion&src=reax-multi-intent-search-modal&query=28+grovedale"
+    }
+  },
+  "count": "6"
+}
