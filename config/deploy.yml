@@ -79,7 +79,7 @@ builder:
 
 proxy:
   ssl: true
-  host: api.beneficiumvilis.com
+  host: api.ozvfy.com
   app_port: 3000
   healthcheck:
     path: /up
