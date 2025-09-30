@@ -8,7 +8,7 @@ describe Insurances::CompareTheMarket::VehicleSearch do
 
   describe '#call' do
     before do
-      stub_request(:get, "https://www.comparethemarket.com.au/api/car-journey/lookup/rego/#{state}/#{plate}")
+      stub_request(:get, "https://www.comparethemarket.com.au/api/car-journey/lookup/rego/#{state}/#{plate}?brand_code=ctm")
         .to_return(status: 200, body: File.read('spec/fixtures/compare_the_market/number_plate.json'))
 
       service.call

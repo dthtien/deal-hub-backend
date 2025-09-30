@@ -36,7 +36,7 @@ module Insurances
       attr_reader :state, :plate, :token
 
       def request_url
-        "#{BASE_URL}/#{state}/#{plate}"
+        "#{BASE_URL}/#{state}/#{plate}?brand_code=ctm"
       end
 
       def parse_response(response)
