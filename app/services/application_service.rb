@@ -1,6 +1,11 @@
 class ApplicationService
+  attr_reader :errors
   def self.call(*args, &block)
     new(*args, &block).call
+  end
+
+  def initialize(*_args)
+    @errors = []
   end
 
   def call
