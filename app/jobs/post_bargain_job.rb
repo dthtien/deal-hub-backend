@@ -1,5 +1,6 @@
 class PostBargainJob < ApplicationJob
   def perform
+    return
     service = Deals::Facebook::PostBargain.call
 
     return if service.success?
