@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= @config.new_record? ? 'New' : 'Edit' %> Affiliate Config — Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: sans-serif; background: #f9fafb; color: #111; padding: 24px; }
+    h1 { font-size: 22px; font-weight: 700; margin-bottom: 24px; }
+    .card { background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 24px; max-width: 480px; }
+    .field { margin-bottom: 16px; }
+    label { display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 4px; }
+    select, input[type=text] { width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; }
+    select:focus, input:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 2px rgba(59,130,246,0.2); }
+    .hint { font-size: 12px; color: #6b7280; margin-top: 4px; }
+    .checkbox-row { display: flex; align-items: center; gap: 8px; }
+    .checkbox-row input { width: auto; }
+    .actions { display: flex; gap: 10px; margin-top: 20px; }
+    .btn { display: inline-block; padding: 8px 16px; border-radius: 6px; font-size: 14px; font-weight: 500; text-decoration: none; cursor: pointer; border: none; }
+    .btn-green { background: #16a34a; color: white; }
+    .btn-gray { background: #e5e7eb; color: #374151; }
+    .error { color: #dc2626; font-size: 13px; margin-bottom: 16px; }
+  </style>
+</head>
+<body>
+  <h1><%= @config.new_record? ? '+ New' : 'Edit' %> Affiliate Config</h1>
+
+  <div class="card">
+    <% if @config.errors.any? %>
+      <div class="error">
+        <% @config.errors.full_messages.each do |msg| %>
+          <p>⚠️ <%= msg %></p>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%= form_with model: [:admin, @config] do |f| %>
+      <div class="field">
+        <%= f.label :store, 'Store' %>
+        <%= f.select :store, AffiliateConfig::STORES, { include_blank: 'Select a store...' }, disabled: !@config.new_record? %>
+        <p class="hint">Each store can only have one affiliate config.</p>
+      </div>
+
+      <div class="field">
+        <%= f.label :param_name, 'URL Param Name' %>
+        <%= f.text_field :param_name, placeholder: 'e.g. aff, ref, partner_id' %>
+        <p class="hint">The query parameter appended to the product URL.</p>
+      </div>
+
+      <div class="field">
+        <%= f.label :param_value, 'Param Value (Your Affiliate ID)' %>
+        <%= f.text_field :param_value, placeholder: 'e.g. 12345' %>
+        <p class="hint">Your publisher/affiliate ID from Commission Factory or other network.</p>
+      </div>
+
+      <div class="field">
+        <div class="checkbox-row">
+          <%= f.check_box :active %>
+          <%= f.label :active, 'Active' %>
+        </div>
+        <p class="hint">Inactive configs won't be sent to the frontend.</p>
+      </div>
+
+      <div class="actions">
+        <%= f.submit @config.new_record? ? 'Create' : 'Update', class: 'btn btn-green' %>
+        <%= link_to 'Cancel', admin_affiliate_configs_path, class: 'btn btn-gray' %>
+      </div>
+    <% end %>
+  </div>
+</body>
+</html>
