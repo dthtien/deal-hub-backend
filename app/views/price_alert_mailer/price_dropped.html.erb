@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: sans-serif; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; }
+    .badge { background: #dcfce7; color: #166534; padding: 4px 10px; border-radius: 9999px; font-size: 14px; font-weight: 600; }
+    .price-new { font-size: 28px; font-weight: 700; color: #16a34a; }
+    .price-old { font-size: 18px; color: #9ca3af; text-decoration: line-through; }
+    .btn { display: inline-block; background: #16a34a; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; margin-top: 16px; }
+    .footer { margin-top: 32px; font-size: 12px; color: #9ca3af; }
+  </style>
+</head>
+<body>
+  <p>Hey 👋</p>
+  <p>Good news! An item on your watchlist just dropped below your target price.</p>
+
+  <% if @product.image_url.present? %>
+    <img src="<%= @product.image_url %>" alt="" style="max-height: 180px; object-fit: contain; margin: 16px 0;" />
+  <% end %>
+
+  <h2 style="margin: 8px 0;"><%= @product.name %></h2>
+
+  <p>
+    <span class="price-new">$<%= @product.price %></span>
+    <% if @product.old_price.present? %>
+      &nbsp;<span class="price-old">$<%= @product.old_price %></span>
+    <% end %>
+    <% if @product.discount.present? && @product.discount > 0 %>
+      &nbsp;<span class="badge">-<%= @product.discount %>% OFF</span>
+    <% end %>
+  </p>
+
+  <p>Your target was: <strong>$<%= @alert.target_price %></strong></p>
+
+  <a href="<%= @product.store_url %>" class="btn">View Deal →</a>
+
+  <div class="footer">
+    <p>You set this alert on ozvfy.com. This alert has now been marked as triggered.</p>
+  </div>
+</body>
+</html>

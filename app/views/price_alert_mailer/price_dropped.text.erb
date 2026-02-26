@@ -1,0 +1,15 @@
+Hey!
+
+Good news — an item on your watchlist just dropped below your target price.
+
+<%= @product.name %>
+Current price: $<%= @product.price %>
+<% if @product.old_price.present? %>Was: $<%= @product.old_price %><% end %>
+<% if @product.discount.present? && @product.discount > 0 %>Discount: <%= @product.discount %>% OFF<% end %>
+
+Your target was: $<%= @alert.target_price %>
+
+View deal: <%= @product.store_url %>
+
+---
+You set this alert on ozvfy.com.

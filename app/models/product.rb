@@ -14,6 +14,10 @@ class Product < ApplicationRecord
     ASOS = 'ASOS',
     THE_ICONIC = 'The Iconic'
   ].freeze
+
+  has_many :price_alerts, dependent: :destroy
+  has_many :price_histories, dependent: :destroy
+
   validates :name, presence: true
   validates :price, presence: true
   validates :store_product_id, presence: true
