@@ -10,11 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_02_19_052521) do
+ActiveRecord::Schema[7.1].define(version: 2026_02_26_231020) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "affiliate_configs", force: :cascade do |t|
+    t.string "store", null: false
+    t.string "param_name", null: false
+    t.string "param_value", null: false
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["store"], name: "index_affiliate_configs_on_store", unique: true
+  end
 
   create_table "products", force: :cascade do |t|
     t.string "name"
