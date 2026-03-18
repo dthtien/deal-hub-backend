@@ -5,6 +5,8 @@ FactoryBot.define do
     name { 'MyString' }
     price { 1.5 }
     store_product_id { SecureRandom.uuid }
-    store { Product::STORES.sample }
+    store { %w[asos culture_kings foot_locker nike myer the_iconic].sample }
+    store_path { "https://www.example.com/product/#{SecureRandom.hex(4)}" }
+    image_url { "https://images.example.com/#{SecureRandom.hex(4)}.jpg" }
   end
 end
