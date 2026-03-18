@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::DealsController, :controller, type: :controller do
   describe 'GET #redirect' do
-    let!(:product) { create(:product, store: 'asos', store_path: 'https://www.asos.com/product/123') }
+    let!(:product) { create(:product, store: Product::ASOS, store_path: '/au/product/123') }
 
     before do
       allow(ENV).to receive(:fetch).with('AWIN_ASOS_MID', anything).and_return('12345')
@@ -31,14 +31,12 @@ RSpec.describe Api::V1::DealsController, :controller, type: :controller do
       it 'creates a click tracking record' do
         expect(ClickTracking.count).to eq(1)
         expect(ClickTracking.last.product_id).to eq(product.id)
-        expect(ClickTracking.last.store).to eq('asos')
+        expect(ClickTracking.last.store).to eq(Product::ASOS)
       end
     end
 
     context 'with multiple clicks on same product' do
-      before do
-        2.times { get :redirect, params: { id: product.id } }
-      end
+      before { 2.times { get :redirect, params: { id: product.id } } }
 
       it 'tracks each click separately' do
         expect(ClickTracking.count).to eq(2)
