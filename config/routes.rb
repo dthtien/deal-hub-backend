@@ -8,8 +8,17 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :deals, only: :index
+      resources :deals, only: :index do
+        member do
+          get :redirect
+        end
+      end
       resource :metadata, only: :show
+      resource :analytics, only: [] do
+        collection do
+          get :clicks
+        end
+      end
       namespace :insurances do
         resources :quotes, only: %w[create show]
         resources :addresses, only: :index
