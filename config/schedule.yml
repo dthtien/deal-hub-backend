@@ -2,3 +2,10 @@ craw_all:
   cron: "0 6,10,12,18,22 * * *"
   class: "Crawlers::DistributeJob"
 
+price_alert_checker:
+  cron: "0 7,12,18 * * *"
+  class: "PriceAlertCheckerJob"
+
+weekly_newsletter:
+  cron: "0 9 * * 1"
+  class: "WeeklyNewsletterJob"

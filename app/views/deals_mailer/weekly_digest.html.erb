@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>This Week's Top Deals on OzVFY</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 0; }
+    .container { max-width: 600px; margin: 0 auto; background: #fff; }
+    .header { background: #ff3c00; padding: 24px; text-align: center; }
+    .header h1 { color: #fff; margin: 0; font-size: 24px; }
+    .content { padding: 24px; }
+    .deal { border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 16px; overflow: hidden; display: flex; }
+    .deal-image { width: 120px; min-height: 120px; object-fit: cover; }
+    .deal-info { padding: 12px; flex: 1; }
+    .deal-name { font-size: 15px; font-weight: bold; margin: 0 0 4px; }
+    .deal-store { color: #888; font-size: 12px; margin: 0 0 8px; }
+    .deal-price { font-size: 18px; font-weight: bold; color: #ff3c00; }
+    .deal-old-price { text-decoration: line-through; color: #999; font-size: 13px; margin-left: 8px; }
+    .deal-discount { background: #ff3c00; color: #fff; border-radius: 4px; padding: 2px 6px; font-size: 12px; margin-left: 8px; }
+    .deal-score { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+    .score-high { background: #22c55e; color: #fff; }
+    .score-mid  { background: #eab308; color: #fff; }
+    .score-low  { background: #ef4444; color: #fff; }
+    .cta { display: block; margin: 8px 0 0; background: #ff3c00; color: #fff; text-decoration: none; border-radius: 4px; padding: 8px 16px; text-align: center; font-size: 14px; }
+    .footer { background: #f4f4f4; padding: 16px; text-align: center; font-size: 12px; color: #888; }
+    .footer a { color: #888; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🔥 This Week's Top Deals</h1>
+    </div>
+    <div class="content">
+      <p>Hi <%= @subscriber.email %>,</p>
+      <p>Here are the hottest deals we found for you this week:</p>
+
+      <% @deals.each do |deal| %>
+        <%
+          score = deal.deal_score
+          score_class = score >= 8 ? 'score-high' : (score >= 5 ? 'score-mid' : 'score-low')
+        %>
+        <div class="deal">
+          <% if deal.image_url.present? %>
+            <img src="<%= deal.image_url %>" class="deal-image" alt="<%= deal.name %>">
+          <% end %>
+          <div class="deal-info">
+            <p class="deal-name"><%= deal.name %></p>
+            <p class="deal-store"><%= deal.store %></p>
+            <div>
+              <span class="deal-price">$<%= deal.price %></span>
+              <% if deal.old_price.present? && deal.old_price.to_f > 0 %>
+                <span class="deal-old-price">$<%= deal.old_price %></span>
+                <span class="deal-discount">-<%= deal.discount.to_i %>%</span>
+              <% end %>
+              <span class="deal-score <%= score_class %>">Score: <%= score %>/10</span>
+            </div>
+            <a href="<%= @site_url %>/deals/<%= deal.id %>" class="cta">View Deal →</a>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div class="footer">
+      <p>You're receiving this because you subscribed to OzVFY deal alerts.</p>
+      <p><a href="<%= @site_url %>/unsubscribe">Unsubscribe</a></p>
+    </div>
+  </div>
+</body>
+</html>

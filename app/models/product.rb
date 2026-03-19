@@ -20,6 +20,8 @@ class Product < ApplicationRecord
   ].freeze
 
   has_many :click_trackings, dependent: :destroy
+  has_many :price_histories, dependent: :destroy
+  has_many :price_alerts, dependent: :destroy
 
   validates :name, presence: true
   validates :price, presence: true
@@ -44,10 +46,63 @@ class Product < ApplicationRecord
     click_trackings.count
   end
 
+  def average_price_90_days
+    avg = price_histories.last_90_days.average(:price)
+    avg&.to_f
+  end
+
+  def price_trend
+    history = price_histories.recent.limit(5).pluck(:price)
+    return :stable if history.size < 2
+
+    latest = history.first.to_f
+    older  = history.last.to_f
+    return :stable if older.zero?
+
+    diff = (latest - older) / older
+    if diff <= -0.02
+      :down
+    elsif diff >= 0.02
+      :up
+    else
+      :stable
+    end
+  end
+
+  def best_deal?
+    avg = average_price_90_days
+    return false if avg.nil? || avg.zero? || price.nil?
+
+    price.to_f <= avg * 0.80
+  end
+
+  def deal_score
+    score = 0
+    score += (discount.to_f / 10).clamp(0, 5)
+    score += click_count > 10 ? 2 : (click_count.to_f / 5).clamp(0, 2)
+    score += best_deal? ? 3 : 0
+    score.round.clamp(1, 10)
+  end
+
+  def record_price_history!
+    last = price_histories.recent.first
+    return if last && last.price.to_f == price.to_f
+
+    price_histories.create!(
+      price: price,
+      old_price: old_price,
+      discount: discount,
+      recorded_at: Time.current
+    )
+  end
+
   def as_json(options = {})
     super(options).merge(
       store_url:,
       click_count:,
+      deal_score:,
+      best_deal: best_deal?,
+      price_trend: price_trend,
       'updated_at' => updated_at.strftime(DATE_FORMAT),
       'created_at' => created_at.strftime(DATE_FORMAT)
     )

@@ -20,6 +20,15 @@ Rails.application.routes.draw do
       resource :metadata, only: :show
       get 'analytics/clicks', to: 'analytics#clicks'
       resources :subscribers, only: %i[create index]
+      resources :stores, only: :index do
+        collection do
+          get ':name/deals', to: 'stores#deals', as: :store_deals
+        end
+      end
+      resources :deals do
+        resources :price_histories, only: :index
+        resources :price_alerts, only: :create
+      end
       namespace :insurances do
         resources :quotes, only: %w[create show]
         resources :addresses, only: :index
