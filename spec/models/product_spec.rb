@@ -16,6 +16,7 @@ RSpec.describe Product, :model, type: :model do
       expect(product.as_json).to match(
         product.attributes.merge(
           store_url: nil,
+          click_count: 0,
           'updated_at' => product.updated_at.strftime(::Product::DATE_FORMAT),
           'created_at' => product.created_at.strftime(::Product::DATE_FORMAT)
         )
