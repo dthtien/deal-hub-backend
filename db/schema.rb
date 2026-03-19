@@ -63,7 +63,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_20_000002) do
     t.index ["store"], name: "index_products_on_store"
     t.index ["store_product_id", "store"], name: "index_products_on_store_product_id_and_store", unique: true
     t.index ["store_product_id"], name: "index_products_on_store_product_id"
-    t.index "(categories @> ARRAY['travel']::varchar[])", name: "index_products_on_travel_category", using: :gin
+
   end
 
   create_table "quote_items", force: :cascade do |t|
