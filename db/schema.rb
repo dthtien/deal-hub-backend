@@ -10,11 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_02_19_052521) do
+ActiveRecord::Schema[7.1].define(version: 2026_03_01_000001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "click_trackings", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.string "store"
+    t.string "ip_address"
+    t.text "user_agent"
+    t.string "referrer"
+    t.datetime "clicked_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["clicked_at"], name: "index_click_trackings_on_clicked_at"
+    t.index ["product_id"], name: "index_click_trackings_on_product_id"
+    t.index ["store"], name: "index_click_trackings_on_store"
+  end
 
   create_table "products", force: :cascade do |t|
     t.string "name"
