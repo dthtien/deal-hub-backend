@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       end
       resource :metadata, only: :show
       get 'analytics/clicks', to: 'analytics#clicks'
+      resources :subscribers, only: %i[create index]
       namespace :insurances do
         resources :quotes, only: %w[create show]
         resources :addresses, only: :index
