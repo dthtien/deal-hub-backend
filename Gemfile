@@ -15,7 +15,7 @@ gem 'redis', '~> 5.1'
 gem 'sidekiq', '~> 7.2.4'
 gem 'sidekiq-scheduler'
 gem 'faraday', '~> 2.9.0'
-gem 'nokogiri', '~> 1.16'
+gem 'nokogiri', '>= 1.16'
 gem 'exception_notification'
 gem 'slack-notifier'
 
