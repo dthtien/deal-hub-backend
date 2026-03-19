@@ -10,6 +10,26 @@ module Api
         }
       end
 
+      def show
+        product = Product.find(params[:id])
+        render json: product
+      rescue ActiveRecord::RecordNotFound
+        render json: { error: 'Not found' }, status: :not_found
+      end
+
+      def trending
+        # Top clicked products in last 7 days
+        trending = ClickTracking
+          .where(clicked_at: 7.days.ago..)
+          .joins(:product)
+          .select('products.*, COUNT(click_trackings.id) as click_count')
+          .group('products.id')
+          .order('click_count DESC')
+          .limit(10)
+
+        render json: { products: trending }
+      end
+
       def redirect
         product = Product.find(params[:id])
 
