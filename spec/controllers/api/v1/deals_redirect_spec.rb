@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::DealsController, :controller, type: :controller do
   describe 'GET #redirect' do
-    let!(:product) { create(:product, store: Product::ASOS, store_path: '/au/product/123') }
+    let!(:product) { create(:product, store: Product::ASOS, store_path: 'prd/some-product/123456') }
 
     before do
       allow(ENV).to receive(:fetch).with('AWIN_ASOS_MID', anything).and_return('12345')
