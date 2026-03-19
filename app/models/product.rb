@@ -12,7 +12,11 @@ class Product < ApplicationRecord
     MYER = 'Myer',
     THE_GOOD_GUYS = 'The Good Guys',
     ASOS = 'ASOS',
-    THE_ICONIC = 'The Iconic'
+    THE_ICONIC = 'The Iconic',
+    KMART = 'Kmart',
+    BIG_W = 'Big W',
+    TARGET_AU = 'Target AU',
+    BOOKING_COM = 'Booking.com'
   ].freeze
 
   has_many :click_trackings, dependent: :destroy
@@ -72,6 +76,14 @@ class Product < ApplicationRecord
     when THE_ICONIC
       "https://www.theiconic.com.au#{store_path}"
     when THE_GOOD_GUYS
+      store_path
+    when KMART
+      "https://www.kmart.com.au#{store_path}"
+    when BIG_W
+      "https://www.bigw.com.au#{store_path}"
+    when TARGET_AU
+      "https://www.target.com.au#{store_path}"
+    when BOOKING_COM
       store_path
     end
   end

@@ -13,7 +13,10 @@ module Crawlers
         Product::MYER => Crawlers::MyerJob,
         Product::THE_GOOD_GUYS => Crawlers::TheGoodGuysJob,
         Product::ASOS => Crawlers::AsosJob,
-        Product::THE_ICONIC => Crawlers::TheIconicJob
+        Product::THE_ICONIC => Crawlers::TheIconicJob,
+        Product::KMART => Crawlers::KmartJob,
+        Product::BIG_W => Crawlers::BigWJob,
+        Product::BOOKING_COM => Crawlers::BookingComJob
       }
 
       Product::STORES.each do |store|
