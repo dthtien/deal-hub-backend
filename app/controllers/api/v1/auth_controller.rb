@@ -5,6 +5,9 @@ module Api
     class AuthController < ApplicationController
       def signup
         user = User.new(signup_params)
+        if params[:password].blank?
+          return render json: { errors: ['Password is required'] }, status: :unprocessable_entity
+        end
         if user.save
           token = JwtService.encode(user_id: user.id)
           render json: { token:, user: user_json(user) }, status: :created

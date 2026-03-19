@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  has_secure_password
+  has_secure_password validations: false
   has_many :quotes
   has_many :saved_deals, dependent: :destroy
   has_many :saved_products, through: :saved_deals, source: :product
 
-  validates :email, presence: true, uniqueness: { case_sensitive: false },
-                    format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :password, length: { minimum: 6 }, if: -> { new_record? || password.present? }
+  validates :email, presence: true, uniqueness: { case_sensitive: false, allow_blank: true }
+  validates :password, length: { minimum: 6 }, if: -> { password.present? }
 
   before_save :downcase_email
 
