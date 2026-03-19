@@ -17,6 +17,9 @@ RSpec.describe Product, :model, type: :model do
         product.attributes.merge(
           store_url: nil,
           click_count: 0,
+          deal_score: 1,
+          best_deal: false,
+          price_trend: :stable,
           'updated_at' => product.updated_at.strftime(::Product::DATE_FORMAT),
           'created_at' => product.created_at.strftime(::Product::DATE_FORMAT)
         )
