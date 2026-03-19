@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_03_20_000002) do
+ActiveRecord::Schema[7.1].define(version: 2026_03_20_000004) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
@@ -24,6 +24,29 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_20_000002) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_subscribers_on_email", unique: true
     t.index ["status"], name: "index_subscribers_on_status"
+  end
+
+  create_table "price_histories", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.decimal "price", null: false
+    t.decimal "old_price"
+    t.decimal "discount"
+    t.datetime "recorded_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id", "recorded_at"], name: "index_price_histories_on_product_id_and_recorded_at"
+  end
+
+  create_table "price_alerts", force: :cascade do |t|
+    t.string "email", null: false
+    t.bigint "product_id", null: false
+    t.decimal "target_price", null: false
+    t.boolean "triggered", default: false
+    t.datetime "triggered_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id", "triggered"], name: "index_price_alerts_on_product_id_and_triggered"
+    t.index ["email"], name: "index_price_alerts_on_email"
   end
 
   create_table "click_trackings", force: :cascade do |t|
