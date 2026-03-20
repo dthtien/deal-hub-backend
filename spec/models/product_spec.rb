@@ -22,6 +22,7 @@ RSpec.describe Product, :model, type: :model do
           price_trend: :stable,
           ai_recommendation: nil,
           ai_confidence: nil,
+          ai_reasoning_short: nil,
           'updated_at' => product.updated_at.strftime(::Product::DATE_FORMAT),
           'created_at' => product.created_at.strftime(::Product::DATE_FORMAT)
         )

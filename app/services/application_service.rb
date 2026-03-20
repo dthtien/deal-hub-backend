@@ -24,7 +24,11 @@ class ApplicationService
       )
 
       new_price = attrs[:price].to_f
+      old_price = attrs[:old_price].to_f
       price_changed = product.persisted? && product.price.to_f != new_price
+
+      # Detect deal expiry: price went back up to/above old_price (discount gone)
+      attrs[:expired] = old_price > 0 && new_price >= old_price
 
       product.assign_attributes(attrs)
       product.save!

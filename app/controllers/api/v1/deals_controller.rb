@@ -10,6 +10,14 @@ module Api
         }
       end
 
+      def featured
+        products = Product.includes(:ai_deal_analysis)
+                          .where(featured: true, expired: false)
+                          .order(updated_at: :desc)
+                          .limit(10)
+        render json: { products: products }
+      end
+
       def show
         product = Product.find(params[:id])
         render json: product

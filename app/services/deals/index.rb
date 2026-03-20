@@ -60,7 +60,7 @@ module Deals
     end
 
     def filter
-      @products = Product.includes(:ai_deal_analysis)
+      @products = Product.includes(:ai_deal_analysis).where(expired: false)
       filter_by_brands
       filter_by_categories
       filter_by_price

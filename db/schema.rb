@@ -10,44 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_03_21_000001) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_21_000002) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
-  enable_extension "plpgsql"
-
-  create_table "subscribers", force: :cascade do |t|
-    t.string "email", null: false
-    t.string "status", default: "active"
-    t.datetime "confirmed_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_subscribers_on_email", unique: true
-    t.index ["status"], name: "index_subscribers_on_status"
-  end
-
-  create_table "price_histories", force: :cascade do |t|
-    t.bigint "product_id", null: false
-    t.decimal "price", null: false
-    t.decimal "old_price"
-    t.decimal "discount"
-    t.datetime "recorded_at", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["product_id", "recorded_at"], name: "index_price_histories_on_product_id_and_recorded_at"
-  end
-
-  create_table "price_alerts", force: :cascade do |t|
-    t.string "email", null: false
-    t.bigint "product_id", null: false
-    t.decimal "target_price", null: false
-    t.boolean "triggered", default: false
-    t.datetime "triggered_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["product_id", "triggered"], name: "index_price_alerts_on_product_id_and_triggered"
-    t.index ["email"], name: "index_price_alerts_on_email"
-  end
 
   create_table "ai_deal_analyses", force: :cascade do |t|
     t.bigint "product_id", null: false
@@ -79,6 +46,29 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_21_000001) do
     t.index ["store"], name: "index_click_trackings_on_store"
   end
 
+  create_table "price_alerts", force: :cascade do |t|
+    t.string "email", null: false
+    t.bigint "product_id", null: false
+    t.decimal "target_price", null: false
+    t.boolean "triggered", default: false
+    t.datetime "triggered_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_price_alerts_on_email"
+    t.index ["product_id", "triggered"], name: "index_price_alerts_on_product_id_and_triggered"
+  end
+
+  create_table "price_histories", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.decimal "price", null: false
+    t.decimal "old_price"
+    t.decimal "discount"
+    t.datetime "recorded_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id", "recorded_at"], name: "index_price_histories_on_product_id_and_recorded_at"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.float "price"
@@ -94,15 +84,18 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_21_000001) do
     t.datetime "updated_at", null: false
     t.decimal "discount"
     t.decimal "old_price"
+    t.boolean "expired", default: false, null: false
+    t.boolean "featured", default: false, null: false
     t.index ["brand"], name: "products_brand_gin_index", opclass: :gin_trgm_ops, using: :gin
     t.index ["categories"], name: "index_products_on_categories", using: :gin
     t.index ["description"], name: "products_description_gin_index", opclass: :gin_trgm_ops, using: :gin
+    t.index ["expired"], name: "index_products_on_expired"
+    t.index ["featured"], name: "index_products_on_featured"
     t.index ["name"], name: "index_products_on_name"
     t.index ["name"], name: "products_name_gin_index", opclass: :gin_trgm_ops, using: :gin
     t.index ["store"], name: "index_products_on_store"
     t.index ["store_product_id", "store"], name: "index_products_on_store_product_id_and_store", unique: true
     t.index ["store_product_id"], name: "index_products_on_store_product_id"
-
   end
 
   create_table "quote_items", force: :cascade do |t|
@@ -159,6 +152,25 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_21_000001) do
     t.index ["user_id"], name: "index_quotes_on_user_id"
   end
 
+  create_table "saved_deals", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "product_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "product_id"], name: "index_saved_deals_on_user_id_and_product_id", unique: true
+    t.index ["user_id"], name: "index_saved_deals_on_user_id"
+  end
+
+  create_table "subscribers", force: :cascade do |t|
+    t.string "email", null: false
+    t.string "status", default: "active"
+    t.datetime "confirmed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_subscribers_on_email", unique: true
+    t.index ["status"], name: "index_subscribers_on_status"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "phone_number"
@@ -173,14 +185,4 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_21_000001) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
   end
-
-  create_table "saved_deals", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "product_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id", "product_id"], name: "index_saved_deals_on_user_id_and_product_id", unique: true
-    t.index ["user_id"], name: "index_saved_deals_on_user_id"
-  end
-
 end
