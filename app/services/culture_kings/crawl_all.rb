@@ -60,8 +60,7 @@ module CultureKings
 
     def remove_old_products
       store_product_ids = attributes.map { |a| a[:store_product_id] }
-      Product.where(store: Product::CULTURE_KINGS)
-             .where.not(store_product_id: store_product_ids).delete_all
+      remove_products_for_store(store: Product::CULTURE_KINGS, keep_store_product_ids: store_product_ids)
     end
   end
 end
