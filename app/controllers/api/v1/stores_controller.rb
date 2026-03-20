@@ -3,6 +3,8 @@
 module Api
   module V1
     class StoresController < ApplicationController
+      PER_PAGE = 20
+
       def index
         stores = Product::STORES.map do |store|
           products = Product.where(store: store)
@@ -20,17 +22,21 @@ module Api
 
       def deals
         store_name = URI.decode_www_form_component(params[:name])
-        products = Product.where(store: store_name)
-                          .order(discount: :desc)
+        page = (params[:page] || 1).to_i
+        offset = (page - 1) * PER_PAGE
+
+        base = Product.where(store: store_name).order(discount: :desc, created_at: :desc)
+        total = base.count
+        products = base.limit(PER_PAGE).offset(offset)
 
         render json: {
-          store: store_name,
-          meta: {
-            title: "Best #{store_name} Deals in Australia | OzVFY",
-            description: "Find the best #{store_name} deals and discounts in Australia. Updated daily."
-          },
-          total: products.count,
-          deals: products.map(&:as_json)
+          products: products.map(&:as_json),
+          metadata: {
+            page: page,
+            total_count: total,
+            total_pages: (total.to_f / PER_PAGE).ceil,
+            show_next_page: offset + PER_PAGE < total
+          }
         }
       end
     end
