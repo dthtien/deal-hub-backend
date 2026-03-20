@@ -77,6 +77,12 @@ class Product < ApplicationRecord
   end
 
   def deal_score
+    # Only score if we have a meaningful discount or price history
+    has_discount = discount.to_f > 0
+    has_history  = price_histories.recent.exists?
+
+    return nil unless has_discount || has_history
+
     score = 0
     score += (discount.to_f / 10).clamp(0, 5)
     score += click_count > 10 ? 2 : (click_count.to_f / 5).clamp(0, 2)

@@ -20,10 +20,14 @@ module TheIconic
     def crawler_and_build
       crawler.crawl_all
 
-      @attributes = crawler.data
-        .map { |result| build_attributes(result) }.compact.uniq do |attribute|
-          attribute[:store_product_id]
-        end
+      all = crawler.data.map { |result| build_attributes(result) }.compact
+
+      # Dedupe: same product name → keep lowest-priced variant
+      @attributes = all
+        .group_by { |a| a[:name]&.downcase&.strip }
+        .values
+        .map { |variants| variants.min_by { |v| v[:price].to_f } }
+        .uniq { |a| a[:store_product_id] }
     end
 
     def build_attributes(result)
