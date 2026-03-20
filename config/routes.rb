@@ -32,6 +32,7 @@ Rails.application.routes.draw do
       resources :deals do
         resources :price_histories, only: :index
         resources :price_alerts, only: :create
+        resource :analysis, only: :show, controller: 'deal_analyses'
       end
       namespace :insurances do
         resources :quotes, only: %w[create show]

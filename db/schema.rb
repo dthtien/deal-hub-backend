@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_03_20_000008) do
+ActiveRecord::Schema[7.1].define(version: 2026_03_21_000001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
@@ -47,6 +47,22 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_20_000008) do
     t.datetime "updated_at", null: false
     t.index ["product_id", "triggered"], name: "index_price_alerts_on_product_id_and_triggered"
     t.index ["email"], name: "index_price_alerts_on_email"
+  end
+
+  create_table "ai_deal_analyses", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.string "recommendation", null: false
+    t.string "confidence"
+    t.text "reasoning"
+    t.decimal "lowest_90d"
+    t.decimal "avg_90d"
+    t.decimal "highest_90d"
+    t.integer "price_drop_count"
+    t.boolean "is_lowest_ever", default: false
+    t.datetime "analysed_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_ai_deal_analyses_on_product_id", unique: true
   end
 
   create_table "click_trackings", force: :cascade do |t|

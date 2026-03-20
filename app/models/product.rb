@@ -22,6 +22,7 @@ class Product < ApplicationRecord
   has_many :click_trackings, dependent: :destroy
   has_many :price_histories, dependent: :destroy
   has_many :price_alerts, dependent: :destroy
+  has_one :ai_deal_analysis, dependent: :destroy
 
   validates :name, presence: true
   validates :price, presence: true
