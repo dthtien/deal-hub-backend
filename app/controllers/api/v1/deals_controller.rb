@@ -18,6 +18,25 @@ module Api
         render json: { products: products }
       end
 
+      def personalised
+        stores     = Array(params[:stores]).first(5).map(&:to_s)
+        categories = Array(params[:categories]).first(5).map(&:to_s)
+
+        products = Product.includes(:ai_deal_analysis).where(expired: false)
+
+        if stores.any? || categories.any?
+          store_scope    = stores.any?     ? Product.where(store: stores)                                              : Product.none
+          category_scope = categories.any? ? Product.where('categories && array[?]::varchar[]', categories)           : Product.none
+          products = products.merge(store_scope.or(category_scope))
+        end
+
+        products = products.where('discount > 0')
+                           .order(deal_score: :desc, discount: :desc)
+                           .limit(8)
+
+        render json: { products: products }
+      end
+
       def show
         product = Product.find(params[:id])
         render json: product

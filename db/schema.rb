@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_21_000003) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_21_000004) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -44,6 +44,21 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_21_000003) do
     t.index ["clicked_at"], name: "index_click_trackings_on_clicked_at"
     t.index ["product_id"], name: "index_click_trackings_on_product_id"
     t.index ["store"], name: "index_click_trackings_on_store"
+  end
+
+  create_table "deal_submissions", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "url", null: false
+    t.decimal "price"
+    t.decimal "old_price"
+    t.string "store"
+    t.text "description"
+    t.string "image_url"
+    t.string "submitted_by_email"
+    t.string "status", default: "pending", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["status"], name: "index_deal_submissions_on_status"
   end
 
   create_table "price_alerts", force: :cascade do |t|

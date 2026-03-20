@@ -5,6 +5,31 @@
     <changefreq>hourly</changefreq>
     <priority>1.0</priority>
   </url>
+  <url>
+    <loc>https://www.ozvfy.com/subscribe</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <%# Store pages %>
+<% @stores.each do |store| %>
+  <url>
+    <loc>https://www.ozvfy.com/stores/<%= CGI.escape(store) %></loc>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+<% end %>
+
+  <%# Category pages %>
+<% @categories.each do |cat| %>
+  <url>
+    <loc>https://www.ozvfy.com/categories/<%= CGI.escape(cat) %></loc>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+<% end %>
+
+  <%# Deal pages %>
 <% @products.each do |product| %>
   <url>
     <loc>https://www.ozvfy.com/deals/<%= product.id %></loc>

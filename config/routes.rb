@@ -21,6 +21,7 @@ Rails.application.routes.draw do
         collection do
           get :trending
           get :featured
+          get :personalised
         end
         resources :price_histories, only: :index
         resources :price_alerts, only: :create
@@ -28,6 +29,7 @@ Rails.application.routes.draw do
       end
       resource :metadata, only: :show
       get 'analytics/clicks', to: 'analytics#clicks'
+      resources :deal_submissions, only: :create
       resources :subscribers, only: %i[create index] do
         collection { get :unsubscribe }
       end
