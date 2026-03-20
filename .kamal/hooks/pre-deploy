@@ -1,0 +1,15 @@
+#!/bin/sh
+# Run database migrations before each deploy.
+# Kamal runs this hook on the deploy machine (not the container),
+# so we use `kamal app exec` to run inside the running container.
+#
+# This runs BEFORE the new image is swapped in, so:
+# - Migrations must be backward-compatible with the old code
+# - Use the `web` role (not job/sidekiq) to avoid running twice
+
+set -e
+
+echo "[pre-deploy] Running database migrations..."
+kamal app exec --roles=web 'bundle exec rails db:migrate' 2>&1
+
+echo "[pre-deploy] Migrations complete."
