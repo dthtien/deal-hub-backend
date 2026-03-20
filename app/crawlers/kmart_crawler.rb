@@ -16,7 +16,10 @@ class KmartCrawler < ApplicationCrawler
 
   def crawl_all
     while current_page.zero? || current_page < total_pages
-      results = parse(fetch_list)
+      response = fetch_list
+      break unless response
+
+      results = parse(response)
       break if results.empty?
 
       @data += results
@@ -34,7 +37,12 @@ class KmartCrawler < ApplicationCrawler
     client.get(SALE_PATH, params) do |req|
       req.headers['Content-Type'] = 'application/json'
       req.headers['Accept'] = 'application/json'
+      req.options.timeout = 20
+      req.options.open_timeout = 10
     end
+  rescue Faraday::TimeoutError, Faraday::ConnectionFailed, Net::ReadTimeout => e
+    Rails.logger.error "KmartCrawler timeout: #{e.message}"
+    nil
   end
 
   def parse(response)
