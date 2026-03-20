@@ -31,7 +31,13 @@ class ApplicationService
       attrs[:expired] = old_price > 0 && new_price >= old_price
 
       product.assign_attributes(attrs)
-      product.save!
+
+      begin
+        product.save!
+      rescue => e
+        Rails.logger.error "upsert_with_price_history — product save failed for #{attrs[:store_product_id]}: #{e.message}"
+        next
+      end
 
       # Record on first save OR whenever price changes
       if !product.price_histories.exists? || price_changed
@@ -42,8 +48,6 @@ class ApplicationService
           recorded_at: Time.current
         )
       end
-    rescue => e
-      Rails.logger.error "upsert_with_price_history failed for #{attrs[:store_product_id]}: #{e.message}"
     end
   end
 

@@ -22,6 +22,9 @@ Rails.application.routes.draw do
           get :trending
           get :featured
         end
+        resources :price_histories, only: :index
+        resources :price_alerts, only: :create
+        resource :analysis, only: :show, controller: 'deal_analyses'
       end
       resource :metadata, only: :show
       get 'analytics/clicks', to: 'analytics#clicks'
@@ -32,11 +35,6 @@ Rails.application.routes.draw do
         collection do
           get ':name/deals', to: 'stores#deals', as: :store_deals
         end
-      end
-      resources :deals do
-        resources :price_histories, only: :index
-        resources :price_alerts, only: :create
-        resource :analysis, only: :show, controller: 'deal_analyses'
       end
       namespace :insurances do
         resources :quotes, only: %w[create show]
