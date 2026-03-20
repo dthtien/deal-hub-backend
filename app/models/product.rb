@@ -110,6 +110,8 @@ class Product < ApplicationRecord
       deal_score:,
       best_deal: best_deal?,
       price_trend: price_trend,
+      ai_recommendation: ai_deal_analysis&.recommendation,
+      ai_confidence: ai_deal_analysis&.confidence,
       'updated_at' => updated_at.strftime(DATE_FORMAT),
       'created_at' => created_at.strftime(DATE_FORMAT)
     )
