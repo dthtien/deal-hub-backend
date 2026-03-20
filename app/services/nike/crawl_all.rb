@@ -54,7 +54,7 @@ module Nike
     end
 
     def upsert_products
-      Product.upsert_all(attributes, unique_by: %i[store_product_id store])
+      upsert_with_price_history(attributes, store: Product::NIKE)
     end
 
     def remove_old_products

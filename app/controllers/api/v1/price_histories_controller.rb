@@ -7,12 +7,14 @@ module Api
         product = Product.find(params[:deal_id])
         histories = product.price_histories.recent.limit(30)
 
-        render json: histories.map { |h|
-          {
-            price: h.price,
-            old_price: h.old_price,
-            discount: h.discount,
-            recorded_at: h.recorded_at
+        render json: {
+          price_histories: histories.map { |h|
+            {
+              price: h.price,
+              old_price: h.old_price,
+              discount: h.discount,
+              recorded_at: h.recorded_at
+            }
           }
         }
       end

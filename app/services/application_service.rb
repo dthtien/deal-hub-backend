@@ -14,6 +14,35 @@ class ApplicationService
 
   private
 
+  # Upsert products one-by-one so we can detect price changes and record history.
+  # Slower than upsert_all but correct — acceptable since crawls run infrequently.
+  def upsert_with_price_history(attributes_list, store:)
+    attributes_list.each do |attrs|
+      product = Product.find_or_initialize_by(
+        store_product_id: attrs[:store_product_id],
+        store: store
+      )
+
+      new_price = attrs[:price].to_f
+      price_changed = product.persisted? && product.price.to_f != new_price
+
+      product.assign_attributes(attrs)
+      product.save!
+
+      # Record on first save OR whenever price changes
+      if !product.price_histories.exists? || price_changed
+        product.price_histories.create!(
+          price: new_price,
+          old_price: attrs[:old_price],
+          discount: attrs[:discount],
+          recorded_at: Time.current
+        )
+      end
+    rescue => e
+      Rails.logger.error "upsert_with_price_history failed for #{attrs[:store_product_id]}: #{e.message}"
+    end
+  end
+
   # Safe product removal — deletes click_trackings first to avoid FK violations.
   # Use this instead of .delete_all in all crawl services.
   def remove_products_for_store(store:, keep_store_product_ids:)

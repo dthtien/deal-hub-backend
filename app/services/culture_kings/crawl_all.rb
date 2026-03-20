@@ -55,7 +55,7 @@ module CultureKings
     end
 
     def upsert_products
-      Product.upsert_all(attributes, unique_by: %i[store_product_id store])
+      upsert_with_price_history(attributes, store: Product::CULTURE_KINGS)
     end
 
     def remove_old_products

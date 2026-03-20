@@ -71,7 +71,7 @@ module Myer
     end
 
     def upsert_products(data)
-      Product.upsert_all(data, unique_by: %i[store_product_id store])
+      upsert_with_price_history(data, store: Product::MYER)
     rescue StandardError => e
       Rails.logger.error e
       ExceptionNotifier.notify_exception(e)

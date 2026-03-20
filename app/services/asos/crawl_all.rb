@@ -65,7 +65,7 @@ module Asos
     end
 
     def upsert_products
-      Product.upsert_all(uniq_attributes, unique_by: %i[store_product_id store])
+      upsert_with_price_history(uniq_attributes, store: Product::ASOS)
     end
 
     def remove_old_products

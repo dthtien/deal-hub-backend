@@ -74,7 +74,7 @@ module Kmart
     def upsert_products
       return if attributes.empty?
 
-      Product.upsert_all(attributes, unique_by: %i[store_product_id store])
+      upsert_with_price_history(attributes, store: Product::KMART)
     end
 
     def remove_old_products
