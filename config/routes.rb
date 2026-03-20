@@ -25,7 +25,9 @@ Rails.application.routes.draw do
       end
       resource :metadata, only: :show
       get 'analytics/clicks', to: 'analytics#clicks'
-      resources :subscribers, only: %i[create index]
+      resources :subscribers, only: %i[create index] do
+        collection { get :unsubscribe }
+      end
       resources :stores, only: :index do
         collection do
           get ':name/deals', to: 'stores#deals', as: :store_deals

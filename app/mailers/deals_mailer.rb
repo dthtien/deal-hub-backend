@@ -7,6 +7,7 @@ class DealsMailer < ApplicationMailer
     @subscriber = subscriber
     @deals = deals
     @site_url = ENV.fetch('SITE_URL', 'https://www.ozvfy.com')
+    @unsubscribe_url = "#{@site_url}/unsubscribe?token=#{subscriber.unsubscribe_token}"
 
     mail(
       to: subscriber.email,

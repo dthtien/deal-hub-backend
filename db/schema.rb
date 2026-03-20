@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_21_000002) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_21_000003) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -167,8 +167,11 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_21_000002) do
     t.datetime "confirmed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "unsubscribe_token"
+    t.jsonb "preferences", default: {}
     t.index ["email"], name: "index_subscribers_on_email", unique: true
     t.index ["status"], name: "index_subscribers_on_status"
+    t.index ["unsubscribe_token"], name: "index_subscribers_on_unsubscribe_token", unique: true
   end
 
   create_table "users", force: :cascade do |t|

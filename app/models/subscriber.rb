@@ -7,9 +7,18 @@ class Subscriber < ApplicationRecord
 
   scope :active, -> { where(status: 'active') }
 
+  before_create :generate_unsubscribe_token
   before_save :downcase_email
 
+  def unsubscribe!
+    update!(status: 'unsubscribed')
+  end
+
   private
+
+  def generate_unsubscribe_token
+    self.unsubscribe_token ||= SecureRandom.urlsafe_base64(32)
+  end
 
   def downcase_email
     self.email = email.downcase

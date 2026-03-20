@@ -3,8 +3,11 @@
 class WeeklyNewsletterJob < ApplicationJob
   def perform
     deals = Product
-      .order(discount: :desc)
+      .includes(:ai_deal_analysis)
+      .where(expired: false)
+      .where('discount > 0')
       .where('updated_at >= ?', 7.days.ago)
+      .order(deal_score: :desc, discount: :desc)
       .limit(10)
 
     return if deals.empty?

@@ -7,8 +7,12 @@ module Api
         subscriber = Subscriber.find_or_initialize_by(email: subscriber_params[:email].downcase)
 
         if subscriber.new_record?
+          subscriber.assign_attributes(preferences: subscriber_params[:preferences] || {})
           subscriber.save!
-          render json: { message: 'Subscribed successfully!' }, status: :created
+          render json: { message: 'Subscribed! Check your inbox for a confirmation.' }, status: :created
+        elsif subscriber.status == 'unsubscribed'
+          subscriber.update!(status: 'active', preferences: subscriber_params[:preferences] || subscriber.preferences)
+          render json: { message: 'Welcome back! You have been re-subscribed.' }, status: :ok
         else
           render json: { message: 'Already subscribed!' }, status: :ok
         end
@@ -18,8 +22,17 @@ module Api
         render json: { error: e.record.errors.full_messages.join(', ') }, status: :unprocessable_entity
       end
 
+      def unsubscribe
+        subscriber = Subscriber.find_by(unsubscribe_token: params[:token])
+        if subscriber
+          subscriber.unsubscribe!
+          render json: { message: 'You have been unsubscribed successfully.' }
+        else
+          render json: { error: 'Invalid or expired unsubscribe link.' }, status: :not_found
+        end
+      end
+
       def index
-        # Admin only - returns subscriber count + list
         render json: {
           total: Subscriber.active.count,
           subscribers: Subscriber.active.order(created_at: :desc).limit(100).pluck(:email, :created_at)
@@ -29,7 +42,7 @@ module Api
       private
 
       def subscriber_params
-        params.require(:subscriber).permit(:email)
+        params.require(:subscriber).permit(:email, preferences: {})
       end
     end
   end
