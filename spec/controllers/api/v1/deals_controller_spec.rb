@@ -17,7 +17,8 @@ RSpec.describe Api::V1::DealsController, :controller, type: :controller do
       expect(metadata.with_indifferent_access).to match(
         page: 1,
         per_page: 25,
-        show_next_page: false
+        total_count: 1,
+        total_pages: 1
       )
     end
   end
