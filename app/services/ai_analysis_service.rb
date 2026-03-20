@@ -109,21 +109,18 @@ class AiAnalysisService
   end
 
   def query_openai(prompt)
-    client = OpenAI::Client.new(access_token: ENV.fetch('OPENAI_API_KEY'))
-    response = client.chat(
-      parameters: {
-        model: 'gpt-4o-mini',
-        messages: [{ role: 'user', content: prompt }],
-        temperature: 0.3,
-        max_tokens: 300
-      }
+    client = Anthropic::Client.new(api_key: ENV.fetch('ANTHROPIC_API_KEY'))
+    response = client.messages(
+      model: 'claude-haiku-4-5',
+      max_tokens: 400,
+      messages: [{ role: 'user', content: prompt }]
     )
 
-    raw = response.dig('choices', 0, 'message', 'content')&.strip
+    raw = response.dig('content', 0, 'text')&.strip
     return nil if raw.blank?
 
     # Strip markdown code fences if present
-    raw = raw.gsub(/```json\s*|\s*```/, '')
+    raw = raw.gsub(/```json\s*|\s*```/, '').strip
     JSON.parse(raw)
   rescue JSON::ParserError => e
     Rails.logger.error "AiAnalysisService JSON parse error: #{e.message} | raw: #{raw}"
