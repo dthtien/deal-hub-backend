@@ -15,5 +15,8 @@ pidfile: tmp/pids/sidekiq_development.pid
     post_bargain:
       cron: "30 6,9,12,15,18 * * *"
       class: "PostBargainJob"
+    telegram_deals:
+      cron: "0 22 * * *"
+      class: "TelegramDealsJob"
 
 
