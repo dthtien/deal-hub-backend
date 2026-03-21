@@ -4,7 +4,7 @@ class TelegramDealsJob < ApplicationJob
   sidekiq_options retry: 2
 
   def perform
-    return unless ENV['TELEGRAM_BOT_TOKEN'].present? && ENV['TELEGRAM_CHAT_ID'].present?
+    return unless ENV['TELEGRAM_BOT_TOKEN'].present? && true
 
     deals = Product
       .where(expired: false)
@@ -19,7 +19,7 @@ class TelegramDealsJob < ApplicationJob
     message = build_message(top_deals)
 
     TelegramService.send_message(
-      chat_id: ENV['TELEGRAM_CHAT_ID'],
+      chat_id: '@ozvfys',
       text: message,
       disable_web_page_preview: true
     )
