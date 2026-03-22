@@ -3,7 +3,7 @@ class Pagination
 
   def initialize(scope, params = {})
     @page     = (params[:page] || DEFAULT[:page]).to_i
-    @per_page = params[:per_page] || DEFAULT[:per_page]
+    @per_page = (params[:per_page] || DEFAULT[:per_page]).to_i
     @scope = scope
     @exclude_count = params[:exclude_count]
   end
