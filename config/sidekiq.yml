@@ -18,5 +18,11 @@ pidfile: tmp/pids/sidekiq_development.pid
     telegram_deals:
       cron: "30 6,9,12,15,18 * * *"
       class: "TelegramDealsJob"
+    price_alert_checker:
+      cron: "0 7,13,19 * * *"
+      class: "PriceAlertCheckerJob"
+    price_drop_notifier:
+      cron: "45 6,9,12,15,18 * * *"
+      class: "PriceDropNotifierJob"
 
 

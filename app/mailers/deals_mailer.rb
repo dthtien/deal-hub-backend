@@ -18,11 +18,15 @@ class DealsMailer < ApplicationMailer
   def price_alert(alert)
     @alert = alert
     @product = alert.product
+    @current_price = @product.price
+    @old_price = @product.old_price.to_f.positive? ? @product.old_price : alert.target_price
+    @discount = @product.discount
     @site_url = ENV.fetch('SITE_URL', 'https://www.ozvfy.com')
+    @deal_url = "#{@site_url}/deals/#{@product.id}"
 
     mail(
       to: alert.email,
-      subject: "🚨 Price Drop Alert: #{@product.name} is now $#{@product.price}"
+      subject: "Price Drop! #{@product.name} is now $#{@current_price} (#{@discount.to_i}% off)"
     )
   end
 end

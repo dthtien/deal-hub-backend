@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 0; }
     .container { max-width: 600px; margin: 0 auto; background: #fff; }
@@ -9,34 +10,58 @@
     .header h1 { color: #fff; margin: 0; font-size: 22px; }
     .content { padding: 32px 24px; text-align: center; }
     .product-image { max-width: 200px; border-radius: 8px; }
-    .price { font-size: 32px; font-weight: bold; color: #22c55e; }
-    .old-price { text-decoration: line-through; color: #999; font-size: 18px; }
-    .cta { display: inline-block; margin-top: 24px; background: #ff3c00; color: #fff; text-decoration: none; border-radius: 8px; padding: 14px 32px; font-size: 16px; font-weight: bold; }
-    .footer { background: #f4f4f4; padding: 16px; text-align: center; font-size: 12px; color: #888; }
+    .badge { display: inline-block; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; margin: 8px 0; }
+    .badge-drop { background: #ff3c00; color: #fff; }
+    .badge-discount { background: #22c55e; color: #fff; }
+    .price-current { font-size: 36px; font-weight: bold; color: #22c55e; }
+    .price-old { text-decoration: line-through; color: #999; font-size: 20px; margin-right: 8px; }
+    .price-arrow { color: #666; font-size: 20px; margin: 0 4px; }
+    .store { color: #888; font-size: 14px; margin-top: 8px; }
+    .cta { display: inline-block; margin-top: 24px; background: #ff3c00; color: #fff; text-decoration: none; border-radius: 8px; padding: 16px 40px; font-size: 18px; font-weight: bold; }
+    .footer { background: #f4f4f4; padding: 20px; text-align: center; font-size: 12px; color: #888; }
+    .footer a { color: #ff3c00; text-decoration: none; }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <h1>🚨 Price Drop Alert!</h1>
+      <h1>Price Drop Alert!</h1>
     </div>
     <div class="content">
       <% if @product.image_url.present? %>
         <img src="<%= @product.image_url %>" class="product-image" alt="<%= @product.name %>">
       <% end %>
-      <h2><%= @product.name %></h2>
-      <p>The price just dropped to your target!</p>
-      <div>
-        <span class="price">$<%= @product.price %></span>
-        <% if @product.old_price.present? %>
-          <span class="old-price"> $<%= @product.old_price %></span>
-        <% end %>
+
+      <h2 style="margin-bottom: 8px;"><%= @product.name %></h2>
+
+      <% if @product.store.present? %>
+        <p class="store"><%= @product.store %></p>
+      <% end %>
+
+      <span class="badge badge-drop">Price Dropped!</span>
+
+      <div style="margin: 20px 0;">
+        <span class="price-old">$<%= '%.2f' % @old_price.to_f %></span>
+        <span class="price-arrow">&rarr;</span>
+        <span class="price-current">$<%= '%.2f' % @current_price.to_f %></span>
       </div>
-      <p style="color:#888; font-size:14px;">Your target was: $<%= @alert.target_price %></p>
-      <a href="<%= @site_url %>/deals/<%= @product.id %>" class="cta">🛍️ Grab This Deal</a>
+
+      <% if @discount.to_i > 0 %>
+        <span class="badge badge-discount"><%= @discount.to_i %>% off</span>
+      <% end %>
+
+      <% if @alert.target_price.present? %>
+        <p style="color: #888; font-size: 14px; margin-top: 12px;">
+          Your target price: $<%= '%.2f' % @alert.target_price.to_f %>
+        </p>
+      <% end %>
+
+      <br>
+      <a href="<%= @deal_url %>" class="cta">View Deal</a>
     </div>
     <div class="footer">
-      <p><a href="<%= @site_url %>">OzVFY — Best Deals in Australia</a></p>
+      <p>You set up this price alert at <a href="<%= @site_url %>">ozvfy.com</a></p>
+      <p><a href="<%= @site_url %>">OzVFY</a> &mdash; Best Deals in Australia</p>
     </div>
   </div>
 </body>
