@@ -23,6 +23,9 @@ RSpec.describe Product, :model, type: :model do
           ai_recommendation: nil,
           ai_confidence: nil,
           ai_reasoning_short: nil,
+          'discount' => 0.0,
+          'old_price' => 0.0,
+          'price' => product.price.to_f,
           'updated_at' => product.updated_at.strftime(::Product::DATE_FORMAT),
           'created_at' => product.created_at.strftime(::Product::DATE_FORMAT)
         )

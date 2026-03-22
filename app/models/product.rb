@@ -113,6 +113,9 @@ class Product < ApplicationRecord
       ai_recommendation: ai_deal_analysis&.recommendation,
       ai_confidence: ai_deal_analysis&.confidence,
       ai_reasoning_short: ai_deal_analysis&.reasoning&.split('.')&.first,
+      'discount' => discount.to_f,
+      'old_price' => old_price.to_f,
+      'price' => price.to_f,
       'updated_at' => updated_at.strftime(DATE_FORMAT),
       'created_at' => created_at.strftime(DATE_FORMAT)
     )
