@@ -34,6 +34,7 @@ class ApplicationService
 
       begin
         product.save!
+        product.update_column(:deal_score, product.deal_score)
       rescue => e
         Rails.logger.error "upsert_with_price_history — product save failed for #{attrs[:store_product_id]}: #{e.message}"
         next

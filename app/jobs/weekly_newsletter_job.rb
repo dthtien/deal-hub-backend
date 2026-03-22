@@ -7,7 +7,7 @@ class WeeklyNewsletterJob < ApplicationJob
       .where(expired: false)
       .where('discount > 0')
       .where('updated_at >= ?', 7.days.ago)
-      .order(discount: :desc)
+      .order(deal_score: :desc, discount: :desc)
       .limit(10)
 
     return if deals.empty?

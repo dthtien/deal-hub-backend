@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_22_004205) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_22_093730) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -101,8 +101,10 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_22_004205) do
     t.decimal "old_price"
     t.boolean "expired", default: false, null: false
     t.boolean "featured", default: false, null: false
+    t.integer "deal_score"
     t.index ["brand"], name: "products_brand_gin_index", opclass: :gin_trgm_ops, using: :gin
     t.index ["categories"], name: "index_products_on_categories", using: :gin
+    t.index ["deal_score"], name: "index_products_on_deal_score"
     t.index ["description"], name: "products_description_gin_index", opclass: :gin_trgm_ops, using: :gin
     t.index ["expired"], name: "index_products_on_expired"
     t.index ["featured"], name: "index_products_on_featured"
