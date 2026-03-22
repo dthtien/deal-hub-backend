@@ -2,7 +2,7 @@
 
 class BigWCrawler < ApplicationCrawler
   BASE_URL = 'https://www.bigw.com.au'
-  SALE_PATH = '/category/clearance-sale'
+  SALE_PATH = '/deals'
   MAX_PAGES = 10
   MAX_RETRIES = 2
   TIMEOUT = 20

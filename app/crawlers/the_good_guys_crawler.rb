@@ -1,79 +1,17 @@
 # frozen_string_literal: true
+# The Good Guys migrated from Firebase/Firestore to Shopify Oxygen.
+# Their Shopify collections API is not publicly accessible.
+# This crawler is temporarily disabled until a new data source is found.
 
-class TheGoodGuysCrawler < ApplicationCrawler
-  SALE_IDS_URL = 'https://homepage-white-tiles-default-rtdb.firebaseio.com/data.json'
-  SALE_DEALS_URL = 'https://firestore.googleapis.com/v1/projects/tgg-web-api/databases/(default)/documents:runQuery'
+class TheGoodGuysCrawler
+  attr_reader :data
+
   def initialize
-    super('')
+    @data = []
   end
 
   def crawl_all
-    sale_ids.each do |ids|
-      response = fetch_list(build_params(ids))
-      @data += JSON.parse(response.body).map { |product| product['document'] }
-    end
-
+    Rails.logger.warn 'TheGoodGuysCrawler: disabled — site migrated, endpoint unavailable'
     self
-  end
-
-  private
-
-  def fetch_list(params)
-    client.post(SALE_DEALS_URL) do |req|
-      req.body = params.to_json
-      req.headers['Content-Type'] = 'application/json'
-    end
-  end
-
-  def sale_ids
-    @sale_ids ||= fetch_sale_ids.in_groups_of(29)
-  end
-
-  def build_ids_query(ids)
-    ids.map { |id| { stringValue: id.to_s } }.uniq
-  end
-
-  def fetch_sale_ids
-    response = client.get(SALE_IDS_URL)
-    response_body = JSON.parse(response.body)
-
-    product_data = response_body['whiteTilesData']
-
-    return [] if product_data.blank?
-
-    product_data.compact.map { |a| a['sku'] }
-  end
-
-  def build_params(ids)
-    {
-      structuredQuery: {
-        from: [
-          {
-            collectionId: 'products'
-          }
-        ],
-        where: {
-          fieldFilter: {
-            field: {
-              fieldPath: 'sku'
-            },
-            op: 'IN',
-            value: {
-              arrayValue: {
-                values: build_ids_query(ids)
-              }
-            }
-          }
-        },
-        orderBy: [
-          {
-            field: {
-              fieldPath: '__name__'
-            },
-            direction: 'ASCENDING'
-          }
-        ]
-      }
-    }
   end
 end

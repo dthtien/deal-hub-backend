@@ -26,23 +26,29 @@ module CultureKings
 
     def build_attributes(result)
       name = result['title']
-
       return if ignore_product?(name)
 
-      price = result['price'].to_f
-      old_price = result['compareAtPrice'].to_f
+      variant = result['variants']&.first
+      return unless variant
+
+      price = variant['price'].to_f
+      return if price.zero?
+
+      old_price = variant['compare_at_price'].to_f
+      categories = result['tags']&.select { |t| t.length < 30 }&.first(3) || []
+
       {
         name:,
         price:,
         old_price:,
         discount: calculate_discount(old_price, price),
-        store_product_id: result['productId'].downcase,
+        store_product_id: result['id'].to_s,
         brand: result['vendor']&.downcase,
-        image_url: result['image'],
-        store_path: result['handle'],
+        image_url: result.dig('images', 0, 'src'),
+        store_path: "/products/#{result['handle']}",
         store: Product::CULTURE_KINGS,
-        description: refine_description(result['description'], result['categoriesNormalised']),
-        categories: result['categoriesNormalised']
+        description: refine_description(name, categories),
+        categories: categories
       }
     end
 

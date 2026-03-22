@@ -1,78 +1,65 @@
 # frozen_string_literal: true
 
 class CultureKingsCrawler < ApplicationCrawler
+  BASE_URL = 'https://www.culturekings.com.au'
+  PER_PAGE = 250
+  MAX_PAGES = 10
+
   attr_reader :data
 
   def initialize
-    super('https://22mg8hzkho-dsn.algolia.net')
-    @total_pages = TOTAL_PAGES_UNKNOWN
-    @current_page = 0
+    super(BASE_URL)
+    @current_page = 1
     @data = []
   end
 
   def crawl_all
-    while current_page.zero? || current_page < total_pages
-      results = parse fetch_list
-      break if results.empty?
+    loop do
+      response = client.get('/collections/all-sale/products.json', { limit: PER_PAGE, page: @current_page })
+      break unless response.success?
 
-      @data += results
-      @data = @data.uniq
-      yield results if block_given?
+      products = JSON.parse(response.body)['products'] || []
+      break if products.empty?
+
+      @data += products.map { |p| parse_product(p) }.compact
+      @data = @data.uniq { |p| p['id'] }
+      break if products.size < PER_PAGE || @current_page >= MAX_PAGES
+
+      @current_page += 1
     end
-
+    self
+  rescue => e
+    Rails.logger.error "CultureKingsCrawler error: #{e.message}"
     self
   end
 
   private
 
-  attr_reader :total_pages, :current_page
+  def parse_product(p)
+    variant = p['variants']&.first
+    return nil unless variant
 
-  def algolia_credentials
-    @algolia_credentials ||= {
-      'x-algolia-agent' => 'Algolia for JavaScript (4.12.2); Browser (lite); JS Helper (3.7.0); react (17.0.1); react-instantsearch (6.22.0)',
-      'X-Algolia-Api-Key' => '120a2dd1a67e962183768696b750a52c',
-      'X-Algolia-Application-Id' => '22MG8HZKHO'
+    price = variant['price'].to_f
+    compare_price = variant['compare_at_price'].to_f
+    return nil if price.zero?
+
+    image_url = p.dig('images', 0, 'src')
+
+    {
+      'id'        => p['id'].to_s,
+      'name'      => p['title'],
+      'price'     => price,
+      'old_price' => compare_price.positive? ? compare_price : nil,
+      'image_url' => image_url,
+      'store_path' => "/products/#{p['handle']}"
     }
   end
 
-  def fetch_list
-    client.post("/1/indexes/*/queries?#{algolia_credentials.to_param}") do |req|
-      req.headers['Content-Type'] = 'application/json'
-      req.body = query_object.to_json
+  def client
+    @client ||= Faraday.new(url: BASE_URL) do |f|
+      f.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
+      f.options.timeout = 20
+      f.adapter Faraday.default_adapter
     end
-  end
-
-  def parse(response)
-    parsed_body = JSON.parse(response.body)
-    return [] if parsed_body['results'].blank?
-
-    result = parsed_body['results'].first
-
-    @total_pages = result['nbPages'] if total_pages == TOTAL_PAGES_UNKNOWN
-    @current_page += 1
-    result['hits']
-  end
-
-  def query_object
-    {
-      requests: [
-        {
-          indexName: 'shopify_production_products_mark_down',
-          params: params.to_param
-        }
-      ]
-    }
-  end
-
-  def params
-    {
-      filters: sale_filter,
-      hitsPerPage: 100,
-      page: current_page
-    }
-  end
-
-  def sale_filter
-    '(inStock:true OR isForcedSoldOut:1 OR isStayInCollection:1) AND isOnline:true AND (NOT isNfs:true) AND collectionHandles:all-sale'
   end
 end

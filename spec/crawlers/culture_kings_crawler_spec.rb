@@ -1,24 +1,21 @@
-#frozen_string_literal: true
+# frozen_string_literal: true
 require 'rails_helper'
 
 RSpec.describe CultureKingsCrawler do
   let(:crawler) { described_class.new }
 
-  after do
-    Faraday.default_connection = nil
-  end
-
   describe '#crawl_all' do
     before do
-      stub_request(:post, %r{\Ahttps://22mg8hzkho-dsn.algolia.net/1/indexes/\*/queries})
-        .to_return(status: 200, body: File.read('spec/fixtures/culture_kings_crawler/first_page.json'))
+      stub_request(:get, %r{\Ahttps://www\.culturekings\.com\.au/collections/all-sale/products\.json})
+        .to_return(status: 200, body: File.read('spec/fixtures/culture_kings_crawler/shopify_page.json'),
+                   headers: { 'Content-Type' => 'application/json' })
 
       crawler.crawl_all
     end
 
-    it do
-      expect(crawler.data.size).to eq 24
-      expect(crawler.data.first).to include('title', 'price', 'productId')
+    it 'returns products with expected fields' do
+      expect(crawler.data).not_to be_empty
+      expect(crawler.data.first).to include('id', 'name', 'price')
     end
   end
 end

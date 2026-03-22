@@ -22,54 +22,48 @@ describe CultureKings::CrawlAll, :crawler do
         store_product_id: '654321'
       )
     end
+
     let(:crawler) do
       instance_double(
         CultureKingsCrawler,
         crawl_all: true,
         data: [
           {
-            title: 'Product 1',
-            price: 150,
-            compareAtPrice: 200,
-            productId: product1.store_product_id,
-            vendor: 'brand',
-            image: 'image.jpg',
-            handle: 'seo-path',
-            description: 'description',
-            categoriesNormalised: ['category', 'sub-category']
-          }.with_indifferent_access,
+            'id' => product1.store_product_id.to_i,
+            'title' => 'Product 1',
+            'vendor' => 'brand',
+            'handle' => 'seo-path',
+            'tags' => ['category', 'sub-category'],
+            'images' => [{ 'src' => 'image.jpg' }],
+            'variants' => [{ 'price' => '150.0', 'compare_at_price' => '200.0' }]
+          },
           {
-            title: 'Product 2',
-            price: 200,
-            compareAtPrice: 250,
-            productId: '111111',
-            vendor: 'brand',
-            image: 'image.jpg',
-            handle: 'seo-path-2',
-            description: 'description',
-            categoriesNormalised: ['category']
-          }.with_indifferent_access,
+            'id' => 111_111,
+            'title' => 'Product 2',
+            'vendor' => 'brand',
+            'handle' => 'seo-path-2',
+            'tags' => ['category'],
+            'images' => [{ 'src' => 'image.jpg' }],
+            'variants' => [{ 'price' => '200.0', 'compare_at_price' => '250.0' }]
+          },
           {
-            title: 'Product bikini',
-            price: 200,
-            compareAtPrice: 250,
-            productId: '1111112',
-            vendor: 'brand',
-            image: 'image.jpg',
-            handle: 'seo-path-3',
-            description: 'description',
-            categoriesNormalised: ['category']
-          }.with_indifferent_access,
+            'id' => 1_111_112,
+            'title' => 'Product bikini',
+            'vendor' => 'brand',
+            'handle' => 'seo-path-3',
+            'tags' => ['category'],
+            'images' => [{ 'src' => 'image.jpg' }],
+            'variants' => [{ 'price' => '200.0', 'compare_at_price' => '250.0' }]
+          },
           {
-            title: 'Product 5 bodysuit',
-            price: 200,
-            compareAtPrice: 400,
-            productId: '1111112',
-            vendor: 'brand',
-            image: 'image.jpg',
-            handle: 'seo-path-4',
-            description: 'description'
-          }.with_indifferent_access
+            'id' => 1_111_113,
+            'title' => 'Product 5 bodysuit',
+            'vendor' => 'brand',
+            'handle' => 'seo-path-4',
+            'tags' => ['category'],
+            'images' => [{ 'src' => 'image.jpg' }],
+            'variants' => [{ 'price' => '200.0', 'compare_at_price' => '400.0' }]
+          }
         ]
       )
     end
@@ -93,4 +87,3 @@ describe CultureKings::CrawlAll, :crawler do
     end
   end
 end
-
