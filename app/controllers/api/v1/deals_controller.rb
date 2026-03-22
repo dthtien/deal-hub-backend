@@ -31,7 +31,7 @@ module Api
         end
 
         products = products.where('discount > 0')
-                           .order(deal_score: :desc, discount: :desc)
+                           .order(discount: :desc)
                            .limit(8)
 
         render json: { products: products }
