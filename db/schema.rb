@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_21_000004) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_22_004205) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -111,6 +111,15 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_21_000004) do
     t.index ["store"], name: "index_products_on_store"
     t.index ["store_product_id", "store"], name: "index_products_on_store_product_id_and_store", unique: true
     t.index ["store_product_id"], name: "index_products_on_store_product_id"
+  end
+
+  create_table "push_subscriptions", force: :cascade do |t|
+    t.string "endpoint", null: false
+    t.string "p256dh", null: false
+    t.string "auth", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["endpoint"], name: "index_push_subscriptions_on_endpoint", unique: true
   end
 
   create_table "quote_items", force: :cascade do |t|

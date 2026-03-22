@@ -68,6 +68,8 @@ env:
     - TELEGRAM_BOT_TOKEN
     - FB_PAGE_ID
     - FB_USER_TOKEN
+    - VAPID_PUBLIC_KEY
+    - VAPID_PRIVATE_KEY
 
 # Use a different ssh user than root
 ssh:

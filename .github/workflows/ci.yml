@@ -127,6 +127,8 @@ jobs:
           APP_URL=${{ secrets.APP_URL }}
           FB_PAGE_ID=${{ secrets.FB_PAGE_ID }}
           FB_USER_TOKEN=${{ secrets.FB_USER_TOKEN }}
+          VAPID_PUBLIC_KEY=${{ secrets.VAPID_PUBLIC_KEY }}
+          VAPID_PRIVATE_KEY=${{ secrets.VAPID_PRIVATE_KEY }}
           EOL
 
       - name: Run deploy command

@@ -45,6 +45,7 @@ gem "bootsnap", require: false
 gem "rack-cors"
 gem 'gush', '~> 4.2'
 gem "anthropic"
+gem 'webpush'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

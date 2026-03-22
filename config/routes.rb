@@ -33,6 +33,7 @@ Rails.application.routes.draw do
       resources :subscribers, only: %i[create index] do
         collection { get :unsubscribe }
       end
+      resources :push_subscriptions, only: %i[create destroy]
       resources :stores, only: :index do
         collection do
           get ':name/deals', to: 'stores#deals', as: :store_deals
