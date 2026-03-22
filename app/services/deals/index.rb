@@ -80,7 +80,7 @@ module Deals
       order_by_date
       @products = products.order(price: order[:price]) if order[:price].present?
       @products = products.order(discount: order[:discount]) if order[:discount].present?
-      @products = products.order(deal_score: order[:deal_score] || :desc) if order[:deal_score].present?
+      @products = products.order(discount: order[:deal_score] || :desc) if order[:deal_score].present?
     end
   end
 end
