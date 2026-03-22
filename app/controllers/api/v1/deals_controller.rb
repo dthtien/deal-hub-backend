@@ -57,6 +57,22 @@ module Api
         render json: { products: trending }
       end
 
+      def deal_of_the_day
+        deal = Rails.cache.fetch("deal_of_the_day_#{Date.today}", expires_in: 24.hours) do
+          Product.where(expired: false)
+                 .where('discount > 20')
+                 .where.not(image_url: [nil, ''])
+                 .order(deal_score: :desc, discount: :desc)
+                 .first
+        end
+
+        if deal
+          render json: deal.as_json
+        else
+          render json: nil
+        end
+      end
+
       def redirect
         product = Product.find(params[:id])
 

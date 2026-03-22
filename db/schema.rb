@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_22_093730) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_22_115956) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -185,6 +185,14 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_22_093730) do
     t.datetime "updated_at", null: false
     t.index ["user_id", "product_id"], name: "index_saved_deals_on_user_id_and_product_id", unique: true
     t.index ["user_id"], name: "index_saved_deals_on_user_id"
+  end
+
+  create_table "search_queries", force: :cascade do |t|
+    t.string "query"
+    t.integer "count", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["query"], name: "index_search_queries_on_query", unique: true
   end
 
   create_table "subscribers", force: :cascade do |t|

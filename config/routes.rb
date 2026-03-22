@@ -14,6 +14,8 @@ Rails.application.routes.draw do
       post 'auth/login', to: 'auth#login'
       get  'auth/me', to: 'auth#me'
       resources :saved_deals, only: %i[index create destroy]
+      get 'deals/deal_of_the_day', to: 'deals#deal_of_the_day'
+      get 'trending_searches', to: 'trending_searches#index'
       resources :deals, only: %i[index show] do
         member do
           get :redirect

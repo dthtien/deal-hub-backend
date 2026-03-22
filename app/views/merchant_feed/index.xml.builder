@@ -14,8 +14,8 @@ xml.rss version: '2.0', 'xmlns:g' => 'http://base.google.com/ns/1.0' do
         xml.tag!('g:description', (product.description || product.name).to_s.truncate(5000))
         xml.tag!('g:link', "https://www.ozvfy.com/deals/#{product.id}")
         xml.tag!('g:image_link', product.image_url)
-        xml.tag!('g:price', "#{product.price} AUD")
-        xml.tag!('g:sale_price', "#{product.price} AUD") if product.old_price&.positive?
+        xml.tag!('g:price', format('%.2f AUD', (product.old_price.presence || product.price)))
+        xml.tag!('g:sale_price', format('%.2f AUD', product.price)) if product.discount&.positive?
         xml.tag!('g:brand', product.brand.presence || 'Unknown')
         xml.tag!('g:condition', 'new')
         xml.tag!('g:availability', 'in stock')

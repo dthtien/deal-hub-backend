@@ -19,6 +19,7 @@ module Deals
       filter
       order_products
       query_data
+      track_search
 
       self
     end
@@ -65,6 +66,10 @@ module Deals
       filter_by_categories
       filter_by_price
       filter_by_stores
+    end
+
+    def track_search
+      SearchQuery.track(query) if query.present?
     end
 
     def order_by_date

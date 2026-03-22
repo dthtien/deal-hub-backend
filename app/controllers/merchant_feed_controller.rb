@@ -7,8 +7,8 @@ class MerchantFeedController < ApplicationController
     @products = Product.where(expired: false)
                        .where.not(image_url: [nil, ''])
                        .where('price > 0')
-                       .order(updated_at: :desc)
-                       .limit(5000)
+                       .order(discount: :desc, updated_at: :desc)
+                       .limit(10_000)
 
     respond_to do |format|
       format.xml { render layout: false }
