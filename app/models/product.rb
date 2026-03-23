@@ -16,7 +16,8 @@ class Product < ApplicationRecord
     KMART = 'Kmart',
     BIG_W = 'Big W',
     TARGET_AU = 'Target AU',
-    BOOKING_COM = 'Booking.com'
+    BOOKING_COM = 'Booking.com',
+    GOOD_BUYZ = 'Good Buyz'
   ].freeze
 
   has_many :click_trackings, dependent: :destroy
@@ -153,6 +154,8 @@ class Product < ApplicationRecord
       "https://www.target.com.au#{store_path}"
     when BOOKING_COM
       store_path
+    when GOOD_BUYZ
+      "https://goodbuyz.com.au#{store_path}"
     end
   end
 end
