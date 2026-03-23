@@ -29,6 +29,15 @@
   </url>
 <% end %>
 
+  <%# Search landing pages %>
+<% @searches.each do |q| %>
+  <url>
+    <loc>https://www.ozvfy.com/deals/search/<%= CGI.escape(q.downcase) %></loc>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+<% end %>
+
   <%# Deal pages %>
 <% @products.each do |product| %>
   <url>
