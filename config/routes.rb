@@ -23,6 +23,7 @@ Rails.application.routes.draw do
         collection do
           get :trending
           get :featured
+          get :new_today
           get :personalised
         end
         resources :price_histories, only: :index
