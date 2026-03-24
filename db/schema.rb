@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_22_115956) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_24_220646) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -222,4 +222,16 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_22_115956) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
   end
+
+  create_table "votes", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.string "session_id", null: false
+    t.integer "value", default: 1, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id", "session_id"], name: "index_votes_on_product_id_and_session_id", unique: true
+    t.index ["product_id"], name: "index_votes_on_product_id"
+  end
+
+  add_foreign_key "votes", "products"
 end

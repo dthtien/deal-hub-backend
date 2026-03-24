@@ -30,6 +30,7 @@ Rails.application.routes.draw do
         resources :price_histories, only: :index
         resources :price_alerts, only: :create
         resource :analysis, only: :show, controller: 'deal_analyses'
+        resource :vote, only: %i[show create], controller: 'votes'
       end
       resource :metadata, only: :show
       get 'analytics/clicks', to: 'analytics#clicks'
