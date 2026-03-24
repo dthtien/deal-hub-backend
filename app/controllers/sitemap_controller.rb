@@ -14,6 +14,7 @@ class SitemapController < ApplicationController
                          .map(&:first)
     @searches   = SearchQuery.trending(limit: 50).pluck(:query)
 
-    render 'index', formats: [:xml]
+    xml = render_to_string(template: 'sitemap/index', formats: [:xml], layout: false)
+    render plain: xml, content_type: 'application/xml'
   end
 end

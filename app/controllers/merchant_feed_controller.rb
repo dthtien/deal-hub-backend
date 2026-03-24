@@ -10,8 +10,7 @@ class MerchantFeedController < ApplicationController
                        .order(discount: :desc, updated_at: :desc)
                        .limit(10_000)
 
-    respond_to do |format|
-      format.xml { render layout: false }
-    end
+    xml = render_to_string(template: 'merchant_feed/index', formats: [:xml], layout: false)
+    render plain: xml, content_type: 'application/xml'
   end
 end
