@@ -62,16 +62,16 @@ module Api
         per_page = 20
         offset   = (page - 1) * per_page
 
-        # Products that have a price history entry in last 24h showing a drop
-        base = Product
-          .where(expired: false)
-          .where('discount > 0')
-          .joins(:price_histories)
-          .where('price_histories.recorded_at >= ?', 24.hours.ago)
-          .where('price_histories.old_price > price_histories.price')
-          .select("products.*, ROUND(((price_histories.old_price - price_histories.price) / price_histories.old_price * 100)::numeric, 1) AS drop_percent")
-          .order('drop_percent DESC')
+        dropped_ids = PriceHistory
+          .where('recorded_at >= ?', 24.hours.ago)
+          .where('old_price > price')
           .distinct
+          .pluck(:product_id)
+
+        base = Product
+          .where(id: dropped_ids, expired: false)
+          .where('discount > 0')
+          .order(discount: :desc)
 
         total    = base.count
         products = base.limit(per_page).offset(offset)
