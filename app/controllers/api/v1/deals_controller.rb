@@ -57,6 +57,37 @@ module Api
         render json: { products: trending }
       end
 
+      def best_drops
+        page     = (params[:page] || 1).to_i
+        per_page = 20
+        offset   = (page - 1) * per_page
+
+        # Products that have a price history entry in last 24h showing a drop
+        base = Product
+          .where(expired: false)
+          .where('discount > 0')
+          .joins(:price_histories)
+          .where('price_histories.recorded_at >= ?', 24.hours.ago)
+          .where('price_histories.old_price > price_histories.price')
+          .select("products.*, ROUND(((price_histories.old_price - price_histories.price) / price_histories.old_price * 100)::numeric, 1) AS drop_percent")
+          .order('drop_percent DESC')
+          .distinct
+
+        total    = base.count
+        products = base.limit(per_page).offset(offset)
+
+        render json: {
+          products: products.map(&:as_json),
+          metadata: {
+            page:           page,
+            per_page:       per_page,
+            total_count:    total,
+            total_pages:    (total.to_f / per_page).ceil,
+            show_next_page: offset + per_page < total
+          }
+        }
+      end
+
       def new_today
         page     = (params[:page] || 1).to_i
         per_page = 20

@@ -24,6 +24,7 @@ Rails.application.routes.draw do
           get :trending
           get :featured
           get :new_today
+          get :best_drops
           get :personalised
         end
         resources :price_histories, only: :index
