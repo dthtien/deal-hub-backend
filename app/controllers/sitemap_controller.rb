@@ -5,7 +5,7 @@ class SitemapController < ApplicationController
   SITE_URL = 'https://www.ozvfy.com'
 
   def index
-    products   = Product.where(expired: false).select(:id, :updated_at).order(updated_at: :desc).limit(5000)
+    products   = Product.where(expired: false).select(:id, :updated_at).order(updated_at: :desc).limit(100)
     stores     = Product.distinct.pluck(:store).compact.sort
     categories = Product.where("array_length(categories, 1) > 0")
                         .pluck(:categories).flatten.tally
