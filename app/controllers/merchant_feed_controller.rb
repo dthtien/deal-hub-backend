@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class MerchantFeedController < ApplicationController
+class MerchantFeedController < ActionController::Base
   SITE_URL = 'https://www.ozvfy.com'
 
   def index
@@ -10,7 +10,8 @@ class MerchantFeedController < ApplicationController
                        .order(discount: :desc, updated_at: :desc)
                        .limit(10_000)
 
-    xml = render_to_string(template: 'merchant_feed/index', formats: [:xml], layout: false)
-    render plain: xml, content_type: 'application/xml'
+    respond_to do |format|
+      format.xml { render layout: false }
+    end
   end
 end
