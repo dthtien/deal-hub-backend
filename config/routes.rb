@@ -5,6 +5,16 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
   get "sitemap.xml" => "sitemap#index", defaults: { format: :xml }
+
+  # Google OAuth
+  get '/auth/google_oauth2/callback', to: 'auth#google_callback'
+  get '/auth/failure', to: redirect('/?auth_error=access_denied')
+
+  namespace :api do
+    namespace :v1 do
+      get  '/auth/me', to: 'auth#me'
+    end
+  end
   get "merchant_feed.xml" => "merchant_feed#index", defaults: { format: :xml }
 
 

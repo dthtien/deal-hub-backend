@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_24_220646) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_25_050900) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -219,7 +219,11 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_24_220646) do
     t.string "username"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "google_uid"
+    t.string "provider"
+    t.string "avatar_url"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["google_uid"], name: "index_users_on_google_uid", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 

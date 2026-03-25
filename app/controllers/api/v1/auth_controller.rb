@@ -3,48 +3,23 @@
 module Api
   module V1
     class AuthController < ApplicationController
-      def signup
-        user = User.new(signup_params)
-        if params[:password].blank?
-          return render json: { errors: ['Password is required'] }, status: :unprocessable_entity
-        end
-        if user.save
-          token = JwtService.encode(user_id: user.id)
-          render json: { token:, user: user_json(user) }, status: :created
-        else
-          render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
-        end
-      end
-
-      def login
-        user = User.find_by(email: params[:email]&.downcase)
-        if user&.authenticate(params[:password])
-          token = JwtService.encode(user_id: user.id)
-          render json: { token:, user: user_json(user) }
-        else
-          render json: { error: 'Invalid email or password' }, status: :unauthorized
-        end
-      end
+      skip_before_action :authenticate_user!, raise: false
 
       def me
-        authenticate_user!
-        return unless current_user
+        token = request.headers['Authorization']&.sub('Bearer ', '')
+        payload = JwtService.decode(token)
 
-        render json: { user: user_json(current_user) }
-      end
+        return render json: { error: 'Unauthorized' }, status: :unauthorized unless payload
 
-      private
+        user = User.find_by(id: payload['user_id'])
+        return render json: { error: 'User not found' }, status: :not_found unless user
 
-      def signup_params
-        params.permit(:email, :password, :first_name, :last_name)
-      end
-
-      def user_json(user)
-        {
+        render json: {
           id: user.id,
           email: user.email,
           first_name: user.first_name,
-          last_name: user.last_name
+          last_name: user.last_name,
+          avatar_url: user.avatar_url
         }
       end
     end

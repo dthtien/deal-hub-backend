@@ -70,6 +70,9 @@ env:
     - FB_USER_TOKEN
     - VAPID_PUBLIC_KEY
     - VAPID_PRIVATE_KEY
+    - GOOGLE_CLIENT_ID
+    - GOOGLE_CLIENT_SECRET
+    - JWT_SECRET
 
 # Use a different ssh user than root
 ssh:

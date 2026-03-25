@@ -5,14 +5,16 @@ class JwtService
   EXPIRY = 30.days
 
   def self.encode(payload)
-    payload[:exp] = EXPIRY.from_now.to_i
-    JWT.encode(payload, SECRET, 'HS256')
+    JWT.encode(
+      payload.merge(exp: EXPIRY.from_now.to_i),
+      SECRET,
+      'HS256'
+    )
   end
 
   def self.decode(token)
-    decoded = JWT.decode(token, SECRET, true, algorithm: 'HS256')
-    HashWithIndifferentAccess.new(decoded.first)
-  rescue JWT::DecodeError, JWT::ExpiredSignature
+    JWT.decode(token, SECRET, true, algorithm: 'HS256').first
+  rescue JWT::DecodeError
     nil
   end
 end
