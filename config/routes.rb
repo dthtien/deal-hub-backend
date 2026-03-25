@@ -43,6 +43,14 @@ Rails.application.routes.draw do
         resource :vote, only: %i[show create], controller: 'votes'
       end
       resource :metadata, only: :show
+      resources :coupons, only: %i[index] do
+        collection do
+          get :stores
+        end
+        member do
+          post :use
+        end
+      end
       get 'analytics/clicks', to: 'analytics#clicks'
       resources :deal_submissions, only: :create
       resources :subscribers, only: %i[create index] do

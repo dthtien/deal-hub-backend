@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_25_050900) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_25_075707) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -44,6 +44,24 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_25_050900) do
     t.index ["clicked_at"], name: "index_click_trackings_on_clicked_at"
     t.index ["product_id"], name: "index_click_trackings_on_product_id"
     t.index ["store"], name: "index_click_trackings_on_store"
+  end
+
+  create_table "coupons", force: :cascade do |t|
+    t.string "store", null: false
+    t.string "code", null: false
+    t.string "description"
+    t.decimal "discount_value", precision: 8, scale: 2
+    t.string "discount_type", default: "percent"
+    t.datetime "expires_at"
+    t.boolean "verified", default: false
+    t.boolean "active", default: true
+    t.integer "use_count", default: 0
+    t.string "minimum_spend"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["active"], name: "index_coupons_on_active"
+    t.index ["code"], name: "index_coupons_on_code"
+    t.index ["store"], name: "index_coupons_on_store"
   end
 
   create_table "deal_submissions", force: :cascade do |t|
