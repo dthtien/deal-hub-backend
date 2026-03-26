@@ -29,6 +29,18 @@ module Api
         total = base.count
         products = base.limit(PER_PAGE).offset(offset)
 
+        # Store stats
+        all_store_products = Product.where(store: store_name)
+        total_deals = all_store_products.count
+        avg_discount = all_store_products.where('discount > 0').average(:discount)&.round || 0
+        top_category = all_store_products
+          .where("categories IS NOT NULL AND array_length(categories, 1) > 0")
+          .pluck(:categories)
+          .flatten
+          .tally
+          .max_by { |_, v| v }
+          &.first || 'General'
+
         render json: {
           products: products.map(&:as_json),
           metadata: {
@@ -36,6 +48,11 @@ module Api
             total_count: total,
             total_pages: (total.to_f / PER_PAGE).ceil,
             show_next_page: offset + PER_PAGE < total
+          },
+          store_stats: {
+            total_deals: total_deals,
+            avg_discount: avg_discount,
+            top_category: top_category
           }
         }
       end

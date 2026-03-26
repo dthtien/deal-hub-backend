@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
   get "sitemap.xml" => "sitemap#index", defaults: { format: :xml }
   get "feed.xml"    => "feed#index"
+  get "robots.txt"  => "robots#index", defaults: { format: :text }
 
   # Admin
   namespace :admin do
@@ -38,6 +39,7 @@ Rails.application.routes.draw do
       get  'auth/me', to: 'auth#me'
       resources :saved_deals, only: %i[index create destroy]
       get 'deals/deal_of_the_day', to: 'deals#deal_of_the_day'
+      get 'deals/deal_of_the_week', to: 'deals#deal_of_the_week'
       get 'trending_searches', to: 'trending_searches#index'
       resources :deals, only: %i[index show] do
         member do
@@ -50,6 +52,8 @@ Rails.application.routes.draw do
           get :best_drops
           get :expiring_soon
           get :personalised
+          get :this_week
+          get :deal_of_the_week
         end
         resources :price_histories, only: :index
         resources :price_alerts, only: :create

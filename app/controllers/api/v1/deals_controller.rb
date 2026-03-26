@@ -138,6 +138,47 @@ module Api
         }
       end
 
+      def this_week
+        page     = (params[:page] || 1).to_i
+        per_page = 20
+        offset   = (page - 1) * per_page
+
+        base = Product
+          .where(expired: false)
+          .where('products.created_at >= ?', 7.days.ago)
+          .order(deal_score: :desc)
+
+        total    = base.count
+        products = base.limit(per_page).offset(offset)
+
+        render json: {
+          products: products.map(&:as_json),
+          metadata: {
+            page:           page,
+            per_page:       per_page,
+            total_count:    total,
+            total_pages:    (total.to_f / per_page).ceil,
+            show_next_page: offset + per_page < total
+          }
+        }
+      end
+
+      def deal_of_the_week
+        deal = Rails.cache.fetch("deal_of_the_week_#{Date.today.beginning_of_week}", expires_in: 7.days) do
+          Product.where(expired: false)
+                 .where('products.created_at >= ?', 7.days.ago)
+                 .where.not(image_url: [nil, ''])
+                 .order(deal_score: :desc)
+                 .first
+        end
+
+        if deal
+          render json: deal.as_json
+        else
+          render json: nil
+        end
+      end
+
       def deal_of_the_day
         deal = Rails.cache.fetch("deal_of_the_day_#{Date.today}", expires_in: 24.hours) do
           Product.where(expired: false)
