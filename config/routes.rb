@@ -10,6 +10,12 @@ Rails.application.routes.draw do
   namespace :admin do
     root to: 'dashboard#index'
     resources :coupons
+    resources :deal_submissions, only: %i[index show destroy] do
+      member do
+        post :approve
+        post :reject
+      end
+    end
   end
 
   # Google OAuth

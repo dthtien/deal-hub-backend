@@ -1,0 +1,42 @@
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-2xl font-bold text-gray-900">Deal Submissions</h1>
+  <div class="flex gap-2">
+    <%= link_to 'Pending', admin_deal_submissions_path(status: 'pending'), class: "px-4 py-2 rounded-lg text-sm font-medium #{@status == 'pending' ? 'bg-orange-500 text-white' : 'bg-white text-gray-600 border border-gray-200'}" %>
+    <%= link_to 'Approved', admin_deal_submissions_path(status: 'approved'), class: "px-4 py-2 rounded-lg text-sm font-medium #{@status == 'approved' ? 'bg-emerald-500 text-white' : 'bg-white text-gray-600 border border-gray-200'}" %>
+    <%= link_to 'Rejected', admin_deal_submissions_path(status: 'rejected'), class: "px-4 py-2 rounded-lg text-sm font-medium #{@status == 'rejected' ? 'bg-red-500 text-white' : 'bg-white text-gray-600 border border-gray-200'}" %>
+  </div>
+</div>
+
+<div class="space-y-4">
+  <% @submissions.each do |s| %>
+    <div class="bg-white rounded-xl shadow-sm p-5">
+      <div class="flex items-start justify-between gap-4">
+        <div class="flex-1 min-w-0">
+          <h3 class="font-semibold text-gray-900 truncate"><%= s.title %></h3>
+          <div class="flex flex-wrap gap-3 mt-1 text-sm text-gray-500">
+            <span><%= s.store || 'Unknown store' %></span>
+            <% if s.price %><span class="text-orange-500 font-semibold">$<%= s.price %></span><% end %>
+            <% if s.old_price %><span class="line-through">$<%= s.old_price %></span><% end %>
+            <span class="text-gray-400"><%= s.submitted_by_email %></span>
+            <span class="text-gray-400"><%= s.created_at.strftime('%d %b %Y') %></span>
+          </div>
+          <% if s.description.present? %>
+            <p class="text-sm text-gray-500 mt-2 line-clamp-2"><%= s.description %></p>
+          <% end %>
+          <a href="<%= s.url %>" target="_blank" class="text-xs text-blue-500 hover:underline mt-1 inline-block truncate max-w-md"><%= s.url %></a>
+        </div>
+
+        <% if @status == 'pending' %>
+          <div class="flex gap-2 flex-shrink-0">
+            <%= button_to 'Approve', approve_admin_deal_submission_path(s), method: :post, class: 'bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold px-4 py-2 rounded-lg cursor-pointer border-0' %>
+            <%= button_to 'Reject', reject_admin_deal_submission_path(s), method: :post, class: 'bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold px-4 py-2 rounded-lg cursor-pointer border-0' %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @submissions.empty? %>
+    <div class="text-center py-16 text-gray-400">No <%= @status %> submissions.</div>
+  <% end %>
+</div>

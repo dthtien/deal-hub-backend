@@ -10,6 +10,7 @@ module Admin
         subscribers: Subscriber.count,
         coupons:     Coupon.active.count,
         votes:       Vote.count,
+        submissions: DealSubmission.pending.count,
         clicks:      ClickTracking.count
       }
 
