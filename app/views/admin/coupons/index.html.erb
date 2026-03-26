@@ -1,0 +1,63 @@
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-2xl font-bold text-gray-900">Coupons</h1>
+  <%= link_to 'Add Coupon', new_admin_coupon_path, class: 'bg-orange-500 hover:bg-orange-600 text-white font-semibold px-4 py-2 rounded-lg text-sm' %>
+</div>
+
+<div class="bg-white rounded-xl shadow-sm overflow-hidden">
+  <table class="w-full text-sm">
+    <thead class="bg-gray-50 border-b border-gray-200">
+      <tr>
+        <th class="text-left px-4 py-3 text-gray-600 font-semibold">Store</th>
+        <th class="text-left px-4 py-3 text-gray-600 font-semibold">Code</th>
+        <th class="text-left px-4 py-3 text-gray-600 font-semibold">Description</th>
+        <th class="text-left px-4 py-3 text-gray-600 font-semibold">Discount</th>
+        <th class="text-left px-4 py-3 text-gray-600 font-semibold">Expires</th>
+        <th class="text-left px-4 py-3 text-gray-600 font-semibold">Status</th>
+        <th class="text-left px-4 py-3 text-gray-600 font-semibold">Uses</th>
+        <th class="px-4 py-3"></th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-100">
+      <% @coupons.each do |c| %>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-3 font-medium text-gray-900"><%= c.store %></td>
+          <td class="px-4 py-3">
+            <code class="bg-gray-100 px-2 py-0.5 rounded font-mono text-xs"><%= c.code %></code>
+          </td>
+          <td class="px-4 py-3 text-gray-600 max-w-xs truncate"><%= c.description %></td>
+          <td class="px-4 py-3">
+            <% if c.discount_value %>
+              <span class="text-orange-600 font-semibold">
+                <%= c.discount_type == 'fixed' ? "$#{c.discount_value.to_i} off" : "#{c.discount_value.to_i}% off" %>
+              </span>
+            <% end %>
+          </td>
+          <td class="px-4 py-3 text-gray-500">
+            <%= c.expires_at ? c.expires_at.strftime('%d %b %Y') : '—' %>
+          </td>
+          <td class="px-4 py-3">
+            <% if c.active && (c.expires_at.nil? || c.expires_at > Time.current) %>
+              <span class="inline-flex items-center gap-1 text-xs font-medium text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">
+                ● Active<%= c.verified ? ' · Verified' : '' %>
+              </span>
+            <% else %>
+              <span class="inline-flex items-center text-xs font-medium text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
+                Inactive
+              </span>
+            <% end %>
+          </td>
+          <td class="px-4 py-3 text-gray-500"><%= c.use_count %></td>
+          <td class="px-4 py-3">
+            <div class="flex items-center gap-3">
+              <%= link_to 'Edit', edit_admin_coupon_path(c), class: 'text-blue-500 hover:underline text-xs' %>
+              <%= button_to 'Delete', admin_coupon_path(c), method: :delete, data: { confirm: 'Delete this coupon?' }, class: 'text-red-400 hover:underline text-xs bg-transparent border-0 cursor-pointer p-0' %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% if @coupons.empty? %>
+    <p class="text-center py-12 text-gray-400">No coupons yet — add one!</p>
+  <% end %>
+</div>

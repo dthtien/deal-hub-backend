@@ -73,6 +73,8 @@ env:
     - GOOGLE_CLIENT_ID
     - GOOGLE_CLIENT_SECRET
     - JWT_SECRET
+    - ADMIN_USERNAME
+    - ADMIN_PASSWORD
 
 # Use a different ssh user than root
 ssh:

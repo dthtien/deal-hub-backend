@@ -6,6 +6,12 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
   get "sitemap.xml" => "sitemap#index", defaults: { format: :xml }
 
+  # Admin
+  namespace :admin do
+    root to: 'dashboard#index'
+    resources :coupons
+  end
+
   # Google OAuth
   get '/auth/google_oauth2/callback', to: 'auth#google_callback'
   get '/auth/failure', to: redirect('/?auth_error=access_denied')
