@@ -1,0 +1,73 @@
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-2xl font-bold text-gray-900">Products</h1>
+  <span class="text-sm text-gray-500"><%= @total %> total</span>
+</div>
+
+<%# Filters %>
+<form method="get" class="flex gap-3 mb-6 flex-wrap">
+  <select name="store" class="border border-gray-300 rounded-lg px-3 py-2 text-sm">
+    <option value="">All Stores</option>
+    <% @stores.each do |store| %>
+      <option value="<%= store %>" <%= 'selected' if params[:store] == store %>><%= store %></option>
+    <% end %>
+  </select>
+  <select name="expired" class="border border-gray-300 rounded-lg px-3 py-2 text-sm">
+    <option value="">All</option>
+    <option value="false" <%= 'selected' if params[:expired] == 'false' %>>Active</option>
+    <option value="true" <%= 'selected' if params[:expired] == 'true' %>>Expired</option>
+  </select>
+  <button type="submit" class="bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-orange-600">Filter</button>
+  <a href="/admin/products" class="border border-gray-300 text-gray-600 px-4 py-2 rounded-lg text-sm hover:bg-gray-50">Reset</a>
+</form>
+
+<div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+  <table class="w-full text-sm">
+    <thead class="bg-gray-50 border-b border-gray-200">
+      <tr>
+        <th class="text-left px-4 py-3 font-semibold text-gray-600">Product</th>
+        <th class="text-left px-4 py-3 font-semibold text-gray-600">Store</th>
+        <th class="text-right px-4 py-3 font-semibold text-gray-600">Price</th>
+        <th class="text-right px-4 py-3 font-semibold text-gray-600">Discount</th>
+        <th class="text-center px-4 py-3 font-semibold text-gray-600">Expired</th>
+        <th class="text-center px-4 py-3 font-semibold text-gray-600">Featured</th>
+        <th class="text-center px-4 py-3 font-semibold text-gray-600">Best Deal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @products.each do |product| %>
+        <tr class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="px-4 py-3">
+            <a href="/deals/<%= product.id %>" target="_blank" class="text-orange-600 hover:underline font-medium"><%= truncate(product.name, length: 60) %></a>
+          </td>
+          <td class="px-4 py-3 text-gray-600"><%= product.store %></td>
+          <td class="px-4 py-3 text-right font-semibold">$<%= product.price %></td>
+          <td class="px-4 py-3 text-right text-gray-500"><%= product.discount.present? ? "#{product.discount}%" : '—' %></td>
+          <td class="px-4 py-3 text-center">
+            <%= button_to admin_product_path(product, field: 'expired', **request.query_parameters.except('_method')), method: :patch, class: "px-2 py-1 rounded text-xs font-semibold #{product.expired? ? 'bg-red-100 text-red-700 hover:bg-red-200' : 'bg-green-100 text-green-700 hover:bg-green-200'}" do %>
+              <%= product.expired? ? 'Yes' : 'No' %>
+            <% end %>
+          </td>
+          <td class="px-4 py-3 text-center">
+            <%= button_to admin_product_path(product, field: 'featured', **request.query_parameters.except('_method')), method: :patch, class: "px-2 py-1 rounded text-xs font-semibold #{product.featured? ? 'bg-orange-100 text-orange-700 hover:bg-orange-200' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}" do %>
+              <%= product.featured? ? 'Yes' : 'No' %>
+            <% end %>
+          </td>
+          <td class="px-4 py-3 text-center">
+            <%= button_to admin_product_path(product, field: 'best_deal', **request.query_parameters.except('_method')), method: :patch, class: "px-2 py-1 rounded text-xs font-semibold #{product.best_deal? ? 'bg-amber-100 text-amber-700 hover:bg-amber-200' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}" do %>
+              <%= product.best_deal? ? 'Yes' : 'No' %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%# Pagination %>
+<% if @total_pages > 1 %>
+  <div class="flex gap-2 mt-4 justify-center">
+    <% (1..@total_pages).each do |p| %>
+      <a href="?<%= request.query_parameters.merge(page: p).to_query %>" class="px-3 py-1.5 rounded-lg text-sm <%= @page == p ? 'bg-orange-500 text-white font-bold' : 'border border-gray-300 text-gray-600 hover:bg-gray-50' %>"><%= p %></a>
+    <% end %>
+  </div>
+<% end %>

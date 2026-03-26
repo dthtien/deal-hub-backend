@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   # Admin
   namespace :admin do
     root to: 'dashboard#index'
+    resources :products, only: %i[index update]
     resources :coupons
     resources :deal_submissions, only: %i[index show destroy] do
       member do
