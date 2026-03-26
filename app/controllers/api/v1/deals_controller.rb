@@ -113,6 +113,31 @@ module Api
         }
       end
 
+      def expiring_soon
+        page     = (params[:page] || 1).to_i
+        per_page = 20
+        offset   = (page - 1) * per_page
+
+        base = Product
+          .where(expired: false)
+          .where('expires_at IS NOT NULL AND expires_at > ? AND expires_at <= ?', Time.current, 48.hours.from_now)
+          .order(expires_at: :asc)
+
+        total    = base.count
+        products = base.limit(per_page).offset(offset)
+
+        render json: {
+          products: products.map(&:as_json),
+          metadata: {
+            page:           page,
+            per_page:       per_page,
+            total_count:    total,
+            total_pages:    (total.to_f / per_page).ceil,
+            show_next_page: offset + per_page < total
+          }
+        }
+      end
+
       def deal_of_the_day
         deal = Rails.cache.fetch("deal_of_the_day_#{Date.today}", expires_in: 24.hours) do
           Product.where(expired: false)

@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
   get "sitemap.xml" => "sitemap#index", defaults: { format: :xml }
+  get "feed.xml"    => "feed#index"
 
   # Admin
   namespace :admin do
@@ -47,6 +48,7 @@ Rails.application.routes.draw do
           get :featured
           get :new_today
           get :best_drops
+          get :expiring_soon
           get :personalised
         end
         resources :price_histories, only: :index
