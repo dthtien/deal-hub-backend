@@ -24,6 +24,7 @@ class Product < ApplicationRecord
   has_many :price_histories, dependent: :destroy
   has_many :price_alerts, dependent: :destroy
   has_many :votes, dependent: :destroy
+  has_many :comments, dependent: :destroy
   has_one :ai_deal_analysis, dependent: :destroy
 
   validates :name, presence: true

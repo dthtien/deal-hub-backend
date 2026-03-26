@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_26_130406) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_26_133312) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -44,6 +44,15 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_26_130406) do
     t.index ["clicked_at"], name: "index_click_trackings_on_clicked_at"
     t.index ["product_id"], name: "index_click_trackings_on_product_id"
     t.index ["store"], name: "index_click_trackings_on_store"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.string "session_id"
+    t.string "name"
+    t.text "body", null: false
+    t.datetime "created_at", null: false
+    t.index ["product_id"], name: "index_comments_on_product_id"
   end
 
   create_table "coupons", force: :cascade do |t|
@@ -256,5 +265,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_26_130406) do
     t.index ["product_id"], name: "index_votes_on_product_id"
   end
 
+  add_foreign_key "comments", "products"
   add_foreign_key "votes", "products"
 end

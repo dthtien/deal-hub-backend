@@ -57,6 +57,7 @@ Rails.application.routes.draw do
         end
         resources :price_histories, only: :index
         resources :price_alerts, only: :create
+        resources :comments, only: %i[index create]
         resource :analysis, only: :show, controller: 'deal_analyses'
         resource :vote, only: %i[show create], controller: 'votes'
       end
@@ -75,6 +76,12 @@ Rails.application.routes.draw do
         collection { get :unsubscribe }
       end
       resources :push_subscriptions, only: %i[create destroy]
+      resource :leaderboard, only: :show
+      resources :search, only: [] do
+        collection do
+          get :suggestions
+        end
+      end
       resources :stores, only: :index do
         collection do
           get ':name/deals', to: 'stores#deals', as: :store_deals
