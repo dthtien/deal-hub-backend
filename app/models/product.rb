@@ -112,6 +112,7 @@ class Product < ApplicationRecord
       click_count:,
       deal_score:,
       best_deal: best_deal?,
+      tags: tags || [],
       price_trend: price_trend,
       ai_recommendation: ai_deal_analysis&.recommendation,
       ai_confidence: ai_deal_analysis&.confidence,

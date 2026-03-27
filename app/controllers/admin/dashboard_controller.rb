@@ -22,6 +22,16 @@ module Admin
 
       @recent_products = Product.order(created_at: :desc).limit(10)
 
+      @daily_stats = (6.downto(0)).map do |days_ago|
+        date = days_ago.days.ago.to_date
+        count = Product.where(created_at: date.beginning_of_day..date.end_of_day).count
+        [date.strftime('%d %b'), count]
+      end
+
+      @top_deals = Product.order(Arel.sql("(SELECT COUNT(*) FROM click_trackings WHERE click_trackings.product_id = products.id) DESC")).limit(5)
+
+      @recent_votes = Vote.includes(:product).order(created_at: :desc).limit(10)
+
       render :index
     end
   end

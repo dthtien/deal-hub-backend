@@ -48,6 +48,7 @@ Rails.application.routes.draw do
       resources :deals, only: %i[index show] do
         member do
           get :redirect
+          get :similar
         end
         collection do
           get :trending

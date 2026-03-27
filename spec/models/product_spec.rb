@@ -23,6 +23,7 @@ RSpec.describe Product, :model, type: :model do
           ai_recommendation: nil,
           ai_confidence: nil,
           ai_reasoning_short: nil,
+          tags: [],
           'discount' => 0.0,
           'old_price' => 0.0,
           'price' => product.price.to_f,

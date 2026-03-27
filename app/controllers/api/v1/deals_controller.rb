@@ -44,6 +44,20 @@ module Api
         render json: { error: 'Not found' }, status: :not_found
       end
 
+      def similar
+        product = Product.find(params[:id])
+        store_scope    = Product.where(store: product.store)
+        category_scope = product.categories.any? ? Product.where('categories && array[?]::varchar[]', product.categories) : Product.none
+        similar = store_scope.or(category_scope)
+                             .where.not(id: product.id)
+                             .where(expired: false)
+                             .order(deal_score: :desc)
+                             .limit(8)
+        render json: { products: similar }
+      rescue ActiveRecord::RecordNotFound
+        render json: { error: 'Not found' }, status: :not_found
+      end
+
       def trending
         # Top clicked products in last 7 days
         trending = ClickTracking

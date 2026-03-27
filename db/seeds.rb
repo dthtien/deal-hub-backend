@@ -28,3 +28,16 @@ coupons.each do |attrs|
   end
 end
 puts "Seeded #{coupons.count} coupons"
+
+# Seed tags on top products
+tag_groups = [
+  ["free shipping", "limited time"],
+  ["clearance", "bundle deal"],
+  ["flash sale"],
+  ["limited time", "flash sale"],
+  ["free shipping", "clearance"],
+]
+Product.order(created_at: :desc).limit(10).each_with_index do |product, i|
+  product.update_columns(tags: tag_groups[i % tag_groups.size])
+end
+puts "Seeded tags on top products"

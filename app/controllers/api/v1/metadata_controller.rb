@@ -8,7 +8,8 @@ module Api
         render json: {
           brands: service.products.brands,
           categories: service.products.categories,
-          stores: service.products.stores
+          stores: service.products.stores,
+          subscriber_count: Subscriber.count
         }
       end
     end
