@@ -72,6 +72,34 @@ module Api
         render json: { error: 'Not found' }, status: :not_found
       end
 
+      def recommendations
+        product = Product.find(params[:id])
+        cache_key = "recommendations_v1_#{product.id}"
+        products = Rails.cache.fetch(cache_key, expires_in: 30.minutes) do
+          price_low  = product.price.to_f * 0.7
+          price_high = product.price.to_f * 1.3
+          tags       = Array(product.tags)
+
+          candidates = Product.where.not(id: product.id).where(expired: false)
+
+          candidates.map do |p|
+            weight = 0
+            weight += 3 if product.categories.present? && (p.categories & product.categories).any?
+            weight += 2 if p.store == product.store
+            weight += 1 if tags.any? && (Array(p.tags) & tags).any?
+            weight += 1 if p.price.to_f.between?(price_low, price_high)
+            [p, weight]
+          end
+            .select { |_, w| w > 0 }
+            .sort_by { |_, w| -w }
+            .first(6)
+            .map { |p, _| p.as_json }
+        end
+        render json: { products: products }
+      rescue ActiveRecord::RecordNotFound
+        render json: { error: 'Not found' }, status: :not_found
+      end
+
       def similar
         product = Product.find(params[:id])
         store_scope    = Product.where(store: product.store)
@@ -277,10 +305,30 @@ module Api
         end
 
         if deal
+          # Save to deal of day history
+          DealOfDayHistory.find_or_create_by(date: aest_today) do |h|
+            h.product_id = deal.id
+          end
           render json: deal.as_json
         else
           render json: nil
         end
+      end
+
+      def past_deals_of_day
+        histories = DealOfDayHistory.where('date >= ?', 30.days.ago.to_date)
+                                    .order(date: :desc)
+                                    .limit(30)
+        product_ids = histories.pluck(:product_id)
+        products = Product.where(id: product_ids).index_by(&:id)
+
+        result = histories.map do |h|
+          product = products[h.product_id]
+          next unless product
+          product.as_json.merge(deal_of_day_date: h.date.to_s)
+        end.compact
+
+        render json: { products: result }
       end
 
       def flash_deals
@@ -407,6 +455,26 @@ module Api
         product = Product.find(params[:id])
         product.increment!(:share_count)
         render json: { ok: true, share_count: product.share_count }
+      rescue ActiveRecord::RecordNotFound
+        render json: { error: 'Not found' }, status: :not_found
+      end
+
+      def meta
+        product = Product.find(params[:id])
+        meta_data = Rails.cache.fetch("deal_meta_#{product.id}", expires_in: 5.minutes) do
+          availability = product.expired? ? 'OutOfStock' : 'InStock'
+          image = product.image_urls&.first || product.image_url
+          {
+            title: "#{product.name} - $#{product.price} at #{product.store} | OzVFY",
+            description: product.description.presence || "#{product.name} now $#{product.price}#{product.old_price ? " (was $#{product.old_price})" : ''} at #{product.store}. #{product.discount}% off!",
+            og_image: image,
+            canonical_url: "https://www.ozvfy.com/deals/#{product.id}",
+            price: product.price,
+            currency: product.currency.presence || 'AUD',
+            availability: availability
+          }
+        end
+        render json: meta_data
       rescue ActiveRecord::RecordNotFound
         render json: { error: 'Not found' }, status: :not_found
       end

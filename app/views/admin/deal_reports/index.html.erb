@@ -1,0 +1,88 @@
+<% content_for :title, "Deal Reports" %>
+
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-2xl font-bold text-gray-900">Deal Reports</h1>
+  <span class="text-sm text-gray-500"><%= @total %> total reports</span>
+</div>
+
+<div class="bg-white rounded-xl shadow-sm overflow-hidden">
+  <table class="w-full text-sm">
+    <thead class="bg-gray-50 border-b border-gray-200">
+      <tr>
+        <th class="text-left px-4 py-3 font-semibold text-gray-600">Product</th>
+        <th class="text-left px-4 py-3 font-semibold text-gray-600">Store</th>
+        <th class="text-left px-4 py-3 font-semibold text-gray-600">Reason</th>
+        <th class="text-left px-4 py-3 font-semibold text-gray-600">Reporter</th>
+        <th class="text-left px-4 py-3 font-semibold text-gray-600">Date</th>
+        <th class="text-left px-4 py-3 font-semibold text-gray-600">Reports</th>
+        <th class="text-left px-4 py-3 font-semibold text-gray-600">Actions</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-100">
+      <% @reports.each do |report| %>
+        <% report_count = report.product&.deal_reports&.count || 0 %>
+        <tr class="<%= report_count >= 3 ? 'bg-red-50' : 'hover:bg-gray-50' %> transition-colors">
+          <td class="px-4 py-3">
+            <% if report.product %>
+              <a href="/admin/products?query=<%= CGI.escape(report.product.name) %>" class="text-blue-600 hover:underline font-medium line-clamp-1 max-w-xs block">
+                <%= report.product.name.truncate(60) %>
+              </a>
+            <% else %>
+              <span class="text-gray-400 italic">Deleted product</span>
+            <% end %>
+          </td>
+          <td class="px-4 py-3 text-gray-600"><%= report.product&.store || '-' %></td>
+          <td class="px-4 py-3">
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium
+              <%= case report.reason
+                  when 'expired'     then 'bg-yellow-100 text-yellow-700'
+                  when 'wrong_price' then 'bg-orange-100 text-orange-700'
+                  when 'spam'        then 'bg-red-100 text-red-700'
+                  when 'broken_link' then 'bg-gray-100 text-gray-700'
+                  else 'bg-blue-100 text-blue-700'
+                  end %>">
+              <%= report.reason.humanize %>
+            </span>
+          </td>
+          <td class="px-4 py-3 text-gray-500 font-mono text-xs"><%= report.session_id&.truncate(12) || '-' %></td>
+          <td class="px-4 py-3 text-gray-500"><%= report.created_at.strftime('%d %b %Y') %></td>
+          <td class="px-4 py-3">
+            <span class="font-bold <%= report_count >= 3 ? 'text-red-600' : 'text-gray-700' %>">
+              <%= report_count %>
+              <% if report_count >= 3 %>
+                <span class="text-xs font-normal text-red-500 ml-1">- auto-flagged</span>
+              <% end %>
+            </span>
+          </td>
+          <td class="px-4 py-3">
+            <div class="flex items-center gap-2">
+              <%= button_to 'Dismiss', dismiss_admin_deal_report_path(report), method: :post,
+                    class: 'text-xs px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors',
+                    data: { confirm: 'Dismiss this report?' } %>
+              <% if report.product %>
+                <%= button_to 'Expire Deal', expire_deal_admin_deal_report_path(report), method: :post,
+                      class: 'text-xs px-3 py-1 bg-red-100 hover:bg-red-200 text-red-700 rounded-lg transition-colors',
+                      data: { confirm: 'Mark deal as expired and dismiss report?' } %>
+              <% end %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+      <% if @reports.empty? %>
+        <tr>
+          <td colspan="7" class="px-4 py-12 text-center text-gray-400">No reports found.</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<% if @total_pages > 1 %>
+  <div class="flex items-center justify-center gap-2 mt-6">
+    <% (1..@total_pages).each do |p| %>
+      <a href="?page=<%= p %>" class="px-3 py-1.5 rounded-lg text-sm <%= p == @page ? 'bg-orange-500 text-white font-semibold' : 'bg-white text-gray-600 hover:bg-gray-100' %>">
+        <%= p %>
+      </a>
+    <% end %>
+  </div>
+<% end %>

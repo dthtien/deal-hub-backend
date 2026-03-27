@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_27_181343) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_27_181346) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -119,6 +119,15 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_27_181343) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "deal_of_day_histories", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.date "date", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["date"], name: "index_deal_of_day_histories_on_date", unique: true
+    t.index ["product_id"], name: "index_deal_of_day_histories_on_product_id"
+  end
+
   create_table "deal_ratings", force: :cascade do |t|
     t.bigint "product_id", null: false
     t.string "session_id", null: false
@@ -202,6 +211,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_27_181343) do
     t.jsonb "specifications", default: {}
     t.string "currency", default: "AUD"
     t.integer "share_count", default: 0, null: false
+    t.string "ab_variant", default: "A"
     t.index ["brand"], name: "products_brand_gin_index", opclass: :gin_trgm_ops, using: :gin
     t.index ["categories"], name: "index_products_on_categories", using: :gin
     t.index ["deal_score"], name: "index_products_on_deal_score"
@@ -291,10 +301,13 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_27_181343) do
   end
 
   create_table "saved_deals", force: :cascade do |t|
-    t.bigint "user_id", null: false
+    t.bigint "user_id"
     t.bigint "product_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "session_id"
+    t.index ["session_id", "product_id"], name: "index_saved_deals_on_session_id_and_product_id", unique: true
+    t.index ["session_id"], name: "index_saved_deals_on_session_id"
     t.index ["user_id", "product_id"], name: "index_saved_deals_on_user_id_and_product_id", unique: true
     t.index ["user_id"], name: "index_saved_deals_on_user_id"
   end

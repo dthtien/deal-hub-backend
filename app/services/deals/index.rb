@@ -48,9 +48,17 @@ module Deals
     def query_data
       return if query.blank?
 
-      @products = @products.where('name ILIKE ?', "%#{query}%")
-                           .or(@products.where('description ILIKE ?', "%#{query}%"))
-                           .or(@products.where('brand ILIKE ?', "%#{query}%"))
+      q = query.strip
+      # Match across name, description, brand, and tags
+      @products = @products.where('name ILIKE ?', "%#{q}%")
+                           .or(@products.where('description ILIKE ?', "%#{q}%"))
+                           .or(@products.where('brand ILIKE ?', "%#{q}%"))
+                           .or(@products.where('tags::text ILIKE ?', "%#{q}%"))
+
+      # Boost exact name matches to the top
+      @products = @products.order(
+        Arel.sql("CASE WHEN LOWER(name) = LOWER(#{ActiveRecord::Base.connection.quote(q)}) THEN 0 ELSE 1 END")
+      )
     end
 
     def filter_by_categories
@@ -100,6 +108,14 @@ module Deals
 
     def order_products
       return unless with_order
+
+      # A/B variant sorting:
+      # Variant A (default): sort by deal_score desc
+      # Variant B: sort by view_count desc (more viral/trending focused)
+      if @params[:ab_variant] == 'B'
+        @products = products.order(view_count: :desc)
+        return
+      end
 
       order_by_date
       @products = products.order(price: order[:price]) if order[:price].present?

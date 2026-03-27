@@ -7,29 +7,26 @@ module Admin
     def index
       page = (params[:page] || 1).to_i
       offset = (page - 1) * PER_PAGE
-      total = DealReport.count
+      @total = DealReport.count
+      @total_pages = (@total.to_f / PER_PAGE).ceil
+      @page = page
 
-      reports = DealReport.includes(:product)
-                          .order(created_at: :desc)
-                          .limit(PER_PAGE).offset(offset)
+      @reports = DealReport.includes(:product)
+                           .order(created_at: :desc)
+                           .limit(PER_PAGE).offset(offset)
+    end
 
-      render json: {
-        reports: reports.map { |r|
-          report_count = r.product&.deal_reports&.count || 0
-          {
-            id: r.id,
-            reason: r.reason,
-            session_id: r.session_id,
-            created_at: r.created_at,
-            report_count: report_count,
-            auto_flagged: report_count >= 3,
-            product: r.product ? { id: r.product.id, name: r.product.name, store: r.product.store } : nil
-          }
-        },
-        total: total,
-        page: page,
-        total_pages: (total.to_f / PER_PAGE).ceil
-      }
+    def dismiss
+      report = DealReport.find(params[:id])
+      report.destroy
+      redirect_to admin_deal_reports_path, notice: 'Report dismissed.'
+    end
+
+    def expire_deal
+      report = DealReport.find(params[:id])
+      report.product&.update_column(:expired, true)
+      report.destroy
+      redirect_to admin_deal_reports_path, notice: 'Deal expired and report dismissed.'
     end
   end
 end

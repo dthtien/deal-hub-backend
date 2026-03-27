@@ -14,6 +14,32 @@ class ApplicationService
 
   private
 
+  # HTTP request with retry logic for network errors.
+  # Max 3 retries, 2s sleep between attempts.
+  # Only retries on network/timeout errors.
+  def http_get_with_retry(url, headers: {}, max_retries: 3, sleep_secs: 2)
+    retries = 0
+    begin
+      uri = URI.parse(url)
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = uri.scheme == 'https'
+      http.open_timeout = 10
+      http.read_timeout = 30
+      request = Net::HTTP::Get.new(uri.request_uri, headers)
+      http.request(request)
+    rescue Net::OpenTimeout, Net::ReadTimeout, Errno::ECONNREFUSED, Errno::ECONNRESET, SocketError => e
+      retries += 1
+      if retries <= max_retries
+        Rails.logger.warn "http_get_with_retry - attempt #{retries}/#{max_retries} failed for #{url}: #{e.class} #{e.message}"
+        sleep sleep_secs
+        retry
+      else
+        Rails.logger.error "http_get_with_retry - all #{max_retries} retries exhausted for #{url}: #{e.message}"
+        raise
+      end
+    end
+  end
+
   # Track crawl metrics — call wrap_with_crawl_log(store:) { ... } in crawl services
   def wrap_with_crawl_log(store:)
     start_time = Time.current
@@ -99,6 +125,11 @@ class ApplicationService
           discount: attrs[:discount],
           recorded_at: Time.current
         )
+      end
+
+      # Fire webhook notification for new deals with high discount
+      if is_new && product.discount.to_f > 40
+        NotificationWebhookJob.perform_later(product.id)
       end
     end
     Rails.logger.info "upsert_with_price_history — #{store}: #{attributes_list.size} found, #{@crawl_products_new} new, #{@crawl_products_updated} updated, #{skipped_image_count} skipped (invalid image)" if skipped_image_count > 0

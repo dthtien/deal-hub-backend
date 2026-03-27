@@ -42,7 +42,12 @@ Rails.application.routes.draw do
         post :reject
       end
     end
-    resources :deal_reports, only: %i[index]
+    resources :deal_reports, only: %i[index] do
+      member do
+        post :dismiss
+        post :expire_deal
+      end
+    end
     resources :webhooks, only: %i[index create destroy]
     resources :crawlers, only: %i[index]
     resources :crawl_logs, only: %i[index]
@@ -50,6 +55,9 @@ Rails.application.routes.draw do
     resources :subscribers, only: %i[index] do
       member do
         post :unsubscribe
+      end
+      collection do
+        post :import
       end
     end
   end
@@ -74,6 +82,7 @@ Rails.application.routes.draw do
       resources :saved_deals, only: %i[index create destroy]
       get 'deals/hot', to: 'deals#hot'
       get 'deals/deal_of_the_day', to: 'deals#deal_of_the_day'
+      get 'deals/past_deals_of_day', to: 'deals#past_deals_of_day'
       get 'deals/deal_of_the_week', to: 'deals#deal_of_the_week'
       get 'deals/flash', to: 'deals#flash_deals'
       get 'deals/compare', to: 'deals#compare'
@@ -89,9 +98,11 @@ Rails.application.routes.draw do
         member do
           get :redirect
           get :similar
+          get :recommendations
           post :view
           post :report
           get :ai_summary
+          get :meta
           post :share
         end
         collection do
