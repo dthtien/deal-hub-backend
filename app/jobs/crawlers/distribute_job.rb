@@ -17,7 +17,9 @@ module Crawlers
         Product::KMART => Crawlers::KmartJob,
         Product::BIG_W => Crawlers::BigWJob,
         Product::BOOKING_COM => Crawlers::BookingComJob,
-        Product::GOOD_BUYZ => Crawlers::GoodBuyzJob
+        Product::GOOD_BUYZ => Crawlers::GoodBuyzJob,
+        Product::BEGINNING_BOUTIQUE => Crawlers::BeginningBoutiqueJob,
+        Product::UNIVERSAL_STORE => Crawlers::UniversalStoreJob
       }
 
       Product::STORES.each do |store|

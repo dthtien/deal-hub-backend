@@ -17,7 +17,9 @@ class Product < ApplicationRecord
     BIG_W = 'Big W',
     TARGET_AU = 'Target AU',
     BOOKING_COM = 'Booking.com',
-    GOOD_BUYZ = 'Good Buyz'
+    GOOD_BUYZ = 'Good Buyz',
+    BEGINNING_BOUTIQUE = 'Beginning Boutique',
+    UNIVERSAL_STORE = 'Universal Store'
   ].freeze
 
   has_many :click_trackings, dependent: :destroy
