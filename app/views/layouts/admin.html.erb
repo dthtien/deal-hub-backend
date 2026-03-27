@@ -23,7 +23,19 @@
       <a href="/admin/notification_logs" class="text-sm text-gray-300 hover:text-white">Notif Logs</a>
       <a href="/admin/reports/stores" class="text-sm text-gray-300 hover:text-white">Store Report</a>
     </div>
-    <a href="https://www.ozvfy.com" target="_blank" class="text-xs text-gray-400 hover:text-white">← View site</a>
+    <div class="flex items-center gap-3">
+      <form action="/admin/search" method="get" class="flex items-center gap-2">
+        <input
+          type="text"
+          name="q"
+          placeholder="Search products, subscribers, coupons..."
+          value="<%= params[:q] %>"
+          class="bg-gray-800 text-white text-xs rounded-lg px-3 py-1.5 w-56 border border-gray-700 focus:outline-none focus:border-orange-400 placeholder-gray-500"
+        />
+        <button type="submit" class="text-xs bg-orange-500 hover:bg-orange-600 text-white px-3 py-1.5 rounded-lg font-semibold">Search</button>
+      </form>
+      <a href="https://www.ozvfy.com" target="_blank" class="text-xs text-gray-400 hover:text-white">← View site</a>
+    </div>
   </nav>
 
   <main class="max-w-6xl mx-auto px-6 py-8">

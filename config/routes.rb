@@ -60,6 +60,7 @@ Rails.application.routes.draw do
     get 'analytics/click_heatmap', to: 'analytics#click_heatmap', as: :admin_click_heatmap
     get 'analytics/affiliate', to: 'analytics#affiliate', as: :admin_affiliate_analytics
     get 'reports/stores', to: 'reports#stores', as: :admin_reports_stores
+    get 'search', to: 'search#index'
     resources :notification_logs, only: %i[index]
     resources :subscribers, only: %i[index] do
       member do
@@ -95,6 +96,7 @@ Rails.application.routes.draw do
       post 'auth/login', to: 'auth#login'
       get  'auth/me', to: 'auth#me'
       resources :saved_deals, only: %i[index create destroy]
+      get 'deals/high_quality', to: 'deals#high_quality'
       get 'deals/top_picks', to: 'deals#top_picks'
       get 'deals/freshness_stats', to: 'deals#freshness_stats'
       get 'tags', to: 'tags#index'

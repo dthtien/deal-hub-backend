@@ -54,5 +54,8 @@ pidfile: tmp/pids/sidekiq_development.pid
     weekly_store_report:
       cron: "0 21 * * 0"
       class: "WeeklyStoreReportJob"
+    coupon_expiry_notifier:
+      cron: "0 10 * * *"
+      class: "CouponExpiryNotifierJob"
 
 

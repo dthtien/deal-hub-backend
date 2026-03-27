@@ -387,10 +387,27 @@ module Api
       end
 
       def flash_deals
-        products = Product.where(flash_deal: true, expired: false)
-                          .where('flash_expires_at > ?', Time.current)
-                          .order(flash_expires_at: :asc)
-        render json: { products: products.map(&:as_json) }
+        page     = (params[:page] || 1).to_i
+        per_page = 20
+        offset   = (page - 1) * per_page
+
+        base = Product.where(flash_deal: true, expired: false)
+                      .where('flash_expires_at > ?', Time.current)
+                      .order(flash_expires_at: :asc)
+
+        total    = base.count
+        products = base.limit(per_page).offset(offset)
+
+        render json: {
+          products: products.map(&:as_json),
+          metadata: {
+            page:           page,
+            per_page:       per_page,
+            total_count:    total,
+            total_pages:    (total.to_f / per_page).ceil,
+            show_next_page: offset + per_page < total
+          }
+        }
       end
 
       def compare
@@ -626,6 +643,33 @@ module Api
         }
       rescue ActiveRecord::RecordNotFound
         render json: { error: 'Product not found' }, status: :not_found
+      end
+
+      def high_quality
+        page     = (params[:page] || 1).to_i
+        per_page = 20
+        offset   = (page - 1) * per_page
+
+        # Load candidates and filter by quality_score in Ruby (computed attribute)
+        candidates = Product.where(expired: false)
+                            .order(deal_score: :desc, created_at: :desc)
+                            .limit(500)
+                            .to_a
+                            .select { |p| p.quality_score >= 70 }
+
+        total    = candidates.size
+        products = candidates[offset, per_page] || []
+
+        render json: {
+          products: products.map(&:as_json),
+          metadata: {
+            page:           page,
+            per_page:       per_page,
+            total_count:    total,
+            total_pages:    (total.to_f / per_page).ceil,
+            show_next_page: offset + per_page < total
+          }
+        }
       end
 
       def freshness_stats

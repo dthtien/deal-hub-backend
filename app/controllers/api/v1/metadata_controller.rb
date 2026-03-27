@@ -12,6 +12,8 @@ module Api
         new_today    = active.where('products.created_at >= ?', 24.hours.ago).count
         hot_count    = active.where('deal_score >= ?', 80).count
 
+        clicks_today = ClickTracking.where('clicked_at >= ?', Time.current.beginning_of_day).count rescue 0
+
         render json: {
           brands:           service.products.brands,
           categories:       service.products.categories,
@@ -21,7 +23,11 @@ module Api
           stores_count:     stores_count,
           avg_discount:     avg_discount,
           new_today:        new_today,
-          hot_count:        hot_count
+          hot_count:        hot_count,
+          # Admin-only stats
+          total_active_products: total_count,
+          total_subscribers:     Subscriber.count,
+          clicks_today:          clicks_today
         }
       end
     end

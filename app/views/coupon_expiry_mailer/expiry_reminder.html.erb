@@ -1,0 +1,16 @@
+<h2>Heads up - these coupons expire soon!</h2>
+<p>Hi there,</p>
+<p>The following coupon codes are expiring within the next 24 hours:</p>
+<ul>
+  <% @coupons.each do |coupon| %>
+    <li>
+      <strong><%= coupon.store %></strong>: <code><%= coupon.code %></code>
+      <% if coupon.description.present? %> - <%= coupon.description %><% end %>
+      <% if coupon.expires_at.present? %>(expires <%= coupon.expires_at.strftime('%d %b %Y %H:%M') %>)<% end %>
+    </li>
+  <% end %>
+</ul>
+<p><a href="<%= @site_url %>/coupons">View all coupons on OzVFY</a></p>
+<p>
+  <a href="<%= @site_url %>/subscribers/unsubscribe?token=<%= @subscriber.unsubscribe_token %>">Unsubscribe from coupon alerts</a>
+</p>

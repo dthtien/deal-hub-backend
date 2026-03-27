@@ -82,6 +82,17 @@ class ApplicationService
         next
       end
 
+      # Image scraping fallback: if image_url is blank, try to reuse from existing product
+      if attrs[:image_url].blank?
+        existing_with_image = Product.where(name: attrs[:name], store: store)
+                                     .where.not(image_url: [nil, ''])
+                                     .first
+        if existing_with_image
+          attrs[:image_url] = existing_with_image.image_url
+          Rails.logger.info "Reused image from existing product for: #{attrs[:name]}"
+        end
+      end
+
       # Duplicate detection: same name+store but different store_product_id
       product = Product.find_by(store_product_id: attrs[:store_product_id], store: store)
       if product.nil?

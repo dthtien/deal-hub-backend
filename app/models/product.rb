@@ -203,6 +203,19 @@ class Product < ApplicationRecord
     affiliate_network_value == 'awin' ? 0.06 : 0.04
   end
 
+  def quality_score
+    score = 0
+    score += 20 if image_url.present?
+    score += 20 if old_price.to_f > 0
+    disc = discount.to_f
+    score += 20 if disc > 20
+    score += 10 if disc > 40
+    score += 10 if name.to_s.length > 10
+    score += 10 if brand.present?
+    score += 10 if Array(categories).any?(&:present?)
+    [score, 100].min
+  end
+
   def aggregate_score
     raw = deal_score.to_f * 0.4 +
           heat_index.to_f * 0.3 +
@@ -229,6 +242,7 @@ class Product < ApplicationRecord
       tags: tags || [],
       price_trend: price_trend,
       is_bundle: name.to_s.downcase.match?(/bundle|pack|set|combo|kit/),
+      quality_score: quality_score,
       ai_recommendation: ai_recommendation,
       ai_confidence: ai_deal_analysis&.confidence,
       ai_reasoning_short: ai_reasoning_short,

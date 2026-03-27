@@ -1,0 +1,58 @@
+<h1 class="text-xl font-bold text-gray-800 mb-6">Search Results for "<%= params[:q] %>"</h1>
+
+<% if @results %>
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+    <!-- Products -->
+    <div class="bg-white rounded-xl shadow p-5">
+      <h2 class="font-bold text-gray-700 mb-3">Products (<%= @results[:products].size %>)</h2>
+      <% if @results[:products].empty? %>
+        <p class="text-gray-400 text-sm">No products found.</p>
+      <% else %>
+        <ul class="divide-y divide-gray-100">
+          <% @results[:products].each do |p| %>
+            <li class="py-2">
+              <a href="/admin/products/<%= p[:id] %>/edit" class="text-sm font-medium text-blue-600 hover:underline"><%= p[:name] %></a>
+              <p class="text-xs text-gray-400"><%= p[:store] %> &mdash; $<%= p[:price] %></p>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
+
+    <!-- Subscribers -->
+    <div class="bg-white rounded-xl shadow p-5">
+      <h2 class="font-bold text-gray-700 mb-3">Subscribers (<%= @results[:subscribers].size %>)</h2>
+      <% if @results[:subscribers].empty? %>
+        <p class="text-gray-400 text-sm">No subscribers found.</p>
+      <% else %>
+        <ul class="divide-y divide-gray-100">
+          <% @results[:subscribers].each do |s| %>
+            <li class="py-2">
+              <a href="/admin/subscribers" class="text-sm font-medium text-blue-600 hover:underline"><%= s[:email] %></a>
+              <p class="text-xs text-gray-400">Status: <%= s[:status] %></p>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
+
+    <!-- Coupons -->
+    <div class="bg-white rounded-xl shadow p-5">
+      <h2 class="font-bold text-gray-700 mb-3">Coupons (<%= @results[:coupons].size %>)</h2>
+      <% if @results[:coupons].empty? %>
+        <p class="text-gray-400 text-sm">No coupons found.</p>
+      <% else %>
+        <ul class="divide-y divide-gray-100">
+          <% @results[:coupons].each do |c| %>
+            <li class="py-2">
+              <a href="/admin/coupons/<%= c[:id] %>/edit" class="text-sm font-medium text-blue-600 hover:underline"><code><%= c[:code] %></code></a>
+              <p class="text-xs text-gray-400"><%= c[:store] %><% if c[:expires_at] %> &mdash; expires <%= c[:expires_at] %><% end %></p>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
+
+  </div>
+<% end %>
