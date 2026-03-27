@@ -57,6 +57,8 @@ Rails.application.routes.draw do
     resources :crawlers, only: %i[index]
     resources :crawl_logs, only: %i[index]
     get 'analytics', to: 'analytics#index'
+    get 'analytics/click_heatmap', to: 'analytics#click_heatmap', as: :admin_click_heatmap
+    resources :notification_logs, only: %i[index]
     resources :subscribers, only: %i[index] do
       member do
         post :unsubscribe
@@ -151,6 +153,8 @@ Rails.application.routes.draw do
       end
       get 'categories', to: 'categories#index'
       get 'categories/:name/top_deals', to: 'categories#top_deals', as: :category_top_deals
+      post 'category_alerts', to: 'category_alerts#create'
+      delete 'category_alerts', to: 'category_alerts#destroy'
       get 'analytics/clicks', to: 'analytics#clicks'
       resources :deal_submissions, only: :create
       resources :coupon_submissions, only: :create
@@ -178,6 +182,8 @@ Rails.application.routes.draw do
         collection do
           get ':name/deals', to: 'stores#deals', as: :store_deals
           get 'compare', to: 'stores#compare'
+          get ':store_name/reviews', to: 'store_reviews#index', as: :store_reviews
+          post ':store_name/reviews', to: 'store_reviews#create', as: :create_store_review
         end
       end
       resources :price_alerts, only: %i[destroy] do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_27_181346) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_27_181349) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -30,6 +30,16 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_27_181346) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["product_id"], name: "index_ai_deal_analyses_on_product_id", unique: true
+  end
+
+  create_table "category_alerts", force: :cascade do |t|
+    t.string "email", null: false
+    t.string "category", null: false
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category"], name: "index_category_alerts_on_category"
+    t.index ["email", "category"], name: "index_category_alerts_on_email_and_category", unique: true
   end
 
   create_table "click_trackings", force: :cascade do |t|
@@ -160,6 +170,18 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_27_181346) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["status"], name: "index_deal_submissions_on_status"
+  end
+
+  create_table "notification_logs", force: :cascade do |t|
+    t.string "notification_type", null: false
+    t.string "recipient", null: false
+    t.string "subject"
+    t.string "status", default: "sent", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_notification_logs_on_created_at"
+    t.index ["recipient"], name: "index_notification_logs_on_recipient"
+    t.index ["status"], name: "index_notification_logs_on_status"
   end
 
   create_table "price_alerts", force: :cascade do |t|
@@ -327,6 +349,17 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_27_181346) do
     t.string "store_name", null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["session_id", "store_name"], name: "index_store_follows_on_session_id_and_store_name", unique: true
+  end
+
+  create_table "store_reviews", force: :cascade do |t|
+    t.string "store_name", null: false
+    t.integer "rating", null: false
+    t.text "comment"
+    t.string "session_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["session_id"], name: "index_store_reviews_on_session_id"
+    t.index ["store_name"], name: "index_store_reviews_on_store_name"
   end
 
   create_table "subscribers", force: :cascade do |t|

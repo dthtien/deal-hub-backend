@@ -48,5 +48,8 @@ pidfile: tmp/pids/sidekiq_development.pid
     daily_alert_digest:
       cron: "0 23 * * *"
       class: "DailyAlertDigestJob"
+    category_alert_checker:
+      cron: "55 6,9,12,15,18 * * *"
+      class: "CategoryAlertCheckerJob"
 
 

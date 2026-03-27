@@ -18,17 +18,26 @@ module Api
                        )
                        .index_by(&:store)
 
+        # Aggregate review stats per store in one query
+        review_stats = StoreReview
+          .group(:store_name)
+          .select(:store_name, 'ROUND(AVG(rating)::numeric,1) AS avg_rating', 'COUNT(*) AS review_count')
+          .index_by(&:store_name)
+
         stores = Product::STORES.map do |store|
-          row  = stats[store]
-          dc   = row&.deal_count.to_i
-          avg  = row&.avg_discount.to_f.round(1)
-          best = Product.where(store: store, expired: false).order(discount: :desc).first
+          row    = stats[store]
+          dc     = row&.deal_count.to_i
+          avg    = row&.avg_discount.to_f.round(1)
+          best   = Product.where(store: store, expired: false).order(discount: :desc).first
+          rrow   = review_stats[store]
 
           {
             name:         store,
             deal_count:   dc,
             avg_discount: avg,
-            best_deal:    best&.as_json
+            best_deal:    best&.as_json,
+            avg_rating:   rrow&.avg_rating.to_f,
+            review_count: rrow&.review_count.to_i
           }
         end
 

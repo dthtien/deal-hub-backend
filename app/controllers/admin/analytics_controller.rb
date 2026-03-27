@@ -43,5 +43,32 @@ module Admin
         { store: store, total: total, updated_today: updated, success_rate: rate }
       end.sort_by { |s| -s[:success_rate] }
     end
+
+    def click_heatmap
+      rows = ActiveRecord::Base.connection.execute(<<~SQL)
+        SELECT
+          EXTRACT(hour FROM created_at)::int AS hour,
+          EXTRACT(dow  FROM created_at)::int AS dow,
+          COUNT(*) AS count
+        FROM click_trackings
+        GROUP BY hour, dow
+        ORDER BY dow, hour
+      SQL
+
+      # Build 7x24 matrix [dow][hour] = count
+      matrix = Array.new(7) { Array.new(24, 0) }
+      rows.each do |row|
+        h   = row['hour'].to_i
+        d   = row['dow'].to_i
+        cnt = row['count'].to_i
+        matrix[d][h] = cnt if d.between?(0, 6) && h.between?(0, 23)
+      end
+
+      render json: {
+        matrix: matrix,
+        days:   %w[Sunday Monday Tuesday Wednesday Thursday Friday Saturday],
+        hours:  (0..23).map { |h| format('%02d:00', h) }
+      }
+    end
   end
 end
