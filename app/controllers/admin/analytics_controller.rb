@@ -44,6 +44,40 @@ module Admin
       end.sort_by { |s| -s[:success_rate] }
     end
 
+    def affiliate
+      stores = Product.where(expired: false)
+                      .group(:store)
+                      .select(
+                        :store,
+                        'COUNT(*) AS product_count',
+                        'SUM(view_count) AS total_views',
+                        'AVG(price) AS avg_price'
+                      )
+
+      @affiliate_stats = stores.map do |row|
+        store = row.store
+        products_for_store = Product.where(store: store, expired: false)
+        click_count = ClickTracking.where(store: store).count
+        avg_price = row.avg_price.to_f
+        sample = products_for_store.first
+        network = sample&.affiliate_network_value || 'commission_factory'
+        rate = sample&.commission_rate_value || 0.04
+        estimated_commission = (click_count * avg_price * rate).round(2)
+
+        {
+          store: store,
+          affiliate_network: network,
+          commission_rate: rate,
+          click_count: click_count,
+          avg_price: avg_price.round(2),
+          product_count: row.product_count.to_i,
+          estimated_commission: estimated_commission
+        }
+      end.sort_by { |s| -s[:estimated_commission] }
+
+      render json: { affiliate_stats: @affiliate_stats }
+    end
+
     def click_heatmap
       rows = ActiveRecord::Base.connection.execute(<<~SQL)
         SELECT

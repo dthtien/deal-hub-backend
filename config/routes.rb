@@ -58,6 +58,7 @@ Rails.application.routes.draw do
     resources :crawl_logs, only: %i[index]
     get 'analytics', to: 'analytics#index'
     get 'analytics/click_heatmap', to: 'analytics#click_heatmap', as: :admin_click_heatmap
+    get 'analytics/affiliate', to: 'analytics#affiliate', as: :admin_affiliate_analytics
     resources :notification_logs, only: %i[index]
     resources :subscribers, only: %i[index] do
       member do
@@ -93,6 +94,8 @@ Rails.application.routes.draw do
       post 'auth/login', to: 'auth#login'
       get  'auth/me', to: 'auth#me'
       resources :saved_deals, only: %i[index create destroy]
+      get 'deals/top_picks', to: 'deals#top_picks'
+      get 'tags', to: 'tags#index'
       get 'deals/hot', to: 'deals#hot'
       get 'deals/fresh', to: 'deals#fresh'
       get 'deals/deal_of_the_day', to: 'deals#deal_of_the_day'

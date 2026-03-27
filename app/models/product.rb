@@ -23,6 +23,8 @@ class Product < ApplicationRecord
     LORNA_JANE = 'Lorna Jane'
   ].freeze
 
+  before_save :set_affiliate_network
+
   has_many :click_trackings, dependent: :destroy
   has_many :price_histories, dependent: :destroy
   has_many :price_alerts, dependent: :destroy
@@ -175,6 +177,38 @@ class Product < ApplicationRecord
     votes.where(value: 1).count
   end
 
+  AWIN_STORES = [ASOS, JD_SPORTS].freeze
+  AFFILIATE_RATES = {
+    'awin' => 0.06,
+    'commission_factory' => 0.04,
+    'direct' => 0.0
+  }.freeze
+
+  def set_affiliate_network
+    self.affiliate_network ||= AWIN_STORES.include?(store) ? 'awin' : 'commission_factory'
+    self.commission_rate ||= AFFILIATE_RATES[affiliate_network] || 0.04
+  end
+
+  def affiliate_network_value
+    return affiliate_network if affiliate_network.present?
+
+    AWIN_STORES.include?(store) ? 'awin' : 'commission_factory'
+  end
+
+  def commission_rate_value
+    return commission_rate.to_f if commission_rate.present?
+
+    affiliate_network_value == 'awin' ? 0.06 : 0.04
+  end
+
+  def aggregate_score
+    raw = deal_score.to_f * 0.4 +
+          heat_index.to_f * 0.3 +
+          (view_count.to_f / 100.0) * 0.2 +
+          (share_count.to_f * 2) * 0.1
+    raw.clamp(0, 100).round(2)
+  end
+
   def as_json(options = {})
     currency_code = options.delete(:currency)
     base = super(options).merge(
@@ -185,6 +219,8 @@ class Product < ApplicationRecord
       view_count: view_count,
       share_count: share_count,
       heat_index: heat_index,
+      aggregate_score: aggregate_score,
+      affiliate_network: affiliate_network_value,
       image_urls: [image_url].compact,
       best_deal: best_deal?,
       tags: tags || [],

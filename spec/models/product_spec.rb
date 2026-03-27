@@ -19,13 +19,16 @@ RSpec.describe Product, :model, type: :model do
         'old_price' => 0.0,
         'price' => product.price.to_f,
         'updated_at' => product.updated_at.strftime(::Product::DATE_FORMAT),
-        'created_at' => product.created_at.strftime(::Product::DATE_FORMAT)
+        'created_at' => product.created_at.strftime(::Product::DATE_FORMAT),
+        'commission_rate' => a_kind_of(Numeric).or(a_kind_of(String))
       ).merge(
         store_url: nil,
         click_count: 0,
         deal_score: 0,
         freshness_score: an_instance_of(Integer),
         heat_index: 0,
+        aggregate_score: an_instance_of(Float),
+        affiliate_network: an_instance_of(String),
         best_deal: false,
         price_trend: :stable,
         is_bundle: false,

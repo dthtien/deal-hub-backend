@@ -114,6 +114,19 @@ module Api
         render json: { error: 'Not found' }, status: :not_found
       end
 
+      def top_picks
+        products = Rails.cache.fetch('top_picks_v2', expires_in: 15.minutes) do
+          Product.where(expired: false)
+                 .includes(:ai_deal_analysis, :votes, :click_trackings)
+                 .limit(200)
+                 .to_a
+                 .sort_by { |p| -p.aggregate_score }
+                 .first(20)
+                 .map(&:as_json)
+        end
+        render json: { products: products }
+      end
+
       def hot
         products = Rails.cache.fetch('hot_deals_v1', expires_in: 5.minutes) do
           Product.where(expired: false)

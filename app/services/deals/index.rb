@@ -12,6 +12,7 @@ module Deals
       @query = params[:query]
       @brands = params[:brands]
       @states = params[:states] || (params[:state].present? ? { '0' => params[:state] } : nil)
+      @tags = params[:tags]
       @order = params[:order] || {}
       @products = Product.none
       @with_order = with_order
@@ -33,7 +34,7 @@ module Deals
     private
 
     attr_reader :stores, :min_price, :max_price, :min_discount, :categories, :params, :order, :brands,
-                :query, :with_order, :states
+                :query, :with_order, :states, :tags
 
     def filter_by_brands
       @products = products.where(brand: [brands.values].flatten) if brands.present?
@@ -85,6 +86,15 @@ module Deals
       @products = products.where('available_states && array[?]::varchar[]', state_values)
     end
 
+    def filter_by_tags
+      return if tags.blank?
+
+      tag_list = tags.is_a?(Hash) ? [tags.values].flatten : Array(tags)
+      return if tag_list.empty?
+
+      @products = products.where('tags && array[?]::varchar[]', tag_list)
+    end
+
     def filter
       @products = Product.includes(:ai_deal_analysis).where(expired: false)
       filter_by_brands
@@ -93,6 +103,7 @@ module Deals
       filter_by_min_discount
       filter_by_stores
       filter_by_states
+      filter_by_tags
     end
 
     def track_search
