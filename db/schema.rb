@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_27_070941) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_27_181026) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -370,8 +370,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_27_070941) do
   end
 
   add_foreign_key "collection_items", "collections"
-  add_foreign_key "collection_items", "products"
-  add_foreign_key "comments", "products"
-  add_foreign_key "deal_ratings", "products"
-  add_foreign_key "votes", "products"
+  add_foreign_key "collection_items", "products", on_delete: :cascade
+  add_foreign_key "comments", "products", on_delete: :cascade
+  add_foreign_key "deal_ratings", "products", on_delete: :cascade
+  add_foreign_key "votes", "products", on_delete: :cascade
 end

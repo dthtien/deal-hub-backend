@@ -14,10 +14,46 @@ class ApplicationService
 
   private
 
+  # Track crawl metrics — call wrap_with_crawl_log(store:) { ... } in crawl services
+  def wrap_with_crawl_log(store:)
+    start_time = Time.current
+    @crawl_products_found   = 0
+    @crawl_products_new     = 0
+    @crawl_products_updated = 0
+    yield
+  ensure
+    duration = Time.current - start_time
+    CrawlLog.create!(
+      store:             store,
+      products_found:    @crawl_products_found.to_i,
+      products_new:      @crawl_products_new.to_i,
+      products_updated:  @crawl_products_updated.to_i,
+      duration_seconds:  duration.round(2),
+      crawled_at:        Time.current
+    )
+  rescue => e
+    Rails.logger.error "wrap_with_crawl_log — failed to save CrawlLog: #{e.message}"
+  end
+
   # Upsert products one-by-one so we can detect price changes and record history.
   # Slower than upsert_all but correct — acceptable since crawls run infrequently.
   def upsert_with_price_history(attributes_list, store:)
+    skipped_image_count = 0
+    @crawl_products_found = attributes_list.size
+
     attributes_list.each do |attrs|
+      # Image URL validation & fix (Feature 5)
+      image = attrs[:image_url].to_s
+      if image.start_with?('//')
+        image = "https:#{image}"
+        attrs[:image_url] = image
+      end
+      if image.blank? || !image.start_with?('http')
+        skipped_image_count += 1
+        Rails.logger.info "upsert_with_price_history — skipping product with invalid image_url: #{attrs[:store_product_id]}"
+        next
+      end
+
       # Duplicate detection: same name+store but different store_product_id
       product = Product.find_by(store_product_id: attrs[:store_product_id], store: store)
       if product.nil?
@@ -28,6 +64,7 @@ class ApplicationService
           product = duplicate
         end
       end
+      is_new = product.nil?
       product ||= Product.new(store_product_id: attrs[:store_product_id], store: store)
 
       new_price = attrs[:price].to_f
@@ -42,6 +79,11 @@ class ApplicationService
       begin
         product.save!
         product.update_column(:deal_score, product.deal_score)
+        if is_new
+          @crawl_products_new = (@crawl_products_new || 0) + 1
+        elsif price_changed
+          @crawl_products_updated = (@crawl_products_updated || 0) + 1
+        end
       rescue => e
         Rails.logger.error "upsert_with_price_history — product save failed for #{attrs[:store_product_id]}: #{e.message}"
         next
@@ -57,6 +99,7 @@ class ApplicationService
         )
       end
     end
+    Rails.logger.info "upsert_with_price_history — #{store}: #{attributes_list.size} found, #{@crawl_products_new} new, #{@crawl_products_updated} updated, #{skipped_image_count} skipped (invalid image)" if skipped_image_count > 0
   end
 
   # Safe product removal — deletes click_trackings first to avoid FK violations.
