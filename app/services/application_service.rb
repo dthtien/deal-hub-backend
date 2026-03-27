@@ -56,8 +56,16 @@ class ApplicationService
   # Use this instead of .delete_all in all crawl services.
   def remove_products_for_store(store:, keep_store_product_ids:)
     stale = Product.where(store:).where.not(store_product_id: keep_store_product_ids)
-    # Delete associated click_trackings first (delete_all bypasses dependent: :destroy)
-    ClickTracking.where(product_id: stale.select(:id)).delete_all
+    stale_ids = stale.select(:id)
+    # delete_all bypasses dependent: :destroy — must manually delete all associations
+    ClickTracking.where(product_id: stale_ids).delete_all
+    Vote.where(product_id: stale_ids).delete_all
+    Comment.where(product_id: stale_ids).delete_all
+    PriceHistory.where(product_id: stale_ids).delete_all
+    PriceAlert.where(product_id: stale_ids).delete_all
+    AiDealAnalysis.where(product_id: stale_ids).delete_all
+    DealRating.where(product_id: stale_ids).delete_all
+    CollectionItem.where(product_id: stale_ids).delete_all
     stale.delete_all
   end
 
