@@ -32,6 +32,7 @@ class Product < ApplicationRecord
   has_many :deal_ratings, dependent: :destroy
   has_many :collection_items, dependent: :destroy
   has_many :collections, through: :collection_items
+  has_many :deal_reports, dependent: :destroy
 
   validates :name, presence: true
   validates :price, presence: true

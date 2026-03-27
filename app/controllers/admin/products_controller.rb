@@ -40,5 +40,34 @@ module Admin
 
       redirect_to admin_products_path, notice: "#{products.count} product(s) updated."
     end
+
+    def bulk_action
+      ids    = Array(params[:product_ids]).map(&:to_i)
+      action = params[:action].to_s
+      products = Product.where(id: ids)
+
+      case action
+      when 'mark_expired'
+        products.update_all(expired: true)
+        notice = "#{products.count} product(s) marked as expired."
+      when 'mark_flash'
+        products.update_all(flash_deal: true, flash_expires_at: 24.hours.from_now)
+        notice = "#{products.count} product(s) marked as flash deals."
+      when 'delete'
+        count = products.count
+        products.destroy_all
+        notice = "#{count} product(s) deleted."
+      else
+        notice = "Unknown action."
+      end
+
+      render json: { message: notice }
+    end
+
+    def mark_flash
+      product = Product.find(params[:id])
+      product.update!(flash_deal: true, flash_expires_at: 24.hours.from_now)
+      redirect_to admin_products_path, notice: "Product ##{product.id} marked as flash deal."
+    end
   end
 end

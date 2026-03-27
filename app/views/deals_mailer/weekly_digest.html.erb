@@ -1,108 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>This Week's Top Deals on OzVFY</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; background: #f3f4f6; }
-    .wrapper { max-width: 600px; margin: 24px auto; background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
+    body { background: #f3f4f6; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #111827; }
+    .wrapper { max-width: 600px; margin: 24px auto; background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
     .header { background: linear-gradient(135deg, #f97316, #ef4444); padding: 32px 24px; text-align: center; }
-    .header h1 { color: #fff; font-size: 26px; font-weight: 800; letter-spacing: -0.5px; }
-    .header p { color: rgba(255,255,255,0.85); font-size: 14px; margin-top: 6px; }
-    .content { padding: 24px; }
-    .intro { font-size: 15px; color: #374151; margin-bottom: 24px; line-height: 1.6; }
-    .deal-card { border: 1px solid #e5e7eb; border-radius: 12px; margin-bottom: 16px; overflow: hidden; display: flex; gap: 0; }
-    .deal-image-wrap { width: 130px; min-height: 130px; background: #f9fafb; flex-shrink: 0; display: flex; align-items: center; justify-content: center; padding: 8px; }
-    .deal-image { width: 100%; height: 114px; object-fit: contain; }
-    .deal-body { padding: 14px; flex: 1; display: flex; flex-direction: column; gap: 6px; }
-    .deal-store { font-size: 11px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; }
-    .deal-name { font-size: 14px; font-weight: 700; color: #111827; line-height: 1.4; }
-    .price-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .deal-price { font-size: 20px; font-weight: 800; color: #f97316; }
-    .deal-old-price { font-size: 13px; color: #9ca3af; text-decoration: line-through; }
-    .discount-badge { background: #fef2f2; color: #ef4444; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 20px; border: 1px solid #fecaca; }
-    .ai-badge { font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 20px; }
-    .ai-buy  { background: #dcfce7; color: #16a34a; border: 1px solid #bbf7d0; }
-    .ai-good { background: #ccfbf1; color: #0d9488; border: 1px solid #99f6e4; }
-    .ai-wait { background: #fef9c3; color: #ca8a04; border: 1px solid #fef08a; }
-    .ai-over { background: #f3f4f6; color: #6b7280; border: 1px solid #e5e7eb; }
-    .ai-reasoning { font-size: 12px; color: #7c3aed; font-style: italic; line-height: 1.4; }
-    .score-badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 700; }
-    .score-high { background: #dcfce7; color: #16a34a; }
-    .score-mid  { background: #fef9c3; color: #ca8a04; }
-    .score-low  { background: #fef2f2; color: #ef4444; }
-    .cta-btn { display: inline-block; margin-top: 8px; background: #f97316; color: #fff; text-decoration: none; border-radius: 8px; padding: 8px 18px; font-size: 13px; font-weight: 700; }
-    .divider { height: 1px; background: #f3f4f6; margin: 8px 0; }
-    .footer { background: #f9fafb; padding: 20px 24px; text-align: center; border-top: 1px solid #e5e7eb; }
-    .footer p { font-size: 12px; color: #9ca3af; line-height: 1.8; }
-    .footer a { color: #9ca3af; text-decoration: underline; }
-    .footer .brand { font-size: 16px; font-weight: 800; color: #f97316; margin-bottom: 8px; }
+    .header img { width: 48px; height: 48px; border-radius: 12px; margin-bottom: 12px; }
+    .header h1 { color: #fff; font-size: 24px; font-weight: 800; margin-bottom: 4px; }
+    .header p { color: rgba(255,255,255,0.85); font-size: 14px; }
+    .section { padding: 24px; border-bottom: 1px solid #f3f4f6; }
+    .section-title { font-size: 18px; font-weight: 700; color: #111827; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .deal-card { display: flex; align-items: center; gap: 12px; padding: 12px; background: #f9fafb; border-radius: 12px; margin-bottom: 10px; text-decoration: none; color: inherit; }
+    .deal-card img { width: 64px; height: 64px; object-fit: contain; border-radius: 8px; background: #fff; flex-shrink: 0; }
+    .deal-card .info { flex: 1; min-width: 0; }
+    .deal-card .name { font-size: 13px; font-weight: 600; color: #111827; line-height: 1.4; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .deal-card .store-row { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+    .deal-card .store-logo { width: 16px; height: 16px; }
+    .deal-card .store { font-size: 11px; color: #6b7280; }
+    .deal-card .price { font-size: 16px; font-weight: 800; color: #111827; }
+    .deal-card .old-price { font-size: 11px; color: #9ca3af; text-decoration: line-through; margin-left: 4px; }
+    .deal-card .badge { background: #ef4444; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 6px; white-space: nowrap; }
+    .hero-card { background: linear-gradient(135deg, #7c3aed, #4f46e5); border-radius: 12px; padding: 20px; margin-bottom: 8px; color: #fff; display: flex; gap: 16px; align-items: center; text-decoration: none; }
+    .hero-card img { width: 80px; height: 80px; object-fit: contain; background: rgba(255,255,255,0.15); border-radius: 10px; flex-shrink: 0; }
+    .hero-card .badge { background: rgba(255,255,255,0.25); font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 20px; display: inline-block; margin-bottom: 6px; }
+    .hero-card .name { font-size: 15px; font-weight: 700; line-height: 1.4; margin-bottom: 8px; }
+    .hero-card .price { font-size: 22px; font-weight: 800; }
+    .hero-card .old-price { font-size: 13px; opacity: 0.7; text-decoration: line-through; margin-left: 6px; }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .stat-card { background: #f9fafb; border-radius: 12px; padding: 16px; text-align: center; }
+    .stat-card .num { font-size: 28px; font-weight: 800; color: #f97316; }
+    .stat-card .label { font-size: 12px; color: #6b7280; margin-top: 4px; }
+    .stores-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .store-chip { background: #f3f4f6; border-radius: 20px; padding: 4px 12px; font-size: 12px; color: #374151; display: flex; align-items: center; gap: 4px; }
+    .store-chip img { width: 14px; height: 14px; }
+    .cta-btn { display: inline-block; background: linear-gradient(135deg, #f97316, #ef4444); color: #fff; font-weight: 700; font-size: 14px; padding: 12px 24px; border-radius: 12px; text-decoration: none; margin-top: 16px; }
+    .footer { padding: 24px; text-align: center; background: #f9fafb; }
+    .footer p { font-size: 12px; color: #9ca3af; line-height: 1.6; }
+    .footer a { color: #f97316; text-decoration: none; }
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      .hero-card { flex-direction: column; text-align: center; }
+      .deal-card img { width: 48px; height: 48px; }
+    }
   </style>
 </head>
 <body>
   <div class="wrapper">
+    <!-- Header -->
     <div class="header">
       <h1>🔥 This Week's Top Deals</h1>
-      <p>Curated from Australia's best stores, just for you</p>
+      <p>Hand-picked Australian deals just for you</p>
     </div>
 
-    <div class="content">
-      <p class="intro">
-        G'day! Here are the <strong>top <%= @deals.count %> deals</strong> we found across Australia's best stores this week.
-        All prices verified — grab them before they expire!
-      </p>
-
-      <% @deals.each do |deal| %>
-        <% score = deal.deal_score %>
-        <% score_class = score && score >= 8 ? 'score-high' : (score && score >= 5 ? 'score-mid' : 'score-low') %>
-        <% ai_class = case deal.ai_deal_analysis&.recommendation
-                      when 'BUY_NOW'   then 'ai-buy'
-                      when 'GOOD_DEAL' then 'ai-good'
-                      when 'WAIT'      then 'ai-wait'
-                      else 'ai-over'
-                      end %>
-        <div class="deal-card">
-          <% if deal.image_url.present? %>
-            <div class="deal-image-wrap">
-              <img src="<%= deal.image_url %>" class="deal-image" alt="<%= deal.name %>">
-            </div>
-          <% end %>
-          <div class="deal-body">
-            <span class="deal-store"><%= deal.store %></span>
-            <span class="deal-name"><%= deal.name.truncate(80) %></span>
-            <div class="price-row">
-              <span class="deal-price">$<%= deal.price %></span>
-              <% if deal.old_price.present? && deal.old_price.to_f > 0 %>
-                <span class="deal-old-price">$<%= deal.old_price %></span>
-                <span class="discount-badge">-<%= deal.discount.to_i %>%</span>
-              <% end %>
-              <% if score %>
-                <span class="score-badge <%= score_class %>">★ <%= score %>/10</span>
-              <% end %>
-              <% if deal.ai_deal_analysis&.recommendation %>
-                <span class="ai-badge <%= ai_class %>">🤖 <%= deal.ai_deal_analysis.recommendation.gsub('_', ' ') %></span>
-              <% end %>
-            </div>
-            <% if deal.ai_deal_analysis&.reasoning.present? %>
-              <p class="ai-reasoning"><%= deal.ai_deal_analysis.reasoning.split('.').first %>.</p>
+    <% if @deal_of_week %>
+    <!-- Deal of the Week -->
+    <div class="section">
+      <div class="section-title">⭐ Deal of the Week</div>
+      <a href="<%= @site_url %>/deals/<%= @deal_of_week.id %>" class="hero-card">
+        <% if @deal_of_week.image_url.present? %>
+          <img src="<%= @deal_of_week.image_url %>" alt="<%= @deal_of_week.name %>" />
+        <% end %>
+        <div>
+          <span class="badge">⭐ BEST DEAL THIS WEEK</span>
+          <div class="name"><%= @deal_of_week.name %></div>
+          <div>
+            <span class="price">$<%= @deal_of_week.price %></span>
+            <% if @deal_of_week.old_price.to_f > 0 %>
+              <span class="old-price">$<%= @deal_of_week.old_price %></span>
             <% end %>
-            <a href="<%= @site_url %>/deals/<%= deal.id %>" class="cta-btn">View Deal →</a>
           </div>
         </div>
+      </a>
+    </div>
+    <% end %>
+
+    <!-- Top 5 by Discount -->
+    <% if @top_by_discount.any? %>
+    <div class="section">
+      <div class="section-title">🏷️ Biggest Discounts This Week</div>
+      <% @top_by_discount.each do |deal| %>
+        <a href="<%= @site_url %>/deals/<%= deal.id %>" class="deal-card">
+          <% if deal.image_url.present? %>
+            <img src="<%= deal.image_url %>" alt="<%= deal.name %>" />
+          <% end %>
+          <div class="info">
+            <div class="store-row">
+              <img class="store-logo" src="https://www.google.com/s2/favicons?domain=<%= URI.parse(deal.store_url.to_s).host rescue '' %>&sz=16" alt="" />
+              <span class="store"><%= deal.store %></span>
+            </div>
+            <div class="name"><%= deal.name %></div>
+            <div>
+              <span class="price">$<%= deal.price %></span>
+              <% if deal.old_price.to_f > 0 %><span class="old-price">$<%= deal.old_price %></span><% end %>
+              <% if deal.discount.to_f > 0 %><span class="badge">-<%= deal.discount.to_i %>%</span><% end %>
+            </div>
+          </div>
+        </a>
+      <% end %>
+    </div>
+    <% end %>
+
+    <!-- Top Deals -->
+    <div class="section">
+      <div class="section-title">🔥 Top Deals of the Week</div>
+      <% @deals.first(5).each do |deal| %>
+        <a href="<%= @site_url %>/deals/<%= deal.id %>" class="deal-card">
+          <% if deal.image_url.present? %>
+            <img src="<%= deal.image_url %>" alt="<%= deal.name %>" />
+          <% end %>
+          <div class="info">
+            <div class="store-row">
+              <img class="store-logo" src="https://www.google.com/s2/favicons?domain=<%= URI.parse(deal.store_url.to_s).host rescue '' %>&sz=16" alt="" />
+              <span class="store"><%= deal.store %></span>
+            </div>
+            <div class="name"><%= deal.name %></div>
+            <div>
+              <span class="price">$<%= deal.price %></span>
+              <% if deal.old_price.to_f > 0 %><span class="old-price">$<%= deal.old_price %></span><% end %>
+              <% if deal.discount.to_f > 0 %><span class="badge">-<%= deal.discount.to_i %>%</span><% end %>
+            </div>
+          </div>
+        </a>
       <% end %>
     </div>
 
+    <!-- Stats -->
+    <div class="section">
+      <div class="section-title">📊 This Week in Numbers</div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="num"><%= @price_drops_count %></div>
+          <div class="label">Price Drops This Week</div>
+        </div>
+        <div class="stat-card">
+          <div class="num"><%= @new_stores.size %></div>
+          <div class="label">New Stores Added</div>
+        </div>
+      </div>
+    </div>
+
+    <% if @new_stores.any? %>
+    <!-- New Stores -->
+    <div class="section">
+      <div class="section-title">🏪 New Stores This Week</div>
+      <div class="stores-list">
+        <% @new_stores.first(10).each do |store| %>
+          <a href="<%= @site_url %>/stores/<%= URI.encode_www_form_component(store) %>" class="store-chip" style="text-decoration:none;">
+            <img src="https://www.google.com/s2/favicons?domain=<%= store.downcase.gsub(' ','-') %>.com.au&sz=14" alt="" />
+            <%= store %>
+          </a>
+        <% end %>
+      </div>
+    </div>
+    <% end %>
+
+    <!-- CTA -->
+    <div class="section" style="text-align:center; border-bottom:none;">
+      <p style="color:#6b7280; font-size:14px; margin-bottom:8px;">Don't miss out on thousands more deals!</p>
+      <a href="<%= @site_url %>" class="cta-btn">Browse All Deals →</a>
+    </div>
+
+    <!-- Footer -->
     <div class="footer">
-      <p class="brand">OzVFY</p>
       <p>
-        You're receiving this because you subscribed to OzVFY weekly deals.<br>
-        <a href="<%= @unsubscribe_url %>">Unsubscribe</a> · <a href="<%= @site_url %>">Visit OzVFY</a>
+        You're receiving this because you subscribed to OzVFY deal alerts.<br />
+        <a href="<%= @unsubscribe_url %>">Unsubscribe</a> · <a href="<%= @site_url %>/privacy-policy">Privacy Policy</a>
       </p>
-      <p style="margin-top: 8px; font-size: 11px;">
-        OzVFY may earn a commission on purchases made through affiliate links.
-      </p>
+      <p style="margin-top:8px;">© <%= Time.current.year %> OzVFY · Australian Deals Aggregator</p>
     </div>
   </div>
 </body>

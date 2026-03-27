@@ -46,6 +46,16 @@ module Api
         end
       end
 
+      def resubscribe
+        subscriber = Subscriber.find_by(unsubscribe_token: params[:token])
+        if subscriber
+          subscriber.update!(status: 'active')
+          render json: { message: 'You have been re-subscribed successfully.' }
+        else
+          render json: { error: 'Invalid or expired token.' }, status: :not_found
+        end
+      end
+
       def index
         render json: {
           total: Subscriber.active.count,

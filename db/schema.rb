@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_27_013407) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_27_065318) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -102,6 +102,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_27_013407) do
     t.string "minimum_spend"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "used_count", default: 0, null: false
     t.index ["active"], name: "index_coupons_on_active"
     t.index ["code"], name: "index_coupons_on_code"
     t.index ["store"], name: "index_coupons_on_store"
@@ -115,6 +116,15 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_27_013407) do
     t.datetime "updated_at", null: false
     t.index ["product_id", "session_id"], name: "index_deal_ratings_on_product_id_and_session_id", unique: true
     t.index ["product_id"], name: "index_deal_ratings_on_product_id"
+  end
+
+  create_table "deal_reports", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.string "reason", null: false
+    t.string "session_id"
+    t.datetime "created_at", null: false
+    t.index ["product_id"], name: "index_deal_reports_on_product_id"
+    t.index ["reason"], name: "index_deal_reports_on_reason"
   end
 
   create_table "deal_submissions", force: :cascade do |t|
@@ -134,12 +144,13 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_27_013407) do
 
   create_table "price_alerts", force: :cascade do |t|
     t.string "email", null: false
-    t.bigint "product_id", null: false
-    t.decimal "target_price", null: false
+    t.bigint "product_id"
+    t.decimal "target_price"
     t.boolean "triggered", default: false
     t.datetime "triggered_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "keyword"
     t.index ["email"], name: "index_price_alerts_on_email"
     t.index ["product_id", "triggered"], name: "index_price_alerts_on_product_id_and_triggered"
   end
@@ -174,14 +185,20 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_27_013407) do
     t.boolean "featured", default: false, null: false
     t.integer "deal_score"
     t.string "tags", default: [], array: true
+    t.integer "view_count", default: 0, null: false
+    t.boolean "flash_deal", default: false
+    t.datetime "flash_expires_at"
+    t.jsonb "specifications", default: {}
     t.index ["brand"], name: "products_brand_gin_index", opclass: :gin_trgm_ops, using: :gin
     t.index ["categories"], name: "index_products_on_categories", using: :gin
     t.index ["deal_score"], name: "index_products_on_deal_score"
     t.index ["description"], name: "products_description_gin_index", opclass: :gin_trgm_ops, using: :gin
     t.index ["expired"], name: "index_products_on_expired"
     t.index ["featured"], name: "index_products_on_featured"
+    t.index ["flash_deal", "flash_expires_at"], name: "index_products_on_flash_deal_and_flash_expires_at"
     t.index ["name"], name: "index_products_on_name"
     t.index ["name"], name: "products_name_gin_index", opclass: :gin_trgm_ops, using: :gin
+    t.index ["specifications"], name: "index_products_on_specifications", using: :gin
     t.index ["store"], name: "index_products_on_store"
     t.index ["store_product_id", "store"], name: "index_products_on_store_product_id_and_store", unique: true
     t.index ["store_product_id"], name: "index_products_on_store_product_id"
@@ -264,7 +281,16 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_27_013407) do
     t.integer "count", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "result_count_total", default: 0
+    t.integer "search_count", default: 0
     t.index ["query"], name: "index_search_queries_on_query", unique: true
+  end
+
+  create_table "store_follows", force: :cascade do |t|
+    t.string "session_id", null: false
+    t.string "store_name", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["session_id", "store_name"], name: "index_store_follows_on_session_id_and_store_name", unique: true
   end
 
   create_table "subscribers", force: :cascade do |t|
@@ -308,6 +334,16 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_27_013407) do
     t.datetime "updated_at", null: false
     t.index ["product_id", "session_id"], name: "index_votes_on_product_id_and_session_id", unique: true
     t.index ["product_id"], name: "index_votes_on_product_id"
+  end
+
+  create_table "webhooks", force: :cascade do |t|
+    t.string "url", null: false
+    t.string "secret", null: false
+    t.boolean "active", default: true, null: false
+    t.string "events", default: [], array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["active"], name: "index_webhooks_on_active"
   end
 
   add_foreign_key "collection_items", "collections"

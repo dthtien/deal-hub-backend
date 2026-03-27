@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family: sans-serif; background: #f9fafb; padding: 20px;">
+  <div style="max-width: 480px; margin: 0 auto; background: white; border-radius: 16px; padding: 32px; border: 1px solid #e5e7eb;">
+    <h2 style="color: #f97316;">🎯 New deal matching "<%= @keyword %>"</h2>
+    <h3 style="color: #111827;"><%= @product.name %></h3>
+    <% if @product.image_url.present? %>
+      <img src="<%= @product.image_url %>" alt="" style="width: 100%; max-width: 200px; border-radius: 8px; margin-bottom: 12px;" />
+    <% end %>
+    <p style="font-size: 24px; font-weight: bold; color: #f97316;">$<%= @product.price %></p>
+    <% if @product.old_price.to_f > 0 %>
+      <p style="color: #6b7280; text-decoration: line-through;">Was $<%= @product.old_price %></p>
+    <% end %>
+    <a href="<%= @deal_url %>" style="display: inline-block; background: #f97316; color: white; padding: 12px 24px; border-radius: 12px; text-decoration: none; font-weight: bold; margin-top: 16px;">View Deal</a>
+  </div>
+</body>
+</html>

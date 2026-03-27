@@ -7,6 +7,7 @@ module Deals
       @stores = params[:stores]
       @min_price = params[:min_price]
       @max_price = params[:max_price]
+      @min_discount = params[:min_discount]
       @categories = params[:categories]
       @query = params[:query]
       @brands = params[:brands]
@@ -31,7 +32,7 @@ module Deals
 
     private
 
-    attr_reader :stores, :min_price, :max_price, :categories, :params, :order, :brands,
+    attr_reader :stores, :min_price, :max_price, :min_discount, :categories, :params, :order, :brands,
                 :query, :with_order, :states
 
     def filter_by_brands
@@ -39,7 +40,9 @@ module Deals
     end
 
     def filter_by_stores
-      @products = products.where(store: [stores.values].flatten) if stores.present?
+      return if stores.blank?
+      store_list = stores.is_a?(Hash) ? [stores.values].flatten : Array(stores)
+      @products = products.where(store: store_list)
     end
 
     def query_data
@@ -53,7 +56,13 @@ module Deals
     def filter_by_categories
       return if categories.blank?
 
-      @products = @products.where('categories && array[?]::varchar[]', [categories.values].flatten)
+      cat_list = categories.is_a?(Hash) ? [categories.values].flatten : Array(categories)
+      @products = @products.where('categories && array[?]::varchar[]', cat_list)
+    end
+
+    def filter_by_min_discount
+      return if min_discount.blank?
+      @products = @products.where('discount >= ?', min_discount.to_f)
     end
 
     def filter_by_price
@@ -73,6 +82,7 @@ module Deals
       filter_by_brands
       filter_by_categories
       filter_by_price
+      filter_by_min_discount
       filter_by_stores
       filter_by_states
     end

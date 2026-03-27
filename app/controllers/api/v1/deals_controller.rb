@@ -222,6 +222,67 @@ module Api
         end
       end
 
+      def flash_deals
+        products = Product.where(flash_deal: true, expired: false)
+                          .where('flash_expires_at > ?', Time.current)
+                          .order(flash_expires_at: :asc)
+        render json: { products: products.map(&:as_json) }
+      end
+
+      def compare
+        ids = Array(params[:ids]).first(4).map(&:to_i)
+        products = Product.where(id: ids)
+        winner = products.max_by { |p| p.deal_score.to_i }
+        render json: {
+          products: products.map(&:as_json),
+          winner_id: winner&.id
+        }
+      end
+
+      def view
+        product = Product.find(params[:id])
+        Product.update_counters(product.id, view_count: 1)
+        render json: { ok: true, view_count: product.view_count + 1 }
+      rescue ActiveRecord::RecordNotFound
+        render json: { error: 'Not found' }, status: :not_found
+      end
+
+      def recommended
+        prefs = begin
+          JSON.parse(params[:preferences].to_s)
+        rescue
+          {}
+        end
+
+        categories  = Array(prefs['categories']).map(&:to_s).first(10)
+        stores      = Array(prefs['stores']).map(&:to_s).first(10)
+        price_range = Array(prefs['price_range'])
+        min_price   = price_range[0].to_f
+        max_price   = price_range[1].to_f
+
+        if categories.empty? && stores.empty?
+          products = Product.where(expired: false)
+                            .order(deal_score: :desc)
+                            .limit(20)
+          return render json: { products: products.map(&:as_json) }
+        end
+
+        all = Product.where(expired: false).limit(200).order(deal_score: :desc)
+
+        scored = all.map do |p|
+          score = 0
+          score += 3 if categories.any? && (Array(p.categories) & categories).any?
+          score += 2 if stores.any? && stores.include?(p.store)
+          if max_price > 0 && p.price
+            score += 1 if p.price >= min_price && p.price <= max_price
+          end
+          [p, score]
+        end
+
+        top = scored.sort_by { |_, s| -s }.first(20).map(&:first)
+        render json: { products: top.map(&:as_json) }
+      end
+
       def redirect
         product = Product.find(params[:id])
 

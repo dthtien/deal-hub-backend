@@ -30,6 +30,15 @@ module Api
         render json: { error: 'Not found' }, status: :not_found
       end
 
+      def track_use
+        coupon = Coupon.find_by!(code: params[:code])
+        coupon.increment!(:used_count)
+        coupon.increment!(:use_count)
+        render json: { ok: true, used_count: coupon.used_count }
+      rescue ActiveRecord::RecordNotFound
+        render json: { error: 'Not found' }, status: :not_found
+      end
+
       private
 
       def coupon_json(c)
@@ -44,6 +53,7 @@ module Api
           expires_at: c.expires_at,
           verified: c.verified,
           use_count: c.use_count,
+          used_count: c.used_count,
           minimum_spend: c.minimum_spend
         }
       end

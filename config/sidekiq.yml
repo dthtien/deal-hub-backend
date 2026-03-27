@@ -27,6 +27,12 @@ pidfile: tmp/pids/sidekiq_development.pid
     cleanup_expired_deals:
       cron: "0 2 * * *"
       class: "CleanupExpiredDealsJob"
+    keyword_alert_checker:
+      cron: "50 6,9,12,15,18 * * *"
+      class: "KeywordAlertCheckerJob"
+    cleanup_expired_coupons:
+      cron: "0 1 * * *"
+      class: "CleanupExpiredCouponsJob"
     prune_old_price_histories:
       cron: "0 3 * * 0"
       class: "PruneOldPriceHistoriesJob"

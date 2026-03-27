@@ -15,8 +15,12 @@ Rails.application.routes.draw do
   namespace :admin do
     root to: 'dashboard#index'
     resources :products, only: %i[index update] do
+      member do
+        post :mark_flash
+      end
       collection do
         post :bulk_update
+        post :bulk_action
       end
     end
     resources :coupons do
@@ -65,11 +69,19 @@ Rails.application.routes.draw do
       resources :saved_deals, only: %i[index create destroy]
       get 'deals/deal_of_the_day', to: 'deals#deal_of_the_day'
       get 'deals/deal_of_the_week', to: 'deals#deal_of_the_week'
+      get 'deals/flash', to: 'deals#flash_deals'
+      get 'deals/compare', to: 'deals#compare'
+      resources :store_follows, only: %i[index create destroy] do
+        collection do
+          get :deals
+        end
+      end
       get 'trending_searches', to: 'trending_searches#index'
       resources :deals, only: %i[index show] do
         member do
           get :redirect
           get :similar
+          post :view
         end
         collection do
           get :trending
@@ -103,7 +115,10 @@ Rails.application.routes.draw do
       resources :coupon_submissions, only: :create
       resources :subscribers, only: %i[create index] do
         collection { get :unsubscribe }
-        member { patch :update_preferences }
+        member do
+          patch :update_preferences
+          patch :resubscribe
+        end
       end
       namespace :admin do
         resources :store_stats, only: :index
@@ -113,8 +128,11 @@ Rails.application.routes.draw do
       resources :search, only: [] do
         collection do
           get :suggestions
+          post :track
+          get :analytics
         end
       end
+      resources :keyword_alerts, only: :create
       resources :stores, only: :index do
         collection do
           get ':name/deals', to: 'stores#deals', as: :store_deals

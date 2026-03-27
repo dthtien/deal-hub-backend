@@ -24,13 +24,15 @@
 <form id="bulk-form" action="<%= bulk_update_admin_products_path %>" method="post" class="mb-4">
   <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
   <div class="flex items-center gap-3 flex-wrap">
-    <select name="action_type" class="border border-gray-300 rounded-lg px-3 py-2 text-sm">
+    <select name="action_type" id="bulk-action-type" class="border border-gray-300 rounded-lg px-3 py-2 text-sm">
       <option value="">-- Bulk Action --</option>
       <option value="expire">Mark Expired</option>
       <option value="feature">Feature</option>
       <option value="unfeature">Unfeature</option>
     </select>
     <button type="submit" class="bg-gray-700 hover:bg-gray-800 text-white text-sm font-semibold px-4 py-2 rounded-lg">Apply to Selected</button>
+    <button type="button" id="bulk-flash-btn" class="bg-red-600 hover:bg-red-700 text-white text-sm font-semibold px-4 py-2 rounded-lg">⚡ Mark Flash Deal</button>
+    <button type="button" id="bulk-delete-btn" class="bg-rose-700 hover:bg-rose-800 text-white text-sm font-semibold px-4 py-2 rounded-lg">🗑 Delete Selected</button>
     <span id="selected-count" class="text-sm text-gray-500">0 selected</span>
   </div>
 </form>
@@ -46,7 +48,8 @@
         <th class="text-right px-4 py-3 font-semibold text-gray-600">Discount</th>
         <th class="text-center px-4 py-3 font-semibold text-gray-600">Expired</th>
         <th class="text-center px-4 py-3 font-semibold text-gray-600">Featured</th>
-        <th class="text-center px-4 py-3 font-semibold text-gray-600">Best Deal</th>
+        <th class="text-center px-4 py-3 font-semibold text-gray-600">Flash</th>
+        <th class="text-center px-4 py-3 font-semibold text-gray-600">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -72,9 +75,16 @@
             <% end %>
           </td>
           <td class="px-4 py-3 text-center">
-            <%= button_to admin_product_path(product, field: 'best_deal', **request.query_parameters.except('_method')), method: :patch, class: "px-2 py-1 rounded text-xs font-semibold #{product.best_deal? ? 'bg-amber-100 text-amber-700 hover:bg-amber-200' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}" do %>
-              <%= product.best_deal? ? 'Yes' : 'No' %>
+            <% if product.flash_deal? && product.flash_expires_at&.future? %>
+              <span class="px-2 py-1 rounded text-xs font-semibold bg-red-100 text-red-700">⚡ Active</span>
+            <% else %>
+              <%= button_to mark_flash_admin_product_path(product), method: :post, class: "px-2 py-1 rounded text-xs font-semibold bg-gray-100 text-gray-500 hover:bg-red-100 hover:text-red-700" do %>
+                Set Flash
+              <% end %>
             <% end %>
+          </td>
+          <td class="px-4 py-3 text-center">
+            <a href="<%= admin_product_path(product) %>" class="text-blue-500 text-xs hover:underline">Edit</a>
           </td>
         </tr>
       <% end %>
@@ -95,6 +105,11 @@
   const selectAll = document.getElementById('select-all');
   const checkboxes = document.querySelectorAll('.product-checkbox');
   const countEl = document.getElementById('selected-count');
+  const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content || '<%= form_authenticity_token %>';
+
+  function getSelectedIds() {
+    return Array.from(document.querySelectorAll('.product-checkbox:checked')).map(cb => cb.value);
+  }
 
   function updateCount() {
     const n = document.querySelectorAll('.product-checkbox:checked').length;
@@ -106,4 +121,32 @@
     updateCount();
   });
   checkboxes.forEach(cb => cb.addEventListener('change', updateCount));
+
+  document.getElementById('bulk-flash-btn').addEventListener('click', async () => {
+    const ids = getSelectedIds();
+    if (!ids.length) { alert('Select at least one product.'); return; }
+    if (!confirm(`Mark ${ids.length} product(s) as flash deals?`)) return;
+    const res = await fetch('<%= bulk_action_admin_products_path %>', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
+      body: JSON.stringify({ action: 'mark_flash', product_ids: ids })
+    });
+    const data = await res.json();
+    alert(data.message);
+    window.location.reload();
+  });
+
+  document.getElementById('bulk-delete-btn').addEventListener('click', async () => {
+    const ids = getSelectedIds();
+    if (!ids.length) { alert('Select at least one product.'); return; }
+    if (!confirm(`Delete ${ids.length} product(s)? This cannot be undone.`)) return;
+    const res = await fetch('<%= bulk_action_admin_products_path %>', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
+      body: JSON.stringify({ action: 'delete', product_ids: ids })
+    });
+    const data = await res.json();
+    alert(data.message);
+    window.location.reload();
+  });
 </script>
