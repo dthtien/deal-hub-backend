@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_27_070603) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_27_070941) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -106,6 +106,17 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_27_070603) do
     t.index ["active"], name: "index_coupons_on_active"
     t.index ["code"], name: "index_coupons_on_code"
     t.index ["store"], name: "index_coupons_on_store"
+  end
+
+  create_table "crawl_logs", force: :cascade do |t|
+    t.string "store"
+    t.integer "products_found"
+    t.integer "products_updated"
+    t.integer "products_new"
+    t.float "duration_seconds"
+    t.datetime "crawled_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "deal_ratings", force: :cascade do |t|
