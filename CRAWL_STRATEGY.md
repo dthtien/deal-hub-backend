@@ -20,6 +20,7 @@ Date: 2026-03-27
 | JD Sports | `jd_sports_job.rb` | ✅ Active |
 | Glue Store | `glue_store_job.rb` | ✅ Active (Shopify) |
 | Good Buyz | `good_buyz_job.rb` | ✅ Active (Shopify) |
+| Lorna Jane | `lorna_jane_job.rb` | ✅ Active (Shopify via shop.lornajane.com.au) |
 | ASOS | `asos_job.rb` | ✅ Active |
 | Booking.com | `booking_com_job.rb` | ✅ Active |
 | Beginning Boutique | `beginning_boutique_job.rb` | ✅ Active (Shopify) |
@@ -34,9 +35,9 @@ Date: 2026-03-27
 | Chemist Warehouse | — | — | — | Allows crawling (not /api/) | ❌ LOW | 🚫 Custom platform + Incapsula WAF |
 | Harvey Norman | — | — | — | Allows .html pages | ❌ LOW | 🚫 Custom Magento + Incapsula WAF |
 | Rebel Sport | — | — | — | Demandware (some paths blocked) | ❌ LOW | 🚫 Demandware/Salesforce CC, no open API |
-| Cotton On | — | — | — | Not accessible | ❌ LOW | 🚫 Custom platform, anti-bot |
+| Cotton On | — | — | — | Cloudflare (blocks) | ❌ LOW | 🚫 Cloudflare bot protection, 301 redirect loops, no data accessible |
 | Universal Store | A (Shopify) | `https://www.universalstore.com/collections/sale/products.json` | No | Cloudflare (allows) | ✅ HIGH | ✅ IMPLEMENTED |
-| Lorna Jane | — | — | — | Allows product pages | ❌ LOW | 🚫 Next.js custom, no products.json |
+| Lorna Jane | A (Shopify) | `https://shop.lornajane.com.au/collections/sale/products.json` | No | CloudFront (allows) | ✅ HIGH | ✅ IMPLEMENTED |
 | Supercheap Auto | — | — | — | Demandware (some paths blocked) | ❌ LOW | 🚫 Demandware/Salesforce CC, no open API |
 | BCF | — | — | — | Demandware (some paths blocked) | ❌ LOW | 🚫 Demandware/Salesforce CC, no open API |
 | Anaconda | — | — | — | Not accessible | ❌ LOW | 🚫 Connection timeout, platform unknown |
@@ -56,6 +57,20 @@ Date: 2026-03-27
 ---
 
 ## Implemented Crawlers (This Run)
+
+### Lorna Jane ✅
+- **Platform:** Next.js frontend (Shipcode CMS) + Shopify backend
+- **Discovery:** `__NEXT_DATA__` contains Shopify credentials exposing `shop.lornajane.com.au` as a standard Shopify store
+- **Sale endpoint:** `https://shop.lornajane.com.au/collections/sale/products.json?limit=250&page=N`
+- **Store URL:** `https://www.lornajane.com.au/products/<handle>`
+- **Product constant:** `Product::LORNA_JANE = 'Lorna Jane'`
+- **Pagination:** page-based, up to 250/page, max 20 pages
+- **Files:**
+  - `app/crawlers/lorna_jane_crawler.rb`
+  - `app/services/lorna_jane/base.rb`
+  - `app/services/lorna_jane/crawl_all.rb`
+  - `app/jobs/crawlers/lorna_jane_job.rb`
+- **Tests:** All 96 pass ✅
 
 ### Universal Store ✅
 - **Platform:** Shopify (redirects `universalstore.com.au` → `universalstore.com`)
@@ -99,7 +114,7 @@ Date: 2026-03-27
 3. **Anaconda** — Re-test connectivity; could be a temporary network issue. If Shopify, the endpoint would be `https://www.anaconda.com.au/collections/clearance/products.json`.
 
 ### Medium Priority
-4. **Lorna Jane** — Monitor for Next.js `_next/data` endpoints which sometimes expose server-side product data as JSON. Their `__NEXT_DATA__` inline script may contain product listings.
+4. ~~**Lorna Jane**~~ — ✅ IMPLEMENTED. Used Shopify backend at `shop.lornajane.com.au`.
 5. **Cotton On** — Look for a React-embedded `window.__INITIAL_STATE__` or similar JSON blob in page source.
 
 ### Low Priority / Not Recommended
