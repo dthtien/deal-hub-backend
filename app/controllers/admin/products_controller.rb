@@ -42,8 +42,9 @@ module Admin
     end
 
     def bulk_action
-      ids    = Array(params[:product_ids]).map(&:to_i)
-      action = params[:action].to_s
+      body_params = request.content_type&.include?('application/json') ? JSON.parse(request.body.read) : params.to_unsafe_h
+      ids    = Array(body_params['product_ids'] || body_params[:product_ids]).map(&:to_i)
+      action = (body_params['action'] || body_params[:action]).to_s
       products = Product.where(id: ids)
 
       case action

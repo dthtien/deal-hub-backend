@@ -41,6 +41,8 @@ Rails.application.routes.draw do
         post :reject
       end
     end
+    resources :deal_reports, only: %i[index]
+    resources :webhooks, only: %i[index create destroy]
     resources :crawlers, only: %i[index]
     resources :subscribers, only: %i[index] do
       member do
@@ -90,8 +92,14 @@ Rails.application.routes.draw do
           get :best_drops
           get :expiring_soon
           get :personalised
+          get :recommended
           get :this_week
           get :deal_of_the_week
+        end
+        member do
+          get :redirect
+          get :similar
+          post :report
         end
         resources :price_histories, only: :index
         resources :price_alerts, only: :create
@@ -105,11 +113,13 @@ Rails.application.routes.draw do
       resources :coupons, only: %i[index] do
         collection do
           get :stores
+          post ':code/track_use', to: 'coupons#track_use', as: :track_use
         end
         member do
           post :use
         end
       end
+      get 'categories/:name/top_deals', to: 'categories#top_deals', as: :category_top_deals
       get 'analytics/clicks', to: 'analytics#clicks'
       resources :deal_submissions, only: :create
       resources :coupon_submissions, only: :create
