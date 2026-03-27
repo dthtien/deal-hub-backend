@@ -30,13 +30,20 @@ module BeginningBoutique
       name = result['title']
       return if ignore_product?(name)
 
-      variant = result['variants']&.first
+      # Find the best variant - prefer one with compare_at_price set
+      variant = result['variants']&.find { |v| v['compare_at_price'].to_f > v['price'].to_f } ||
+                result['variants']&.first
       return unless variant
 
       price = variant['price'].to_f
       return if price.zero?
 
       old_price = variant['compare_at_price'].to_f
+      # Also check other variants for compare price if first variant doesn't have it
+      if old_price <= price
+        alt = result['variants']&.find { |v| v['compare_at_price'].to_f > price }
+        old_price = alt['compare_at_price'].to_f if alt
+      end
       return unless old_price > price
 
       categories = result['tags']&.select { |t| t.length < 30 }&.first(3) || []

@@ -32,6 +32,9 @@ module UniversalStore
       return if price.zero?
 
       old_price = result['old_price'].to_f
+      # Skip if no discount
+      return unless old_price > price
+
       categories = result['tags'] || []
 
       {
