@@ -216,6 +216,32 @@ module Api
         }
       end
 
+      def fresh
+        response.set_header('Cache-Control', 'no-store')
+        page     = (params[:page] || 1).to_i
+        per_page = 20
+        offset   = (page - 1) * per_page
+
+        base = Product
+          .where(expired: false)
+          .where('products.created_at >= ?', 2.hours.ago)
+          .order(created_at: :desc)
+
+        total    = base.count
+        products = base.limit(per_page).offset(offset)
+
+        render json: {
+          products: products.map(&:as_json),
+          metadata: {
+            page:           page,
+            per_page:       per_page,
+            total_count:    total,
+            total_pages:    (total.to_f / per_page).ceil,
+            show_next_page: offset + per_page < total
+          }
+        }
+      end
+
       def expiring_soon
         page     = (params[:page] || 1).to_i
         per_page = 20
@@ -455,6 +481,73 @@ module Api
         product = Product.find(params[:id])
         product.increment!(:share_count)
         render json: { ok: true, share_count: product.share_count }
+      rescue ActiveRecord::RecordNotFound
+        render json: { error: 'Not found' }, status: :not_found
+      end
+
+      def price_prediction
+        product = Product.find(params[:id])
+
+        histories = product.price_histories
+                           .order(recorded_at: :desc)
+                           .limit(10)
+                           .to_a
+
+        current_price = product.price.to_f
+
+        if histories.size < 2
+          return render json: {
+            prediction:  'STABLE',
+            confidence:  'low',
+            reasoning:   'Not enough price history to make a prediction.'
+          }
+        end
+
+        recent3  = histories.first(3).map { |h| h.price.to_f }
+        all_prices = histories.map { |h| h.price.to_f }
+        oldest_price = histories.last.price.to_f
+
+        # Check if price has been the same for 7+ days
+        seven_days_ago = 7.days.ago
+        old_histories = product.price_histories
+                               .where('recorded_at <= ?', seven_days_ago)
+                               .order(recorded_at: :desc)
+                               .limit(1)
+                               .first
+
+        if old_histories && (old_histories.price.to_f - current_price).abs < 0.01 && histories.size >= 3
+          return render json: {
+            prediction:  'STABLE',
+            confidence:  'high',
+            reasoning:   'Price has been unchanged for 7+ days. Safe to buy at this price.'
+          }
+        end
+
+        # Check if price dropped in last 3 histories (rising/stable soon)
+        prices_dropped = recent3.each_cons(2).all? { |a, b| a <= b }
+
+        if prices_dropped && recent3.size >= 3
+          return render json: {
+            prediction:  'HOLD',
+            confidence:  'medium',
+            reasoning:   'Price has been dropping recently - it may drop further. Consider waiting.'
+          }
+        end
+
+        # Check if current price is the lowest ever seen
+        if current_price < all_prices.min + 0.01 || (oldest_price > current_price * 1.1)
+          return render json: {
+            prediction:  'BUY_NOW',
+            confidence:  'high',
+            reasoning:   "Price is at its lowest recorded level (was $#{oldest_price.round(2)}). Great time to buy!"
+          }
+        end
+
+        render json: {
+          prediction:  'STABLE',
+          confidence:  'medium',
+          reasoning:   'Price is relatively stable. No strong signal to wait or rush.'
+        }
       rescue ActiveRecord::RecordNotFound
         render json: { error: 'Not found' }, status: :not_found
       end

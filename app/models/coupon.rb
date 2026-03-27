@@ -12,6 +12,10 @@ class Coupon < ApplicationRecord
     expires_at.present? && expires_at < Time.current
   end
 
+  def active?
+    self[:active] == true && !expired?
+  end
+
   def discount_label
     return nil unless discount_value.present?
     discount_type == 'fixed' ? "Save $#{discount_value.to_i}" : "#{discount_value.to_i}% off"

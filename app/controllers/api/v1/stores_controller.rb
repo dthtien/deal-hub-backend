@@ -7,14 +7,28 @@ module Api
 
       def index
         response.set_header('Cache-Control', 'public, max-age=3600')
+
+        # Aggregate deal_count and avg_discount for all stores in one query
+        stats = Product.where(expired: false)
+                       .group(:store)
+                       .select(
+                         :store,
+                         'COUNT(*) AS deal_count',
+                         'ROUND(AVG(CASE WHEN discount > 0 THEN discount ELSE NULL END)::numeric, 1) AS avg_discount'
+                       )
+                       .index_by(&:store)
+
         stores = Product::STORES.map do |store|
-          products = Product.where(store: store)
-          best = products.order(discount: :desc).first
+          row  = stats[store]
+          dc   = row&.deal_count.to_i
+          avg  = row&.avg_discount.to_f.round(1)
+          best = Product.where(store: store, expired: false).order(discount: :desc).first
 
           {
-            name: store,
-            deal_count: products.count,
-            best_deal: best&.as_json
+            name:         store,
+            deal_count:   dc,
+            avg_discount: avg,
+            best_deal:    best&.as_json
           }
         end
 

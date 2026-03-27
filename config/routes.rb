@@ -15,6 +15,11 @@ Rails.application.routes.draw do
   # Admin
   namespace :admin do
     root to: 'dashboard#index'
+    scope '/export', controller: :exports do
+      get 'products.csv',     action: :products,     as: :export_products
+      get 'subscribers.csv',  action: :subscribers,  as: :export_subscribers
+      get 'coupons.csv',      action: :coupons,      as: :export_coupons
+    end
     resources :products, only: %i[index update] do
       member do
         post :mark_flash
@@ -87,6 +92,7 @@ Rails.application.routes.draw do
       get  'auth/me', to: 'auth#me'
       resources :saved_deals, only: %i[index create destroy]
       get 'deals/hot', to: 'deals#hot'
+      get 'deals/fresh', to: 'deals#fresh'
       get 'deals/deal_of_the_day', to: 'deals#deal_of_the_day'
       get 'deals/past_deals_of_day', to: 'deals#past_deals_of_day'
       get 'deals/deal_of_the_week', to: 'deals#deal_of_the_week'
@@ -110,6 +116,7 @@ Rails.application.routes.draw do
           get :ai_summary
           get :meta
           post :share
+          get :price_prediction
         end
         collection do
           get :trending
@@ -136,6 +143,7 @@ Rails.application.routes.draw do
         collection do
           get :stores
           post ':code/track_use', to: 'coupons#track_use', as: :track_use
+          get ':code/validate', to: 'coupons#validate', as: :validate_coupon
         end
         member do
           post :use

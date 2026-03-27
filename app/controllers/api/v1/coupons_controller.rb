@@ -13,6 +13,54 @@ module Api
         render json: coupons.map { |c| coupon_json(c) }
       end
 
+      def validate
+        coupon = Coupon.find_by(code: params[:code].to_s.strip.upcase)
+
+        if coupon.nil?
+          return render json: {
+            valid:          false,
+            expires_at:     nil,
+            discount_type:  nil,
+            discount_value: nil,
+            store:          nil,
+            reason:         'Coupon code not found.'
+          }
+        end
+
+        if coupon.expired?
+          return render json: {
+            valid:          false,
+            expires_at:     coupon.expires_at,
+            discount_type:  coupon.discount_type,
+            discount_value: coupon.discount_value,
+            store:          coupon.store,
+            reason:         'Coupon has expired.'
+          }
+        end
+
+        unless coupon.active?
+          return render json: {
+            valid:          false,
+            expires_at:     coupon.expires_at,
+            discount_type:  coupon.discount_type,
+            discount_value: coupon.discount_value,
+            store:          coupon.store,
+            reason:         'Coupon is no longer active.'
+          }
+        end
+
+        render json: {
+          valid:          true,
+          expires_at:     coupon.expires_at,
+          discount_type:  coupon.discount_type,
+          discount_value: coupon.discount_value,
+          store:          coupon.store,
+          description:    coupon.description,
+          discount_label: coupon.discount_label,
+          reason:         nil
+        }
+      end
+
       def stores
         stores = Coupon.active
                        .select(:store)
