@@ -5,6 +5,28 @@ module Api
     class StoresController < ApplicationController
       PER_PAGE = 20
 
+      def trending
+        data = Rails.cache.fetch('stores_trending_v1', expires_in: 30.minutes) do
+          results = ClickTracking
+            .where('created_at >= ?', 24.hours.ago)
+            .where.not(store: [nil, ''])
+            .group(:store)
+            .order('COUNT(*) DESC')
+            .limit(5)
+            .count
+
+          results.map do |store, count|
+            {
+              name: store,
+              click_count: count,
+              favicon_url: "https://www.google.com/s2/favicons?domain=#{store.downcase.gsub(/\s+/, '').concat('.com.au')}&sz=64"
+            }
+          end
+        end
+
+        render json: { stores: data }
+      end
+
       def index
         response.set_header('Cache-Control', 'public, max-age=3600')
 

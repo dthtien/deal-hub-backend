@@ -116,6 +116,7 @@ Rails.application.routes.draw do
           get :redirect
           get :similar
           get :recommendations
+          get :engagement
           post :view
           post :report
           get :ai_summary
@@ -183,6 +184,7 @@ Rails.application.routes.draw do
       resources :keyword_alerts, only: :create
       resources :stores, only: :index do
         collection do
+          get 'trending', to: 'stores#trending'
           get ':name/deals', to: 'stores#deals', as: :store_deals
           get 'compare', to: 'stores#compare'
           get ':store_name/reviews', to: 'store_reviews#index', as: :store_reviews

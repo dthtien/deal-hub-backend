@@ -72,6 +72,22 @@ module Api
         render json: { error: 'Not found' }, status: :not_found
       end
 
+      def engagement
+        product = Product.find(params[:id])
+        cache_key = "deal_engagement_v1_#{product.id}"
+        data = Rails.cache.fetch(cache_key, expires_in: 5.minutes) do
+          views    = product.view_count.to_i
+          votes    = product.respond_to?(:upvotes) ? product.upvotes.to_i : 0
+          comments = product.respond_to?(:comments_count) ? product.comments_count.to_i : (product.respond_to?(:comment_count) ? product.comment_count.to_i : 0)
+          shares   = product.share_count.to_i
+          score    = (views * 0.1 + votes * 2 + comments * 3 + shares * 2).round(1)
+          { views: views, votes: votes, comments: comments, shares: shares, score: score }
+        end
+        render json: data
+      rescue ActiveRecord::RecordNotFound
+        render json: { error: 'Not found' }, status: :not_found
+      end
+
       def recommendations
         product = Product.find(params[:id])
         cache_key = "recommendations_v1_#{product.id}"
