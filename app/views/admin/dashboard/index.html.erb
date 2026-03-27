@@ -50,3 +50,49 @@
     </div>
   </div>
 </div>
+
+<!-- Daily product stats bar chart -->
+<div class="bg-white rounded-xl shadow-sm p-6 mt-6">
+  <h2 class="font-semibold text-gray-800 mb-4">New Products — Last 7 Days</h2>
+  <div class="flex items-end gap-2 h-24">
+    <% max_count = (@daily_stats.map(&:last).max || 1).to_f %>
+    <% @daily_stats.each do |date_label, count| %>
+      <div class="flex flex-col items-center flex-1">
+        <span class="text-xs text-gray-600 mb-1"><%= count %></span>
+        <div class="w-full bg-orange-400 rounded-t" style="height: <%= [(count.to_f / max_count * 80).round, 2].max %>px"></div>
+        <span class="text-xs text-gray-400 mt-1 truncate w-full text-center"><%= date_label %></span>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+  <!-- Top clicked deals -->
+  <div class="bg-white rounded-xl shadow-sm p-6">
+    <h2 class="font-semibold text-gray-800 mb-4">Top Clicked Deals</h2>
+    <table class="w-full text-sm">
+      <thead><tr class="text-left text-xs text-gray-400 border-b"><th class="pb-2">Deal</th><th class="pb-2 text-right">Clicks</th></tr></thead>
+      <tbody>
+        <% @top_deals.each do |p| %>
+          <tr class="border-b border-gray-50">
+            <td class="py-2 truncate max-w-xs text-gray-700"><%= p.name.to_s.truncate(45) %></td>
+            <td class="py-2 text-right font-semibold text-orange-500"><%= p.click_count %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Recent votes -->
+  <div class="bg-white rounded-xl shadow-sm p-6">
+    <h2 class="font-semibold text-gray-800 mb-4">Recent Votes</h2>
+    <div class="space-y-2">
+      <% @recent_votes.each do |vote| %>
+        <div class="flex items-center justify-between gap-2 text-sm">
+          <span class="text-gray-700 truncate flex-1"><%= vote.product&.name.to_s.truncate(40) %></span>
+          <span class="flex-shrink-0 font-bold <%= vote.value == 1 ? 'text-emerald-500' : 'text-rose-500' %>"><%= vote.value == 1 ? '👍 Up' : '👎 Down' %></span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
