@@ -22,6 +22,12 @@ xml.rss version: '2.0', 'xmlns:g' => 'http://base.google.com/ns/1.0' do
         xml.tag!('g:google_product_category', product.categories.first.presence || 'Apparel & Accessories')
         xml.tag!('g:product_type', product.categories.join(' > ').presence || 'General')
         xml.tag!('g:store', product.store)
+        xml.tag!('g:shipping') do
+          xml.tag!('g:country', 'AU')
+          xml.tag!('g:service', 'Standard')
+          xml.tag!('g:price', '0 AUD')
+        end
+        xml.tag!('g:return_policy_label', 'default')
       end
     end
   end

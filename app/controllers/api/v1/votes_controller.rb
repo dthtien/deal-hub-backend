@@ -17,6 +17,7 @@ module Api
         value = params[:value].to_i
         return render json: { error: 'Invalid value' }, status: :unprocessable_entity unless [1, -1].include?(value)
         return render json: { error: 'Missing session' }, status: :unprocessable_entity if session_id.blank?
+        return render json: { error: 'Invalid session' }, status: :unprocessable_entity if session_id.length > 100
 
         vote = @product.votes.find_or_initialize_by(session_id: session_id)
 

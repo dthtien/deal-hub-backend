@@ -22,7 +22,11 @@ module Api
       private
 
       def comment_params
-        params.require(:comment).permit(:name, :body, :session_id)
+        p = params.require(:comment).permit(:name, :body, :session_id)
+        p[:body]       = p[:body].to_s.strip.first(1000) if p[:body]
+        p[:name]       = p[:name].to_s.strip.first(100)  if p[:name]
+        p[:session_id] = p[:session_id].to_s.first(100)  if p[:session_id]
+        p
       end
     end
   end
