@@ -26,6 +26,9 @@ class Product < ApplicationRecord
   has_many :votes, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_one :ai_deal_analysis, dependent: :destroy
+  has_many :deal_ratings, dependent: :destroy
+  has_many :collection_items, dependent: :destroy
+  has_many :collections, through: :collection_items
 
   validates :name, presence: true
   validates :price, presence: true
@@ -73,6 +76,19 @@ class Product < ApplicationRecord
     end
   end
 
+  def price_prediction_value
+    return nil unless association(:price_histories).loaded?
+
+    recent = price_histories.sort_by(&:recorded_at).reverse.first(5)
+    return nil if recent.size < 3
+
+    if recent.all? { |h| h.price <= price.to_f }
+      'likely_to_drop'
+    elsif recent.first&.price.to_f > price.to_f * 1.1
+      'recently_dropped'
+    end
+  end
+
   def best_deal?
     avg = average_price_90_days
     return false if avg.nil? || avg.zero? || price.nil?
@@ -85,7 +101,7 @@ class Product < ApplicationRecord
     has_discount = discount.to_f > 0
     has_history  = price_histories.recent.exists?
 
-    return nil unless has_discount || has_history
+    return 0 unless has_discount || has_history
 
     score = 0
     score += (discount.to_f / 10).clamp(0, 5)
@@ -111,6 +127,7 @@ class Product < ApplicationRecord
       store_url:,
       click_count:,
       deal_score:,
+      image_urls: [image_url].compact,
       best_deal: best_deal?,
       tags: tags || [],
       price_trend: price_trend,
@@ -122,7 +139,8 @@ class Product < ApplicationRecord
       'old_price' => old_price.to_f,
       'price' => price.to_f,
       'updated_at' => updated_at.strftime(DATE_FORMAT),
-      'created_at' => created_at.strftime(DATE_FORMAT)
+      'created_at' => created_at.strftime(DATE_FORMAT),
+      price_prediction: price_prediction_value
     )
   end
 

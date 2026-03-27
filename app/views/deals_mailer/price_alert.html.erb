@@ -1,68 +1,117 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 0; }
-    .container { max-width: 600px; margin: 0 auto; background: #fff; }
-    .header { background: #ff3c00; padding: 24px; text-align: center; }
-    .header h1 { color: #fff; margin: 0; font-size: 22px; }
-    .content { padding: 32px 24px; text-align: center; }
-    .product-image { max-width: 200px; border-radius: 8px; }
-    .badge { display: inline-block; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; margin: 8px 0; }
-    .badge-drop { background: #ff3c00; color: #fff; }
-    .badge-discount { background: #22c55e; color: #fff; }
-    .price-current { font-size: 36px; font-weight: bold; color: #22c55e; }
-    .price-old { text-decoration: line-through; color: #999; font-size: 20px; margin-right: 8px; }
-    .price-arrow { color: #666; font-size: 20px; margin: 0 4px; }
-    .store { color: #888; font-size: 14px; margin-top: 8px; }
-    .cta { display: inline-block; margin-top: 24px; background: #ff3c00; color: #fff; text-decoration: none; border-radius: 8px; padding: 16px 40px; font-size: 18px; font-weight: bold; }
-    .footer { background: #f4f4f4; padding: 20px; text-align: center; font-size: 12px; color: #888; }
-    .footer a { color: #ff3c00; text-decoration: none; }
-  </style>
+  <title>Price Drop Alert – OzVFY</title>
 </head>
-<body>
-  <div class="container">
-    <div class="header">
-      <h1>Price Drop Alert!</h1>
-    </div>
-    <div class="content">
-      <% if @product.image_url.present? %>
-        <img src="<%= @product.image_url %>" class="product-image" alt="<%= @product.name %>">
-      <% end %>
+<body style="margin:0;padding:0;background:#f4f4f4;font-family:Arial,Helvetica,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f4f4f4;padding:24px 0;">
+    <tr>
+      <td align="center">
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
 
-      <h2 style="margin-bottom: 8px;"><%= @product.name %></h2>
+          <!-- Header -->
+          <tr>
+            <td style="background:#f97316;padding:24px;text-align:center;">
+              <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:bold;">🔔 Price Drop Alert!</h1>
+              <p style="margin:6px 0 0;color:#fff3e0;font-size:14px;">Good news — a deal you're watching just dropped in price</p>
+            </td>
+          </tr>
 
-      <% if @product.store.present? %>
-        <p class="store"><%= @product.store %></p>
-      <% end %>
+          <!-- Product image -->
+          <% if @product.image_url.present? %>
+          <tr>
+            <td style="padding:28px 24px 0;text-align:center;">
+              <img src="<%= @product.image_url %>" alt="<%= @product.name %>" style="max-width:200px;max-height:200px;border-radius:8px;object-fit:contain;" />
+            </td>
+          </tr>
+          <% end %>
 
-      <span class="badge badge-drop">Price Dropped!</span>
+          <!-- Product name + store -->
+          <tr>
+            <td style="padding:20px 24px 0;text-align:center;">
+              <h2 style="margin:0 0 6px;font-size:18px;color:#1a1a1a;line-height:1.4;"><%= @product.name %></h2>
+              <% if @product.store.present? %>
+                <p style="margin:0;color:#888888;font-size:13px;">Available at <strong><%= @product.store %></strong></p>
+              <% end %>
+            </td>
+          </tr>
 
-      <div style="margin: 20px 0;">
-        <span class="price-old">$<%= '%.2f' % @old_price.to_f %></span>
-        <span class="price-arrow">&rarr;</span>
-        <span class="price-current">$<%= '%.2f' % @current_price.to_f %></span>
-      </div>
+          <!-- Price comparison -->
+          <tr>
+            <td style="padding:24px 24px 0;text-align:center;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td align="center" style="padding:16px;background:#fff8f0;border-radius:10px;border:1px solid #ffe0c0;">
+                    <table cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;">
+                      <tr>
+                        <td style="text-align:center;padding:0 16px;">
+                          <p style="margin:0 0 4px;font-size:12px;color:#999;text-transform:uppercase;letter-spacing:0.05em;">Was</p>
+                          <p style="margin:0;font-size:22px;font-weight:bold;color:#999;text-decoration:line-through;">$<%= '%.2f' % @old_price.to_f %></p>
+                        </td>
+                        <td style="text-align:center;padding:0 8px;font-size:24px;color:#f97316;">→</td>
+                        <td style="text-align:center;padding:0 16px;">
+                          <p style="margin:0 0 4px;font-size:12px;color:#999;text-transform:uppercase;letter-spacing:0.05em;">Now</p>
+                          <p style="margin:0;font-size:32px;font-weight:bold;color:#16a34a;">$<%= '%.2f' % @current_price.to_f %></p>
+                        </td>
+                      </tr>
+                    </table>
+                    <% if @discount.to_i > 0 %>
+                      <p style="margin:12px 0 0;"><span style="display:inline-block;background:#f97316;color:#fff;font-size:13px;font-weight:bold;padding:4px 14px;border-radius:20px;"><%= @discount.to_i %>% OFF</span></p>
+                    <% end %>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
 
-      <% if @discount.to_i > 0 %>
-        <span class="badge badge-discount"><%= @discount.to_i %>% off</span>
-      <% end %>
+          <!-- Savings callout -->
+          <% savings = @old_price.to_f - @current_price.to_f %>
+          <% if savings > 0 %>
+          <tr>
+            <td style="padding:16px 24px 0;text-align:center;">
+              <p style="margin:0;font-size:15px;color:#16a34a;font-weight:bold;">You save $<%= '%.2f' % savings %>!</p>
+            </td>
+          </tr>
+          <% end %>
 
-      <% if @alert.target_price.present? %>
-        <p style="color: #888; font-size: 14px; margin-top: 12px;">
-          Your target price: $<%= '%.2f' % @alert.target_price.to_f %>
-        </p>
-      <% end %>
+          <!-- CTA Button -->
+          <tr>
+            <td style="padding:28px 24px;text-align:center;">
+              <a href="<%= @deal_url %>" style="display:inline-block;background:#f97316;color:#ffffff;text-decoration:none;font-size:17px;font-weight:bold;padding:16px 40px;border-radius:10px;letter-spacing:0.01em;">🛍️ View Deal Now</a>
+            </td>
+          </tr>
 
-      <br>
-      <a href="<%= @deal_url %>" class="cta">View Deal</a>
-    </div>
-    <div class="footer">
-      <p>You set up this price alert at <a href="<%= @site_url %>">ozvfy.com</a></p>
-      <p><a href="<%= @site_url %>">OzVFY</a> &mdash; Best Deals in Australia</p>
-    </div>
-  </div>
+          <!-- Target price note -->
+          <% if @alert.target_price.present? %>
+          <tr>
+            <td style="padding:0 24px 20px;text-align:center;">
+              <p style="margin:0;font-size:13px;color:#888;">Your target price was: <strong>$<%= '%.2f' % @alert.target_price.to_f %></strong></p>
+            </td>
+          </tr>
+          <% end %>
+
+          <!-- Divider -->
+          <tr>
+            <td style="padding:0 24px;"><hr style="border:none;border-top:1px solid #f0f0f0;margin:0;" /></td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding:20px 24px;background:#fafafa;text-align:center;">
+              <p style="margin:0 0 8px;font-size:12px;color:#999;">
+                You set this price alert at <a href="<%= @site_url %>" style="color:#f97316;text-decoration:none;">OzVFY</a> — Australia's best deal tracker.
+              </p>
+              <p style="margin:0;font-size:12px;color:#bbb;">
+                Don't want these emails? <a href="<%= @site_url %>/unsubscribe?email=<%= CGI.escape(@alert.email) %>" style="color:#f97316;text-decoration:none;">Unsubscribe from price alerts</a>
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
 </body>
 </html>

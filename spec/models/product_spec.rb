@@ -13,25 +13,28 @@ RSpec.describe Product, :model, type: :model do
     let(:product) { create(:product) }
 
     it do
-      expect(product.as_json).to match(
-        product.attributes.merge(
-          store_url: nil,
-          click_count: 0,
-          deal_score: nil,
-          best_deal: false,
-          price_trend: :stable,
-          is_bundle: false,
-          ai_recommendation: nil,
-          ai_confidence: nil,
-          ai_reasoning_short: nil,
-          tags: [],
-          'discount' => 0.0,
-          'old_price' => 0.0,
-          'price' => product.price.to_f,
-          'updated_at' => product.updated_at.strftime(::Product::DATE_FORMAT),
-          'created_at' => product.created_at.strftime(::Product::DATE_FORMAT)
-        )
+      expected = product.attributes.merge(
+        'deal_score' => 0,
+        'discount' => 0.0,
+        'old_price' => 0.0,
+        'price' => product.price.to_f,
+        'updated_at' => product.updated_at.strftime(::Product::DATE_FORMAT),
+        'created_at' => product.created_at.strftime(::Product::DATE_FORMAT)
+      ).merge(
+        store_url: nil,
+        click_count: 0,
+        deal_score: 0,
+        best_deal: false,
+        price_trend: :stable,
+        is_bundle: false,
+        ai_recommendation: nil,
+        ai_confidence: nil,
+        ai_reasoning_short: nil,
+        tags: [],
+        image_urls: [],
+        price_prediction: nil
       )
+      expect(product.as_json).to match(expected)
     end
   end
 

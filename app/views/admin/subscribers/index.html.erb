@@ -1,0 +1,83 @@
+<% content_for :title, "Subscribers" %>
+
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-2xl font-bold text-gray-900">Subscribers <span class="text-gray-400 font-normal text-lg">(<%= number_with_delimiter(@total) %>)</span></h1>
+</div>
+
+<!-- Filters -->
+<form method="get" class="flex items-center gap-3 mb-6">
+  <input type="text" name="q" value="<%= @q %>" placeholder="Search by email…"
+    class="border border-gray-200 rounded-lg px-3 py-2 text-sm w-64 focus:outline-none focus:border-orange-400" />
+  <select name="status" class="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-orange-400">
+    <option value="">All statuses</option>
+    <option value="active" <%= 'selected' if @status == 'active' %>>Active</option>
+    <option value="unsubscribed" <%= 'selected' if @status == 'unsubscribed' %>>Unsubscribed</option>
+    <option value="pending" <%= 'selected' if @status == 'pending' %>>Pending</option>
+  </select>
+  <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">Filter</button>
+  <a href="/admin/subscribers" class="text-sm text-gray-400 hover:text-gray-600">Reset</a>
+</form>
+
+<!-- Table -->
+<div class="bg-white rounded-xl shadow-sm overflow-hidden">
+  <table class="w-full text-sm">
+    <thead class="bg-gray-50 border-b border-gray-100">
+      <tr>
+        <th class="text-left px-4 py-3 font-semibold text-gray-600">Email</th>
+        <th class="text-left px-4 py-3 font-semibold text-gray-600">Status</th>
+        <th class="text-left px-4 py-3 font-semibold text-gray-600">Joined</th>
+        <th class="text-left px-4 py-3 font-semibold text-gray-600">Preferences</th>
+        <th class="text-left px-4 py-3 font-semibold text-gray-600">Actions</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-50">
+      <% @subscribers.each do |sub| %>
+        <tr class="hover:bg-gray-50 transition-colors">
+          <td class="px-4 py-3 text-gray-800 font-medium"><%= sub.email %></td>
+          <td class="px-4 py-3">
+            <% badge_class = case sub.status
+               when 'active'        then 'bg-emerald-100 text-emerald-700'
+               when 'unsubscribed'  then 'bg-gray-100 text-gray-500'
+               else                      'bg-amber-100 text-amber-700'
+               end %>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold <%= badge_class %>">
+              <%= sub.status.capitalize %>
+            </span>
+          </td>
+          <td class="px-4 py-3 text-gray-500"><%= sub.created_at.strftime('%d %b %Y') %></td>
+          <td class="px-4 py-3 text-gray-500 text-xs max-w-xs truncate">
+            <% if sub.preferences.present? && sub.preferences.any? %>
+              <%= sub.preferences.map { |k, v| "#{k}: #{v}" }.join(', ') %>
+            <% else %>
+              <span class="text-gray-300">—</span>
+            <% end %>
+          </td>
+          <td class="px-4 py-3">
+            <% if sub.status != 'unsubscribed' %>
+              <%= button_to "Unsubscribe", unsubscribe_admin_subscriber_path(sub), method: :post,
+                  class: "text-xs text-red-500 hover:text-red-700 font-medium border border-red-200 hover:border-red-400 px-3 py-1 rounded-lg transition-colors",
+                  data: { confirm: "Unsubscribe #{sub.email}?" } %>
+            <% else %>
+              <span class="text-xs text-gray-300">—</span>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+      <% if @subscribers.empty? %>
+        <tr><td colspan="5" class="px-4 py-8 text-center text-gray-400">No subscribers found.</td></tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<!-- Pagination -->
+<% if @total_pages > 1 %>
+  <div class="flex items-center gap-2 mt-4 justify-center">
+    <% (1..@total_pages).each do |p| %>
+      <a href="?page=<%= p %>&q=<%= @q %>&status=<%= @status %>"
+        class="px-3 py-1.5 rounded-lg text-sm <%= @page == p ? 'bg-orange-500 text-white font-semibold' : 'bg-white border border-gray-200 text-gray-600 hover:border-orange-300' %>">
+        <%= p %>
+      </a>
+    <% end %>
+  </div>
+<% end %>

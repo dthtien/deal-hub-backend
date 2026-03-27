@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_27_002834) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_27_013407) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -44,6 +44,27 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_27_002834) do
     t.index ["clicked_at"], name: "index_click_trackings_on_clicked_at"
     t.index ["product_id"], name: "index_click_trackings_on_product_id"
     t.index ["store"], name: "index_click_trackings_on_store"
+  end
+
+  create_table "collection_items", force: :cascade do |t|
+    t.bigint "collection_id", null: false
+    t.bigint "product_id", null: false
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["collection_id"], name: "index_collection_items_on_collection_id"
+    t.index ["product_id"], name: "index_collection_items_on_product_id"
+  end
+
+  create_table "collections", force: :cascade do |t|
+    t.string "name"
+    t.string "slug"
+    t.text "description"
+    t.string "cover_image_url"
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_collections_on_slug", unique: true
   end
 
   create_table "comments", force: :cascade do |t|
@@ -84,6 +105,16 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_27_002834) do
     t.index ["active"], name: "index_coupons_on_active"
     t.index ["code"], name: "index_coupons_on_code"
     t.index ["store"], name: "index_coupons_on_store"
+  end
+
+  create_table "deal_ratings", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.string "session_id", null: false
+    t.integer "rating", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id", "session_id"], name: "index_deal_ratings_on_product_id_and_session_id", unique: true
+    t.index ["product_id"], name: "index_deal_ratings_on_product_id"
   end
 
   create_table "deal_submissions", force: :cascade do |t|
@@ -279,6 +310,9 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_27_002834) do
     t.index ["product_id"], name: "index_votes_on_product_id"
   end
 
+  add_foreign_key "collection_items", "collections"
+  add_foreign_key "collection_items", "products"
   add_foreign_key "comments", "products"
+  add_foreign_key "deal_ratings", "products"
   add_foreign_key "votes", "products"
 end

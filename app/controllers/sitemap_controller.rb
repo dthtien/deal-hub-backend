@@ -50,6 +50,9 @@ class SitemapController < ApplicationController
     xml << "</urlset>"
 
     render plain: xml, content_type: 'application/xml'
+  rescue => e
+    Rails.logger.error("SitemapController#index error: #{e.message}")
+    render plain: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"></urlset>", content_type: 'application/xml'
   end
 
   def sitemap_index
@@ -71,6 +74,9 @@ class SitemapController < ApplicationController
     end
     xml << "</urlset>"
     render plain: xml, content_type: 'application/xml'
+  rescue => e
+    Rails.logger.error("SitemapController#sitemap_deals error: #{e.message}")
+    render plain: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"></urlset>", content_type: 'application/xml'
   end
 
   def sitemap_stores
@@ -95,5 +101,8 @@ class SitemapController < ApplicationController
 
     xml << "</urlset>"
     render plain: xml, content_type: 'application/xml'
+  rescue => e
+    Rails.logger.error("SitemapController#sitemap_stores error: #{e.message}")
+    render plain: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"></urlset>", content_type: 'application/xml'
   end
 end

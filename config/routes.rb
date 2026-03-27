@@ -14,8 +14,17 @@ Rails.application.routes.draw do
   # Admin
   namespace :admin do
     root to: 'dashboard#index'
-    resources :products, only: %i[index update]
-    resources :coupons
+    resources :products, only: %i[index update] do
+      collection do
+        post :bulk_update
+      end
+    end
+    resources :coupons do
+      collection do
+        get  :import
+        post :import
+      end
+    end
     resources :deal_submissions, only: %i[index show destroy] do
       member do
         post :approve
@@ -29,6 +38,11 @@ Rails.application.routes.draw do
       end
     end
     resources :crawlers, only: %i[index]
+    resources :subscribers, only: %i[index] do
+      member do
+        post :unsubscribe
+      end
+    end
   end
 
   # Google OAuth
@@ -72,7 +86,9 @@ Rails.application.routes.draw do
         resources :comments, only: %i[index create]
         resource :analysis, only: :show, controller: 'deal_analyses'
         resource :vote, only: %i[show create], controller: 'votes'
+        resource :rating, only: %i[show create], controller: 'deal_ratings'
       end
+      resources :collections, only: %i[index show], param: :slug
       resource :metadata, only: :show
       resources :coupons, only: %i[index] do
         collection do

@@ -12,6 +12,10 @@ module Api
       end
 
       def create
+        if comment_params[:session_id].blank?
+          render json: { errors: ['Session ID is required'] }, status: :unprocessable_entity
+          return
+        end
         product = Product.find(params[:deal_id])
         comment = product.comments.build(comment_params)
         if comment.save

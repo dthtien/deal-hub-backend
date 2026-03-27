@@ -41,3 +41,31 @@ Product.order(created_at: :desc).limit(10).each_with_index do |product, i|
   product.update_columns(tags: tag_groups[i % tag_groups.size])
 end
 puts "Seeded tags on top products"
+
+# Seed collections
+collections_data = [
+  { name: 'Best Tech Deals', slug: 'best-tech-deals', description: 'Top picks in electronics, gadgets and tech accessories.', keywords: %w[laptop phone headphones tv monitor] },
+  { name: 'Fashion Under $50', slug: 'fashion-under-50', description: 'Stylish fashion deals all under $50.', keywords: %w[shirt shoes dress jacket sneakers] },
+  { name: 'Home & Living', slug: 'home-living', description: 'Great deals on furniture, homewares and kitchen essentials.', keywords: %w[sofa chair kitchen vacuum coffee] },
+  { name: 'Sports & Outdoors', slug: 'sports-outdoors', description: 'Gear up with the best sports and outdoor deals.', keywords: %w[bike gym yoga running tennis] },
+]
+
+collections_data.each do |attrs|
+  keywords = attrs.delete(:keywords)
+  collection = Collection.find_or_create_by(slug: attrs[:slug]) do |c|
+    c.assign_attributes(attrs.merge(active: true))
+  end
+  collection.update(attrs) # Update name/desc in case it changed
+
+  # Add top 5 matching products
+  if collection.collection_items.count < 5
+    keyword_query = keywords.map { |k| "name ILIKE '%#{k}%'" }.join(' OR ')
+    products = Product.where(keyword_query).where(expired: false).order(discount: :desc).limit(5)
+    products.each_with_index do |product, idx|
+      CollectionItem.find_or_create_by(collection: collection, product: product) do |ci|
+        ci.position = idx + 1
+      end
+    end
+  end
+end
+puts "Seeded #{Collection.count} collections"

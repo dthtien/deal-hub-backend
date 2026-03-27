@@ -23,5 +23,22 @@ module Admin
       end
       redirect_to admin_products_path(request.query_parameters.except('_method')), notice: "Product ##{@product.id} updated."
     end
+
+    def bulk_update
+      ids    = Array(params[:ids])
+      action = params[:action_type].to_s
+      products = Product.where(id: ids)
+
+      case action
+      when 'expire'
+        products.update_all(expired: true)
+      when 'feature'
+        products.update_all(featured: true)
+      when 'unfeature'
+        products.update_all(featured: false)
+      end
+
+      redirect_to admin_products_path, notice: "#{products.count} product(s) updated."
+    end
   end
 end

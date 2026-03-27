@@ -20,10 +20,26 @@
   <a href="/admin/products" class="border border-gray-300 text-gray-600 px-4 py-2 rounded-lg text-sm hover:bg-gray-50">Reset</a>
 </form>
 
+<%# Bulk Actions %>
+<form id="bulk-form" action="<%= bulk_update_admin_products_path %>" method="post" class="mb-4">
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+  <div class="flex items-center gap-3 flex-wrap">
+    <select name="action_type" class="border border-gray-300 rounded-lg px-3 py-2 text-sm">
+      <option value="">-- Bulk Action --</option>
+      <option value="expire">Mark Expired</option>
+      <option value="feature">Feature</option>
+      <option value="unfeature">Unfeature</option>
+    </select>
+    <button type="submit" class="bg-gray-700 hover:bg-gray-800 text-white text-sm font-semibold px-4 py-2 rounded-lg">Apply to Selected</button>
+    <span id="selected-count" class="text-sm text-gray-500">0 selected</span>
+  </div>
+</form>
+
 <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
   <table class="w-full text-sm">
     <thead class="bg-gray-50 border-b border-gray-200">
       <tr>
+        <th class="px-4 py-3"><input type="checkbox" id="select-all" class="rounded border-gray-300" /></th>
         <th class="text-left px-4 py-3 font-semibold text-gray-600">Product</th>
         <th class="text-left px-4 py-3 font-semibold text-gray-600">Store</th>
         <th class="text-right px-4 py-3 font-semibold text-gray-600">Price</th>
@@ -36,6 +52,9 @@
     <tbody>
       <% @products.each do |product| %>
         <tr class="border-b border-gray-100 hover:bg-gray-50">
+          <td class="px-4 py-3 text-center">
+            <input type="checkbox" form="bulk-form" name="ids[]" value="<%= product.id %>" class="product-checkbox rounded border-gray-300" />
+          </td>
           <td class="px-4 py-3">
             <a href="/deals/<%= product.id %>" target="_blank" class="text-orange-600 hover:underline font-medium"><%= truncate(product.name, length: 60) %></a>
           </td>
@@ -71,3 +90,20 @@
     <% end %>
   </div>
 <% end %>
+
+<script>
+  const selectAll = document.getElementById('select-all');
+  const checkboxes = document.querySelectorAll('.product-checkbox');
+  const countEl = document.getElementById('selected-count');
+
+  function updateCount() {
+    const n = document.querySelectorAll('.product-checkbox:checked').length;
+    countEl.textContent = n + ' selected';
+  }
+
+  selectAll.addEventListener('change', () => {
+    checkboxes.forEach(cb => { cb.checked = selectAll.checked; });
+    updateCount();
+  });
+  checkboxes.forEach(cb => cb.addEventListener('change', updateCount));
+</script>

@@ -45,7 +45,8 @@ class TelegramDealsJob < ApplicationJob
   def hero_caption(deal)
     discount = deal.discount.to_i > 0 ? " — <b>#{deal.discount.to_i}% OFF</b>" : ''
     old_price = deal.old_price&.positive? ? "\n<s>Was $#{'%.2f' % deal.old_price}</s>" : ''
-    ai_badge = deal.ai_recommendation.present? ? "\n🤖 #{deal.ai_recommendation.gsub('_', ' ')}" : ''
+    ai_rec = deal.try(:ai_deal_analysis)&.recommendation
+    ai_badge = ai_rec.present? ? "\n🤖 #{ai_rec.gsub('_', ' ')}" : ''
 
     "🔥 <b>#{ERB::Util.html_escape(deal.name.to_s.truncate(80))}</b>\n\n" \
     "💰 <b>$#{'%.2f' % deal.price}</b>#{discount}#{old_price}#{ai_badge}\n" \
