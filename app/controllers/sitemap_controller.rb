@@ -51,4 +51,49 @@ class SitemapController < ApplicationController
 
     render plain: xml, content_type: 'application/xml'
   end
+
+  def sitemap_index
+    xml = String.new("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+    xml << "<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n"
+    ['/sitemap.xml', '/sitemap_deals.xml', '/sitemap_stores.xml'].each do |loc|
+      xml << "  <sitemap><loc>#{SITE_URL}#{loc}</loc></sitemap>\n"
+    end
+    xml << "</sitemapindex>"
+    render plain: xml, content_type: 'application/xml'
+  end
+
+  def sitemap_deals
+    products = Product.where(expired: false).select(:id, :updated_at).order(updated_at: :desc).limit(1000)
+    xml = String.new("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+    xml << "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n"
+    products.each do |product|
+      xml << "  <url><loc>#{SITE_URL}/deals/#{product.id}</loc><lastmod>#{product.updated_at.strftime('%Y-%m-%d')}</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>\n"
+    end
+    xml << "</urlset>"
+    render plain: xml, content_type: 'application/xml'
+  end
+
+  def sitemap_stores
+    stores     = Product.distinct.pluck(:store).compact.sort
+    categories = Product.where("array_length(categories, 1) > 0")
+                        .pluck(:categories).flatten.tally
+                        .sort_by { |_, c| -c }.first(100).map(&:first)
+    searches   = SearchQuery.trending(limit: 100).pluck(:query)
+
+    xml = String.new("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+    xml << "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n"
+
+    stores.each do |store|
+      xml << "  <url><loc>#{SITE_URL}/stores/#{CGI.escape(store)}</loc><changefreq>daily</changefreq><priority>0.7</priority></url>\n"
+    end
+    categories.each do |cat|
+      xml << "  <url><loc>#{SITE_URL}/categories/#{CGI.escape(cat)}</loc><changefreq>daily</changefreq><priority>0.6</priority></url>\n"
+    end
+    searches.each do |q|
+      xml << "  <url><loc>#{SITE_URL}/deals/search/#{CGI.escape(q.downcase)}</loc><changefreq>daily</changefreq><priority>0.5</priority></url>\n"
+    end
+
+    xml << "</urlset>"
+    render plain: xml, content_type: 'application/xml'
+  end
 end
