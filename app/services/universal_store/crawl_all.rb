@@ -2,8 +2,6 @@
 
 module UniversalStore
   class CrawlAll < Base
-    IGNORABLE_WORDS = %w[bikini swimwear bra underwear lingerie bodysuit brief panty].freeze
-
     def initialize
       super
       @attributes = []
@@ -22,24 +20,19 @@ module UniversalStore
     def crawler_and_build
       crawler.crawl_all
 
-      @attributes += crawler.data.map { |result| build_attributes(result) }
-        .compact.uniq { |attribute| attribute[:store_product_id] }
+      @attributes = crawler.data.map { |result| build_attributes(result) }.compact
+                            .uniq { |a| a[:store_product_id] }
     end
 
     def build_attributes(result)
-      name = result['title']
-      return if ignore_product?(name)
+      name = result['name']
+      return if name.blank?
 
-      variant = result['variants']&.first
-      return unless variant
-
-      price = variant['price'].to_f
+      price = result['price'].to_f
       return if price.zero?
 
-      old_price = variant['compare_at_price'].to_f
-      return unless old_price > price
-
-      categories = result['tags']&.select { |t| t.length < 30 }&.first(3) || []
+      old_price = result['old_price'].to_f
+      categories = result['tags'] || []
 
       {
         name:,
@@ -48,20 +41,16 @@ module UniversalStore
         discount: calculate_discount(old_price, price),
         store_product_id: result['id'].to_s,
         brand: result['vendor']&.downcase,
-        image_url: result.dig('images', 0, 'src'),
-        store_path: "/products/#{result['handle']}",
+        image_url: result['image_url'],
+        store_path: result['store_path'],
         store: Product::UNIVERSAL_STORE,
-        description: refine_description(name, categories),
-        categories: categories
+        categories: categories,
+        description: refine_description(name, categories)
       }
     end
 
-    def ignore_product?(name)
-      name.blank? ||
-        IGNORABLE_WORDS.any? { |word| name.downcase.include?(word) }
-    end
-
     def upsert_products
+      return if attributes.empty?
       upsert_with_price_history(attributes, store: Product::UNIVERSAL_STORE)
     end
 

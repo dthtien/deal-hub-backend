@@ -188,6 +188,10 @@ class Product < ApplicationRecord
       store_path
     when GOOD_BUYZ
       "https://goodbuyz.com.au#{store_path}"
+    when UNIVERSAL_STORE
+      "https://www.universalstore.com.au#{store_path}"
+    when BEGINNING_BOUTIQUE
+      "https://beginningboutique.com.au#{store_path}"
     end
   end
 end
