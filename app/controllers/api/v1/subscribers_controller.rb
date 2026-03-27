@@ -26,8 +26,18 @@ module Api
         subscriber = Subscriber.find_by(unsubscribe_token: params[:token])
         return render json: { error: 'Invalid or expired token.' }, status: :not_found unless subscriber
 
-        allowed_prefs = %w[new_arrivals price_drops weekly_digest daily_alerts]
+        allowed_prefs = %w[new_arrivals price_drops weekly_digest daily_alerts frequency categories max_price]
         prefs = preference_params.to_h.select { |k, _| allowed_prefs.include?(k) }
+
+        # Validate frequency
+        if prefs.key?('frequency') && !%w[daily weekly never].include?(prefs['frequency'])
+          return render json: { error: 'Invalid frequency. Must be daily, weekly, or never.' }, status: :unprocessable_entity
+        end
+
+        # Validate max_price
+        if prefs.key?('max_price')
+          prefs['max_price'] = prefs['max_price'].to_f.clamp(0, 500)
+        end
 
         current_prefs = subscriber.preferences || {}
         subscriber.update!(preferences: current_prefs.merge(prefs))
@@ -49,8 +59,10 @@ module Api
       def resubscribe
         subscriber = Subscriber.find_by(unsubscribe_token: params[:token])
         if subscriber
-          subscriber.update!(status: 'active')
-          render json: { message: 'You have been re-subscribed successfully.' }
+          attrs = { status: 'active' }
+          attrs[:unsubscribed_at] = nil if subscriber.respond_to?(:unsubscribed_at)
+          subscriber.update!(attrs)
+          render json: { subscriber: { email: subscriber.email, status: subscriber.status } }
         else
           render json: { error: 'Invalid or expired token.' }, status: :not_found
         end
@@ -70,7 +82,8 @@ module Api
       end
 
       def preference_params
-        params.require(:preferences).permit(:new_arrivals, :price_drops, :weekly_digest, :daily_alerts)
+        params.require(:preferences).permit(:new_arrivals, :price_drops, :weekly_digest, :daily_alerts,
+                                            :frequency, :max_price, categories: [])
       end
     end
   end

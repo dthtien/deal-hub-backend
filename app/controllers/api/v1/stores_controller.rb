@@ -6,6 +6,7 @@ module Api
       PER_PAGE = 20
 
       def index
+        response.set_header('Cache-Control', 'public, max-age=3600')
         stores = Product::STORES.map do |store|
           products = Product.where(store: store)
           best = products.order(discount: :desc).first

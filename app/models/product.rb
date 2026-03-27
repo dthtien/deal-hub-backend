@@ -166,11 +166,25 @@ class Product < ApplicationRecord
     )
   end
 
+  def heat_index
+    raw = (view_count.to_f * 0.3 + upvotes.to_f * 0.5 + click_count.to_f * 0.2 + share_count.to_f * 0.4).round
+    [raw, 9999].min
+  end
+
+  def upvotes
+    votes.where(value: 1).count
+  end
+
   def as_json(options = {})
-    super(options).merge(
+    currency_code = options.delete(:currency)
+    base = super(options).merge(
       store_url:,
       click_count:,
       deal_score:,
+      freshness_score:,
+      view_count: view_count,
+      share_count: share_count,
+      heat_index: heat_index,
       image_urls: [image_url].compact,
       best_deal: best_deal?,
       tags: tags || [],
@@ -182,10 +196,20 @@ class Product < ApplicationRecord
       'discount' => discount.to_f,
       'old_price' => old_price.to_f,
       'price' => price.to_f,
+      'flash_expires_at' => flash_expires_at,
       'updated_at' => updated_at.strftime(DATE_FORMAT),
       'created_at' => created_at.strftime(DATE_FORMAT),
       price_prediction: price_prediction_value
     )
+
+    if currency_code && currency_code != 'AUD' && EXCHANGE_RATES.key?(currency_code)
+      rate = EXCHANGE_RATES[currency_code]
+      base['display_price']    = (price.to_f * rate).round(2)
+      base['display_old_price'] = old_price.to_f > 0 ? (old_price.to_f * rate).round(2) : nil
+      base['display_currency'] = currency_code
+    end
+
+    base
   end
 
   def store_url

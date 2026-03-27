@@ -69,3 +69,72 @@ collections_data.each do |attrs|
   end
 end
 puts "Seeded #{Collection.count} collections"
+
+# Seed gift guide collections
+gift_guides = [
+  {
+    name: 'Gifts Under $50',
+    slug: 'gifts-under-50',
+    description: 'Perfect gifts for everyone, all under $50.',
+    filter: ->(p) { p.price.to_f < 50 }
+  },
+  {
+    name: 'Tech Gifts',
+    slug: 'tech-gifts',
+    description: 'Top technology gifts for the tech lover in your life.',
+    filter: ->(p) { (Array(p.categories) & %w[Electronics Technology Computing]).any? }
+  },
+  {
+    name: 'Gifts for Him',
+    slug: 'gifts-for-him',
+    description: 'Great gift ideas for the men in your life.',
+    filter: ->(p) { p.name.to_s.downcase.match?(/men|mens|him|his/) }
+  },
+  {
+    name: 'Gifts for Her',
+    slug: 'gifts-for-her',
+    description: 'Wonderful gift ideas for the women in your life.',
+    filter: ->(p) { p.name.to_s.downcase.match?(/women|womens|her|ladies/) }
+  },
+  {
+    name: 'Fashion Deals',
+    slug: 'fashion-deals',
+    description: 'Stylish fashion deals and clothing bargains.',
+    filter: ->(p) { (Array(p.categories) & %w[Fashion Clothing Apparel]).any? }
+  },
+  {
+    name: 'Home & Living',
+    slug: 'home-living-gifts',
+    description: 'Beautiful home, furniture and kitchen deals.',
+    filter: ->(p) { (Array(p.categories) & %w[Home Furniture Kitchen]).any? }
+  }
+]
+
+gift_guides.each do |guide|
+  filter_fn = guide.delete(:filter)
+  collection = Collection.find_or_create_by(slug: guide[:slug]) do |c|
+    c.assign_attributes(guide.merge(active: true))
+  end
+  collection.update(name: guide[:name], description: guide[:description])
+
+  if collection.collection_items.count < 5
+    products = Product.where(expired: false).order(deal_score: :desc).limit(200).select(&filter_fn).first(10)
+    products.each_with_index do |product, idx|
+      CollectionItem.find_or_create_by(collection: collection, product: product) do |ci|
+        ci.position = idx + 1
+      end
+    end
+  end
+end
+puts "Seeded gift guide collections"
+
+# Seed available_states on a random subset of products for demo
+AU_STATES = %w[NSW VIC QLD WA SA TAS ACT NT].freeze
+Product.order(created_at: :desc).limit(50).each_with_index do |product, i|
+  next if product.available_states.any? # skip already assigned
+  if i % 3 == 0 # every 3rd product gets a state restriction
+    states = AU_STATES.sample(rand(1..3))
+    product.update_columns(available_states: states)
+  end
+end
+puts "Seeded available_states on some products"

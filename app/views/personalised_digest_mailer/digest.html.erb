@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Your Personalised Deals</title></head>
+<body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <h1 style="color: #ea580c;">🎯 Your Personalised Deals</h1>
+  <% if @categories.any? %>
+    <p style="color: #666;">Deals matching: <strong><%= @categories.join(', ') %></strong></p>
+  <% end %>
+
+  <% @deals.each do |deal| %>
+    <div style="border: 1px solid #eee; border-radius: 8px; padding: 16px; margin-bottom: 12px;">
+      <h3 style="margin: 0 0 4px;"><%= deal.name %></h3>
+      <p style="color: #ea580c; font-size: 18px; font-weight: bold; margin: 0;">$<%= deal.price %></p>
+      <% if deal.old_price.to_f > 0 %>
+        <p style="color: #999; text-decoration: line-through; margin: 0;">Was $<%= deal.old_price %></p>
+      <% end %>
+      <p style="color: #666; margin: 4px 0;"><%= deal.store %></p>
+      <a href="<%= @site_url %>/deals/<%= deal.id %>" style="background: #ea580c; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; display: inline-block; margin-top: 8px;">View Deal</a>
+    </div>
+  <% end %>
+
+  <hr style="margin: 24px 0;">
+  <p style="color: #999; font-size: 12px;">
+    <a href="<%= @preferences_url %>">Update preferences</a> |
+    <a href="<%= @unsubscribe_url %>">Unsubscribe</a>
+  </p>
+</body>
+</html>

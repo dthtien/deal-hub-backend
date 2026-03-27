@@ -11,7 +11,7 @@ module Deals
       @categories = params[:categories]
       @query = params[:query]
       @brands = params[:brands]
-      @states = params[:states]
+      @states = params[:states] || (params[:state].present? ? { '0' => params[:state] } : nil)
       @order = params[:order] || {}
       @products = Product.none
       @with_order = with_order

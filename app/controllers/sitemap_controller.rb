@@ -5,6 +5,7 @@ class SitemapController < ApplicationController
   SITE_URL = 'https://www.ozvfy.com'
 
   def index
+    response.set_header('Cache-Control', 'public, max-age=86400')
     products   = Product.where(expired: false).select(:id, :updated_at).order(updated_at: :desc).limit(100)
     stores     = Product.distinct.pluck(:store).compact.sort
     categories = Product.where("array_length(categories, 1) > 0")
@@ -22,6 +23,7 @@ class SitemapController < ApplicationController
       ['/deals/new', 'hourly', '0.9'],
       ['/best-drops', 'hourly', '0.9'],
       ['/deals/expiring', 'hourly', '0.9'],
+      ['/deals/bundles', 'daily', '0.8'],
       ['/feed.xml', 'hourly', '0.8'],
       ['/sales-calendar', 'weekly', '0.7'],
       ['/coupons', 'weekly', '0.7'],

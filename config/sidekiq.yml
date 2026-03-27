@@ -39,5 +39,11 @@ pidfile: tmp/pids/sidekiq_development.pid
     recalculate_deal_scores:
       cron: "*/30 * * * *"
       class: "RecalculateDealScoresJob"
+    affiliate_health_check:
+      cron: "0 4 * * *"
+      class: "AffiliateHealthCheckJob"
+    personalised_digest:
+      cron: "0 22 * * *"
+      class: "PersonalisedDigestJob"
 
 

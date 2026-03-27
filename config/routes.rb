@@ -45,6 +45,7 @@ Rails.application.routes.draw do
     resources :deal_reports, only: %i[index]
     resources :webhooks, only: %i[index create destroy]
     resources :crawlers, only: %i[index]
+    get 'analytics', to: 'analytics#index'
     resources :subscribers, only: %i[index] do
       member do
         post :unsubscribe
@@ -70,10 +71,13 @@ Rails.application.routes.draw do
       post 'auth/login', to: 'auth#login'
       get  'auth/me', to: 'auth#me'
       resources :saved_deals, only: %i[index create destroy]
+      get 'deals/hot', to: 'deals#hot'
       get 'deals/deal_of_the_day', to: 'deals#deal_of_the_day'
       get 'deals/deal_of_the_week', to: 'deals#deal_of_the_week'
       get 'deals/flash', to: 'deals#flash_deals'
       get 'deals/compare', to: 'deals#compare'
+      get 'deals/bundles', to: 'deals#bundles'
+      get 'exchange_rates', to: 'exchange_rates#index'
       resources :store_follows, only: %i[index create destroy] do
         collection do
           get :deals
@@ -86,6 +90,8 @@ Rails.application.routes.draw do
           get :similar
           post :view
           post :report
+          get :ai_summary
+          post :share
         end
         collection do
           get :trending
@@ -97,6 +103,7 @@ Rails.application.routes.draw do
           get :recommended
           get :this_week
           get :deal_of_the_week
+          get :most_shared
         end
         resources :price_histories, only: :index
         resources :price_alerts, only: :create
@@ -116,6 +123,7 @@ Rails.application.routes.draw do
           post :use
         end
       end
+      get 'categories', to: 'categories#index'
       get 'categories/:name/top_deals', to: 'categories#top_deals', as: :category_top_deals
       get 'analytics/clicks', to: 'analytics#clicks'
       resources :deal_submissions, only: :create

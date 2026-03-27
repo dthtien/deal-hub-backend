@@ -2,11 +2,38 @@ module Api
   module V1
     class DealsController < ApplicationController
       def index
+        response.set_header('Cache-Control', 'public, max-age=60')
         service = Deals::Index.call(params)
+        currency = params[:currency].presence
 
         render json: {
-          products: service.paginate.collection,
+          products: service.paginate.collection.map { |p| p.as_json(currency: currency) },
           metadata: service.paginate.metadata
+        }
+      end
+
+      def bundles
+        page     = (params[:page] || 1).to_i
+        per_page = 20
+        offset   = (page - 1) * per_page
+        currency = params[:currency].presence
+
+        base = Product.where(expired: false)
+                      .where("name ~* 'bundle|pack|set|kit|combo'")
+                      .order(deal_score: :desc, created_at: :desc)
+
+        total    = base.count
+        products = base.limit(per_page).offset(offset)
+
+        render json: {
+          products: products.map { |p| p.as_json(currency: currency) },
+          metadata: {
+            page:           page,
+            per_page:       per_page,
+            total_count:    total,
+            total_pages:    (total.to_f / per_page).ceil,
+            show_next_page: offset + per_page < total
+          }
         }
       end
 
@@ -38,6 +65,7 @@ module Api
       end
 
       def show
+        response.set_header('Cache-Control', 'public, max-age=300, stale-while-revalidate=60')
         product = Product.find(params[:id])
         render json: product
       rescue ActiveRecord::RecordNotFound
@@ -56,6 +84,18 @@ module Api
         render json: { products: similar }
       rescue ActiveRecord::RecordNotFound
         render json: { error: 'Not found' }, status: :not_found
+      end
+
+      def hot
+        products = Rails.cache.fetch('hot_deals_v1', expires_in: 5.minutes) do
+          Product.where(expired: false)
+                 .includes(:votes, :click_trackings)
+                 .map { |p| [p, p.heat_index] }
+                 .sort_by { |_, hi| -hi }
+                 .first(20)
+                 .map { |p, _| p.as_json }
+        end
+        render json: { products: products }
       end
 
       def trending
@@ -318,6 +358,62 @@ module Api
 
         top = scored.sort_by { |_, s| -s }.first(20).map(&:first)
         render json: { products: top.map(&:as_json) }
+      end
+
+      def ai_summary
+        product = Product.find(params[:id])
+        analysis = product.ai_deal_analysis
+
+        if analysis&.fresh?
+          recommendation = analysis.recommendation
+          reasoning      = analysis.reasoning
+          confidence     = analysis.confidence&.downcase || 'medium'
+        else
+          discount = product.discount.to_f
+          if discount > 50
+            recommendation = 'BUY_NOW'
+            reasoning      = 'Exceptional deal — over 50% off. Buy now.'
+            confidence     = 'high'
+          elsif discount >= 25
+            recommendation = 'GOOD_DEAL'
+            reasoning      = 'Good deal. Price is well below RRP.'
+            confidence     = 'medium'
+          else
+            recommendation = 'WAIT'
+            reasoning      = 'Modest discount. Compare before buying.'
+            confidence     = 'low'
+          end
+        end
+
+        # Price context: lowest in 30 days
+        recent_prices = product.price_histories.where('recorded_at >= ?', 30.days.ago).pluck(:price)
+        price_context = if recent_prices.any? && product.price.to_f < recent_prices.min.to_f
+                          'Lowest price in 30 days'
+                        else
+                          nil
+                        end
+
+        render json: {
+          recommendation: recommendation,
+          reasoning:      reasoning,
+          confidence:     confidence,
+          price_context:  price_context
+        }
+      rescue ActiveRecord::RecordNotFound
+        render json: { error: 'Not found' }, status: :not_found
+      end
+
+      def share
+        product = Product.find(params[:id])
+        product.increment!(:share_count)
+        render json: { ok: true, share_count: product.share_count }
+      rescue ActiveRecord::RecordNotFound
+        render json: { error: 'Not found' }, status: :not_found
+      end
+
+      def most_shared
+        products = Product.where('share_count > 0').order(share_count: :desc).limit(20)
+        render json: { products: products.map(&:as_json) }
       end
 
       def redirect

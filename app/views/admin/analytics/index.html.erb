@@ -1,0 +1,99 @@
+<h1 class="text-2xl font-bold mb-6">Analytics Dashboard</h1>
+
+<div class="grid grid-cols-1 gap-8">
+
+  <!-- Daily New Products -->
+  <div class="bg-white rounded-xl shadow p-6">
+    <h2 class="text-lg font-semibold mb-4">Daily New Products (Last 30 Days)</h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full text-sm">
+        <thead><tr>
+          <% @daily_products.each do |d| %>
+            <th class="px-2 py-1 text-xs text-gray-500"><%= d[:date] %></th>
+          <% end %>
+        </tr></thead>
+        <tbody><tr>
+          <% @daily_products.each do |d| %>
+            <td class="px-2 py-1 text-center font-medium"><%= d[:count] %></td>
+          <% end %>
+        </tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Top Clicked & Top Viewed -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="bg-white rounded-xl shadow p-6">
+      <h2 class="text-lg font-semibold mb-4">Top 10 Most Clicked Deals</h2>
+      <ol class="space-y-2">
+        <% @top_clicked.each_with_index do |deal, i| %>
+          <li class="flex justify-between text-sm">
+            <span class="text-gray-700"><%= i+1 %>. <%= deal[:name].to_s.truncate(40) %> <span class="text-gray-400">(<%= deal[:store] %>)</span></span>
+            <span class="font-bold text-orange-600"><%= deal[:click_count] %> clicks</span>
+          </li>
+        <% end %>
+      </ol>
+    </div>
+
+    <div class="bg-white rounded-xl shadow p-6">
+      <h2 class="text-lg font-semibold mb-4">Top 10 Most Viewed Deals</h2>
+      <ol class="space-y-2">
+        <% @top_viewed.each_with_index do |deal, i| %>
+          <li class="flex justify-between text-sm">
+            <span class="text-gray-700"><%= i+1 %>. <%= deal[:name].to_s.truncate(40) %> <span class="text-gray-400">(<%= deal[:store] %>)</span></span>
+            <span class="font-bold text-blue-600"><%= deal[:view_count] %> views</span>
+          </li>
+        <% end %>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Subscriber Growth -->
+  <div class="bg-white rounded-xl shadow p-6">
+    <h2 class="text-lg font-semibold mb-4">Subscriber Growth (Last 30 Days)</h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full text-sm">
+        <thead><tr>
+          <% @subscriber_growth.each do |d| %>
+            <th class="px-2 py-1 text-xs text-gray-500"><%= d[:date] %></th>
+          <% end %>
+        </tr></thead>
+        <tbody><tr>
+          <% @subscriber_growth.each do |d| %>
+            <td class="px-2 py-1 text-center font-medium"><%= d[:count] %></td>
+          <% end %>
+        </tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Crawl Success Rate -->
+  <div class="bg-white rounded-xl shadow p-6">
+    <h2 class="text-lg font-semibold mb-4">Crawl Success Rate Per Store (Today)</h2>
+    <table class="min-w-full text-sm">
+      <thead>
+        <tr class="text-left text-gray-500 border-b">
+          <th class="py-2 pr-4">Store</th>
+          <th class="py-2 pr-4">Total Products</th>
+          <th class="py-2 pr-4">Updated Today</th>
+          <th class="py-2">Success Rate</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @crawl_stats.each do |s| %>
+          <tr class="border-b last:border-0">
+            <td class="py-2 pr-4 font-medium"><%= s[:store] %></td>
+            <td class="py-2 pr-4"><%= s[:total] %></td>
+            <td class="py-2 pr-4"><%= s[:updated_today] %></td>
+            <td class="py-2">
+              <span class="<%= s[:success_rate] >= 50 ? 'text-green-600' : 'text-red-500' %> font-bold">
+                <%= s[:success_rate] %>%
+              </span>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+</div>

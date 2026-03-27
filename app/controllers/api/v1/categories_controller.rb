@@ -3,6 +3,12 @@
 module Api
   module V1
     class CategoriesController < ApplicationController
+      def index
+        response.set_header('Cache-Control', 'public, max-age=3600')
+        categories = Product.where(expired: false).pluck('DISTINCT(categories)').flatten.uniq.compact.sort
+        render json: { categories: categories }
+      end
+
       def top_deals
         category = CGI.unescape(params[:name].to_s)
 

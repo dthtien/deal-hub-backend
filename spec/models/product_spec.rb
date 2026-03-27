@@ -24,6 +24,8 @@ RSpec.describe Product, :model, type: :model do
         store_url: nil,
         click_count: 0,
         deal_score: 0,
+        freshness_score: an_instance_of(Integer),
+        heat_index: 0,
         best_deal: false,
         price_trend: :stable,
         is_bundle: false,
@@ -32,7 +34,9 @@ RSpec.describe Product, :model, type: :model do
         ai_reasoning_short: nil,
         tags: [],
         image_urls: [],
-        price_prediction: nil
+        price_prediction: nil,
+        share_count: 0,
+        view_count: 0
       )
       expect(product.as_json).to match(expected)
     end
