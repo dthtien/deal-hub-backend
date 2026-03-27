@@ -51,5 +51,8 @@ pidfile: tmp/pids/sidekiq_development.pid
     category_alert_checker:
       cron: "55 6,9,12,15,18 * * *"
       class: "CategoryAlertCheckerJob"
+    weekly_store_report:
+      cron: "0 21 * * 0"
+      class: "WeeklyStoreReportJob"
 
 

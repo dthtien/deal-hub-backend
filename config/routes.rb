@@ -59,6 +59,7 @@ Rails.application.routes.draw do
     get 'analytics', to: 'analytics#index'
     get 'analytics/click_heatmap', to: 'analytics#click_heatmap', as: :admin_click_heatmap
     get 'analytics/affiliate', to: 'analytics#affiliate', as: :admin_affiliate_analytics
+    get 'reports/stores', to: 'reports#stores', as: :admin_reports_stores
     resources :notification_logs, only: %i[index]
     resources :subscribers, only: %i[index] do
       member do
@@ -95,6 +96,7 @@ Rails.application.routes.draw do
       get  'auth/me', to: 'auth#me'
       resources :saved_deals, only: %i[index create destroy]
       get 'deals/top_picks', to: 'deals#top_picks'
+      get 'deals/freshness_stats', to: 'deals#freshness_stats'
       get 'tags', to: 'tags#index'
       get 'deals/hot', to: 'deals#hot'
       get 'deals/fresh', to: 'deals#fresh'
@@ -191,7 +193,7 @@ Rails.application.routes.draw do
           post ':store_name/reviews', to: 'store_reviews#create', as: :create_store_review
         end
       end
-      resources :price_alerts, only: %i[destroy] do
+      resources :price_alerts, only: %i[destroy index] do
         collection do
           post :bulk
         end

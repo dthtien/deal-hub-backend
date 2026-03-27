@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body style="font-family: sans-serif; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <h2 style="color: #f97316;">🎉 Your Target Price Is Already Met!</h2>
+  <p>Good news! The deal you just set an alert for is already at or below your target price.</p>
+
+  <div style="background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 16px; margin: 16px 0;">
+    <p style="margin: 0 0 8px 0; font-weight: bold;"><%= @product.name.truncate(80) %></p>
+    <p style="margin: 0; font-size: 1.4em; color: #16a34a; font-weight: bold;">$<%= @product.price %></p>
+    <p style="margin: 4px 0 0 0; color: #666; font-size: 0.9em;">Your target: $<%= @alert.target_price %></p>
+  </div>
+
+  <a href="<%= @deal_url %>" style="display: inline-block; background: #f97316; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 8px;">
+    View Deal Now
+  </a>
+
+  <p style="margin-top: 24px; color: #999; font-size: 0.8em;">
+    You received this email because you set a price alert on <a href="<%= @site_url %>">OzVFY</a>.
+  </p>
+</body>
+</html>

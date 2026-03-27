@@ -627,6 +627,24 @@ module Api
       rescue ActiveRecord::RecordNotFound
         render json: { error: 'Product not found' }, status: :not_found
       end
+
+      def freshness_stats
+        now = Time.current
+        base = Product.where(expired: false)
+
+        ultra_fresh = base.where('created_at >= ?', 2.hours.ago).count
+        fresh       = base.where('created_at >= ? AND created_at < ?', 24.hours.ago, 2.hours.ago).count
+        recent      = base.where('created_at >= ? AND created_at < ?', 3.days.ago, 24.hours.ago).count
+        older       = base.where('created_at < ?', 3.days.ago).count
+
+        render json: {
+          ultra_fresh: ultra_fresh,
+          fresh: fresh,
+          recent: recent,
+          older: older,
+          as_of: now.iso8601
+        }
+      end
     end
   end
 end

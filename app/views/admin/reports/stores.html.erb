@@ -1,0 +1,55 @@
+<% content_for :title, "Store Performance Report" %>
+
+<h1 class="text-2xl font-bold text-gray-900 mb-2">Store Performance Report</h1>
+<p class="text-sm text-gray-500 mb-6">Showing stats for all <%= @store_stats.size %> stores as of <%= Time.current.strftime('%d %b %Y %H:%M') %></p>
+
+<div class="bg-white rounded-xl shadow-sm overflow-hidden">
+  <table class="w-full text-sm">
+    <thead class="bg-gray-50 border-b border-gray-200">
+      <tr>
+        <th class="text-left px-4 py-3 font-semibold text-gray-700">Store</th>
+        <th class="text-right px-4 py-3 font-semibold text-gray-700">Total</th>
+        <th class="text-right px-4 py-3 font-semibold text-gray-700">Active</th>
+        <th class="text-right px-4 py-3 font-semibold text-gray-700">Avg Discount</th>
+        <th class="text-right px-4 py-3 font-semibold text-gray-700">CTR</th>
+        <th class="text-right px-4 py-3 font-semibold text-gray-700">This Week</th>
+        <th class="text-right px-4 py-3 font-semibold text-gray-700">Last Week</th>
+        <th class="text-right px-4 py-3 font-semibold text-gray-700">Trend</th>
+        <th class="text-right px-4 py-3 font-semibold text-gray-700">Last Crawled</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-100">
+      <% @store_stats.each do |s| %>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-3 font-medium text-gray-900"><%= s[:store] %></td>
+          <td class="px-4 py-3 text-right text-gray-600"><%= number_with_delimiter(s[:total_products]) %></td>
+          <td class="px-4 py-3 text-right text-gray-600"><%= number_with_delimiter(s[:active_products]) %></td>
+          <td class="px-4 py-3 text-right">
+            <% if s[:avg_discount] > 0 %>
+              <span class="text-emerald-600 font-semibold"><%= s[:avg_discount] %>%</span>
+            <% else %>
+              <span class="text-gray-400">-</span>
+            <% end %>
+          </td>
+          <td class="px-4 py-3 text-right">
+            <span class="<%= s[:ctr] > 5 ? 'text-orange-500 font-semibold' : 'text-gray-600' %>">
+              <%= s[:ctr] %>%
+            </span>
+          </td>
+          <td class="px-4 py-3 text-right text-gray-600"><%= s[:this_week] %></td>
+          <td class="px-4 py-3 text-right text-gray-600"><%= s[:last_week] %></td>
+          <td class="px-4 py-3 text-right">
+            <% if s[:trend_diff] > 0 %>
+              <span class="text-emerald-600 font-semibold">+<%= s[:trend_diff] %> &#9650;</span>
+            <% elsif s[:trend_diff] < 0 %>
+              <span class="text-red-500 font-semibold"><%= s[:trend_diff] %> &#9660;</span>
+            <% else %>
+              <span class="text-gray-400">-</span>
+            <% end %>
+          </td>
+          <td class="px-4 py-3 text-right text-xs text-gray-400"><%= s[:last_crawled] %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

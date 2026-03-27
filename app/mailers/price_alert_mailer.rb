@@ -3,6 +3,18 @@
 class PriceAlertMailer < ApplicationMailer
   default from: ENV.fetch('MAILER_FROM', 'deals@ozvfy.com')
 
+  def already_met(alert, product)
+    @alert = alert
+    @product = product
+    @site_url = ENV.fetch('SITE_URL', 'https://www.ozvfy.com')
+    @deal_url = "#{@site_url}/deals/#{@product.id}"
+
+    mail(
+      to: @alert.email,
+      subject: "Your target price is already met for #{@product.name.truncate(50)}"
+    )
+  end
+
   def daily_digest(email, alerts)
     @email = email
     @alerts = alerts

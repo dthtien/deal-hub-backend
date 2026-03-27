@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body style="font-family: sans-serif; color: #333; max-width: 700px; margin: 0 auto; padding: 20px;">
+  <h2 style="color: #f97316;">OzVFY Weekly Store Report - <%= @generated_at %></h2>
+
+  <div style="background: #fff7ed; border: 1px solid #fdba74; border-radius: 8px; padding: 16px; margin-bottom: 24px;">
+    <p style="margin: 0; font-size: 1.2em;">Total active deals: <strong><%= number_with_delimiter(@total_deal_count) %></strong></p>
+  </div>
+
+  <h3>Top Stores by Clicks</h3>
+  <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+    <thead>
+      <tr style="background: #f9fafb;">
+        <th style="text-align: left; padding: 8px 12px; font-size: 0.85em; color: #6b7280;">Store</th>
+        <th style="text-align: right; padding: 8px 12px; font-size: 0.85em; color: #6b7280;">Clicks</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @top_stores.each do |store, clicks| %>
+        <tr style="border-top: 1px solid #f3f4f6;">
+          <td style="padding: 8px 12px;"><%= store %></td>
+          <td style="padding: 8px 12px; text-align: right; font-weight: bold; color: #f97316;"><%= number_with_delimiter(clicks) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <% if @zero_new_stores.any? %>
+    <h3 style="color: #dc2626;">Stores With No New Products This Week</h3>
+    <ul style="padding-left: 20px;">
+      <% @zero_new_stores.each do |store| %>
+        <li style="margin-bottom: 4px; color: #6b7280;"><%= store %></li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p style="color: #16a34a;">All stores added new products this week!</p>
+  <% end %>
+
+  <p style="margin-top: 32px; color: #9ca3af; font-size: 0.8em;">
+    View full report at <a href="<%= @site_url %>/admin/reports/stores"><%= @site_url %>/admin/reports/stores</a>
+  </p>
+</body>
+</html>

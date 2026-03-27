@@ -26,6 +26,7 @@ RSpec.describe Product, :model, type: :model do
         click_count: 0,
         deal_score: 0,
         freshness_score: an_instance_of(Integer),
+        recency_score: an_instance_of(Integer),
         heat_index: 0,
         aggregate_score: an_instance_of(Float),
         affiliate_network: an_instance_of(String),

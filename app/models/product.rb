@@ -141,6 +141,8 @@ class Product < ApplicationRecord
     end
   end
 
+  alias recency_score freshness_score
+
   def deal_score
     # Only score if we have a meaningful discount or price history
     has_discount = discount.to_f > 0
@@ -216,6 +218,7 @@ class Product < ApplicationRecord
       click_count:,
       deal_score:,
       freshness_score:,
+      recency_score:,
       view_count: view_count,
       share_count: share_count,
       heat_index: heat_index,

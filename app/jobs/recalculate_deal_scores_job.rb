@@ -25,15 +25,15 @@ class RecalculateDealScoresJob
     vote_ratio = total_votes > 0 ? upvotes.to_f / total_votes : 0
     vote_score = vote_ratio * 30
 
-    recency_bonus = product.created_at >= 24.hours.ago ? 10 : 0
-
+    price_drop_bonus = 0
     last_two = product.price_histories.order(recorded_at: :desc).limit(2).to_a
-    price_drop_bonus = if last_two.size >= 2 && last_two.first.price < last_two.last.price
-      5
-    else
-      0
+    if last_two.size >= 2 && last_two.first.price < last_two.last.price
+      price_drop_bonus = 5
     end
 
-    discount_score + vote_score + recency_bonus + price_drop_bonus
+    base_score = discount_score + vote_score + price_drop_bonus
+    recency = product.recency_score
+
+    (base_score * 0.7 + recency * 0.3).round(2)
   end
 end
