@@ -15,6 +15,9 @@ class JdSportsCrawler < ApplicationCrawler
     categories.each { |category| fetch_products_by_category(category) }
 
     self
+  rescue => e
+    Rails.logger.error "JdSportsCrawler error: #{e.message}"
+    self
   end
 
   private
@@ -22,8 +25,15 @@ class JdSportsCrawler < ApplicationCrawler
   attr_reader :brands, :categories
 
   def fetch_data(path)
-    response = client.get(path)
+    response = client.get(path) do |req|
+      req.headers['User-Agent'] = USER_AGENT
+      req.options.timeout = 15
+      req.options.open_timeout = 10
+    end
     Nokogiri::HTML(response.body)
+  rescue => e
+    Rails.logger.error "JdSportsCrawler fetch_data error for #{path}: #{e.message}"
+    Nokogiri::HTML('')
   end
 
   def fetch_page_details
@@ -43,8 +53,16 @@ class JdSportsCrawler < ApplicationCrawler
     document = fetch_data(category[:path])
     page_ids = document.css('#productListPagination a.pageLink').map { |a| a.attr('href') }
     page_ids.each do |page_id|
-      response = client.get("#{page_id}&AJAX=1")
-      @data += parse_items(response, category[:name])
+      begin
+        response = client.get("#{page_id}&AJAX=1") do |req|
+          req.headers['User-Agent'] = USER_AGENT
+          req.options.timeout = 15
+          req.options.open_timeout = 10
+        end
+        @data += parse_items(response, category[:name])
+      rescue => e
+        Rails.logger.error "JdSportsCrawler fetch page error: #{e.message}"
+      end
     end
   end
 

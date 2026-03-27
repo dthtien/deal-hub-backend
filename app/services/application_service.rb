@@ -149,6 +149,9 @@ class ApplicationService
     AiDealAnalysis.where(product_id: stale_ids).delete_all
     DealRating.where(product_id: stale_ids).delete_all
     CollectionItem.where(product_id: stale_ids).delete_all
+    DealReport.where(product_id: stale_ids).delete_all if defined?(DealReport)
+    SavedDeal.where(product_id: stale_ids).delete_all if defined?(SavedDeal)
+    DealOfDayHistory.where(product_id: stale_ids).delete_all if defined?(DealOfDayHistory)
     stale.delete_all
   end
 

@@ -24,6 +24,9 @@ class TheIconicCrawler < ApplicationCrawler
     categories.each { |category| fetch_products_by_category(category) }
 
     self
+  rescue => e
+    Rails.logger.error "TheIconicCrawler error: #{e.message}"
+    self
   end
 
   private
@@ -31,8 +34,15 @@ class TheIconicCrawler < ApplicationCrawler
   attr_reader :brands, :categories
 
   def fetch_data(path)
-    response = client.get(path, request_params)
+    response = client.get(path, request_params) do |req|
+      req.headers['User-Agent'] = USER_AGENT
+      req.options.timeout = 15
+      req.options.open_timeout = 10
+    end
     Nokogiri::HTML(response.body)
+  rescue => e
+    Rails.logger.error "TheIconicCrawler fetch_data error for #{path}: #{e.message}"
+    Nokogiri::HTML('')
   end
 
   def fetch_products_by_category(category)
@@ -43,9 +53,16 @@ class TheIconicCrawler < ApplicationCrawler
     current_page = 1
 
     while current_page <= total_pages
-      response = client.get(category[:path], request_params.merge(page: current_page))
-      @data += parse_items(response, category[:name])
-
+      begin
+        response = client.get(category[:path], request_params.merge(page: current_page)) do |req|
+          req.headers['User-Agent'] = USER_AGENT
+          req.options.timeout = 15
+          req.options.open_timeout = 10
+        end
+        @data += parse_items(response, category[:name])
+      rescue => e
+        Rails.logger.error "TheIconicCrawler page #{current_page} error: #{e.message}"
+      end
       current_page += 1
     end
   end
@@ -61,38 +78,41 @@ class TheIconicCrawler < ApplicationCrawler
     document = Nokogiri::HTML(response.body)
     document.css('.product').map do |product_element|
       parse_attributes(product_element).merge(categories: [category])
-    end
+    end.compact
   end
 
   def parse_attributes(element)
+    store_path_el = element.css('.product-image-link')
+    return nil if store_path_el.empty? || store_path_el.attr('href').nil?
+
     {
       store_product_id: element.attr('data-ti-track-product'),
-      store_path: element.css('.product-image-link').attr('href').value,
+      store_path: store_path_el.attr('href').value,
       image_url: parse_image_url(element),
       name: element.css('.name').text.strip,
-      old_price: element.css('.price.original').text.strip.gsub('$', '').to_f,
+      old_price: element.css('.price.original').text.strip.gsub(/[^0-9.]/, '').to_f,
       price: parse_price(element),
       brand: element.css('.brand').text.strip
     }
+  rescue => e
+    Rails.logger.error "TheIconicCrawler parse_attributes error: #{e.message}"
+    nil
   end
 
   def parse_price(element)
-    price = element.css('.price.final').text.strip.gsub('$', '').to_f
+    price = element.css('.price.final').text.strip.gsub(/[^0-9.]/, '').to_f
     return price if price.positive?
 
-    element.css('.price').text.strip.gsub('$', '').to_f
-  end
-
-  def parse_old_price(element)
-    price = element.css('.price.original').text.strip.gsub('$', '').to_f
-
-    price.positive? ? price : nil
+    element.css('.price').text.strip.gsub(/[^0-9.]/, '').to_f
   end
 
   def parse_image_url(element)
     first_image = element.css('.product-image-link img').first
+    return nil unless first_image
+
     url = first_image.attr('src') || first_image.attr('data-src')
-    return url if url.blank? || url.start_with?('data:image') || url.start_with?('http')
+    return nil if url.blank?
+    return url if url.start_with?('data:image') || url.start_with?('http')
 
     "https:#{url}"
   end

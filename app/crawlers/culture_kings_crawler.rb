@@ -57,8 +57,9 @@ class CultureKingsCrawler < ApplicationCrawler
 
   def client
     @client ||= Faraday.new(url: BASE_URL) do |f|
-      f.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
-      f.options.timeout = 20
+      f.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+      f.options.timeout = 15
+      f.options.open_timeout = 10
       f.adapter Faraday.default_adapter
     end
   end

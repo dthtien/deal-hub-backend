@@ -37,7 +37,7 @@ class MyerCrawler < ApplicationCrawler
       @total_pages = all_pages > MAX_PAGES ? MAX_PAGES : all_pages
     end
 
-    @data += result['productList'] if result['productList']
+    result['productList'] || []
   end
 
   def fetch_list
