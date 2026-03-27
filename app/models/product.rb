@@ -96,6 +96,14 @@ class Product < ApplicationRecord
     price.to_f <= avg * 0.80
   end
 
+  def ai_recommendation
+    ai_deal_analysis&.recommendation
+  end
+
+  def ai_reasoning_short
+    ai_deal_analysis&.reasoning&.truncate(120)
+  end
+
   def deal_score
     # Only score if we have a meaningful discount or price history
     has_discount = discount.to_f > 0
@@ -132,9 +140,9 @@ class Product < ApplicationRecord
       tags: tags || [],
       price_trend: price_trend,
       is_bundle: name.to_s.downcase.match?(/bundle|pack|set|combo|kit/),
-      ai_recommendation: ai_deal_analysis&.recommendation,
+      ai_recommendation: ai_recommendation,
       ai_confidence: ai_deal_analysis&.confidence,
-      ai_reasoning_short: ai_deal_analysis&.reasoning&.split('.')&.first,
+      ai_reasoning_short: ai_reasoning_short,
       'discount' => discount.to_f,
       'old_price' => old_price.to_f,
       'price' => price.to_f,
