@@ -45,6 +45,7 @@ Rails.application.routes.draw do
     resources :deal_reports, only: %i[index]
     resources :webhooks, only: %i[index create destroy]
     resources :crawlers, only: %i[index]
+    resources :crawl_logs, only: %i[index]
     get 'analytics', to: 'analytics#index'
     resources :subscribers, only: %i[index] do
       member do

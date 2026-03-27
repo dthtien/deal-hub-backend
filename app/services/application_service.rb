@@ -32,7 +32,7 @@ class ApplicationService
       crawled_at:        Time.current
     )
   rescue => e
-    Rails.logger.error "wrap_with_crawl_log — failed to save CrawlLog: #{e.message}"
+    Rails.logger.error "wrap_with_crawl_log - failed to save CrawlLog: #{e.message}"
   end
 
   # Upsert products one-by-one so we can detect price changes and record history.

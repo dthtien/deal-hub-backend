@@ -1,0 +1,59 @@
+<% content_for :title, "Crawl Logs" %>
+
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-2xl font-bold text-gray-900">Crawl Logs</h1>
+</div>
+
+<div class="bg-white rounded-xl shadow-sm overflow-hidden">
+  <table class="w-full text-sm">
+    <thead class="bg-gray-50 border-b border-gray-200">
+      <tr>
+        <th class="px-4 py-3 text-left font-semibold text-gray-700">Store</th>
+        <th class="px-4 py-3 text-right font-semibold text-gray-700">Products Found</th>
+        <th class="px-4 py-3 text-right font-semibold text-gray-700">New</th>
+        <th class="px-4 py-3 text-right font-semibold text-gray-700">Updated</th>
+        <th class="px-4 py-3 text-right font-semibold text-gray-700">Duration (s)</th>
+        <th class="px-4 py-3 text-left font-semibold text-gray-700">Crawled At</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-100">
+      <% @crawl_logs.each do |log| %>
+        <%
+          new_class = if log.products_new.to_i > 10
+            'text-green-700 bg-green-50 font-bold'
+          elsif log.products_new.to_i >= 1
+            'text-amber-700 bg-amber-50 font-semibold'
+          else
+            'text-gray-400'
+          end
+        %>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-3 font-medium text-gray-900"><%= log.store %></td>
+          <td class="px-4 py-3 text-right text-gray-700"><%= number_with_delimiter(log.products_found) %></td>
+          <td class="px-4 py-3 text-right">
+            <span class="px-2 py-0.5 rounded-lg <%= new_class %>"><%= log.products_new %></span>
+          </td>
+          <td class="px-4 py-3 text-right text-gray-700"><%= log.products_updated %></td>
+          <td class="px-4 py-3 text-right text-gray-500"><%= log.duration_seconds&.round(2) %></td>
+          <td class="px-4 py-3 text-gray-500"><%= log.crawled_at&.strftime('%d %b %Y %H:%M') %></td>
+        </tr>
+      <% end %>
+      <% if @crawl_logs.empty? %>
+        <tr>
+          <td colspan="6" class="px-4 py-8 text-center text-gray-400">No crawl logs yet</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<% if @crawl_logs.respond_to?(:total_pages) && @crawl_logs.total_pages > 1 %>
+  <div class="mt-4 flex gap-2 text-sm">
+    <% if @crawl_logs.prev_page %>
+      <%= link_to '← Previous', admin_crawl_logs_path(page: @crawl_logs.prev_page), class: 'px-3 py-1 bg-white border border-gray-300 rounded-lg hover:bg-gray-50' %>
+    <% end %>
+    <% if @crawl_logs.next_page %>
+      <%= link_to 'Next →', admin_crawl_logs_path(page: @crawl_logs.next_page), class: 'px-3 py-1 bg-white border border-gray-300 rounded-lg hover:bg-gray-50' %>
+    <% end %>
+  </div>
+<% end %>
