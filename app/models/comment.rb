@@ -1,7 +1,7 @@
 class Comment < ApplicationRecord
   belongs_to :product
 
-  validates :body, presence: true
+  validates :body, presence: true, length: { maximum: 1000 }
 
   before_validation :set_default_name
 

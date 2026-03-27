@@ -7,6 +7,8 @@ module Api
         render json: comments.map { |c|
           { id: c.id, name: c.name, body: c.body, session_id: c.session_id, created_at: c.created_at }
         }
+      rescue ActiveRecord::RecordNotFound
+        render json: { error: 'Not found' }, status: :not_found
       end
 
       def create
@@ -17,6 +19,8 @@ module Api
         else
           render json: { errors: comment.errors.full_messages }, status: :unprocessable_entity
         end
+      rescue ActiveRecord::RecordNotFound
+        render json: { error: 'Not found' }, status: :not_found
       end
 
       private
