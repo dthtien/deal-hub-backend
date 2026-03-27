@@ -63,7 +63,7 @@ module Api
           }
         end
 
-        render json: stores
+        render json: { stores: stores }
       end
 
       def compare
