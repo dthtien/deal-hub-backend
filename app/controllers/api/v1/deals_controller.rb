@@ -247,6 +247,22 @@ module Api
         render json: { error: 'Not found' }, status: :not_found
       end
 
+      def report
+        product = Product.find(params[:id])
+        reason  = params[:reason].to_s
+        valid_reasons = %w[expired wrong_price spam broken_link]
+
+        unless valid_reasons.include?(reason)
+          return render json: { error: "Invalid reason" }, status: :unprocessable_entity
+        end
+
+        DealReport.create!(product: product, reason: reason, session_id: params[:session_id])
+        report_count = product.deal_reports.count
+        render json: { ok: true, report_count: report_count }, status: :created
+      rescue ActiveRecord::RecordNotFound
+        render json: { error: 'Deal not found' }, status: :not_found
+      end
+
       def recommended
         prefs = begin
           JSON.parse(params[:preferences].to_s)

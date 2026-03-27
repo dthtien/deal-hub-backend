@@ -84,6 +84,7 @@ Rails.application.routes.draw do
           get :redirect
           get :similar
           post :view
+          post :report
         end
         collection do
           get :trending
@@ -95,11 +96,6 @@ Rails.application.routes.draw do
           get :recommended
           get :this_week
           get :deal_of_the_week
-        end
-        member do
-          get :redirect
-          get :similar
-          post :report
         end
         resources :price_histories, only: :index
         resources :price_alerts, only: :create
