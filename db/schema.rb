@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_27_065318) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_27_070603) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -189,6 +189,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_27_065318) do
     t.boolean "flash_deal", default: false
     t.datetime "flash_expires_at"
     t.jsonb "specifications", default: {}
+    t.string "currency", default: "AUD"
+    t.integer "share_count", default: 0, null: false
     t.index ["brand"], name: "products_brand_gin_index", opclass: :gin_trgm_ops, using: :gin
     t.index ["categories"], name: "index_products_on_categories", using: :gin
     t.index ["deal_score"], name: "index_products_on_deal_score"
@@ -265,6 +267,16 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_27_065318) do
     t.string "plate_state"
     t.boolean "acknowledged"
     t.index ["user_id"], name: "index_quotes_on_user_id"
+  end
+
+  create_table "referrals", force: :cascade do |t|
+    t.string "code", null: false
+    t.string "session_id"
+    t.integer "click_count", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_referrals_on_code", unique: true
+    t.index ["session_id"], name: "index_referrals_on_session_id"
   end
 
   create_table "saved_deals", force: :cascade do |t|

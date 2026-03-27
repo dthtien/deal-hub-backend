@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get "sitemap_index.xml" => "sitemap#sitemap_index", defaults: { format: :xml }
   get "sitemap_deals.xml" => "sitemap#sitemap_deals", defaults: { format: :xml }
   get "sitemap_stores.xml"=> "sitemap#sitemap_stores",defaults: { format: :xml }
+  get "r/:code" => "referrals#redirect", as: :referral_redirect
   get "feed.xml"    => "feed#index"
   get "robots.txt"  => "robots#index", defaults: { format: :text }
 
@@ -142,8 +143,18 @@ Rails.application.routes.draw do
       resources :stores, only: :index do
         collection do
           get ':name/deals', to: 'stores#deals', as: :store_deals
+          get 'compare', to: 'stores#compare'
         end
       end
+      resources :price_alerts, only: %i[destroy] do
+        collection do
+          post :bulk
+        end
+      end
+      get 'activity', to: 'activity#index'
+      namespace :referrals do
+      end
+      get 'referrals/link', to: 'referrals#link'
       namespace :insurances do
         resources :quotes, only: %w[create show]
         resources :addresses, only: :index

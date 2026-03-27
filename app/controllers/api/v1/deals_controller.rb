@@ -59,16 +59,37 @@ module Api
       end
 
       def trending
-        # Top clicked products in last 7 days
-        trending = ClickTracking
-          .where(clicked_at: 7.days.ago..)
-          .joins(:product)
-          .select('products.*, COUNT(click_trackings.id) as click_count')
-          .group('products.id')
-          .order('click_count DESC')
-          .limit(10)
+        products = Rails.cache.fetch('trending_deals_v2', expires_in: 10.minutes) do
+          since = 24.hours.ago
 
-        render json: { products: trending }
+          view_counts = Product.where(expired: false)
+                               .select(:id, :view_count)
+                               .index_by(&:id)
+
+          click_counts = ClickTracking.where(clicked_at: since..)
+                                      .group(:product_id)
+                                      .count
+
+          upvote_counts = Vote.where(vote_type: 'up', created_at: since..)
+                              .group(:product_id)
+                              .count
+
+          scored_ids = (click_counts.keys | upvote_counts.keys).uniq
+          return [] if scored_ids.empty?
+
+          scored = scored_ids.map do |pid|
+            vc = view_counts[pid]&.view_count.to_f
+            uc = upvote_counts[pid].to_f
+            cc = click_counts[pid].to_f
+            score = vc * 0.3 + uc * 0.5 + cc * 0.2
+            [pid, score]
+          end
+
+          top_ids = scored.sort_by { |_, s| -s }.first(20).map(&:first)
+          Product.where(id: top_ids, expired: false).map(&:as_json)
+        end
+
+        render json: { products: products }
       end
 
       def best_drops

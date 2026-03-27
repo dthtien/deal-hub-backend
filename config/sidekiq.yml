@@ -36,5 +36,8 @@ pidfile: tmp/pids/sidekiq_development.pid
     prune_old_price_histories:
       cron: "0 3 * * 0"
       class: "PruneOldPriceHistoriesJob"
+    recalculate_deal_scores:
+      cron: "*/30 * * * *"
+      class: "RecalculateDealScoresJob"
 
 

@@ -108,6 +108,37 @@ class Product < ApplicationRecord
     ai_deal_analysis&.reasoning&.truncate(120)
   end
 
+  EXCHANGE_RATES = {
+    'AUD' => 1.0,
+    'USD' => 0.64,
+    'GBP' => 0.51,
+    'EUR' => 0.59,
+    'NZD' => 1.08
+  }.freeze
+
+  CURRENCY_SYMBOLS = {
+    'AUD' => 'A$',
+    'USD' => '$',
+    'GBP' => '£',
+    'EUR' => '€',
+    'NZD' => 'NZ$'
+  }.freeze
+
+  def freshness_score
+    age = Time.current - created_at
+    if age < 1.hour
+      100
+    elsif age < 6.hours
+      80
+    elsif age < 24.hours
+      60
+    elsif age < 3.days
+      40
+    else
+      20
+    end
+  end
+
   def deal_score
     # Only score if we have a meaningful discount or price history
     has_discount = discount.to_f > 0
@@ -119,6 +150,7 @@ class Product < ApplicationRecord
     score += (discount.to_f / 10).clamp(0, 5)
     score += click_count > 10 ? 2 : (click_count.to_f / 5).clamp(0, 2)
     score += best_deal? ? 3 : 0
+    score += (freshness_score / 100.0).clamp(0, 2)
     score.round.clamp(1, 10)
   end
 

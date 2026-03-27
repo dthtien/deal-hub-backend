@@ -20,6 +20,30 @@ module Api
         render json: stores
       end
 
+      def compare
+        store_names = Array(params[:stores]).first(3).map { |s| URI.decode_www_form_component(s.to_s) }
+        if store_names.size < 2
+          return render json: { error: 'Provide 2-3 store names' }, status: :unprocessable_entity
+        end
+
+        result = store_names.map do |store|
+          products = Product.where(store: store, expired: false)
+          total = products.count
+          avg_discount = products.where('discount > 0').average(:discount)&.to_f&.round(1) || 0.0
+          best = products.order(discount: :desc).first
+          prices = products.where('price IS NOT NULL').pluck(:price).map(&:to_f)
+          {
+            store: store,
+            total_deals: total,
+            avg_discount: avg_discount,
+            best_deal: best&.as_json,
+            price_range: prices.any? ? { min: prices.min.round(2), max: prices.max.round(2) } : nil
+          }
+        end
+
+        render json: { comparison: result }
+      end
+
       def deals
         store_name = URI.decode_www_form_component(params[:name])
         page = (params[:page] || 1).to_i
