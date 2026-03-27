@@ -19,7 +19,8 @@ class Product < ApplicationRecord
     BOOKING_COM = 'Booking.com',
     GOOD_BUYZ = 'Good Buyz',
     BEGINNING_BOUTIQUE = 'Beginning Boutique',
-    UNIVERSAL_STORE = 'Universal Store'
+    UNIVERSAL_STORE = 'Universal Store',
+    LORNA_JANE = 'Lorna Jane'
   ].freeze
 
   has_many :click_trackings, dependent: :destroy
@@ -192,6 +193,8 @@ class Product < ApplicationRecord
       "https://www.universalstore.com.au#{store_path}"
     when BEGINNING_BOUTIQUE
       "https://beginningboutique.com.au#{store_path}"
+    when LORNA_JANE
+      "https://www.lornajane.com.au#{store_path}"
     end
   end
 end

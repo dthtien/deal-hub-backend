@@ -19,7 +19,8 @@ module Crawlers
         Product::BOOKING_COM => Crawlers::BookingComJob,
         Product::GOOD_BUYZ => Crawlers::GoodBuyzJob,
         Product::BEGINNING_BOUTIQUE => Crawlers::BeginningBoutiqueJob,
-        Product::UNIVERSAL_STORE => Crawlers::UniversalStoreJob
+        Product::UNIVERSAL_STORE => Crawlers::UniversalStoreJob,
+        Product::LORNA_JANE => Crawlers::LornaJaneJob
       }
 
       Product::STORES.each do |store|
