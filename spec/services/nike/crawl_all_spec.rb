@@ -31,7 +31,7 @@ RSpec.describe Nike::CrawlAll do
             title: 'Product 1',
             price: { currentPrice: 150 },
             id: product1.store_product_id,
-            images: { portraitURL: 'image.jpg' },
+            images: { portraitURL: 'https://example.com/image.jpg' },
             url: '{countryLang}/seo-path',
             subtitle: 'description',
             productType: 'category'
@@ -40,7 +40,7 @@ RSpec.describe Nike::CrawlAll do
             title: 'Product 2',
             price: { currentPrice: 200 },
             id: '111111',
-            images: { portraitURL: 'image.jpg' },
+            images: { portraitURL: 'https://example.com/image.jpg' },
             url: 'seo-path-2',
             subtitle: 'description',
             productType: 'category'
@@ -49,7 +49,7 @@ RSpec.describe Nike::CrawlAll do
             title: 'Product bra 5',
             price: { currentPrice: 200 },
             id: '1111119',
-            images: { portraitURL: 'image.jpg' },
+            images: { portraitURL: 'https://example.com/image.jpg' },
             url: 'seo-path-2',
             subtitle: 'description',
             productType: 'category'

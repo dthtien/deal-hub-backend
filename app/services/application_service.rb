@@ -23,20 +23,22 @@ class ApplicationService
     yield
   ensure
     duration = Time.current - start_time
-    CrawlLog.create!(
-      store:             store,
-      products_found:    @crawl_products_found.to_i,
-      products_new:      @crawl_products_new.to_i,
-      products_updated:  @crawl_products_updated.to_i,
-      duration_seconds:  duration.round(2),
-      crawled_at:        Time.current
-    )
-  rescue => e
-    Rails.logger.error "wrap_with_crawl_log - failed to save CrawlLog: #{e.message}"
+    begin
+      CrawlLog.create!(
+        store:             store,
+        products_found:    @crawl_products_found.to_i,
+        products_new:      @crawl_products_new.to_i,
+        products_updated:  @crawl_products_updated.to_i,
+        duration_seconds:  duration.round(2),
+        crawled_at:        Time.current
+      )
+    rescue => e
+      Rails.logger.error "wrap_with_crawl_log - failed to save CrawlLog: #{e.message}"
+    end
   end
 
   # Upsert products one-by-one so we can detect price changes and record history.
-  # Slower than upsert_all but correct — acceptable since crawls run infrequently.
+  # Slower than upsert_all but correct - acceptable since crawls run infrequently.
   def upsert_with_price_history(attributes_list, store:)
     skipped_image_count = 0
     @crawl_products_found = attributes_list.size
@@ -48,9 +50,9 @@ class ApplicationService
         image = "https:#{image}"
         attrs[:image_url] = image
       end
-      if image.blank? || !image.start_with?('http')
+      if image.present? && !image.start_with?('http')
         skipped_image_count += 1
-        Rails.logger.info "upsert_with_price_history — skipping product with invalid image_url: #{attrs[:store_product_id]}"
+        Rails.logger.info "upsert_with_price_history - skipping product with invalid image_url: #{attrs[:store_product_id]}"
         next
       end
 

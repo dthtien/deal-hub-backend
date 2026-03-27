@@ -32,7 +32,7 @@ RSpec.describe JdSports::CrawlAll do
             price: 150,
             old_price: 200,
             store_product_id: product1.store_product_id,
-            image_url: 'image.jpg',
+            image_url: 'https://example.com/image.jpg',
             store_path: '/seo-path',
             categories: ['category']
           }.with_indifferent_access,
@@ -41,7 +41,7 @@ RSpec.describe JdSports::CrawlAll do
             price: 200,
             old_price: 250,
             store_product_id: '111111',
-            image_url: 'image.jpg',
+            image_url: 'https://example.com/image.jpg',
             store_path: 'seo-path-2',
             categories: ['category']
           }.with_indifferent_access,
@@ -50,7 +50,7 @@ RSpec.describe JdSports::CrawlAll do
             price: 200,
             old_price: 250,
             store_product_id: '1111119',
-            image_url: 'image.jpg',
+            image_url: 'https://example.com/image.jpg',
             store_path: 'seo-path-2',
             categories: ['category']
           }.with_indifferent_access

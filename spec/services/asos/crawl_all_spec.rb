@@ -32,7 +32,7 @@ describe Asos::CrawlAll, :crawler do
             price: { current: { value: 150 }, previous: { value: 200 } },
             id: product1.store_product_id,
             brandName: 'brand',
-            imageUrl: 'image.jpg',
+            imageUrl: 'https://example.com/image.jpg',
             url: 'seo-path'
           }.with_indifferent_access,
           {
@@ -40,7 +40,7 @@ describe Asos::CrawlAll, :crawler do
             price: { current: { value: 200 }, previous: { value: 250 } },
             id: '111111',
             brandName: 'brand',
-            imageUrl: 'image.jpg',
+            imageUrl: 'https://example.com/image.jpg',
             url: 'seo-path-2',
           }.with_indifferent_access,
           {
@@ -48,7 +48,7 @@ describe Asos::CrawlAll, :crawler do
             price: { current: { value: 200 }, previous: { value: 250 } },
             id: '1111112',
             brandName: 'brand',
-            imageUrl: 'image.jpg',
+            imageUrl: 'https://example.com/image.jpg',
             url: 'seo-path-3',
           }.with_indifferent_access,
           {
@@ -56,7 +56,7 @@ describe Asos::CrawlAll, :crawler do
             price: { current: { value: 200 }, previous: { value: 250 } },
             id: '1111112',
             brandName: 'brand',
-            imageUrl: 'image.jpg',
+            imageUrl: 'https://example.com/image.jpg',
             url: 'seo-path-4',
           }.with_indifferent_access
         ]

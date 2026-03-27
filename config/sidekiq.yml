@@ -45,5 +45,8 @@ pidfile: tmp/pids/sidekiq_development.pid
     personalised_digest:
       cron: "0 22 * * *"
       class: "PersonalisedDigestJob"
+    daily_alert_digest:
+      cron: "0 23 * * *"
+      class: "DailyAlertDigestJob"
 
 

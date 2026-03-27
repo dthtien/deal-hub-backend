@@ -91,8 +91,14 @@ class SitemapController < ApplicationController
     xml = String.new("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
     xml << "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n"
 
+    # Get lastmod per store (max updated_at of its products)
+    store_lastmod = Product.where(store: stores)
+                           .group(:store)
+                           .maximum(:updated_at)
+
     stores.each do |store|
-      xml << "  <url><loc>#{SITE_URL}/stores/#{CGI.escape(store)}</loc><changefreq>daily</changefreq><priority>0.7</priority></url>\n"
+      lastmod = store_lastmod[store]&.strftime('%Y-%m-%d') || Date.today.to_s
+      xml << "  <url><loc>#{SITE_URL}/stores/#{CGI.escape(store)}</loc><lastmod>#{lastmod}</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>\n"
     end
     categories.each do |cat|
       xml << "  <url><loc>#{SITE_URL}/categories/#{CGI.escape(cat)}</loc><changefreq>daily</changefreq><priority>0.6</priority></url>\n"

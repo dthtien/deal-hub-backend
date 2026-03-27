@@ -33,7 +33,7 @@ RSpec.describe TheGoodGuys::CrawlAll do
             '150',
             '200',
             'brand',
-            'image.jpg',
+            'https://example.com/image.jpg',
             'seo-path',
             'category'
           ),
@@ -43,7 +43,7 @@ RSpec.describe TheGoodGuys::CrawlAll do
             '200',
             '250',
             'brand',
-            'image.jpg',
+            'https://example.com/image.jpg',
             'seo-path-2',
             'category'
           ),
@@ -53,7 +53,7 @@ RSpec.describe TheGoodGuys::CrawlAll do
             '200',
             '250',
             'brand',
-            'image.jpg',
+            'https://example.com/image.jpg',
             'seo-path-3',
             'category'
           )

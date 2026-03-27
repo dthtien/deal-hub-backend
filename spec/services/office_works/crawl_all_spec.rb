@@ -33,7 +33,7 @@ describe OfficeWorks::CrawlAll, :crawler do
             sku: product1.store_product_id,
             brand: 'brand',
             availState: ['NSW'],
-            image: 'image.jpg',
+            image: 'https://example.com/image.jpg',
             seoPath: 'seo-path',
             descriptionShort: 'description',
             categories: ['category']
@@ -44,7 +44,7 @@ describe OfficeWorks::CrawlAll, :crawler do
             sku: '111111',
             brand: 'brand',
             availState: ['VIC'],
-            image: 'image.jpg',
+            image: 'https://example.com/image.jpg',
             seoPath: 'seo-path-2',
             descriptionShort: 'description',
             categories: ['category']

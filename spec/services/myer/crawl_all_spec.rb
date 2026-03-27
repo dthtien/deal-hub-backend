@@ -29,7 +29,7 @@ RSpec.describe Myer::CrawlAll do
           priceFrom: 150,
           listPriceFrom: 200,
           id: product1.store_product_id,
-          media: [{ 'baseUrl' => 'image.jpg' }],
+          media: [{ 'baseUrl' => 'https://example.com/image.jpg' }],
           seoToken: '/seo-path',
           merchCategory: 'category'
         }.with_indifferent_access,
@@ -38,7 +38,7 @@ RSpec.describe Myer::CrawlAll do
           priceFrom: 200,
           listPriceFrom: 250,
           id: '111111',
-          media: [{ 'baseUrl' => 'image.jpg' }],
+          media: [{ 'baseUrl' => 'https://example.com/image.jpg' }],
           seoToken: 'seo-path-2',
           merchCategory: 'category'
         }.with_indifferent_access,
@@ -47,7 +47,7 @@ RSpec.describe Myer::CrawlAll do
           priceFrom: 200,
           listPriceFrom: 250,
           id: '1111119',
-          media: [{ 'baseUrl' => 'image.jpg' }],
+          media: [{ 'baseUrl' => 'https://example.com/image.jpg' }],
           seoToken: 'seo-path-3',
           merchCategory: 'category'
         }.with_indifferent_access

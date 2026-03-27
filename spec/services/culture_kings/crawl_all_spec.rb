@@ -34,7 +34,7 @@ describe CultureKings::CrawlAll, :crawler do
             'vendor' => 'brand',
             'handle' => 'seo-path',
             'tags' => ['category', 'sub-category'],
-            'images' => [{ 'src' => 'image.jpg' }],
+            'images' => [{ 'src' => 'https://example.com/image.jpg' }],
             'variants' => [{ 'price' => '150.0', 'compare_at_price' => '200.0' }]
           },
           {
@@ -43,7 +43,7 @@ describe CultureKings::CrawlAll, :crawler do
             'vendor' => 'brand',
             'handle' => 'seo-path-2',
             'tags' => ['category'],
-            'images' => [{ 'src' => 'image.jpg' }],
+            'images' => [{ 'src' => 'https://example.com/image.jpg' }],
             'variants' => [{ 'price' => '200.0', 'compare_at_price' => '250.0' }]
           },
           {
@@ -52,7 +52,7 @@ describe CultureKings::CrawlAll, :crawler do
             'vendor' => 'brand',
             'handle' => 'seo-path-3',
             'tags' => ['category'],
-            'images' => [{ 'src' => 'image.jpg' }],
+            'images' => [{ 'src' => 'https://example.com/image.jpg' }],
             'variants' => [{ 'price' => '200.0', 'compare_at_price' => '250.0' }]
           },
           {
@@ -61,7 +61,7 @@ describe CultureKings::CrawlAll, :crawler do
             'vendor' => 'brand',
             'handle' => 'seo-path-4',
             'tags' => ['category'],
-            'images' => [{ 'src' => 'image.jpg' }],
+            'images' => [{ 'src' => 'https://example.com/image.jpg' }],
             'variants' => [{ 'price' => '200.0', 'compare_at_price' => '400.0' }]
           }
         ]

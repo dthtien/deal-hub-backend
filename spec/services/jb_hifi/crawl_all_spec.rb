@@ -32,7 +32,7 @@ RSpec.describe JbHifi::CrawlAll do
             pricing: { displayPriceInc: 150, wasPrice: 200 },
             sku: product1.store_product_id,
             product: { brand: 'brand' },
-            product_image: 'image.jpg',
+            product_image: 'https://example.com/image.jpg',
             handle: 'seo-path',
             display: { keyFeatures: ['description'] },
             category_hierarchy: ['category']
@@ -42,7 +42,7 @@ RSpec.describe JbHifi::CrawlAll do
             pricing: { displayPriceInc: 200 },
             sku: '111111',
             product: { brand: 'brand' },
-            product_image: 'image.jpg',
+            product_image: 'https://example.com/image.jpg',
             handle: 'seo-path-2',
             display: { keyFeatures: ['description'] },
             category_hierarchy: ['category']
@@ -52,7 +52,7 @@ RSpec.describe JbHifi::CrawlAll do
             pricing: { displayPriceInc: 200 },
             sku: '',
             product: { brand: 'brand', id: '111112' },
-            product_image: 'image.jpg',
+            product_image: 'https://example.com/image.jpg',
             handle: 'seo-path-3',
             display: { keyFeatures: ['description'] },
             category_hierarchy: ['category']
@@ -62,7 +62,7 @@ RSpec.describe JbHifi::CrawlAll do
             pricing: { displayPriceInc: 200 },
             sku: '',
             product: { brand: 'brand', id: '111113' },
-            product_image: 'image.jpg',
+            product_image: 'https://example.com/image.jpg',
             handle: 'seo-path-3',
             display: { keyFeatures: ['description'] },
             category_hierarchy: ['merchandise']
@@ -72,7 +72,7 @@ RSpec.describe JbHifi::CrawlAll do
             pricing: { displayPriceInc: 200 },
             sku: '1111115',
             product: { brand: 'brand' },
-            product_image: 'image.jpg',
+            product_image: 'https://example.com/image.jpg',
             handle: 'seo-path-3',
             display: { keyFeatures: ['description'] },
             category_hierarchy: ['figurines']

@@ -33,7 +33,7 @@ describe GlueStore::CrawlAll, :crawler do
             compare_at_price: 200,
             sku: product1.store_product_id,
             vendor: 'brand',
-            product_image: 'image.jpg',
+            product_image: 'https://example.com/image.jpg',
             handle: 'seo-path',
             body_html_safe: 'description',
             tags: ['category', '1234142', 'category|sub-category']
@@ -43,7 +43,7 @@ describe GlueStore::CrawlAll, :crawler do
             price: 200,
             sku: '111111',
             vendor: 'brand',
-            product_image: 'image.jpg',
+            product_image: 'https://example.com/image.jpg',
             handle: 'seo-path-2',
             body_html_safe: 'description',
             tags: ['category']
@@ -53,7 +53,7 @@ describe GlueStore::CrawlAll, :crawler do
             price: 200,
             sku: '1111112',
             vendor: 'brand',
-            product_image: 'image.jpg',
+            product_image: 'https://example.com/image.jpg',
             handle: 'seo-path-3',
             body_html_safe: 'description',
             tags: ['category']
@@ -63,7 +63,7 @@ describe GlueStore::CrawlAll, :crawler do
             price: 200,
             sku: '1111112',
             vendor: 'brand',
-            product_image: 'image.jpg',
+            product_image: 'https://example.com/image.jpg',
             handle: 'seo-path-3',
             body_html_safe: 'description',
             tags: ['Swimwear']
