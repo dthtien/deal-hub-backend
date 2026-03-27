@@ -24,5 +24,11 @@ pidfile: tmp/pids/sidekiq_development.pid
     price_drop_notifier:
       cron: "45 6,9,12,15,18 * * *"
       class: "PriceDropNotifierJob"
+    cleanup_expired_deals:
+      cron: "0 2 * * *"
+      class: "CleanupExpiredDealsJob"
+    prune_old_price_histories:
+      cron: "0 3 * * 0"
+      class: "PruneOldPriceHistoriesJob"
 
 

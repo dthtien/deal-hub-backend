@@ -103,6 +103,10 @@ Rails.application.routes.draw do
       resources :coupon_submissions, only: :create
       resources :subscribers, only: %i[create index] do
         collection { get :unsubscribe }
+        member { patch :update_preferences }
+      end
+      namespace :admin do
+        resources :store_stats, only: :index
       end
       resources :push_subscriptions, only: %i[create destroy]
       resource :leaderboard, only: :show

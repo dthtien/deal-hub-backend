@@ -22,6 +22,20 @@ module Api
         render json: { error: e.record.errors.full_messages.join(', ') }, status: :unprocessable_entity
       end
 
+      def update_preferences
+        subscriber = Subscriber.find_by(unsubscribe_token: params[:token])
+        return render json: { error: 'Invalid or expired token.' }, status: :not_found unless subscriber
+
+        allowed_prefs = %w[new_arrivals price_drops weekly_digest daily_alerts]
+        prefs = preference_params.to_h.select { |k, _| allowed_prefs.include?(k) }
+
+        current_prefs = subscriber.preferences || {}
+        subscriber.update!(preferences: current_prefs.merge(prefs))
+        render json: { subscriber: { email: subscriber.email, preferences: subscriber.preferences } }
+      rescue ActiveRecord::RecordInvalid => e
+        render json: { error: e.record.errors.full_messages.join(', ') }, status: :unprocessable_entity
+      end
+
       def unsubscribe
         subscriber = Subscriber.find_by(unsubscribe_token: params[:token])
         if subscriber
@@ -43,6 +57,10 @@ module Api
 
       def subscriber_params
         params.require(:subscriber).permit(:email, preferences: {})
+      end
+
+      def preference_params
+        params.require(:preferences).permit(:new_arrivals, :price_drops, :weekly_digest, :daily_alerts)
       end
     end
   end

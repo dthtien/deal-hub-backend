@@ -18,10 +18,17 @@ class ApplicationService
   # Slower than upsert_all but correct — acceptable since crawls run infrequently.
   def upsert_with_price_history(attributes_list, store:)
     attributes_list.each do |attrs|
-      product = Product.find_or_initialize_by(
-        store_product_id: attrs[:store_product_id],
-        store: store
-      )
+      # Duplicate detection: same name+store but different store_product_id
+      product = Product.find_by(store_product_id: attrs[:store_product_id], store: store)
+      if product.nil?
+        duplicate = Product.find_by(name: attrs[:name], store: store)
+        if duplicate && duplicate.store_product_id != attrs[:store_product_id].to_s
+          # Update the existing record's store_product_id instead of creating a new one
+          duplicate.update_column(:store_product_id, attrs[:store_product_id])
+          product = duplicate
+        end
+      end
+      product ||= Product.new(store_product_id: attrs[:store_product_id], store: store)
 
       new_price = attrs[:price].to_f
       old_price = attrs[:old_price].to_f
