@@ -22,6 +22,13 @@ Rails.application.routes.draw do
         post :reject
       end
     end
+    resources :coupon_submissions, only: %i[index] do
+      member do
+        post :approve
+        post :reject
+      end
+    end
+    resources :crawlers, only: %i[index]
   end
 
   # Google OAuth
@@ -77,6 +84,7 @@ Rails.application.routes.draw do
       end
       get 'analytics/clicks', to: 'analytics#clicks'
       resources :deal_submissions, only: :create
+      resources :coupon_submissions, only: :create
       resources :subscribers, only: %i[create index] do
         collection { get :unsubscribe }
       end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_27_000856) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_27_002834) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -53,6 +53,19 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_27_000856) do
     t.text "body", null: false
     t.datetime "created_at", null: false
     t.index ["product_id"], name: "index_comments_on_product_id"
+  end
+
+  create_table "coupon_submissions", force: :cascade do |t|
+    t.string "store", null: false
+    t.string "code", null: false
+    t.string "description"
+    t.decimal "discount_value", precision: 8, scale: 2
+    t.string "discount_type", default: "percent"
+    t.string "submitted_by_email"
+    t.string "status", default: "pending", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["status"], name: "index_coupon_submissions_on_status"
   end
 
   create_table "coupons", force: :cascade do |t|

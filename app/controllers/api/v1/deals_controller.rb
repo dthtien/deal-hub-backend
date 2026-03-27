@@ -178,12 +178,17 @@ module Api
       end
 
       def deal_of_the_week
-        deal = Rails.cache.fetch("deal_of_the_week_#{Date.today.beginning_of_week}", expires_in: 7.days) do
-          Product.where(expired: false)
-                 .where('products.created_at >= ?', 7.days.ago)
-                 .where.not(image_url: [nil, ''])
-                 .order(deal_score: :desc)
-                 .first
+        aest_week = Time.current.in_time_zone('Australia/Sydney').to_date.beginning_of_week
+
+        deal = Rails.cache.fetch("deal_of_the_week_#{aest_week}", expires_in: 8.days) do
+          candidates = Product.where(expired: false)
+                               .where('products.created_at >= ?', 7.days.ago)
+                               .where.not(image_url: [nil, ''])
+                               .order(deal_score: :desc)
+                               .limit(10)
+                               .to_a
+
+          candidates[aest_week.cweek % [candidates.size, 1].max]
         end
 
         if deal
@@ -194,12 +199,20 @@ module Api
       end
 
       def deal_of_the_day
-        deal = Rails.cache.fetch("deal_of_the_day_#{Date.today}", expires_in: 24.hours) do
-          Product.where(expired: false)
-                 .where('discount > 20')
-                 .where.not(image_url: [nil, ''])
-                 .order(deal_score: :desc, discount: :desc)
-                 .first
+        # Use AEST date so it rotates at midnight Australian time
+        aest_today = Time.current.in_time_zone('Australia/Sydney').to_date
+
+        deal = Rails.cache.fetch("deal_of_the_day_#{aest_today}", expires_in: 25.hours) do
+          # Pick from top 20 scored deals, rotate by day-of-year so it changes daily
+          candidates = Product.where(expired: false)
+                               .where('discount > 20')
+                               .where.not(image_url: [nil, ''])
+                               .order(deal_score: :desc, discount: :desc)
+                               .limit(20)
+                               .to_a
+
+          # Deterministically rotate through candidates each day
+          candidates[aest_today.yday % [candidates.size, 1].max]
         end
 
         if deal
