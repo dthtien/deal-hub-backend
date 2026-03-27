@@ -114,6 +114,7 @@ class Product < ApplicationRecord
       best_deal: best_deal?,
       tags: tags || [],
       price_trend: price_trend,
+      is_bundle: name.to_s.downcase.match?(/bundle|pack|set|combo|kit/),
       ai_recommendation: ai_deal_analysis&.recommendation,
       ai_confidence: ai_deal_analysis&.confidence,
       ai_reasoning_short: ai_deal_analysis&.reasoning&.split('.')&.first,

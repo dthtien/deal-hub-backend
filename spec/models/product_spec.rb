@@ -20,6 +20,7 @@ RSpec.describe Product, :model, type: :model do
           deal_score: nil,
           best_deal: false,
           price_trend: :stable,
+          is_bundle: false,
           ai_recommendation: nil,
           ai_confidence: nil,
           ai_reasoning_short: nil,
