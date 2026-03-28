@@ -83,6 +83,7 @@ Rails.application.routes.draw do
     get 'search', to: 'search#index'
     resources :api_keys, only: %i[index create destroy]
     get 'dashboard/stats', to: 'dashboard#stats', as: :admin_dashboard_stats
+    post 'dashboard/quick_action', to: 'dashboard#quick_action', as: :admin_dashboard_quick_action
     resources :notification_logs, only: %i[index]
     get 'notifications/queue', to: 'notifications#queue', as: :admin_notifications_queue
     resources :comments, only: %i[index] do

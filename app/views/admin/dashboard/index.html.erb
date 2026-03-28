@@ -19,8 +19,47 @@
   </div>
 </div>
 
-<!-- Stats grid -->
+<!-- Quick action buttons -->
+<div class="flex flex-wrap gap-3 mb-6">
+  <button id="btn-run-crawl" data-action="run_crawl" class="quick-action-btn bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
+    🕷 Run crawl now
+  </button>
+  <button id="btn-clear-cache" data-action="clear_cache" class="quick-action-btn bg-violet-500 hover:bg-violet-600 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
+    🗑 Clear cache
+  </button>
+  <button id="btn-send-digest" data-action="send_digest" class="quick-action-btn bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
+    📧 Send digest
+  </button>
+  <span id="quick-action-msg" class="self-center text-sm text-gray-500"></span>
+</div>
+
+<!-- System health -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+  <div class="bg-white rounded-xl shadow-sm p-4 border-l-4 border-blue-400">
+    <div class="text-xs text-gray-400 mb-1">DB Size</div>
+    <div class="font-bold text-gray-800"><%= @health[:db_size_mb] ? "#{@health[:db_size_mb]} MB" : 'N/A' %></div>
+  </div>
+  <div class="bg-white rounded-xl shadow-sm p-4 border-l-4 border-amber-400">
+    <div class="text-xs text-gray-400 mb-1">Queue Depth</div>
+    <div class="font-bold text-gray-800"><%= @health[:sidekiq_queue_depth].nil? ? 'N/A' : @health[:sidekiq_queue_depth] %></div>
+  </div>
+  <div class="bg-white rounded-xl shadow-sm p-4 border-l-4 border-emerald-400">
+    <div class="text-xs text-gray-400 mb-1">Active Deals</div>
+    <div class="font-bold text-gray-800"><%= number_with_delimiter(@health[:active_deals]) %></div>
+  </div>
+  <div class="bg-white rounded-xl shadow-sm p-4 border-l-4 border-rose-400">
+    <div class="text-xs text-gray-400 mb-1">Pending Submissions</div>
+    <div class="font-bold text-gray-800"><%= @health[:pending_submissions] %></div>
+  </div>
+</div>
+
+<!-- Stats grid with sparklines -->
 <div id="stats-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+  <%
+    daily_counts = @daily_stats.map(&:last)
+    max_daily = [daily_counts.max.to_f, 1].max
+    sparkline_pts = daily_counts.each_with_index.map { |v, i| "#{(i * 18)},#{(24 - (v.to_f / max_daily * 20)).round(1)}" }.join(' ')
+  %>
   <% [
     ['Products', @stats[:products], 'bg-blue-500'],
     ['Active Deals', @stats[:active], 'bg-emerald-500'],
@@ -30,10 +69,19 @@
     ['Pending Submissions', @stats[:submissions], 'bg-amber-500'],
     ['Votes', @stats[:votes], 'bg-yellow-500'],
     ['Clicks', @stats[:clicks], 'bg-red-500'],
-  ].each do |label, value, color| %>
+  ].each_with_index do |(label, value, color), idx| %>
     <div class="bg-white rounded-xl shadow-sm p-5" data-stat="<%= label.downcase.gsub(/\s+/, '_') %>">
-      <div class="stat-value text-2xl font-bold text-gray-900"><%= number_with_delimiter(value) %></div>
-      <div class="text-sm text-gray-500 mt-1"><%= label %></div>
+      <div class="flex items-start justify-between">
+        <div>
+          <div class="stat-value text-2xl font-bold text-gray-900"><%= number_with_delimiter(value) %></div>
+          <div class="text-sm text-gray-500 mt-1"><%= label %></div>
+        </div>
+        <% if idx == 1 %>
+        <svg viewBox="0 0 108 26" class="w-16 h-6 opacity-60" preserveAspectRatio="none">
+          <polyline points="<%= sparkline_pts %>" fill="none" stroke="#10b981" stroke-width="2" stroke-linejoin="round"/>
+        </svg>
+        <% end %>
+      </div>
       <div class="h-1 rounded-full <%= color %> mt-3 opacity-60"></div>
     </div>
   <% end %>
@@ -114,6 +162,23 @@
   </div>
 </div>
 
+<!-- Recent activity feed -->
+<div class="bg-white rounded-xl shadow-sm p-6 mt-6">
+  <h2 class="font-semibold text-gray-800 mb-4">Recent Activity</h2>
+  <div class="space-y-2" id="activity-feed">
+    <% @recent_activity.each do |event| %>
+      <div class="flex items-center gap-3 text-sm">
+        <span class="w-2 h-2 rounded-full flex-shrink-0 <%= event[:type] == 'crawl' ? 'bg-emerald-400' : 'bg-orange-400' %>"></span>
+        <span class="text-gray-700 flex-1"><%= event[:message] %></span>
+        <span class="text-xs text-gray-400 flex-shrink-0"><%= event[:at] ? Time.parse(event[:at]).strftime('%d %b %H:%M') : '' %></span>
+      </div>
+    <% end %>
+    <% if @recent_activity.empty? %>
+      <p class="text-sm text-gray-400">No recent activity.</p>
+    <% end %>
+  </div>
+</div>
+
 <!-- Export links -->
 <div class="bg-white rounded-xl shadow-sm p-6 mt-6">
   <h2 class="font-semibold text-gray-800 mb-4">Export Data</h2>
@@ -125,6 +190,35 @@
 </div>
 
 <script>
+(function() {
+  // Quick actions
+  document.querySelectorAll('.quick-action-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var action = btn.getAttribute('data-action');
+      var msgEl = document.getElementById('quick-action-msg');
+      btn.disabled = true;
+      msgEl.textContent = 'Working...';
+      fetch('<%= admin_dashboard_quick_action_path %>', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.content || ''
+        },
+        body: JSON.stringify({ action_name: action })
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        msgEl.textContent = data.message || data.error || 'Done';
+        btn.disabled = false;
+        setTimeout(function() { msgEl.textContent = ''; }, 4000);
+      })
+      .catch(function() {
+        msgEl.textContent = 'Error';
+        btn.disabled = false;
+      });
+    });
+  });
+})();
 (function() {
   var paused = false;
   var intervalId = null;
