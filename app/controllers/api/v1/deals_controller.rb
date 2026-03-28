@@ -822,6 +822,36 @@ module Api
         render json: { products: result }
       end
 
+      def compare_prices
+        query = params[:name].to_s.strip
+        if query.blank?
+          return render json: { error: 'name param required' }, status: :unprocessable_entity
+        end
+
+        results = Product
+          .where('name ILIKE ?', "%#{query}%")
+          .where(expired: false)
+          .order(:price)
+          .limit(50)
+          .to_a
+
+        # Group by store, keep cheapest per store
+        by_store = results.group_by(&:store).transform_values { |prods| prods.min_by { |p| p.price.to_f } }
+
+        comparison = by_store.values.map do |p|
+          {
+            store:       p.store,
+            price:       p.price.to_f,
+            old_price:   p.old_price.to_f,
+            discount:    p.discount.to_f,
+            product_id:  p.id,
+            url:         p.store_url
+          }
+        end.sort_by { |r| r[:price] }
+
+        render json: { comparison: comparison }
+      end
+
       def freshness_stats
         now = Time.current
         base = Product.where(expired: false)

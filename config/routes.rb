@@ -73,6 +73,7 @@ Rails.application.routes.draw do
     get 'reports/stores', to: 'reports#stores', as: :admin_reports_stores
     get 'reports/deal_performance', to: 'reports#deal_performance', as: :admin_reports_deal_performance
     get 'search', to: 'search#index'
+    resources :api_keys, only: %i[index create destroy]
     resources :notification_logs, only: %i[index]
     resources :subscribers, only: %i[index] do
       member do
@@ -124,6 +125,7 @@ Rails.application.routes.draw do
       get 'deals/compare', to: 'deals#compare'
       get 'deals/bundles', to: 'deals#bundles'
       get 'deals/price_watch', to: 'deals#price_watch'
+      get 'deals/compare_prices', to: 'deals#compare_prices'
       post 'errors', to: 'errors#create'
       get 'exchange_rates', to: 'exchange_rates#index'
       resources :store_follows, only: %i[index create destroy] do
@@ -209,6 +211,7 @@ Rails.application.routes.draw do
         collection do
           get 'trending', to: 'stores#trending'
           get ':name/deals', to: 'stores#deals', as: :store_deals
+          get ':name/inventory', to: 'stores#inventory', as: :store_inventory
           get 'compare', to: 'stores#compare'
           get ':store_name/reviews', to: 'store_reviews#index', as: :store_reviews
           post ':store_name/reviews', to: 'store_reviews#create', as: :create_store_review

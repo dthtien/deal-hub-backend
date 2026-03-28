@@ -1,6 +1,13 @@
 # frozen_string_literal: true
 
 class Webhook < ApplicationRecord
+  SUPPORTED_EVENTS = %w[
+    deal.new
+    deal.price_drop
+    deal.expired
+    deal.featured
+  ].freeze
+
   validates :url, presence: true, format: { with: URI::DEFAULT_PARSER.make_regexp(%w[http https]) }
   validates :secret, presence: true
 

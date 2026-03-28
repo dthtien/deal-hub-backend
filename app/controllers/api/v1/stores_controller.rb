@@ -92,6 +92,32 @@ module Api
         render json: { comparison: result }
       end
 
+      def inventory
+        store_name = URI.decode_www_form_component(params[:name])
+        products = Product.where(store: store_name)
+        total = products.count
+
+        if total.zero?
+          return render json: {
+            total_products: 0,
+            in_stock: 0,
+            out_of_stock: 0,
+            stock_rate: 0.0
+          }
+        end
+
+        in_stock = products.where(in_stock: true).count
+        out_of_stock = total - in_stock
+        stock_rate = (in_stock.to_f / total * 100).round(1)
+
+        render json: {
+          total_products: total,
+          in_stock:       in_stock,
+          out_of_stock:   out_of_stock,
+          stock_rate:     stock_rate
+        }
+      end
+
       def deals
         store_name = URI.decode_www_form_component(params[:name])
         page = (params[:page] || 1).to_i

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_28_200002) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_29_100001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -30,6 +30,16 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_28_200002) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["product_id"], name: "index_ai_deal_analyses_on_product_id", unique: true
+  end
+
+  create_table "api_keys", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "name", null: false
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["active"], name: "index_api_keys_on_active"
+    t.index ["key"], name: "index_api_keys_on_key", unique: true
   end
 
   create_table "category_alerts", force: :cascade do |t|

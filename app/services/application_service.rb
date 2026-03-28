@@ -93,13 +93,16 @@ class ApplicationService
         end
       end
 
-      # Duplicate detection: same name+store but different store_product_id
+      # Duplicate detection: find by store_product_id first, then fall back to ILIKE name match
       product = Product.find_by(store_product_id: attrs[:store_product_id], store: store)
       if product.nil?
-        duplicate = Product.find_by(name: attrs[:name], store: store)
-        if duplicate && duplicate.store_product_id != attrs[:store_product_id].to_s
-          # Update the existing record's store_product_id instead of creating a new one
-          duplicate.update_column(:store_product_id, attrs[:store_product_id])
+        # Case-insensitive name + store match to prevent duplicates when SKU changes
+        duplicate = Product.where(store: store)
+                           .where('name ILIKE ?', attrs[:name].to_s.strip)
+                           .first
+        if duplicate
+          # Migrate to new SKU and reuse the existing record
+          duplicate.update_column(:store_product_id, attrs[:store_product_id]) if duplicate.store_product_id != attrs[:store_product_id].to_s
           product = duplicate
         end
       end
@@ -145,6 +148,38 @@ class ApplicationService
       # Fire webhook notification for new deals with high discount
       if is_new && product.discount.to_f > 40
         NotificationWebhookJob.perform_later(product.id)
+      end
+
+      # Freshness webhooks: deal.new and deal.price_drop
+      if is_new
+        WebhookDispatcher.dispatch('deal.new', {
+          event:       'deal.new',
+          product_id:  product.id,
+          name:        product.name,
+          store:       product.store,
+          price:       product.price.to_f,
+          discount:    product.discount.to_f,
+          url:         product.store_url,
+          occurred_at: Time.current.iso8601
+        })
+      elsif price_changed
+        old_p = product.price_histories.order(recorded_at: :desc).second&.price.to_f
+        if old_p > 0 && new_price < old_p
+          drop_pct = ((old_p - new_price) / old_p * 100).round(1)
+          if drop_pct > 5
+            WebhookDispatcher.dispatch('deal.price_drop', {
+              event:       'deal.price_drop',
+              product_id:  product.id,
+              name:        product.name,
+              store:       product.store,
+              old_price:   old_p,
+              new_price:   new_price,
+              drop_pct:    drop_pct,
+              url:         product.store_url,
+              occurred_at: Time.current.iso8601
+            })
+          end
+        end
       end
 
       # Bust stores index cache when a new product is crawled
