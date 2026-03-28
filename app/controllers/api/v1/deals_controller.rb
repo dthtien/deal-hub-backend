@@ -734,64 +734,117 @@ module Api
         product = Product.find(params[:id])
 
         histories = product.price_histories
-                           .order(recorded_at: :desc)
-                           .limit(10)
+                           .order(recorded_at: :asc)
+                           .limit(30)
                            .to_a
 
         current_price = product.price.to_f
 
         if histories.size < 2
           return render json: {
-            prediction:  'STABLE',
-            confidence:  'low',
-            reasoning:   'Not enough price history to make a prediction.'
+            prediction:             'STABLE',
+            confidence:             'low',
+            reasoning:              'Not enough price history to make a prediction.',
+            predicted_price_7d:     nil,
+            predicted_direction:    'stable'
           }
         end
 
-        recent3  = histories.first(3).map { |h| h.price.to_f }
-        all_prices = histories.map { |h| h.price.to_f }
-        oldest_price = histories.last.price.to_f
+        prices = histories.map { |h| h.price.to_f }
+        oldest_price = prices.first
+
+        predicted_price_7d = nil
+        predicted_direction = 'stable'
+
+        # Linear regression if 5+ records
+        if histories.size >= 5
+          n = prices.size.to_f
+          x_mean = (n - 1) / 2.0
+          y_mean = prices.sum / n
+
+          numerator   = prices.each_with_index.sum { |y, i| (i - x_mean) * (y - y_mean) }
+          denominator = prices.each_with_index.sum { |_, i| (i - x_mean) ** 2 }
+          slope = denominator > 0 ? numerator / denominator : 0.0
+
+          # Estimate days between records
+          if histories.size >= 2
+            total_span = (histories.last.recorded_at - histories.first.recorded_at).to_f / 86400.0
+            days_per_step = total_span / (histories.size - 1).to_f
+          else
+            days_per_step = 1.0
+          end
+
+          steps_7d = days_per_step > 0 ? (7.0 / days_per_step).round : 7
+          raw_predicted = current_price + slope * steps_7d
+          predicted_price_7d = [raw_predicted, 0.01].max.round(2)
+
+          threshold = current_price * 0.02
+          if raw_predicted - current_price > threshold
+            predicted_direction = 'rising'
+          elsif current_price - raw_predicted > threshold
+            predicted_direction = 'falling'
+          else
+            predicted_direction = 'stable'
+          end
+        else
+          # Fall back to rule-based when fewer than 5 records
+          recent3 = prices.last(3)
+          prices_dropping = recent3.each_cons(2).all? { |a, b| a >= b }
+          prices_rising   = recent3.each_cons(2).all? { |a, b| a <= b }
+          predicted_direction = if prices_rising then 'rising'
+                                elsif prices_dropping then 'falling'
+                                else 'stable'
+                                end
+        end
 
         # Check if price has been the same for 7+ days
         seven_days_ago = 7.days.ago
-        old_histories = product.price_histories
-                               .where('recorded_at <= ?', seven_days_ago)
-                               .order(recorded_at: :desc)
-                               .limit(1)
-                               .first
+        old_history = product.price_histories
+                             .where('recorded_at <= ?', seven_days_ago)
+                             .order(recorded_at: :desc)
+                             .limit(1)
+                             .first
 
-        if old_histories && (old_histories.price.to_f - current_price).abs < 0.01 && histories.size >= 3
+        if old_history && (old_history.price.to_f - current_price).abs < 0.01 && histories.size >= 3
           return render json: {
-            prediction:  'STABLE',
-            confidence:  'high',
-            reasoning:   'Price has been unchanged for 7+ days. Safe to buy at this price.'
+            prediction:          'STABLE',
+            confidence:          'high',
+            reasoning:           'Price has been unchanged for 7+ days. Safe to buy at this price.',
+            predicted_price_7d:  predicted_price_7d,
+            predicted_direction: 'stable'
           }
         end
 
-        # Check if price dropped in last 3 histories (rising/stable soon)
-        prices_dropped = recent3.each_cons(2).all? { |a, b| a <= b }
+        # Rule-based decisions
+        recent3 = prices.last(3)
+        prices_dropped = recent3.each_cons(2).all? { |a, b| a >= b }
 
         if prices_dropped && recent3.size >= 3
           return render json: {
-            prediction:  'HOLD',
-            confidence:  'medium',
-            reasoning:   'Price has been dropping recently - it may drop further. Consider waiting.'
+            prediction:          'HOLD',
+            confidence:          'medium',
+            reasoning:           'Price has been dropping recently - it may drop further. Consider waiting.',
+            predicted_price_7d:  predicted_price_7d,
+            predicted_direction: predicted_direction
           }
         end
 
-        # Check if current price is the lowest ever seen
-        if current_price < all_prices.min + 0.01 || (oldest_price > current_price * 1.1)
+        if current_price < prices.min + 0.01 || (oldest_price > current_price * 1.1)
           return render json: {
-            prediction:  'BUY_NOW',
-            confidence:  'high',
-            reasoning:   "Price is at its lowest recorded level (was $#{oldest_price.round(2)}). Great time to buy!"
+            prediction:          'BUY_NOW',
+            confidence:          'high',
+            reasoning:           "Price is at its lowest recorded level (was $#{oldest_price.round(2)}). Great time to buy!",
+            predicted_price_7d:  predicted_price_7d,
+            predicted_direction: predicted_direction
           }
         end
 
         render json: {
-          prediction:  'STABLE',
-          confidence:  'medium',
-          reasoning:   'Price is relatively stable. No strong signal to wait or rush.'
+          prediction:          'STABLE',
+          confidence:          'medium',
+          reasoning:           'Price is relatively stable. No strong signal to wait or rush.',
+          predicted_price_7d:  predicted_price_7d,
+          predicted_direction: predicted_direction
         }
       rescue ActiveRecord::RecordNotFound
         render json: { error: 'Not found' }, status: :not_found
@@ -1137,6 +1190,90 @@ module Api
                            .map { |h| { score: h.score.to_f, recorded_at: h.recorded_at.iso8601 } }
 
         render json: { score_history: histories.reverse }
+      end
+
+      def vpp_compatible
+        products = Rails.cache.fetch('vpp_compatible_deals_v1', expires_in: 1.hour) do
+          Product.where(expired: false)
+                 .where(
+                   "LOWER(name) LIKE '%vpp%' OR LOWER(name) LIKE '%virtual power%' OR LOWER(name) LIKE '%energy%' OR " \
+                   "EXISTS (SELECT 1 FROM unnest(tags) t WHERE LOWER(t) LIKE '%vpp%' OR LOWER(t) LIKE '%virtual power%' OR LOWER(t) LIKE '%energy%') OR " \
+                   "categories && ARRAY['Electronics']::varchar[]"
+                 )
+                 .order(deal_score: :desc)
+                 .limit(50)
+                 .map(&:as_json)
+        end
+        render json: { products: products }
+      end
+
+      private
+
+      BULK_MAX_IDS = 20
+
+      public
+
+      def bulk_operations
+        action      = params[:action_type] || params[:action]
+        product_ids = Array(params[:product_ids]).first(BULK_MAX_IDS).map(&:to_i).uniq
+        session_id  = params[:session_id].to_s
+
+        if product_ids.empty?
+          return render json: { error: 'product_ids required' }, status: :unprocessable_entity
+        end
+
+        case action.to_s
+        when 'save'
+          results = product_ids.map do |pid|
+            begin
+              product = Product.find(pid)
+              SavedDeal.find_or_create_by!(product_id: pid, session_id: session_id) if session_id.present?
+              { product_id: pid, success: true }
+            rescue ActiveRecord::RecordNotFound
+              { product_id: pid, success: false, error: 'Not found' }
+            rescue => e
+              { product_id: pid, success: false, error: e.message }
+            end
+          end
+          render json: { results: results }
+
+        when 'compare'
+          products = Product.where(id: product_ids).limit(4)
+          winner = products.max_by { |p| p.deal_score.to_i }
+          results = products.map do |p|
+            { product_id: p.id, success: true, product: p.as_json }
+          end
+          render json: { results: results, winner_id: winner&.id }
+
+        when 'price_alert'
+          email           = params[:email].to_s.strip
+          target_discount = params[:target_discount].to_i
+
+          if email.blank? || email !~ URI::MailTo::EMAIL_REGEXP
+            return render json: { error: 'valid email required' }, status: :unprocessable_entity
+          end
+
+          results = product_ids.map do |pid|
+            begin
+              product = Product.find(pid)
+              target_price = product.price.to_f * (1 - target_discount / 100.0)
+              alert = PriceAlert.create!(
+                product_id: pid,
+                email: email,
+                target_price: [target_price, 0.01].max
+              )
+              { product_id: pid, success: true, alert_id: alert.id }
+            rescue ActiveRecord::RecordNotFound
+              { product_id: pid, success: false, error: 'Not found' }
+            rescue => e
+              { product_id: pid, success: false, error: e.message }
+            end
+          end
+          render json: { results: results }
+
+        else
+          render json: { error: "Unknown action: #{action}" }, status: :unprocessable_entity
+        end
       end
     end
   end

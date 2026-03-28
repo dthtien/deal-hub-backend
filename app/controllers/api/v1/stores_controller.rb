@@ -231,6 +231,49 @@ module Api
           }
         }
       end
+
+      def freshness
+        store_name = URI.decode_www_form_component(params[:name])
+
+        cache_key = "store_freshness_v1_#{store_name}"
+        data = Rails.cache.fetch(cache_key, expires_in: 10.minutes) do
+          last_log = CrawlLog.where(store: store_name).order(crawled_at: :desc).first
+
+          last_crawled_at = last_log&.crawled_at
+
+          products_added_today = Product.where(store: store_name)
+                                        .where('created_at >= ?', Time.current.beginning_of_day)
+                                        .count
+
+          avg_age_result = Product.where(store: store_name, expired: false)
+                                  .average('EXTRACT(EPOCH FROM (NOW() - created_at)) / 3600')
+          avg_deal_age_hours = avg_age_result&.to_f&.round(1) || 0.0
+
+          hours_since_crawl = last_crawled_at ? ((Time.current - last_crawled_at) / 3600.0).round(1) : nil
+
+          freshness_grade = if hours_since_crawl.nil?
+            'D'
+          elsif hours_since_crawl < 3 && products_added_today > 5
+            'A'
+          elsif hours_since_crawl < 6
+            'B'
+          elsif hours_since_crawl < 24
+            'C'
+          else
+            'D'
+          end
+
+          {
+            last_crawled_at:      last_crawled_at&.iso8601,
+            products_added_today: products_added_today,
+            avg_deal_age_hours:   avg_deal_age_hours,
+            freshness_grade:      freshness_grade,
+            hours_since_crawl:    hours_since_crawl
+          }
+        end
+
+        render json: data
+      end
     end
   end
 end

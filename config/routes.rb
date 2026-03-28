@@ -136,6 +136,8 @@ Rails.application.routes.draw do
       get 'deals/high_quality', to: 'deals#high_quality'
       get 'deals/top_picks', to: 'deals#top_picks'
       get 'deals/freshness_stats', to: 'deals#freshness_stats'
+      get 'deals/vpp_compatible', to: 'deals#vpp_compatible'
+      post 'bulk', to: 'deals#bulk_operations'
       get 'tags', to: 'tags#index'
       get 'deals/popular', to: 'deals#popular'
       get 'deals/hot', to: 'deals#hot'
@@ -247,6 +249,7 @@ Rails.application.routes.draw do
           get ':name/deals', to: 'stores#deals', as: :store_deals
           get ':name/inventory', to: 'stores#inventory', as: :store_inventory
           get ':name/rating', to: 'stores#rating', as: :store_rating
+          get ':name/freshness', to: 'stores#freshness', as: :store_freshness
           get 'compare', to: 'stores#compare'
           get ':store_name/reviews', to: 'store_reviews#index', as: :store_reviews
           post ':store_name/reviews', to: 'store_reviews#create', as: :create_store_review

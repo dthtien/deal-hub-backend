@@ -19,6 +19,16 @@ class UpdateCollectionsJob < ApplicationJob
     keywords = extract_keywords(collection)
     return if keywords.empty?
 
+    # Remove expired products from collection automatically
+    expired_ids = collection.collection_items
+                            .joins(:product)
+                            .where(products: { expired: true })
+                            .pluck(:product_id)
+    if expired_ids.any?
+      CollectionItem.where(collection: collection, product_id: expired_ids).delete_all
+      Rails.logger.info("UpdateCollectionsJob: removed #{expired_ids.size} expired products from #{collection.name}")
+    end
+
     new_products = find_matching_products(keywords)
     old_ids = collection.collection_items.pluck(:product_id)
     new_ids = new_products.pluck(:id)
@@ -34,7 +44,7 @@ class UpdateCollectionsJob < ApplicationJob
 
     collection.touch
 
-    Rails.logger.info("Updated collection #{collection.name}: added #{added_count}, removed #{removed_count}")
+    Rails.logger.info("Updated collection #{collection.name}: added #{added_count}, removed #{removed_count}, total #{new_products.size}")
   end
 
   def extract_keywords(collection)
@@ -44,11 +54,34 @@ class UpdateCollectionsJob < ApplicationJob
   end
 
   def find_matching_products(keywords)
+    fresh_cutoff = 48.hours.ago
+
     scope = Product.where(expired: false)
     conditions = keywords.map { "LOWER(name) LIKE ?" }
     values = keywords.map { |kw| "%#{kw}%" }
-    scope.where(conditions.join(' OR '), *values)
-         .order(deal_score: :desc)
-         .limit(10)
+
+    candidates = scope.where(conditions.join(' OR '), *values)
+
+    # Score by deal_score + freshness bonus
+    scored = candidates.map do |p|
+      base_score = p.deal_score.to_f
+      freshness_bonus = p.updated_at >= fresh_cutoff ? 20.0 : 0.0
+      [p, base_score + freshness_bonus]
+    end
+
+    # Sort by composite score descending
+    sorted = scored.sort_by { |_, s| -s }.map(&:first)
+
+    # Ensure minimum 10 items; if not enough, fill with top deal_score products
+    if sorted.size < 10
+      existing_ids = sorted.map(&:id)
+      filler = Product.where(expired: false)
+                      .where.not(id: existing_ids)
+                      .order(deal_score: :desc)
+                      .limit(10 - sorted.size)
+      sorted = sorted + filler.to_a
+    end
+
+    sorted.first(20)
   end
 end
