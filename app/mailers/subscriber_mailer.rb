@@ -22,7 +22,9 @@ class SubscriberMailer < ApplicationMailer
       subject: subject_text,
       status: 'sent'
     )
+    @notification_log = log
     @tracking_pixel_url = tracking_pixel_url(subscriber.id, log.id)
+    @track_base_url = "#{ENV.fetch('SITE_URL', 'https://www.ozvfy.com')}/track/click/#{Base64.strict_encode64(log.id.to_s)}"
 
     mail(to: subscriber.email, subject: subject_text)
   end

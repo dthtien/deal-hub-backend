@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_04_01_100002) do
+ActiveRecord::Schema[8.0].define(version: 2026_04_02_100002) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -212,6 +212,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_01_100002) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "opened_at"
+    t.integer "click_count", default: 0, null: false
     t.index ["created_at"], name: "index_notification_logs_on_created_at"
     t.index ["opened_at"], name: "index_notification_logs_on_opened_at"
     t.index ["recipient"], name: "index_notification_logs_on_recipient"
@@ -278,6 +279,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_01_100002) do
     t.decimal "price_per_unit", precision: 10, scale: 2
     t.string "status", default: "active"
     t.tsvector "search_vector"
+    t.boolean "going_fast", default: false, null: false
     t.index ["brand"], name: "products_brand_gin_index", opclass: :gin_trgm_ops, using: :gin
     t.index ["categories"], name: "index_products_on_categories", using: :gin
     t.index ["created_at"], name: "index_products_on_created_at"

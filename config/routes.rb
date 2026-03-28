@@ -4,7 +4,8 @@ Rails.application.routes.draw do
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
-  get "track/open/:token" => "track#open", as: :track_open
+  get "track/open/:token"  => "track#open",  as: :track_open
+  get "track/click/:token" => "track#click", as: :track_click
   get "health" => "health#show"
   get "sitemap.xml"       => "sitemap#index",         defaults: { format: :xml }
   get "sitemap_index.xml" => "sitemap#sitemap_index", defaults: { format: :xml }
@@ -14,7 +15,8 @@ Rails.application.routes.draw do
   get "sitemap_collections.xml" => "sitemap#sitemap_collections",  defaults: { format: :xml }
   get "sitemap_categories.xml"  => "sitemap#sitemap_categories",   defaults: { format: :xml }
   get "r/:code" => "referrals#redirect", as: :referral_redirect
-  get "feed.xml"    => "feed#index"
+  get "feed.xml"              => "feed#index"
+  get "stores/:name/feed.xml" => "feed#store", as: :store_feed, constraints: { name: /[^\/]+/ }
   get "robots.txt"  => "robots#index", defaults: { format: :text }
 
   # GraphQL
@@ -86,6 +88,7 @@ Rails.application.routes.draw do
     post 'dashboard/quick_action', to: 'dashboard#quick_action', as: :admin_dashboard_quick_action
     resources :notification_logs, only: %i[index]
     get 'notifications/queue', to: 'notifications#queue', as: :admin_notifications_queue
+    get 'notifications',       to: 'system_notifications#index', as: :admin_notifications
     resources :comments, only: %i[index] do
       member do
         post :approve

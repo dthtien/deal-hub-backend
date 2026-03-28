@@ -270,6 +270,23 @@ class Product < ApplicationRecord
     (price.to_f / qty).round(2)
   end
 
+  def discount_tier
+    pct = discount.to_f
+    return nil unless pct > 0
+
+    if pct >= 70
+      'legendary'
+    elsif pct >= 50
+      'amazing'
+    elsif pct >= 30
+      'great'
+    elsif pct >= 15
+      'good'
+    else
+      'minor'
+    end
+  end
+
   def as_json(options = {})
     currency_code = options.delete(:currency)
     base = super(options).merge(
@@ -305,7 +322,9 @@ class Product < ApplicationRecord
       price_prediction: price_prediction_value,
       avg_rating: avg_rating,
       rating_count: rating_count,
-      status: status.presence || (expired? ? 'expired' : 'active')
+      status: status.presence || (expired? ? 'expired' : 'active'),
+      going_fast: going_fast,
+      discount_tier: discount_tier
     )
 
     if currency_code && currency_code != 'AUD' && EXCHANGE_RATES.key?(currency_code)

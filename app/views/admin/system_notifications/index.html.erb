@@ -1,0 +1,81 @@
+<% content_for :title, "Notifications Centre" %>
+
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-2xl font-bold text-gray-900">Notifications Centre</h1>
+  <div class="flex items-center gap-3">
+    <span id="notif-last-updated" class="text-xs text-gray-400">Refreshes every 30s</span>
+    <span class="text-sm font-semibold text-gray-600"><%= @total_events %> events</span>
+  </div>
+</div>
+
+<div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+  <table class="w-full text-sm">
+    <thead>
+      <tr class="bg-gray-50 border-b border-gray-100">
+        <th class="text-left px-4 py-3 font-semibold text-gray-600 w-28">Type</th>
+        <th class="text-left px-4 py-3 font-semibold text-gray-600">Message</th>
+        <th class="text-left px-4 py-3 font-semibold text-gray-600 w-44">Time</th>
+      </tr>
+    </thead>
+    <tbody id="notif-table-body">
+      <% if @events.empty? %>
+        <tr>
+          <td colspan="3" class="px-4 py-10 text-center text-gray-400">
+            No system events right now. All clear! &#10003;
+          </td>
+        </tr>
+      <% else %>
+        <% @events.each do |event| %>
+          <tr class="border-b border-gray-50 hover:bg-gray-50 transition-colors">
+            <td class="px-4 py-3">
+              <% severity_class = case event[:severity]
+                 when 'error'   then 'bg-red-100 text-red-700'
+                 when 'warning' then 'bg-amber-100 text-amber-700'
+                 else                'bg-blue-100 text-blue-700'
+                 end %>
+              <span class="inline-block px-2 py-0.5 rounded-full text-xs font-semibold <%= severity_class %>">
+                <%= event[:type].to_s.humanize %>
+              </span>
+            </td>
+            <td class="px-4 py-3 text-gray-700">
+              <% if event[:link].present? %>
+                <a href="<%= event[:link] %>" class="text-orange-600 hover:underline"><%= event[:message] %></a>
+              <% else %>
+                <%= event[:message] %>
+              <% end %>
+            </td>
+            <td class="px-4 py-3 text-gray-400 text-xs whitespace-nowrap">
+              <%= event[:timestamp]&.strftime('%d %b %Y %H:%M') || 'Unknown' %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<% if @total_pages > 1 %>
+  <div class="flex items-center justify-center gap-2 mt-6">
+    <% if @page > 1 %>
+      <%= link_to "Previous", admin_notifications_path(page: @page - 1), class: "px-4 py-2 rounded-lg border border-gray-200 text-sm font-semibold text-gray-600 hover:border-gray-300 transition-colors" %>
+    <% end %>
+    <span class="text-sm text-gray-500">Page <%= @page %> of <%= @total_pages %></span>
+    <% if @page < @total_pages %>
+      <%= link_to "Next", admin_notifications_path(page: @page + 1), class: "px-4 py-2 rounded-lg border border-gray-200 text-sm font-semibold text-gray-600 hover:border-gray-300 transition-colors" %>
+    <% end %>
+  </div>
+<% end %>
+
+<script>
+  (function() {
+    var interval = setInterval(function() {
+      fetch('<%= admin_notifications_path(format: :json, page: 1) %>', { headers: { Accept: 'application/json' } })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          document.getElementById('notif-last-updated').textContent =
+            'Last refreshed: ' + new Date().toLocaleTimeString();
+        })
+        .catch(function() {});
+    }, 30000);
+  })();
+</script>
