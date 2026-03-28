@@ -142,6 +142,11 @@ class ApplicationService
       if is_new && product.discount.to_f > 40
         NotificationWebhookJob.perform_later(product.id)
       end
+
+      # Bust stores index cache when a new product is crawled
+      if is_new || price_changed
+        Rails.cache.delete('stores_index_v2')
+      end
     end
     Rails.logger.info "upsert_with_price_history — #{store}: #{attributes_list.size} found, #{@crawl_products_new} new, #{@crawl_products_updated} updated, #{skipped_image_count} skipped (invalid image)" if skipped_image_count > 0
   end

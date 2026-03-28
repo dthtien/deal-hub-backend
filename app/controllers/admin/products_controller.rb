@@ -70,5 +70,24 @@ module Admin
       product.update!(flash_deal: true, flash_expires_at: 24.hours.from_now)
       redirect_to admin_products_path, notice: "Product ##{product.id} marked as flash deal."
     end
+
+    def bulk_expire
+      body_params = request.content_type&.include?('application/json') ? JSON.parse(request.body.read) : params.to_unsafe_h
+
+      scope = Product.all
+      if body_params['store_name'].present?
+        scope = scope.where(store: body_params['store_name'])
+      elsif body_params['older_than_days'].to_i > 0
+        cutoff = body_params['older_than_days'].to_i.days.ago
+        scope = scope.where('created_at < ?', cutoff)
+      else
+        return render json: { error: 'Provide store_name or older_than_days' }, status: :unprocessable_entity
+      end
+
+      count = scope.where(expired: false).update_all(expired: true)
+      render json: { expired_count: count, message: "#{count} product(s) marked as expired." }
+    rescue JSON::ParserError
+      render json: { error: 'Invalid JSON' }, status: :bad_request
+    end
   end
 end

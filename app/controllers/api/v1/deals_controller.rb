@@ -118,14 +118,43 @@ module Api
 
       def similar
         product = Product.find(params[:id])
-        store_scope    = Product.where(store: product.store)
-        category_scope = product.categories.any? ? Product.where('categories && array[?]::varchar[]', product.categories) : Product.none
-        similar = store_scope.or(category_scope)
-                             .where.not(id: product.id)
-                             .where(expired: false)
-                             .order(deal_score: :desc)
-                             .limit(8)
-        render json: { products: similar }
+
+        cache_key = "deal_similar_v2_#{product.id}"
+        products = Rails.cache.fetch(cache_key, expires_in: 30.minutes) do
+          product_tags = Array(product.tags)
+          price = product.price.to_f
+          price_low  = price * 0.7
+          price_high = price * 1.3
+
+          # Gather candidates - same category or same store
+          store_scope    = Product.where(store: product.store)
+          category_scope = product.categories.any? ? Product.where('categories && array[?]::varchar[]', product.categories) : Product.none
+
+          candidates = store_scope.or(category_scope)
+                                  .where.not(id: product.id)
+                                  .where(expired: false)
+                                  .limit(200)
+                                  .to_a
+
+          # Score each candidate
+          scored = candidates.map do |p|
+            score = 0
+            score += 3 if product.categories.present? && (p.categories & product.categories).any?
+            score += 2 if p.store == product.store
+            score += 2 if price > 0 && p.price.to_f.between?(price_low, price_high)
+            overlapping_tags = product_tags.any? ? (Array(p.tags) & product_tags).size : 0
+            score += overlapping_tags
+            [p, score]
+          end
+
+          scored
+            .select { |_, w| w > 0 }
+            .sort_by { |_, w| -w }
+            .first(8)
+            .map { |p, _| p.as_json }
+        end
+
+        render json: { products: products }
       rescue ActiveRecord::RecordNotFound
         render json: { error: 'Not found' }, status: :not_found
       end

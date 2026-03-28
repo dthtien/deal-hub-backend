@@ -27,6 +27,7 @@ Rails.application.routes.draw do
       collection do
         post :bulk_update
         post :bulk_action
+        post :bulk_expire
       end
     end
     resources :coupons do
@@ -177,6 +178,7 @@ Rails.application.routes.draw do
       end
       namespace :admin do
         resources :store_stats, only: :index
+        get 'crawler_health', to: 'crawler_health#index'
       end
       resources :push_subscriptions, only: %i[create destroy]
       resource :leaderboard, only: :show

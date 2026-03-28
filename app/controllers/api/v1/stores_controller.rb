@@ -30,37 +30,39 @@ module Api
       def index
         response.set_header('Cache-Control', 'public, max-age=3600')
 
-        # Aggregate deal_count and avg_discount for all stores in one query
-        stats = Product.where(expired: false)
-                       .group(:store)
-                       .select(
-                         :store,
-                         'COUNT(*) AS deal_count',
-                         'ROUND(AVG(CASE WHEN discount > 0 THEN discount ELSE NULL END)::numeric, 1) AS avg_discount'
-                       )
-                       .index_by(&:store)
+        stores = Rails.cache.fetch('stores_index_v2', expires_in: 1.hour) do
+          # Aggregate deal_count and avg_discount for all stores in one query
+          stats = Product.where(expired: false)
+                         .group(:store)
+                         .select(
+                           :store,
+                           'COUNT(*) AS deal_count',
+                           'ROUND(AVG(CASE WHEN discount > 0 THEN discount ELSE NULL END)::numeric, 1) AS avg_discount'
+                         )
+                         .index_by(&:store)
 
-        # Aggregate review stats per store in one query
-        review_stats = StoreReview
-          .group(:store_name)
-          .select(:store_name, 'ROUND(AVG(rating)::numeric,1) AS avg_rating', 'COUNT(*) AS review_count')
-          .index_by(&:store_name)
+          # Aggregate review stats per store in one query
+          review_stats = StoreReview
+            .group(:store_name)
+            .select(:store_name, 'ROUND(AVG(rating)::numeric,1) AS avg_rating', 'COUNT(*) AS review_count')
+            .index_by(&:store_name)
 
-        stores = Product::STORES.map do |store|
-          row    = stats[store]
-          dc     = row&.deal_count.to_i
-          avg    = row&.avg_discount.to_f.round(1)
-          best   = Product.where(store: store, expired: false).order(discount: :desc).first
-          rrow   = review_stats[store]
+          Product::STORES.map do |store|
+            row    = stats[store]
+            dc     = row&.deal_count.to_i
+            avg    = row&.avg_discount.to_f.round(1)
+            best   = Product.where(store: store, expired: false).order(discount: :desc).first
+            rrow   = review_stats[store]
 
-          {
-            name:         store,
-            deal_count:   dc,
-            avg_discount: avg,
-            best_deal:    best&.as_json,
-            avg_rating:   rrow&.avg_rating.to_f,
-            review_count: rrow&.review_count.to_i
-          }
+            {
+              name:         store,
+              deal_count:   dc,
+              avg_discount: avg,
+              best_deal:    best&.as_json,
+              avg_rating:   rrow&.avg_rating.to_f,
+              review_count: rrow&.review_count.to_i
+            }
+          end
         end
 
         render json: { stores: stores }

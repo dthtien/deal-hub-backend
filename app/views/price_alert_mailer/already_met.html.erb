@@ -1,22 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8"></head>
-<body style="font-family: sans-serif; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-  <h2 style="color: #f97316;">🎉 Your Target Price Is Already Met!</h2>
-  <p>Good news! The deal you just set an alert for is already at or below your target price.</p>
+<body style="font-family: sans-serif; background: #f9fafb; padding: 24px; margin: 0;">
+  <div style="max-width: 600px; margin: 0 auto; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.1);">
+    <div style="background: #f97316; padding: 20px 24px; text-align: center;">
+      <h2 style="color: white; margin: 0; font-size: 20px;">&#127881; Your Target Price Is Already Met!</h2>
+    </div>
+    <div style="padding: 24px;">
+      <p style="color: #374151; margin-bottom: 20px;">Good news! The deal you just set an alert for is already at or below your target price.</p>
 
-  <div style="background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 16px; margin: 16px 0;">
-    <p style="margin: 0 0 8px 0; font-weight: bold;"><%= @product.name.truncate(80) %></p>
-    <p style="margin: 0; font-size: 1.4em; color: #16a34a; font-weight: bold;">$<%= @product.price %></p>
-    <p style="margin: 4px 0 0 0; color: #666; font-size: 0.9em;">Your target: $<%= @alert.target_price %></p>
+      <div style="border: 1px solid #e5e7eb; border-radius: 10px; overflow: hidden; margin-bottom: 20px;">
+        <% img = @product.image_url.presence || @product.image_urls&.first %>
+        <% if img.present? %>
+          <div style="text-align: center; background: #f9fafb; padding: 16px;">
+            <img src="<%= img %>" alt="<%= @product.name %>"
+                 style="max-width: 200px; max-height: 200px; object-fit: contain; display: block; margin: 0 auto;" />
+          </div>
+        <% end %>
+        <div style="padding: 16px;">
+          <p style="margin: 0 0 8px; font-weight: bold; font-size: 15px; color: #111827;"><%= @product.name.truncate(80) %></p>
+          <p style="margin: 0 0 12px; color: #6b7280; font-size: 13px;"><%= @product.store %></p>
+
+          <% drop = @product.old_price.to_f > 0 ? ((@product.old_price.to_f - @product.price.to_f) / @product.old_price.to_f * 100).round(1) : @product.discount.to_f.round(1) %>
+          <% if drop > 0 %>
+            <div style="background: #ecfdf5; border: 1px solid #6ee7b7; border-radius: 6px; padding: 10px 12px; margin-bottom: 12px;">
+              <p style="color: #065f46; font-weight: 700; margin: 0; font-size: 14px;">
+                &#8595; Price dropped <%= drop %>% since you set your alert
+              </p>
+            </div>
+          <% end %>
+
+          <div style="margin-bottom: 16px;">
+            <span style="font-size: 1.8em; color: #f97316; font-weight: bold;">$<%= @product.price %></span>
+            <% if @product.old_price.to_f > 0 %>
+              <span style="color: #9ca3af; text-decoration: line-through; margin-left: 8px;">$<%= @product.old_price %></span>
+            <% end %>
+            <p style="margin: 4px 0 0; color: #6b7280; font-size: 13px;">Your target: $<%= @alert.target_price %></p>
+          </div>
+
+          <a href="<%= @deal_url %>"
+             style="display: block; text-align: center; background: #f97316; color: white; padding: 14px 24px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 16px;">
+            Get Deal &#8594;
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div style="border-top: 1px solid #e5e7eb; padding: 16px 24px; text-align: center;">
+      <p style="color: #9ca3af; font-size: 12px; margin: 0;">
+        You received this because you set a price alert on
+        <a href="<%= @site_url %>" style="color: #f97316;">OzVFY</a>.
+        <br>
+        <a href="<%= @unsubscribe_url %>" style="color: #9ca3af;">Unsubscribe</a> from price alerts.
+      </p>
+    </div>
   </div>
-
-  <a href="<%= @deal_url %>" style="display: inline-block; background: #f97316; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 8px;">
-    View Deal Now
-  </a>
-
-  <p style="margin-top: 24px; color: #999; font-size: 0.8em;">
-    You received this email because you set a price alert on <a href="<%= @site_url %>">OzVFY</a>.
-  </p>
 </body>
 </html>
