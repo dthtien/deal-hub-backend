@@ -646,6 +646,46 @@ module Api
         render json: { error: 'Not found' }, status: :not_found
       end
 
+      def expiry_prediction
+        product = Product.find(params[:id])
+        name_lower = product.name.to_s.downcase
+
+        if product.respond_to?(:flash_deal) && product.flash_deal
+          days = 1
+          confidence = 'high'
+          reason = 'Flash deals typically expire within 24 hours.'
+        elsif name_lower.include?('clearance')
+          days = 14
+          confidence = 'medium'
+          reason = 'Clearance items typically last around 14 days.'
+        elsif name_lower.include?('sale') || (product.respond_to?(:discount) && product.discount.to_f >= 20)
+          days = 7
+          confidence = 'medium'
+          reason = 'Sale items average about 7 days before expiring.'
+        else
+          avg_lifespan = Product.where(store: product.store)
+                                .where.not(expired: false)
+                                .where('created_at > ?', 90.days.ago)
+                                .average('EXTRACT(EPOCH FROM (updated_at - created_at)) / 86400')
+          days = avg_lifespan ? avg_lifespan.to_i.clamp(3, 30) : 7
+          confidence = avg_lifespan ? 'medium' : 'low'
+          reason = avg_lifespan ? "Based on average deal lifespan from #{product.store}." : 'Estimated based on typical deal duration.'
+        end
+
+        predicted_expiry = product.created_at + days.days
+        elapsed_days = ((Time.current - product.created_at) / 86400).to_i
+        remaining_days = [days - elapsed_days, 0].max
+
+        render json: {
+          predicted_expiry: predicted_expiry.iso8601,
+          remaining_days:   remaining_days,
+          confidence:       confidence,
+          reason:           reason
+        }
+      rescue ActiveRecord::RecordNotFound
+        render json: { error: 'Not found' }, status: :not_found
+      end
+
       def meta
         product = Product.find(params[:id])
         meta_data = Rails.cache.fetch("deal_meta_#{product.id}", expires_in: 5.minutes) do

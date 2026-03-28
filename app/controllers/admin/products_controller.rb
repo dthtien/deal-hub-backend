@@ -71,6 +71,26 @@ module Admin
       redirect_to admin_products_path, notice: "Product ##{product.id} marked as flash deal."
     end
 
+    def clone
+      original = Product.find(params[:id])
+      cloned = original.dup
+      cloned.name = "[COPY] #{original.name}"
+      cloned.store_product_id = "#{original.store_product_id}-copy-#{SecureRandom.hex(4)}"
+      cloned.save!
+
+      original.price_histories.each do |ph|
+        new_ph = ph.dup
+        new_ph.product_id = cloned.id
+        new_ph.save!
+      end
+
+      render json: cloned.as_json, status: :created
+    rescue ActiveRecord::RecordNotFound
+      render json: { error: 'Product not found' }, status: :not_found
+    rescue ActiveRecord::RecordInvalid => e
+      render json: { error: e.message }, status: :unprocessable_entity
+    end
+
     def bulk_expire
       body_params = request.content_type&.include?('application/json') ? JSON.parse(request.body.read) : params.to_unsafe_h
 

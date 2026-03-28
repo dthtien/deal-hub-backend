@@ -23,6 +23,14 @@ module Admin
       render json: { ok: true }
     end
 
+    def deliveries
+      @webhook = Webhook.find(params[:id])
+      deliveries = WebhookDelivery.where(webhook_id: @webhook.id)
+                                  .order(created_at: :desc)
+                                  .limit(50)
+      render json: deliveries.as_json(only: %i[id webhook_id payload response_status delivered_at failed created_at])
+    end
+
     private
 
     def webhook_params

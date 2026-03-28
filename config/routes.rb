@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     resources :products, only: %i[index update] do
       member do
         post :mark_flash
+        post :clone
       end
       collection do
         post :bulk_update
@@ -54,7 +55,11 @@ Rails.application.routes.draw do
         post :expire_deal
       end
     end
-    resources :webhooks, only: %i[index create destroy]
+    resources :webhooks, only: %i[index create destroy] do
+      member do
+        get :deliveries
+      end
+    end
     resources :crawlers, only: %i[index]
     resources :crawl_logs, only: %i[index]
     get 'analytics', to: 'analytics#index'
@@ -133,6 +138,7 @@ Rails.application.routes.draw do
           get :meta
           post :share
           get :price_prediction
+          get :expiry_prediction
         end
         collection do
           get :trending

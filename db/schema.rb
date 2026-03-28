@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_28_120002) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_28_200002) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -376,7 +376,9 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_28_120002) do
     t.datetime "updated_at", null: false
     t.string "unsubscribe_token"
     t.jsonb "preferences", default: {}
+    t.string "segment", default: "new"
     t.index ["email"], name: "index_subscribers_on_email", unique: true
+    t.index ["segment"], name: "index_subscribers_on_segment"
     t.index ["status"], name: "index_subscribers_on_status"
     t.index ["unsubscribe_token"], name: "index_subscribers_on_unsubscribe_token", unique: true
   end
@@ -416,6 +418,18 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_28_120002) do
     t.datetime "updated_at", null: false
     t.index ["product_id", "session_id"], name: "index_votes_on_product_id_and_session_id", unique: true
     t.index ["product_id"], name: "index_votes_on_product_id"
+  end
+
+  create_table "webhook_deliveries", force: :cascade do |t|
+    t.bigint "webhook_id", null: false
+    t.jsonb "payload"
+    t.integer "response_status"
+    t.datetime "delivered_at"
+    t.boolean "failed", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["failed"], name: "index_webhook_deliveries_on_failed"
+    t.index ["webhook_id"], name: "index_webhook_deliveries_on_webhook_id"
   end
 
   create_table "webhooks", force: :cascade do |t|

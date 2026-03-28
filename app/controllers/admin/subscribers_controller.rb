@@ -17,6 +17,27 @@ module Admin
       per_page = 50
       @total_pages = (@total / per_page.to_f).ceil
       @subscribers = scope.limit(per_page).offset((@page - 1) * per_page)
+
+      segment_counts = Subscriber.group(:segment).count
+      total_subs = Subscriber.count.to_f
+      @segments = %w[new active at_risk churned].map do |seg|
+        count = segment_counts[seg] || 0
+        {
+          segment: seg,
+          count:   count,
+          percent: total_subs > 0 ? (count / total_subs * 100).round(1) : 0
+        }
+      end
+
+      if request.format.json?
+        render json: {
+          subscribers: @subscribers.as_json(only: %i[id email status segment confirmed_at created_at]),
+          total:        @total,
+          page:         @page,
+          total_pages:  @total_pages,
+          segments:     @segments
+        }
+      end
     end
 
     def unsubscribe
