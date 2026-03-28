@@ -4,7 +4,7 @@ module Api
   module V1
     class CollectionsController < ApplicationController
       def index
-        collections = Collection.active.order(:name)
+        collections = Collection.active.includes(:products).order(:name)
         render json: {
           collections: collections.map { |c|
             c.as_json.merge(product_count: c.product_count)

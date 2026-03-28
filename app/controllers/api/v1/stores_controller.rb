@@ -47,11 +47,23 @@ module Api
             .select(:store_name, 'ROUND(AVG(rating)::numeric,1) AS avg_rating', 'COUNT(*) AS review_count')
             .index_by(&:store_name)
 
+          # Single subquery to get the best deal per store (highest discount)
+          best_deal_ids = Product
+            .where(expired: false)
+            .where(store: Product::STORES)
+            .select('DISTINCT ON (store) id, store')
+            .order('store, discount DESC NULLS LAST')
+            .map(&:id)
+
+          best_deals_by_store = Product
+            .where(id: best_deal_ids)
+            .index_by(&:store)
+
           Product::STORES.map do |store|
             row    = stats[store]
             dc     = row&.deal_count.to_i
             avg    = row&.avg_discount.to_f.round(1)
-            best   = Product.where(store: store, expired: false).order(discount: :desc).first
+            best   = best_deals_by_store[store]
             rrow   = review_stats[store]
 
             {

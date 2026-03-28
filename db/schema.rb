@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_29_100001) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_29_200001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -250,8 +250,11 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_29_100001) do
     t.boolean "is_bundle", default: false, null: false
     t.index ["brand"], name: "products_brand_gin_index", opclass: :gin_trgm_ops, using: :gin
     t.index ["categories"], name: "index_products_on_categories", using: :gin
+    t.index ["created_at"], name: "index_products_on_created_at"
     t.index ["deal_score"], name: "index_products_on_deal_score"
     t.index ["description"], name: "products_description_gin_index", opclass: :gin_trgm_ops, using: :gin
+    t.index ["discount"], name: "index_products_on_discount"
+    t.index ["expired", "discount"], name: "index_products_on_expired_and_discount"
     t.index ["expired"], name: "index_products_on_expired"
     t.index ["featured"], name: "index_products_on_featured"
     t.index ["flash_deal", "flash_expires_at"], name: "index_products_on_flash_deal_and_flash_expires_at"
@@ -260,6 +263,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_29_100001) do
     t.index ["name"], name: "index_products_on_name"
     t.index ["name"], name: "products_name_gin_index", opclass: :gin_trgm_ops, using: :gin
     t.index ["specifications"], name: "index_products_on_specifications", using: :gin
+    t.index ["store", "expired"], name: "index_products_on_store_and_expired"
     t.index ["store"], name: "index_products_on_store"
     t.index ["store_product_id", "store"], name: "index_products_on_store_product_id_and_store", unique: true
     t.index ["store_product_id"], name: "index_products_on_store_product_id"
