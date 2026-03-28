@@ -30,7 +30,7 @@ module Api
       def index
         response.set_header('Cache-Control', 'public, max-age=3600')
 
-        stores = Rails.cache.fetch('stores_index_v2', expires_in: 1.hour) do
+        stores = Rails.cache.fetch('stores_index_v3', expires_in: 1.hour) do
           # Aggregate deal_count and avg_discount for all stores in one query
           stats = Product.where(expired: false)
                          .group(:store)
@@ -40,6 +40,16 @@ module Api
                            'ROUND(AVG(CASE WHEN discount > 0 THEN discount ELSE NULL END)::numeric, 1) AS avg_discount'
                          )
                          .index_by(&:store)
+
+          # Products updated today per store
+          today_counts = Product.where(expired: false)
+                                .where('updated_at >= ?', Time.current.beginning_of_day)
+                                .group(:store)
+                                .count
+
+          # In-stock counts per store
+          in_stock_counts = Product.where(expired: false, in_stock: true).group(:store).count
+          total_counts    = Product.where(expired: false).group(:store).count
 
           # Aggregate review stats per store in one query
           review_stats = StoreReview
@@ -59,12 +69,20 @@ module Api
             .where(id: best_deal_ids)
             .index_by(&:store)
 
-          Product::STORES.map do |store|
+          result = Product::STORES.map do |store|
             row    = stats[store]
             dc     = row&.deal_count.to_i
             avg    = row&.avg_discount.to_f.round(1)
             best   = best_deals_by_store[store]
             rrow   = review_stats[store]
+
+            total      = total_counts[store].to_i
+            today      = today_counts[store].to_i
+            in_stock   = in_stock_counts[store].to_i
+
+            deal_freshness = total > 0 ? (today.to_f / total) : 0.0
+            stock_rate     = total > 0 ? (in_stock.to_f / total) : 0.0
+            store_score    = ((deal_freshness * 40) + (avg * 0.4) + (stock_rate * 20)).round(1)
 
             {
               name:         store,
@@ -72,9 +90,12 @@ module Api
               avg_discount: avg,
               best_deal:    best&.as_json,
               avg_rating:   rrow&.avg_rating.to_f,
-              review_count: rrow&.review_count.to_i
+              review_count: rrow&.review_count.to_i,
+              store_score:  store_score
             }
           end
+
+          result.sort_by { |s| -s[:store_score] }
         end
 
         render json: { stores: stores }

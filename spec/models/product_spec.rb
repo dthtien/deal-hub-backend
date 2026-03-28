@@ -47,7 +47,8 @@ RSpec.describe Product, :model, type: :model do
         view_count: 0,
         avg_rating: 0.0,
         rating_count: 0,
-        popularity_score: an_instance_of(Float)
+        popularity_score: an_instance_of(Float),
+        status: an_instance_of(String)
       )
       expect(product.as_json).to match(expected)
     end
