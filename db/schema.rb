@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_04_02_100002) do
+ActiveRecord::Schema[8.0].define(version: 2026_04_03_100001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -61,6 +61,9 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_02_100002) do
     t.datetime "clicked_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "utm_source"
+    t.string "utm_medium"
+    t.string "utm_campaign"
     t.index ["clicked_at"], name: "index_click_trackings_on_clicked_at"
     t.index ["product_id"], name: "index_click_trackings_on_product_id"
     t.index ["store"], name: "index_click_trackings_on_store"

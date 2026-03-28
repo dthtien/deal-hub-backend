@@ -1,6 +1,39 @@
 module Api
   module V1
     class LeaderboardController < ApplicationController
+      def by_category
+        cache_key = 'leaderboard:by_category'
+        data = Rails.cache.fetch(cache_key, expires_in: 15.minutes) do
+          # Get top 10 categories by deal count
+          top_categories = Product
+            .where(expired: false)
+            .where.not(categories: '{}')
+            .pluck(:categories)
+            .flatten
+            .reject(&:blank?)
+            .tally
+            .sort_by { |_cat, cnt| -cnt }
+            .first(10)
+            .map(&:first)
+
+          top_categories.map do |category|
+            top_deals = Product
+              .where(expired: false)
+              .where('? = ANY(categories)', category)
+              .where.not(deal_score: nil)
+              .order(deal_score: :desc)
+              .limit(3)
+
+            {
+              category: category,
+              top_deals: top_deals.map { |p| product_json(p) }
+            }
+          end.select { |r| r[:top_deals].any? }
+        end
+
+        render json: { categories: data }
+      end
+
       def shares
         top_shared = Product
           .where('share_count > 0')
@@ -53,7 +86,16 @@ module Api
       private
 
       def product_json(p)
-        { id: p.id, name: p.name, price: p.price, store: p.store, image_url: p.image_url, discount: p.discount }
+        {
+          id: p.id,
+          name: p.name,
+          price: p.price,
+          store: p.store,
+          image_url: p.image_url,
+          optimized_image_url: p.optimized_image_url,
+          discount: p.discount,
+          deal_score: p.deal_score
+        }
       end
     end
   end

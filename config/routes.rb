@@ -78,6 +78,7 @@ Rails.application.routes.draw do
     get 'crawl_schedule', to: 'crawl_schedule#index'
     get 'analytics', to: 'analytics#index'
     get 'analytics/click_heatmap', to: 'analytics#click_heatmap', as: :admin_click_heatmap
+    get 'analytics/attribution', to: 'analytics#attribution', as: :admin_analytics_attribution
     get 'analytics/affiliate', to: 'analytics#affiliate', as: :admin_affiliate_analytics
     get 'analytics/revenue', to: 'analytics#revenue', as: :admin_revenue_analytics
     get 'analytics/coupons', to: 'analytics#coupons', as: :admin_coupon_analytics
@@ -235,6 +236,7 @@ Rails.application.routes.draw do
       resources :push_subscriptions, only: %i[create destroy]
       resource :leaderboard, only: :show
       get 'leaderboard/shares', to: 'leaderboard#shares', as: :leaderboard_shares
+      get 'leaderboard/by_category', to: 'leaderboard#by_category', as: :leaderboard_by_category
       resources :search, only: [] do
         collection do
           get :suggestions

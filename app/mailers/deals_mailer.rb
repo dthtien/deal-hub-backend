@@ -3,13 +3,15 @@
 class DealsMailer < ApplicationMailer
   default from: ENV.fetch('MAILER_FROM', 'deals@ozvfy.com')
 
-  def weekly_digest(subscriber, deals, top_by_discount: [], deal_of_week: nil, new_stores: [], price_drops_count: 0)
+  def weekly_digest(subscriber, deals, top_by_discount: [], deal_of_week: nil, new_stores: [], price_drops_count: 0, flash_deals_ending: [], price_drop_products: [])
     @subscriber = subscriber
     @deals = deals
     @top_by_discount = top_by_discount
     @deal_of_week = deal_of_week
     @new_stores = new_stores
     @price_drops_count = price_drops_count
+    @flash_deals_ending = flash_deals_ending
+    @price_drop_products = price_drop_products
     @site_url = ENV.fetch('SITE_URL', 'https://www.ozvfy.com')
     @unsubscribe_url = "#{@site_url}/unsubscribe?token=#{subscriber.unsubscribe_token}"
 

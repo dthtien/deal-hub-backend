@@ -51,7 +51,8 @@ RSpec.describe Product, :model, type: :model do
         status: an_instance_of(String),
         going_fast: false,
         discount_tier: nil,
-        shipping_info: anything
+        shipping_info: anything,
+        optimized_image_url: anything
       )
       expect(product.as_json).to match(expected)
     end

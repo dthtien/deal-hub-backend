@@ -918,13 +918,17 @@ module Api
       def redirect
         product = Product.find(params[:id])
 
+        utm_params = ClickTracking.utm_from_url(request.referer)
         ClickTracking.create!(
           product_id: product.id,
           store: product.store,
           ip_address: request.remote_ip,
           user_agent: request.user_agent,
           referrer: request.referer,
-          clicked_at: Time.current
+          clicked_at: Time.current,
+          utm_source:   params[:utm_source].presence || utm_params[:utm_source],
+          utm_medium:   params[:utm_medium].presence || utm_params[:utm_medium],
+          utm_campaign: params[:utm_campaign].presence || utm_params[:utm_campaign]
         )
 
         affiliate_url = AffiliateUrlService.call(product)

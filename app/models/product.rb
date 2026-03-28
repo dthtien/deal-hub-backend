@@ -314,6 +314,24 @@ class Product < ApplicationRecord
     end
   end
 
+  SHOPIFY_CDN_PATTERN = /cdn\.shopify\.com/i
+
+  def optimized_image_url
+    return nil if image_url.blank?
+    if image_url.match?(SHOPIFY_CDN_PATTERN)
+      uri = URI.parse(image_url)
+      existing = URI.decode_www_form(uri.query || '').to_h
+      existing['width'] = '400'
+      existing['format'] = 'webp'
+      uri.query = URI.encode_www_form(existing)
+      uri.to_s
+    else
+      image_url
+    end
+  rescue URI::InvalidURIError
+    image_url
+  end
+
   def as_json(options = {})
     currency_code = options.delete(:currency)
     base = super(options).merge(
@@ -352,7 +370,8 @@ class Product < ApplicationRecord
       status: status.presence || (expired? ? 'expired' : 'active'),
       going_fast: going_fast,
       discount_tier: discount_tier,
-      shipping_info: shipping_info
+      shipping_info: shipping_info,
+      optimized_image_url: optimized_image_url
     )
 
     if currency_code && currency_code != 'AUD' && EXCHANGE_RATES.key?(currency_code)

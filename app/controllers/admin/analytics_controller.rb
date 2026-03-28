@@ -176,6 +176,43 @@ module Admin
       }
     end
 
+    def attribution
+      # Breakdown by utm_source
+      by_source = ClickTracking
+        .where.not(utm_source: nil)
+        .group(:utm_source)
+        .order(Arel.sql('COUNT(*) DESC'))
+        .count
+        .map { |src, cnt| { utm_source: src, clicks: cnt } }
+
+      # Breakdown by utm_medium
+      by_medium = ClickTracking
+        .where.not(utm_medium: nil)
+        .group(:utm_medium)
+        .order(Arel.sql('COUNT(*) DESC'))
+        .count
+        .map { |med, cnt| { utm_medium: med, clicks: cnt } }
+
+      # Breakdown by utm_campaign
+      by_campaign = ClickTracking
+        .where.not(utm_campaign: nil)
+        .group(:utm_campaign)
+        .order(Arel.sql('COUNT(*) DESC'))
+        .count
+        .map { |camp, cnt| { utm_campaign: camp, clicks: cnt } }
+
+      total = ClickTracking.count
+      attributed = ClickTracking.with_utm.count
+      unattributed = total - attributed
+
+      render json: {
+        summary: { total: total, attributed: attributed, unattributed: unattributed },
+        by_source: by_source,
+        by_medium: by_medium,
+        by_campaign: by_campaign
+      }
+    end
+
     def click_heatmap
       rows = ActiveRecord::Base.connection.execute(<<~SQL)
         SELECT
