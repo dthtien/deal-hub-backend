@@ -96,6 +96,8 @@ Rails.application.routes.draw do
       post 'auth/login', to: 'auth#login'
       get  'auth/me', to: 'auth#me'
       resources :saved_deals, only: %i[index create destroy]
+      get 'deals/deal_of_the_month', to: 'deals#deal_of_the_month'
+      get 'deals/biggest_drops', to: 'deals#biggest_drops'
       get 'deals/high_quality', to: 'deals#high_quality'
       get 'deals/top_picks', to: 'deals#top_picks'
       get 'deals/freshness_stats', to: 'deals#freshness_stats'
@@ -201,6 +203,10 @@ Rails.application.routes.draw do
         end
       end
       get 'activity', to: 'activity#index'
+      get  'preferences', to: 'preferences#show'
+      post 'preferences', to: 'preferences#create'
+      get  'brands', to: 'brands#index'
+      get  'brands/:name/deals', to: 'brands#deals', as: :brand_deals, constraints: { name: /[^\/]+/ }
       namespace :referrals do
       end
       get 'referrals/link', to: 'referrals#link'

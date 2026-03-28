@@ -672,6 +672,56 @@ module Api
         }
       end
 
+      def deal_of_the_month
+        year  = Date.today.year
+        month = Date.today.month
+        cache_key = "deal_of_month_#{year}_#{month}"
+
+        deal = Rails.cache.fetch(cache_key, expires_in: 6.hours) do
+          Product.where(expired: false)
+                 .where('products.created_at >= ?', Date.today.beginning_of_month)
+                 .where('discount > 0')
+                 .where.not(image_url: [nil, ''])
+                 .select('products.*, (discount * view_count * GREATEST(1, (SELECT COUNT(*) FROM votes WHERE votes.product_id = products.id AND value = 1))) AS month_score')
+                 .order('month_score DESC NULLS LAST, deal_score DESC')
+                 .first
+        end
+
+        if deal
+          render json: deal.as_json
+        else
+          render json: nil
+        end
+      end
+
+      def biggest_drops
+        cache_key = 'biggest_drops_v1'
+        result = Rails.cache.fetch(cache_key, expires_in: 30.minutes) do
+          rows = Product
+            .joins(:price_histories)
+            .where(expired: false)
+            .where('price_histories.old_price IS NOT NULL AND price_histories.old_price > products.price')
+            .select(
+              'products.*',
+              'MAX(price_histories.old_price) AS old_price_hist',
+              'MAX(price_histories.old_price) - MIN(products.price) AS absolute_drop',
+              'ROUND(((MAX(price_histories.old_price) - MIN(products.price)) / NULLIF(MAX(price_histories.old_price), 0) * 100)::numeric, 1) AS drop_percent'
+            )
+            .group('products.id')
+            .order('absolute_drop DESC NULLS LAST')
+            .limit(20)
+
+          rows.map do |p|
+            p.as_json.merge(
+              'absolute_drop' => p.attributes['absolute_drop'].to_f.round(2),
+              'drop_percent'  => p.attributes['drop_percent'].to_f
+            )
+          end
+        end
+
+        render json: { products: result }
+      end
+
       def freshness_stats
         now = Time.current
         base = Product.where(expired: false)
