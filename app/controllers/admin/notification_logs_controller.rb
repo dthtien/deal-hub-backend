@@ -20,9 +20,38 @@ module Admin
         total_pages: (total.to_f / PER_PAGE).ceil
       }
 
+      # Open rate by type
+      @open_rate_by_type = NotificationLog
+        .group(:notification_type)
+        .select(
+          :notification_type,
+          'COUNT(*) AS sent_count',
+          'COUNT(opened_at) AS opened_count'
+        )
+        .map { |r| {
+          type: r.notification_type,
+          sent: r.sent_count.to_i,
+          opened: r.opened_count.to_i,
+          rate: r.sent_count.to_i > 0 ? (r.opened_count.to_f / r.sent_count * 100).round(1) : 0.0
+        }}
+        .sort_by { |r| -r[:rate] }
+
+      # Open rate by day - last 7 days
+      @open_rate_by_day = (6.downto(0)).map do |days_ago|
+        date = days_ago.days.ago.to_date
+        sent = NotificationLog.where(created_at: date.beginning_of_day..date.end_of_day).count
+        opened = NotificationLog.where(created_at: date.beginning_of_day..date.end_of_day).where.not(opened_at: nil).count
+        {
+          date: date.strftime('%d %b'),
+          sent: sent,
+          opened: opened,
+          rate: sent > 0 ? (opened.to_f / sent * 100).round(1) : 0.0
+        }
+      end
+
       respond_to do |format|
         format.html
-        format.json { render json: { logs: @logs, metadata: @meta } }
+        format.json { render json: { logs: @logs, metadata: @meta, open_rate_by_type: @open_rate_by_type, open_rate_by_day: @open_rate_by_day } }
       end
     end
   end

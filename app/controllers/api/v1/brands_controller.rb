@@ -4,14 +4,17 @@ module Api
   module V1
     class BrandsController < ApplicationController
       def index
-        brands = Rails.cache.fetch('brands_index_v1', expires_in: 30.minutes) do
+        sort = params[:sort].presence || 'deal_count'
+        cache_key = "brands_index_v2_#{sort}"
+
+        brands = Rails.cache.fetch(cache_key, expires_in: 30.minutes) do
+          order_clause = sort == 'alpha' ? 'brand ASC' : 'deal_count DESC'
           Product.where(expired: false)
                  .where.not(brand: [nil, ''])
                  .group(:brand)
                  .select('brand, COUNT(*) AS deal_count, ROUND(AVG(discount), 1) AS avg_discount')
-                 .order('deal_count DESC')
-                 .limit(20)
-                 .map { |r| { brand: r.brand, deal_count: r.deal_count, avg_discount: r.avg_discount.to_f } }
+                 .order(order_clause)
+                 .map { |r| { brand: r.brand, deal_count: r.deal_count.to_i, avg_discount: r.avg_discount.to_f } }
         end
         render json: { brands: brands }
       end
