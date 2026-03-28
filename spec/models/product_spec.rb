@@ -50,7 +50,8 @@ RSpec.describe Product, :model, type: :model do
         popularity_score: an_instance_of(Float),
         status: an_instance_of(String),
         going_fast: false,
-        discount_tier: nil
+        discount_tier: nil,
+        shipping_info: anything
       )
       expect(product.as_json).to match(expected)
     end

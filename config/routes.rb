@@ -80,6 +80,7 @@ Rails.application.routes.draw do
     get 'analytics/click_heatmap', to: 'analytics#click_heatmap', as: :admin_click_heatmap
     get 'analytics/affiliate', to: 'analytics#affiliate', as: :admin_affiliate_analytics
     get 'analytics/revenue', to: 'analytics#revenue', as: :admin_revenue_analytics
+    get 'analytics/coupons', to: 'analytics#coupons', as: :admin_coupon_analytics
     get 'reports/stores', to: 'reports#stores', as: :admin_reports_stores
     get 'reports/deal_performance', to: 'reports#deal_performance', as: :admin_reports_deal_performance
     get 'search', to: 'search#index'
@@ -256,6 +257,7 @@ Rails.application.routes.draw do
           post :bulk
           delete :bulk_destroy
           patch :bulk_status
+          get :history
         end
       end
       get  'notification_preferences', to: 'notification_preferences#show'

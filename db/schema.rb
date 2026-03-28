@@ -134,6 +134,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_02_100002) do
     t.datetime "updated_at", null: false
     t.integer "used_count", default: 0, null: false
     t.decimal "min_purchase_amount", precision: 10, scale: 2
+    t.integer "reveal_count", default: 0, null: false
     t.index ["active"], name: "index_coupons_on_active"
     t.index ["code"], name: "index_coupons_on_code"
     t.index ["store"], name: "index_coupons_on_store"
@@ -229,6 +230,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_02_100002) do
     t.datetime "updated_at", null: false
     t.string "keyword"
     t.string "status", default: "active"
+    t.decimal "triggered_price", precision: 10, scale: 2
     t.index ["email"], name: "index_price_alerts_on_email"
     t.index ["product_id", "triggered"], name: "index_price_alerts_on_product_id_and_triggered"
     t.index ["status"], name: "index_price_alerts_on_status"
@@ -280,6 +282,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_02_100002) do
     t.string "status", default: "active"
     t.tsvector "search_vector"
     t.boolean "going_fast", default: false, null: false
+    t.jsonb "metadata", default: {}
     t.index ["brand"], name: "products_brand_gin_index", opclass: :gin_trgm_ops, using: :gin
     t.index ["categories"], name: "index_products_on_categories", using: :gin
     t.index ["created_at"], name: "index_products_on_created_at"
@@ -292,6 +295,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_02_100002) do
     t.index ["flash_deal", "flash_expires_at"], name: "index_products_on_flash_deal_and_flash_expires_at"
     t.index ["in_stock"], name: "index_products_on_in_stock"
     t.index ["is_bundle"], name: "index_products_on_is_bundle"
+    t.index ["metadata"], name: "index_products_on_metadata", using: :gin
     t.index ["name"], name: "index_products_on_name"
     t.index ["name"], name: "products_name_gin_index", opclass: :gin_trgm_ops, using: :gin
     t.index ["search_vector"], name: "index_products_on_search_vector", using: :gin

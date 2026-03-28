@@ -137,6 +137,45 @@ module Admin
       }
     end
 
+    def coupons
+      all_coupons = Coupon.all.order(Arel.sql('CASE WHEN reveal_count > 0 THEN (used_count::float / reveal_count) ELSE 0 END DESC'))
+
+      expiring_soon_ids = Coupon.where('expires_at IS NOT NULL AND expires_at BETWEEN ? AND ?', Time.current, 7.days.from_now).pluck(:id).to_set
+
+      coupon_data = all_coupons.map do |c|
+        conversion = c.reveal_count > 0 ? (c.used_count.to_f / c.reveal_count * 100).round(1) : 0.0
+        {
+          id: c.id,
+          code: c.code,
+          store: c.store,
+          description: c.description,
+          discount_value: c.discount_value,
+          discount_type: c.discount_type,
+          discount_label: c.discount_label,
+          reveal_count: c.reveal_count,
+          use_count: c.used_count,
+          conversion_rate: conversion,
+          expires_at: c.expires_at,
+          expiring_soon: expiring_soon_ids.include?(c.id),
+          active: c.active?,
+          verified: c.verified
+        }
+      end
+
+      top_by_conversion = coupon_data.select { |c| c[:reveal_count] > 0 }
+                                     .sort_by { |c| -c[:conversion_rate] }
+                                     .first(10)
+
+      expiring_soon = coupon_data.select { |c| c[:expiring_soon] }
+                                 .sort_by { |c| c[:expires_at] }
+
+      render json: {
+        coupons: coupon_data,
+        top_by_conversion: top_by_conversion,
+        expiring_soon: expiring_soon
+      }
+    end
+
     def click_heatmap
       rows = ActiveRecord::Base.connection.execute(<<~SQL)
         SELECT

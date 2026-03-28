@@ -469,10 +469,34 @@ module Api
         }
       end
 
+      VIEW_MILESTONES = [100, 500, 1000, 5000].freeze
+
       def view
         product = Product.find(params[:id])
+        old_count = product.view_count.to_i
         Product.update_counters(product.id, view_count: 1)
-        render json: { ok: true, view_count: product.view_count + 1 }
+        new_count = old_count + 1
+
+        # Check for view milestones
+        milestone = VIEW_MILESTONES.find { |m| old_count < m && new_count >= m }
+        if milestone
+          NotificationLog.create!(
+            notification_type: 'view_milestone',
+            recipient: "product:#{product.id}",
+            subject: "#{product.name} reached #{milestone} views",
+            status: 'sent'
+          )
+          WebhookDispatcher.dispatch('deal.trending', {
+            event: 'deal.trending',
+            product_id: product.id,
+            product_name: product.name,
+            milestone: milestone,
+            view_count: new_count,
+            triggered_at: Time.current.iso8601
+          })
+        end
+
+        render json: { ok: true, view_count: new_count }
       rescue ActiveRecord::RecordNotFound
         render json: { error: 'Not found' }, status: :not_found
       end
@@ -539,11 +563,17 @@ module Api
         end
 
         if categories.empty? && stores.empty?
-          products = Product.where(expired: false)
-                            .where.not(id: saved_ids)
-                            .order(deal_score: :desc)
-                            .limit(20)
-          return render json: { products: products.map { |p| p.as_json.merge('match_reason' => 'Top deals for you') } }
+          raw_products = Product.where(expired: false)
+                                .where.not(id: saved_ids)
+                                .order(deal_score: :desc)
+                                .limit(60)
+          tuples = raw_products.map { |p| [p, 5, 'Top deals for you'] }
+          diverse = apply_recommendation_diversity(tuples)
+          return render json: {
+            products: diverse.map { |p, score, reason|
+              p.as_json.merge('match_reason' => reason, 'match_score' => [[score, 10].min, 0].max)
+            }
+          }
         end
 
         all = Product.where(expired: false)
@@ -584,9 +614,13 @@ module Api
           [p, score, reason]
         end
 
-        top = scored.select { |_, s, _| s > 0 }.sort_by { |_, s, _| -s }.first(20)
+        top_scored = scored.select { |_, s, _| s > 0 }.sort_by { |_, s, _| -s }.first(60)
+        diverse = apply_recommendation_diversity(top_scored)
         render json: {
-          products: top.map { |p, _, reason| p.as_json.merge('match_reason' => reason) }
+          products: diverse.map { |p, score, reason|
+            match_score = [[score, 10].min, 0].max
+            p.as_json.merge('match_reason' => reason, 'match_score' => match_score)
+          }
         }
       end
 
@@ -970,6 +1004,55 @@ module Api
       end
 
       private
+
+      # Enforce diversity: max 3 per store, max 4 per category, price range mix
+      # tuples is Array of [product, score, reason]
+      def apply_recommendation_diversity(tuples)
+        store_counts    = Hash.new(0)
+        category_counts = Hash.new(0)
+        result          = []
+
+        tuples.each do |p, score, reason|
+          next if store_counts[p.store] >= 3
+          cats = Array(p.categories)
+          next if cats.any? && cats.all? { |c| category_counts[c] >= 4 }
+
+          store_counts[p.store] += 1
+          cats.each { |c| category_counts[c] += 1 }
+          result << [p, score, reason]
+          break if result.size >= 20
+        end
+
+        # Ensure price range mix: at least 1 under $50, 1 $50-$200, 1 over $200
+        price_buckets = { low: false, mid: false, high: false }
+        result.each do |p, _, _|
+          pr = p.price.to_f
+          if pr < 50
+            price_buckets[:low] = true
+          elsif pr <= 200
+            price_buckets[:mid] = true
+          else
+            price_buckets[:high] = true
+          end
+        end
+
+        unless price_buckets[:low]
+          candidate = tuples.find { |p, _, _| p.price.to_f < 50 && result.none? { |r, _, _| r.id == p.id } }
+          result << candidate if candidate
+        end
+
+        unless price_buckets[:mid]
+          candidate = tuples.find { |p, _, _| p.price.to_f.between?(50, 200) && result.none? { |r, _, _| r.id == p.id } }
+          result << candidate if candidate
+        end
+
+        unless price_buckets[:high]
+          candidate = tuples.find { |p, _, _| p.price.to_f > 200 && result.none? { |r, _, _| r.id == p.id } }
+          result << candidate if candidate
+        end
+
+        result.first(20)
+      end
 
       def select_fields(json_hash)
         return json_hash unless params[:fields].present?

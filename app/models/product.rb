@@ -193,6 +193,27 @@ class Product < ApplicationRecord
   end
 
   AWIN_STORES = [ASOS, JD_SPORTS].freeze
+
+  SHIPPING_DAYS = {
+    ASOS             => '2-5 days',
+    JD_SPORTS        => '3-7 days',
+    MYER             => '3-5 days',
+    OFFICE_WORKS     => '2-5 days',
+    JB_HIFI          => '2-4 days',
+    GLUE_STORE       => '3-7 days',
+    NIKE             => '3-7 days',
+    CULTURE_KINGS    => '3-7 days',
+    THE_GOOD_GUYS    => '2-5 days',
+    THE_ICONIC       => '2-4 days',
+    KMART            => '3-7 days',
+    BIG_W            => '3-7 days',
+    TARGET_AU        => '3-7 days',
+    BOOKING_COM      => nil,
+    GOOD_BUYZ        => '5-10 days',
+    BEGINNING_BOUTIQUE => '3-7 days',
+    UNIVERSAL_STORE  => '3-7 days',
+    LORNA_JANE       => '3-5 days'
+  }.freeze
   AFFILIATE_RATES = {
     'awin' => 0.06,
     'commission_factory' => 0.04,
@@ -214,6 +235,12 @@ class Product < ApplicationRecord
     return commission_rate.to_f if commission_rate.present?
 
     affiliate_network_value == 'awin' ? 0.06 : 0.04
+  end
+
+  def shipping_info
+    # Use stored metadata first, fall back to static config
+    stored = metadata&.dig('shipping_days')
+    stored.presence || SHIPPING_DAYS[store]
   end
 
   def quality_score
@@ -324,7 +351,8 @@ class Product < ApplicationRecord
       rating_count: rating_count,
       status: status.presence || (expired? ? 'expired' : 'active'),
       going_fast: going_fast,
-      discount_tier: discount_tier
+      discount_tier: discount_tier,
+      shipping_info: shipping_info
     )
 
     if currency_code && currency_code != 'AUD' && EXCHANGE_RATES.key?(currency_code)

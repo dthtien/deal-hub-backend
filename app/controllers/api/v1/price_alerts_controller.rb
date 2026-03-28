@@ -26,6 +26,50 @@ module Api
         }
       end
 
+      # GET /api/v1/price_alerts/history?email=X
+      def history
+        email = params[:email].to_s.strip
+        if email.blank?
+          return render json: { error: 'email param required' }, status: :unprocessable_entity
+        end
+
+        page     = [params[:page].to_i, 1].max
+        per_page = 20
+        offset   = (page - 1) * per_page
+
+        scope = PriceAlert.where(email: email)
+                          .where("triggered = true OR status = 'expired'")
+                          .includes(:product)
+                          .order(triggered_at: :desc, created_at: :desc)
+
+        total = scope.count
+        alerts = scope.offset(offset).limit(per_page)
+
+        render json: {
+          history: alerts.map do |a|
+            {
+              id: a.id,
+              product_id: a.product_id,
+              product_name: a.product&.name,
+              product_image_url: a.product&.image_url,
+              store: a.product&.store,
+              store_url: a.product&.store_url,
+              target_price: a.target_price,
+              triggered_price: a.triggered_price || a.product&.price,
+              triggered_at: a.triggered_at,
+              status: a.status.presence || (a.triggered? ? 'triggered' : 'active'),
+              created_at: a.created_at
+            }
+          end,
+          metadata: {
+            total_count: total,
+            page: page,
+            per_page: per_page,
+            total_pages: (total.to_f / per_page).ceil
+          }
+        }
+      end
+
       def create
         product = Product.find(params[:product_id])
         alert = product.price_alerts.new(alert_params)
