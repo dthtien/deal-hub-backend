@@ -1,9 +1,26 @@
 <% content_for :title, "Dashboard" %>
 
-<h1 class="text-2xl font-bold text-gray-900 mb-6">Dashboard</h1>
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-2xl font-bold text-gray-900">Dashboard</h1>
+  <div class="flex items-center gap-3">
+    <!-- Crawl status indicator -->
+    <div id="crawl-status" class="flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full <%= @crawl_running ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-500' %>">
+      <span class="inline-block w-2 h-2 rounded-full <%= @crawl_running ? 'bg-emerald-500 animate-pulse' : 'bg-gray-400' %>"></span>
+      <%= @crawl_running ? 'Crawl running' : 'No active crawl' %>
+    </div>
+    <!-- Auto-refresh controls -->
+    <span id="last-updated" class="text-xs text-gray-400">Last updated just now</span>
+    <button
+      id="pause-refresh-btn"
+      class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-gray-200 text-gray-500 hover:border-gray-300 hover:text-gray-700 transition-colors"
+    >
+      Pause auto-refresh
+    </button>
+  </div>
+</div>
 
 <!-- Stats grid -->
-<div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+<div id="stats-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
   <% [
     ['Products', @stats[:products], 'bg-blue-500'],
     ['Active Deals', @stats[:active], 'bg-emerald-500'],
@@ -14,8 +31,8 @@
     ['Votes', @stats[:votes], 'bg-yellow-500'],
     ['Clicks', @stats[:clicks], 'bg-red-500'],
   ].each do |label, value, color| %>
-    <div class="bg-white rounded-xl shadow-sm p-5">
-      <div class="text-2xl font-bold text-gray-900"><%= number_with_delimiter(value) %></div>
+    <div class="bg-white rounded-xl shadow-sm p-5" data-stat="<%= label.downcase.gsub(/\s+/, '_') %>">
+      <div class="stat-value text-2xl font-bold text-gray-900"><%= number_with_delimiter(value) %></div>
       <div class="text-sm text-gray-500 mt-1"><%= label %></div>
       <div class="h-1 rounded-full <%= color %> mt-3 opacity-60"></div>
     </div>
@@ -26,7 +43,7 @@
   <!-- Top stores -->
   <div class="bg-white rounded-xl shadow-sm p-6">
     <h2 class="font-semibold text-gray-800 mb-4">Top Stores by Deal Count</h2>
-    <div class="space-y-2">
+    <div id="top-stores" class="space-y-2">
       <% @top_stores.each do |store, count| %>
         <div class="flex items-center justify-between">
           <span class="text-sm text-gray-700"><%= store %></span>
@@ -39,7 +56,7 @@
   <!-- Recent deals -->
   <div class="bg-white rounded-xl shadow-sm p-6">
     <h2 class="font-semibold text-gray-800 mb-4">Recently Added Deals</h2>
-    <div class="space-y-2">
+    <div id="recent-products" class="space-y-2">
       <% @recent_products.each do |p| %>
         <div class="flex items-center justify-between gap-2">
           <span class="text-sm text-gray-700 truncate flex-1"><%= p.name.to_s.truncate(50) %></span>
@@ -106,3 +123,98 @@
     <%= link_to '🏷️ Export Coupons CSV', admin_export_coupons_path, class: 'inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors' %>
   </div>
 </div>
+
+<script>
+(function() {
+  var paused = false;
+  var intervalId = null;
+  var lastUpdatedAt = Date.now();
+
+  var pauseBtn = document.getElementById('pause-refresh-btn');
+  var lastUpdatedEl = document.getElementById('last-updated');
+  var crawlStatusEl = document.getElementById('crawl-status');
+
+  // Counter: "Last updated X seconds ago"
+  function updateCounter() {
+    var secs = Math.floor((Date.now() - lastUpdatedAt) / 1000);
+    if (secs < 5) {
+      lastUpdatedEl.textContent = 'Last updated just now';
+    } else if (secs < 60) {
+      lastUpdatedEl.textContent = 'Last updated ' + secs + 's ago';
+    } else {
+      var mins = Math.floor(secs / 60);
+      lastUpdatedEl.textContent = 'Last updated ' + mins + 'm ago';
+    }
+  }
+  setInterval(updateCounter, 5000);
+
+  function fetchStats() {
+    if (paused) return;
+    fetch('<%= admin_dashboard_stats_path %>', { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+      .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
+      .then(function(data) {
+        lastUpdatedAt = Date.now();
+        updateCounter();
+
+        // Update stats
+        var statMap = {
+          'products': data.stats.products,
+          'active_deals': data.stats.active,
+          'stores': data.stats.stores,
+          'subscribers': data.stats.subscribers,
+          'coupons': data.stats.coupons,
+          'pending_submissions': data.stats.submissions,
+          'votes': data.stats.votes,
+          'clicks': data.stats.clicks
+        };
+        document.querySelectorAll('[data-stat]').forEach(function(el) {
+          var key = el.getAttribute('data-stat');
+          if (statMap[key] !== undefined) {
+            el.querySelector('.stat-value').textContent = statMap[key].toLocaleString();
+          }
+        });
+
+        // Update crawl indicator
+        if (data.crawl_running) {
+          crawlStatusEl.className = 'flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full bg-emerald-100 text-emerald-700';
+          crawlStatusEl.innerHTML = '<span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Crawl running';
+        } else {
+          crawlStatusEl.className = 'flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full bg-gray-100 text-gray-500';
+          crawlStatusEl.innerHTML = '<span class="inline-block w-2 h-2 rounded-full bg-gray-400"></span> No active crawl';
+        }
+
+        // Update recent products
+        if (data.recent_products && data.recent_products.length > 0) {
+          var html = data.recent_products.map(function(p) {
+            return '<div class="flex items-center justify-between gap-2">' +
+              '<span class="text-sm text-gray-700 truncate flex-1">' + p.name + '</span>' +
+              '<span class="text-xs text-gray-400 flex-shrink-0">' + p.store + '</span>' +
+              '<span class="text-xs font-semibold text-orange-500 flex-shrink-0">$' + p.price + '</span>' +
+              '</div>';
+          }).join('');
+          document.getElementById('recent-products').innerHTML = html;
+        }
+      })
+      .catch(function() { /* silently fail */ });
+  }
+
+  function startRefresh() {
+    if (intervalId) clearInterval(intervalId);
+    intervalId = setInterval(fetchStats, 30000);
+  }
+
+  pauseBtn.addEventListener('click', function() {
+    paused = !paused;
+    if (paused) {
+      pauseBtn.textContent = 'Resume auto-refresh';
+      pauseBtn.classList.add('bg-amber-50', 'border-amber-300', 'text-amber-600');
+    } else {
+      pauseBtn.textContent = 'Pause auto-refresh';
+      pauseBtn.classList.remove('bg-amber-50', 'border-amber-300', 'text-amber-600');
+      fetchStats();
+    }
+  });
+
+  startRefresh();
+})();
+</script>

@@ -3,6 +3,25 @@
 module Admin
   class DashboardController < BaseController
     def index
+      load_dashboard_data
+      render :index
+    end
+
+    def stats
+      load_dashboard_data
+      render json: {
+        stats:           @stats,
+        top_stores:      @top_stores.map { |s, c| { store: s, count: c } },
+        recent_products: @recent_products.map { |p| { id: p.id, name: p.name.truncate(50), store: p.store, price: p.price } },
+        daily_stats:     @daily_stats.map { |label, count| { label: label, count: count } },
+        crawl_running:   @crawl_running,
+        generated_at:    Time.current.iso8601
+      }
+    end
+
+    private
+
+    def load_dashboard_data
       @stats = {
         products:    Product.count,
         active:      Product.where(expired: false).count,
@@ -32,7 +51,8 @@ module Admin
 
       @recent_votes = Vote.includes(:product).order(created_at: :desc).limit(10)
 
-      render :index
+      # Crawl running: check if any CrawlLog was created in the last 5 minutes
+      @crawl_running = CrawlLog.where('crawled_at >= ?', 5.minutes.ago).exists?
     end
   end
 end

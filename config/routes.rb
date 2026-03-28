@@ -74,6 +74,7 @@ Rails.application.routes.draw do
     get 'reports/deal_performance', to: 'reports#deal_performance', as: :admin_reports_deal_performance
     get 'search', to: 'search#index'
     resources :api_keys, only: %i[index create destroy]
+    get 'dashboard/stats', to: 'dashboard#stats', as: :admin_dashboard_stats
     resources :notification_logs, only: %i[index]
     resources :subscribers, only: %i[index] do
       member do
