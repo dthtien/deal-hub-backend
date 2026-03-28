@@ -153,6 +153,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_04_100001) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.float "yield_rate"
+    t.string "health_status", default: "unknown"
   end
 
   create_table "deal_of_day_histories", force: :cascade do |t|
@@ -286,6 +287,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_04_100001) do
     t.tsvector "search_vector"
     t.boolean "going_fast", default: false, null: false
     t.jsonb "metadata", default: {}
+    t.jsonb "share_breakdown", default: {}
     t.index ["brand"], name: "products_brand_gin_index", opclass: :gin_trgm_ops, using: :gin
     t.index ["categories"], name: "index_products_on_categories", using: :gin
     t.index ["created_at"], name: "index_products_on_created_at"
@@ -443,9 +445,11 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_04_100001) do
     t.string "unsubscribe_token"
     t.jsonb "preferences", default: {}
     t.string "segment", default: "new"
+    t.string "tier", default: "free"
     t.index ["email"], name: "index_subscribers_on_email", unique: true
     t.index ["segment"], name: "index_subscribers_on_segment"
     t.index ["status"], name: "index_subscribers_on_status"
+    t.index ["tier"], name: "index_subscribers_on_tier"
     t.index ["unsubscribe_token"], name: "index_subscribers_on_unsubscribe_token", unique: true
   end
 

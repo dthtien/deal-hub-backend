@@ -96,6 +96,9 @@ module Api
             stock_rate     = total > 0 ? (in_stock.to_f / total) : 0.0
             store_score    = ((deal_freshness * 40) + (avg * 0.4) + (stock_rate * 20)).round(1)
 
+            latest_health_log = CrawlLog.where(store: store).order(crawled_at: :desc).first
+            health_status = latest_health_log&.health_status || 'unknown'
+
             {
               name:          store,
               deal_count:    dc,
@@ -104,7 +107,9 @@ module Api
               avg_rating:    rrow&.avg_rating.to_f,
               review_count:  rrow&.review_count.to_i,
               store_score:   store_score,
-              loyalty_score: loyalty_by_store[store] || 0.0
+              loyalty_score: loyalty_by_store[store] || 0.0,
+              health_status: health_status,
+              last_crawled_at: latest_health_log&.crawled_at&.iso8601
             }
           end
 
@@ -238,9 +243,10 @@ module Api
             show_next_page: offset + PER_PAGE < total
           },
           store_stats: {
-            total_deals: total_deals,
-            avg_discount: avg_discount,
-            top_category: top_category
+            total_deals:   total_deals,
+            avg_discount:  avg_discount,
+            top_category:  top_category,
+            health_status: CrawlLog.where(store: store_name).order(crawled_at: :desc).first&.health_status || 'unknown'
           }
         }
       end

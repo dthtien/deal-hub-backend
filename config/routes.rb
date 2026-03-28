@@ -34,11 +34,13 @@ Rails.application.routes.draw do
       member do
         post :mark_flash
         post :clone
+        post :extend_expiry
       end
       collection do
         post :bulk_update
         post :bulk_action
         post :bulk_expire
+        post :bulk_extend
         patch :bulk_update_products
         post :merge
       end
@@ -101,6 +103,7 @@ Rails.application.routes.draw do
     resources :subscribers, only: %i[index] do
       member do
         post :unsubscribe
+        post :upgrade
       end
       collection do
         get :export
@@ -173,6 +176,8 @@ Rails.application.routes.draw do
           get :ai_summary
           get :meta
           post :share
+          get :shares
+          get :alert_suggestions
           get :price_prediction
           get :expiry_prediction
           get :price_analytics

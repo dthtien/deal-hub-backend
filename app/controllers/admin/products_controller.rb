@@ -181,5 +181,42 @@ module Admin
     rescue JSON::ParserError
       render json: { error: 'Invalid JSON' }, status: :bad_request
     end
+
+    def extend_expiry
+      product = Product.find(params[:id])
+      new_expiry = (product.flash_expires_at || Time.current) + 24.hours
+      product.update!(flash_expires_at: new_expiry)
+      NotificationLog.create!(
+        notification_type: 'expiry_extension',
+        recipient:         "admin",
+        subject:           "Extended expiry for product #{product.id}: #{product.name}",
+        status:            'sent'
+      )
+      render json: { ok: true, flash_expires_at: new_expiry.iso8601, product_id: product.id }
+    rescue ActiveRecord::RecordNotFound
+      render json: { error: 'Not found' }, status: :not_found
+    end
+
+    def bulk_extend
+      body_params = request.content_type&.include?('application/json') ? JSON.parse(request.body.read) : params.to_unsafe_h
+      ids = Array(body_params['ids']).map(&:to_i).reject(&:zero?)
+      return render json: { error: 'ids required' }, status: :unprocessable_entity if ids.empty?
+
+      extended = []
+      Product.where(id: ids).find_each do |product|
+        new_expiry = (product.flash_expires_at || Time.current) + 24.hours
+        product.update!(flash_expires_at: new_expiry)
+        NotificationLog.create!(
+          notification_type: 'expiry_extension',
+          recipient:         "admin",
+          subject:           "Bulk extended expiry for product #{product.id}",
+          status:            'sent'
+        )
+        extended << { id: product.id, flash_expires_at: new_expiry.iso8601 }
+      end
+      render json: { ok: true, extended: extended, count: extended.length }
+    rescue JSON::ParserError
+      render json: { error: 'Invalid JSON' }, status: :bad_request
+    end
   end
 end

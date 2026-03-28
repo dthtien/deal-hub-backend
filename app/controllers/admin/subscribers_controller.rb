@@ -31,7 +31,7 @@ module Admin
 
       if request.format.json?
         render json: {
-          subscribers: @subscribers.as_json(only: %i[id email status segment confirmed_at created_at]),
+          subscribers: @subscribers.as_json(only: %i[id email status segment tier confirmed_at created_at]),
           total:        @total,
           page:         @page,
           total_pages:  @total_pages,
@@ -70,6 +70,18 @@ module Admin
       subscriber = Subscriber.find(params[:id])
       subscriber.update!(status: 'unsubscribed')
       redirect_to admin_subscribers_path, notice: "#{subscriber.email} has been unsubscribed."
+    end
+
+    def upgrade
+      subscriber = Subscriber.find(params[:id])
+      tier = params[:tier].to_s.presence || 'pro'
+      valid_tiers = %w[free pro vip]
+      return render json: { error: "Invalid tier. Use: #{valid_tiers.join(', ')}" }, status: :unprocessable_entity unless valid_tiers.include?(tier)
+
+      subscriber.update!(tier: tier)
+      render json: { ok: true, id: subscriber.id, email: subscriber.email, tier: subscriber.tier }
+    rescue ActiveRecord::RecordNotFound
+      render json: { error: 'Not found' }, status: :not_found
     end
 
     def import

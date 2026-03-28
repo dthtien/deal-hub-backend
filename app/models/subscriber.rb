@@ -5,7 +5,16 @@ class Subscriber < ApplicationRecord
                     format: { with: URI::MailTo::EMAIL_REGEXP },
                     uniqueness: { case_sensitive: false }
 
+  TIERS = %w[free pro vip].freeze
+
   scope :active, -> { where(status: 'active') }
+  scope :pro,    -> { where(tier: 'pro') }
+  scope :vip,    -> { where(tier: 'vip') }
+  scope :paid,   -> { where(tier: %w[pro vip]) }
+
+  def pro?; tier == 'pro'; end
+  def vip?; tier == 'vip'; end
+  def free?; tier == 'free' || tier.blank?; end
 
   before_create :generate_unsubscribe_token
   before_save :downcase_email

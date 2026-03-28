@@ -672,8 +672,71 @@ module Api
 
       def share
         product = Product.find(params[:id])
-        product.increment!(:share_count)
+        platform = params[:platform].presence || params[:share_type].presence || 'unknown'
+        platform = platform.to_s.downcase.gsub(/[^a-z0-9_]/, '_')
+
+        product.with_lock do
+          product.increment!(:share_count)
+          breakdown = product.share_breakdown || {}
+          breakdown[platform] = (breakdown[platform] || 0) + 1
+          product.update_column(:share_breakdown, breakdown)
+        end
+
         render json: { ok: true, share_count: product.share_count }
+      rescue ActiveRecord::RecordNotFound
+        render json: { error: 'Not found' }, status: :not_found
+      end
+
+      def shares
+        product = Product.find(params[:id])
+        breakdown = product.share_breakdown || {}
+        total = product.share_count.to_i
+
+        by_platform = breakdown.map do |platform, count|
+          pct = total > 0 ? (count.to_f / total * 100).round(1) : 0.0
+          { platform: platform, count: count, percent: pct }
+        end.sort_by { |r| -r[:count] }
+
+        render json: { total: total, breakdown: by_platform }
+      rescue ActiveRecord::RecordNotFound
+        render json: { error: 'Not found' }, status: :not_found
+      end
+
+      def alert_suggestions
+        product = Product.find(params[:id])
+        current_price = product.price.to_f
+
+        prices = product.price_histories.pluck(:price).map(&:to_f).reject { |p| p <= 0 }
+        historical_low = prices.min || current_price
+        all_time_low   = prices.min || current_price
+
+        low_seen_count = prices.count { |p| p <= historical_low * 1.01 }
+
+        render json: {
+          current_price:  current_price,
+          suggestions: [
+            {
+              label:      'Historical Low',
+              price:      historical_low.round(2),
+              confidence: "This price has been seen #{low_seen_count} time#{low_seen_count == 1 ? '' : 's'}"
+            },
+            {
+              label:      '10% drop',
+              price:      (current_price * 0.9).round(2),
+              confidence: nil
+            },
+            {
+              label:      '20% drop',
+              price:      (current_price * 0.8).round(2),
+              confidence: nil
+            },
+            {
+              label:      'All-time Low',
+              price:      all_time_low.round(2),
+              confidence: "Absolute minimum ever tracked"
+            }
+          ]
+        }
       rescue ActiveRecord::RecordNotFound
         render json: { error: 'Not found' }, status: :not_found
       end
