@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>We miss you!</title>
+</head>
+<body style="font-family: sans-serif; background: #f3f4f6; padding: 24px;">
+  <div style="max-width: 600px; margin: 0 auto; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.1);">
+    <div style="background: linear-gradient(135deg, #f97316, #ef4444); padding: 32px 24px; text-align: center;">
+      <h1 style="color: white; margin: 0; font-size: 28px;">We miss you! 👋</h1>
+      <p style="color: rgba(255,255,255,0.9); margin: 8px 0 0; font-size: 16px;">Here are today's best deals, just for you</p>
+    </div>
+
+    <div style="padding: 24px;">
+      <p style="color: #374151; font-size: 15px;">Hi <%= @subscriber.email.split('@').first %>,</p>
+      <p style="color: #6b7280; font-size: 14px;">It's been a while since you visited OzVFY. We've been busy finding amazing deals for you!</p>
+
+      <% @deals.each do |deal| %>
+      <div style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; margin-bottom: 12px; display: flex; gap: 12px; align-items: flex-start;">
+        <div>
+          <p style="font-weight: 700; color: #111827; margin: 0 0 4px; font-size: 15px;"><%= deal.name %></p>
+          <p style="color: #6b7280; font-size: 13px; margin: 0 0 8px;"><%= deal.store %></p>
+          <div style="display: flex; align-items: baseline; gap: 8px;">
+            <span style="font-size: 22px; font-weight: 800; color: #f97316;">$<%= deal.price %></span>
+            <% if deal.old_price.to_f > 0 %>
+            <span style="font-size: 14px; color: #9ca3af; text-decoration: line-through;">$<%= deal.old_price %></span>
+            <% end %>
+            <% if deal.discount.to_f > 0 %>
+            <span style="background: #fee2e2; color: #dc2626; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 20px;">-<%= deal.discount.to_i %>%</span>
+            <% end %>
+          </div>
+          <a href="<%= @site_url %>/deals/<%= deal.id %>" style="display: inline-block; margin-top: 10px; background: #f97316; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 700; font-size: 14px;">Get Deal</a>
+        </div>
+      </div>
+      <% end %>
+
+      <div style="text-align: center; margin: 24px 0;">
+        <a href="<%= @site_url %>" style="display: inline-block; background: #f97316; color: white; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 16px;">See All Deals</a>
+      </div>
+    </div>
+
+    <div style="border-top: 1px solid #e5e7eb; padding: 16px 24px; text-align: center;">
+      <p style="color: #9ca3af; font-size: 12px; margin: 0;">
+        You're receiving this because you subscribed to OzVFY.
+        <a href="<%= @unsubscribe_url %>" style="color: #9ca3af;">Unsubscribe</a>
+      </p>
+    </div>
+  </div>
+</body>
+</html>

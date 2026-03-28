@@ -130,6 +130,25 @@ module Api
         }
       end
 
+      def rating
+        store_name = URI.decode_www_form_component(params[:name])
+        reviews = StoreReview.for_store(store_name)
+        count = reviews.count
+
+        if count.zero?
+          return render json: { avg_rating: 0.0, count: 0, distribution: {} }
+        end
+
+        avg = reviews.average(:rating)&.to_f&.round(1) || 0.0
+        distribution = reviews.group(:rating).count.transform_keys(&:to_s)
+
+        render json: {
+          avg_rating: avg,
+          count: count,
+          distribution: distribution
+        }
+      end
+
       def deals
         store_name = URI.decode_www_form_component(params[:name])
         page = (params[:page] || 1).to_i

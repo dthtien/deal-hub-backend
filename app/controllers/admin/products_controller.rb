@@ -91,6 +91,37 @@ module Admin
       render json: { error: e.message }, status: :unprocessable_entity
     end
 
+    def bulk_update_products
+      body_params = request.content_type&.include?('application/json') ? JSON.parse(request.body.read) : params.to_unsafe_h
+      updates = Array(body_params['products'] || body_params[:products]).first(100)
+
+      if updates.empty?
+        return render json: { error: 'No products provided' }, status: :unprocessable_entity
+      end
+
+      valid_fields = %w[expired discount price]
+      records = updates.filter_map do |item|
+        id = item['id'].to_i
+        next if id <= 0
+        row = { id: id }
+        valid_fields.each do |field|
+          row[field] = item[field] if item.key?(field)
+        end
+        row[:updated_at] = Time.current
+        row
+      end
+
+      if records.empty?
+        return render json: { error: 'No valid records to update' }, status: :unprocessable_entity
+      end
+
+      Product.upsert_all(records, unique_by: :id, update_only: (valid_fields + ['updated_at']).map(&:to_sym))
+
+      render json: { updated_count: records.size, message: "#{records.size} product(s) updated." }
+    rescue JSON::ParserError
+      render json: { error: 'Invalid JSON' }, status: :bad_request
+    end
+
     def bulk_expire
       body_params = request.content_type&.include?('application/json') ? JSON.parse(request.body.read) : params.to_unsafe_h
 

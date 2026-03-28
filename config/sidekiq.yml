@@ -66,5 +66,11 @@ pidfile: tmp/pids/sidekiq_development.pid
     personalised_email:
       cron: "0 21 * * *"
       class: "PersonalisedEmailJob"
+    update_collections:
+      cron: "0 5 * * *"
+      class: "UpdateCollectionsJob"
+    re_engagement:
+      cron: "0 10 * * 1"
+      class: "ReEngagementJob"
 
 

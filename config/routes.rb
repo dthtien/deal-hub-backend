@@ -33,6 +33,7 @@ Rails.application.routes.draw do
         post :bulk_update
         post :bulk_action
         post :bulk_expire
+        patch :bulk_update_products
       end
     end
     post 'coupons/generate', to: 'coupon_generate#create', as: :generate_coupons
@@ -217,6 +218,7 @@ Rails.application.routes.draw do
           get 'trending', to: 'stores#trending'
           get ':name/deals', to: 'stores#deals', as: :store_deals
           get ':name/inventory', to: 'stores#inventory', as: :store_inventory
+          get ':name/rating', to: 'stores#rating', as: :store_rating
           get 'compare', to: 'stores#compare'
           get ':store_name/reviews', to: 'store_reviews#index', as: :store_reviews
           post ':store_name/reviews', to: 'store_reviews#create', as: :create_store_review
