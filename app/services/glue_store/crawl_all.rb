@@ -45,7 +45,8 @@ module GlueStore
         store_path: result['handle'],
         store: Product::GLUE_STORE,
         description: refine_description(result['body_html_safe'].to_s.strip, categories),
-        categories:
+        categories:,
+        in_stock: result['available'] != false
       }
     end
 

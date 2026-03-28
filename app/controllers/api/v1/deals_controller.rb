@@ -12,15 +12,34 @@ module Api
         }
       end
 
+      def price_watch
+        currency = params[:currency].presence
+        products = Product.where(expired: false)
+                          .joins(:price_alerts)
+                          .where(price_alerts: { status: 'active' })
+                          .group('products.id')
+                          .order('COUNT(price_alerts.id) DESC')
+                          .limit(20)
+                          .select('products.*, COUNT(price_alerts.id) AS watcher_count')
+
+        render json: {
+          products: products.map do |p|
+            p.as_json(currency: currency).merge('watcher_count' => p.watcher_count.to_i)
+          end
+        }
+      end
+
       def bundles
         page     = (params[:page] || 1).to_i
         per_page = 20
         offset   = (page - 1) * per_page
         currency = params[:currency].presence
 
+        store_filter = params[:store].presence
         base = Product.where(expired: false)
-                      .where("name ~* 'bundle|pack|set|kit|combo'")
+                      .where(is_bundle: true)
                       .order(deal_score: :desc, created_at: :desc)
+        base = base.where(store: store_filter) if store_filter
 
         total    = base.count
         products = base.limit(per_page).offset(offset)

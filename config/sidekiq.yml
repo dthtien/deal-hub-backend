@@ -42,6 +42,12 @@ pidfile: tmp/pids/sidekiq_development.pid
     affiliate_health_check:
       cron: "0 4 * * *"
       class: "AffiliateHealthCheckJob"
+    auto_price_monitor:
+      cron: "50 6,9,12,15,18 * * *"
+      class: "AutoPriceMonitorJob"
+    affiliate_validator:
+      cron: "0 3 * * *"
+      class: "AffiliateValidatorJob"
     personalised_digest:
       cron: "0 22 * * *"
       class: "PersonalisedDigestJob"

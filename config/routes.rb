@@ -112,6 +112,8 @@ Rails.application.routes.draw do
       get 'deals/flash', to: 'deals#flash_deals'
       get 'deals/compare', to: 'deals#compare'
       get 'deals/bundles', to: 'deals#bundles'
+      get 'deals/price_watch', to: 'deals#price_watch'
+      post 'errors', to: 'errors#create'
       get 'exchange_rates', to: 'exchange_rates#index'
       resources :store_follows, only: %i[index create destroy] do
         collection do

@@ -113,6 +113,10 @@ class ApplicationService
       # Detect deal expiry: price went back up to/above old_price (discount gone)
       attrs[:expired] = old_price > 0 && new_price >= old_price
 
+      # Bundle detection: scan product name for bundle keywords
+      bundle_keywords = /\b(pack|set|bundle|kit|combo|twin|duo|trio)\b/i
+      attrs[:is_bundle] = attrs[:name].to_s.match?(bundle_keywords)
+
       product.assign_attributes(attrs)
 
       begin
@@ -169,6 +173,12 @@ class ApplicationService
     SavedDeal.where(product_id: stale_ids).delete_all if defined?(SavedDeal)
     DealOfDayHistory.where(product_id: stale_ids).delete_all if defined?(DealOfDayHistory)
     stale.delete_all
+  end
+
+  # Returns false if ALL variants have available: false, true otherwise
+  def in_stock_from_variants(variants)
+    return true if variants.blank?
+    variants.any? { |v| v['available'] != false }
   end
 
   def calculate_discount(old_price, price)

@@ -59,7 +59,8 @@ module BeginningBoutique
         store_path: "/products/#{result['handle']}",
         store: Product::BEGINNING_BOUTIQUE,
         description: refine_description(name, categories),
-        categories: categories
+        categories: categories,
+        in_stock: in_stock_from_variants(result['variants'])
       }
     end
 

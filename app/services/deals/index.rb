@@ -50,16 +50,28 @@ module Deals
       return if query.blank?
 
       q = query.strip
-      # Match across name, description, brand, and tags
+      quoted = ActiveRecord::Base.connection.quote(q.downcase)
+
+      # Match across name, description, brand, tags, and categories
       @products = @products.where('name ILIKE ?', "%#{q}%")
                            .or(@products.where('description ILIKE ?', "%#{q}%"))
                            .or(@products.where('brand ILIKE ?', "%#{q}%"))
                            .or(@products.where('tags::text ILIKE ?', "%#{q}%"))
+                           .or(@products.where('categories::text ILIKE ?', "%#{q}%"))
 
-      # Boost exact name matches to the top
-      @products = @products.order(
-        Arel.sql("CASE WHEN LOWER(name) = LOWER(#{ActiveRecord::Base.connection.quote(q)}) THEN 0 ELSE 1 END")
-      )
+      # Weighted ranking:
+      # Exact name match: 10, name contains: 5, brand: 3, tags: 2, categories: 1
+      rank_sql = Arel.sql(<<~SQL.squish)
+        (
+          CASE WHEN LOWER(name) = #{quoted} THEN 10 ELSE 0 END +
+          CASE WHEN LOWER(name) LIKE #{ActiveRecord::Base.connection.quote("%#{q.downcase}%")} AND LOWER(name) != #{quoted} THEN 5 ELSE 0 END +
+          CASE WHEN LOWER(COALESCE(brand,'')) LIKE #{ActiveRecord::Base.connection.quote("%#{q.downcase}%")} THEN 3 ELSE 0 END +
+          CASE WHEN tags::text ILIKE #{ActiveRecord::Base.connection.quote("%#{q}%")} THEN 2 ELSE 0 END +
+          CASE WHEN categories::text ILIKE #{ActiveRecord::Base.connection.quote("%#{q}%")} THEN 1 ELSE 0 END
+        ) DESC, deal_score DESC
+      SQL
+
+      @products = @products.order(rank_sql)
     end
 
     def filter_by_categories
@@ -105,6 +117,10 @@ module Deals
 
     def filter
       @products = Product.includes(:ai_deal_analysis).where(expired: false)
+      # Default: only in-stock products; pass include_out_of_stock=true to override
+      unless @params[:include_out_of_stock].present?
+        @products = @products.where(in_stock: true)
+      end
       filter_by_brands
       filter_by_categories
       filter_by_price
