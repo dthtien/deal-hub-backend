@@ -936,6 +936,15 @@ module Api
 
         affiliate_url = AffiliateUrlService.call(product)
 
+        # Track revenue event: 5% commission, 2% conversion rate
+        estimated_value = (product.price.to_f * 0.05 * 0.02).round(4)
+        RevenueEvent.create!(
+          product_id: product.id,
+          click_id: SecureRandom.uuid,
+          estimated_value: estimated_value,
+          store: product.store
+        )
+
         render json: {
           affiliate_url: affiliate_url,
           click_count: product.click_count

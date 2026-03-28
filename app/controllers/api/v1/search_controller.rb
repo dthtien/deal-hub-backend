@@ -44,6 +44,51 @@ module Api
         }
       end
 
+      def grouped
+        q = params[:q].to_s.strip
+        return render json: { products: [], stores: [], categories: [], coupons: [] } if q.length < 2
+
+        wildcard = "%#{q}%"
+
+        products = Product.where("name ILIKE ? OR brand ILIKE ? OR description ILIKE ?", wildcard, wildcard, wildcard)
+                          .where(expired: false)
+                          .order(deal_score: :desc)
+                          .limit(20)
+                          .map { |p| p.as_json.slice('id', 'name', 'price', 'store', 'discount', 'image_url', 'optimized_image_url', 'discount_tier') }
+
+        store_names = Product.where("store ILIKE ?", wildcard)
+                             .distinct
+                             .limit(5)
+                             .pluck(:store)
+                             .compact
+
+        stores = store_names.map do |name|
+          count = Product.where(store: name, expired: false).count
+          avg_disc = Product.where(store: name, expired: false).average(:discount)&.to_f&.round(1) || 0.0
+          { name: name, deal_count: count, avg_discount: avg_disc }
+        end
+
+        all_cats = Product.distinct.pluck(:categories).flatten.compact.uniq
+        matching_cats = all_cats.select { |c| c.downcase.include?(q.downcase) }.first(5)
+        categories = matching_cats.map do |cat|
+          count = Product.where("? = ANY(categories)", cat).where(expired: false).count
+          { name: cat, deal_count: count }
+        end
+
+        coupons = Coupon.active
+                        .where("code ILIKE ? OR store ILIKE ? OR description ILIKE ?", wildcard, wildcard, wildcard)
+                        .order(verified: :desc, use_count: :desc)
+                        .limit(5)
+                        .map { |c| { id: c.id, code: c.code, store: c.store, description: c.description, discount_label: c.discount_label, expires_at: c.expires_at } }
+
+        render json: {
+          products: products,
+          stores: stores,
+          categories: categories,
+          coupons: coupons
+        }
+      end
+
       def track
         query = params[:query].to_s.strip
         result_count = params[:result_count].to_i

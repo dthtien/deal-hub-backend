@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>Your price alerts: <%= @count %> deals dropped!</title></head>
+<body style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:20px;background:#f9fafb;">
+  <h2 style="color:#ea580c;">Your price alerts: <%= @count %> deals dropped!</h2>
+  <p style="color:#6b7280;">Great news! <%= @count %> deals you're tracking just hit their target prices.</p>
+  <% @products.each_with_index do |product, i| %>
+    <div style="background:white;border:1px solid #e5e7eb;border-radius:12px;padding:16px;margin-bottom:12px;">
+      <p style="font-weight:bold;margin:0 0 6px;color:#111827;"><%= product.name %></p>
+      <p style="margin:0;color:#ea580c;font-size:1.2em;font-weight:bold;">$<%= product.price %></p>
+      <% if product.old_price.to_f > 0 %>
+        <p style="margin:4px 0 0;color:#6b7280;font-size:0.9em;">Was $<%= product.old_price %> (<%= product.discount.to_i %>% off)</p>
+      <% end %>
+      <a href="<%= @site_url %>/deals/<%= product.id %>" style="display:inline-block;margin-top:10px;padding:8px 16px;background:#ea580c;color:white;border-radius:8px;text-decoration:none;font-weight:bold;">Get Deal</a>
+    </div>
+  <% end %>
+  <p style="color:#9ca3af;font-size:0.8em;margin-top:20px;">You're receiving this because you set price alerts on OzVFY.</p>
+</body>
+</html>

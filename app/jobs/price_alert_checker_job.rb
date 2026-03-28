@@ -4,6 +4,9 @@ class PriceAlertCheckerJob < ApplicationJob
   DEFAULT_TIMEZONE = 'Australia/Melbourne'
   ALERT_HOUR_START = 8
   ALERT_HOUR_END   = 21
+  # Digest grouping: if a subscriber has 3+ triggered alerts within 1 hour, send one digest
+  DIGEST_THRESHOLD = 3
+  DIGEST_WINDOW    = 1.hour
 
   def perform
     check_price_alerts
@@ -13,12 +16,27 @@ class PriceAlertCheckerJob < ApplicationJob
   private
 
   def check_price_alerts
+    triggered_by_subscriber = Hash.new { |h, k| h[k] = [] }
+
     PriceAlert.active.includes(:product).find_each do |alert|
       next unless alert.product.price.to_f <= alert.target_price.to_f
       next unless within_allowed_hours?(alert)
 
-      DealsMailer.price_alert(alert).deliver_later
+      subscriber_key = alert.email.presence || "session:#{alert.respond_to?(:session_id) ? alert.session_id : 'unknown'}"
+      triggered_by_subscriber[subscriber_key] << alert
       alert.trigger!
+    end
+
+    triggered_by_subscriber.each do |subscriber_key, alerts|
+      if alerts.size >= DIGEST_THRESHOLD
+        # Send one digest email
+        email = alerts.first.email.presence || subscriber_key
+        DealsMailer.price_alert_digest(email, alerts).deliver_later
+      else
+        alerts.each do |alert|
+          DealsMailer.price_alert(alert).deliver_later
+        end
+      end
     end
   end
 

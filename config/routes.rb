@@ -81,6 +81,7 @@ Rails.application.routes.draw do
     get 'analytics/attribution', to: 'analytics#attribution', as: :admin_analytics_attribution
     get 'analytics/affiliate', to: 'analytics#affiliate', as: :admin_affiliate_analytics
     get 'analytics/revenue', to: 'analytics#revenue', as: :admin_revenue_analytics
+    get 'analytics/revenue_events', to: 'analytics#revenue_events', as: :admin_revenue_events
     get 'analytics/coupons', to: 'analytics#coupons', as: :admin_coupon_analytics
     get 'reports/stores', to: 'reports#stores', as: :admin_reports_stores
     get 'reports/deal_performance', to: 'reports#deal_performance', as: :admin_reports_deal_performance
@@ -242,6 +243,7 @@ Rails.application.routes.draw do
       resources :search, only: [] do
         collection do
           get :suggestions
+          get :grouped
           post :track
           get :analytics
         end

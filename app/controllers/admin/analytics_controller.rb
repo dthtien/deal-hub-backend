@@ -213,6 +213,19 @@ module Admin
       }
     end
 
+    def revenue_events
+      daily = RevenueEvent.daily_totals(days: 30)
+      top_stores = RevenueEvent.top_stores(limit: 5)
+
+      render json: {
+        daily_trend: daily,
+        total_this_month: RevenueEvent.this_month.sum(:estimated_value).to_f.round(4),
+        total_this_week: RevenueEvent.this_week.sum(:estimated_value).to_f.round(4),
+        total_today: RevenueEvent.today.sum(:estimated_value).to_f.round(4),
+        top_stores: top_stores
+      }
+    end
+
     def click_heatmap
       rows = ActiveRecord::Base.connection.execute(<<~SQL)
         SELECT

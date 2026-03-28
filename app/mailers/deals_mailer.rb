@@ -55,4 +55,16 @@ class DealsMailer < ApplicationMailer
       subject: "Price Drop! #{@product.name} is now $#{@current_price} (#{@discount.to_i}% off)"
     )
   end
+
+  def price_alert_digest(email, alerts)
+    @alerts = alerts
+    @products = alerts.map(&:product).compact
+    @count = @products.size
+    @site_url = ENV.fetch('SITE_URL', 'https://www.ozvfy.com')
+
+    mail(
+      to: email,
+      subject: "Your price alerts: #{@count} deals dropped!"
+    )
+  end
 end

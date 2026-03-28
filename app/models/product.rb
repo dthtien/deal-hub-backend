@@ -188,6 +188,28 @@ class Product < ApplicationRecord
     [raw, 9999].min
   end
 
+  # Rate of change in heat_index over last 6 hours.
+  # Positive = heating up, Negative = cooling down.
+  def trending_velocity
+    now_score = heat_index.to_f
+    cutoff = 6.hours.ago
+    old_record = deal_score_histories
+                   .where('recorded_at <= ?', cutoff)
+                   .order(recorded_at: :desc)
+                   .first
+    return 0.0 unless old_record
+
+    ((now_score - old_record.score.to_f) / 6.0).round(2)
+  end
+
+  # Snapshot current heat_index into deal_score_histories.
+  def snapshot_heat_index!
+    deal_score_histories.create!(
+      score: heat_index,
+      recorded_at: Time.current
+    )
+  end
+
   def upvotes
     votes.where(value: 1).count
   end
@@ -378,7 +400,8 @@ class Product < ApplicationRecord
       going_fast: going_fast,
       discount_tier: discount_tier,
       shipping_info: shipping_info,
-      optimized_image_url: optimized_image_url
+      optimized_image_url: optimized_image_url,
+      trending_velocity: trending_velocity
     )
 
     if currency_code && currency_code != 'AUD' && EXCHANGE_RATES.key?(currency_code)
