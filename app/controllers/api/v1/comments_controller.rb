@@ -5,7 +5,7 @@ module Api
         product = Product.find(params[:deal_id])
         comments = product.comments.order(created_at: :asc)
         render json: comments.map { |c|
-          { id: c.id, name: c.name, body: c.body, session_id: c.session_id, created_at: c.created_at }
+          { id: c.id, name: c.name, body: c.body, status: c.status, session_id: c.session_id, created_at: c.created_at }
         }
       rescue ActiveRecord::RecordNotFound
         render json: { error: 'Not found' }, status: :not_found
@@ -19,10 +19,25 @@ module Api
         product = Product.find(params[:deal_id])
         comment = product.comments.build(comment_params)
         if comment.save
-          render json: { id: comment.id, name: comment.name, body: comment.body, session_id: comment.session_id, created_at: comment.created_at }, status: :created
+          render json: {
+            id: comment.id,
+            name: comment.name,
+            body: comment.body,
+            status: comment.status,
+            session_id: comment.session_id,
+            created_at: comment.created_at
+          }, status: :created
         else
           render json: { errors: comment.errors.full_messages }, status: :unprocessable_entity
         end
+      rescue ActiveRecord::RecordNotFound
+        render json: { error: 'Not found' }, status: :not_found
+      end
+
+      def report
+        comment = Comment.find(params[:id])
+        comment.update!(status: 'flagged')
+        render json: { ok: true }
       rescue ActiveRecord::RecordNotFound
         render json: { error: 'Not found' }, status: :not_found
       end

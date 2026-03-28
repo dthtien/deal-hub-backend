@@ -1,6 +1,16 @@
 module Api
   module V1
     class LeaderboardController < ApplicationController
+      def shares
+        top_shared = Product
+          .where('share_count > 0')
+          .where('updated_at >= ?', 1.week.ago)
+          .order(share_count: :desc)
+          .limit(10)
+
+        render json: top_shared.map { |p| product_json(p).merge(share_count: p.share_count.to_i) }
+      end
+
       def show
         most_voted = Product
           .joins("LEFT JOIN votes ON votes.product_id = products.id")

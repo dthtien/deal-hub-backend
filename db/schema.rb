@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_30_100001) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_30_200002) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -93,7 +93,9 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_30_100001) do
     t.string "name"
     t.text "body", null: false
     t.datetime "created_at", null: false
+    t.string "status", default: "active", null: false
     t.index ["product_id"], name: "index_comments_on_product_id"
+    t.index ["status"], name: "index_comments_on_status"
   end
 
   create_table "comparison_sessions", force: :cascade do |t|
@@ -131,6 +133,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_30_100001) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "used_count", default: 0, null: false
+    t.decimal "min_purchase_amount", precision: 10, scale: 2
     t.index ["active"], name: "index_coupons_on_active"
     t.index ["code"], name: "index_coupons_on_code"
     t.index ["store"], name: "index_coupons_on_store"
@@ -145,6 +148,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_30_100001) do
     t.datetime "crawled_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "yield_rate"
   end
 
   create_table "deal_of_day_histories", force: :cascade do |t|
@@ -197,7 +201,9 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_30_100001) do
     t.string "status", default: "sent", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "opened_at"
     t.index ["created_at"], name: "index_notification_logs_on_created_at"
+    t.index ["opened_at"], name: "index_notification_logs_on_opened_at"
     t.index ["recipient"], name: "index_notification_logs_on_recipient"
     t.index ["status"], name: "index_notification_logs_on_status"
   end
@@ -256,6 +262,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_30_100001) do
     t.decimal "commission_rate", precision: 5, scale: 2
     t.boolean "in_stock", default: true, null: false
     t.boolean "is_bundle", default: false, null: false
+    t.integer "bundle_quantity", default: 1, null: false
+    t.decimal "price_per_unit", precision: 10, scale: 2
     t.index ["brand"], name: "products_brand_gin_index", opclass: :gin_trgm_ops, using: :gin
     t.index ["categories"], name: "index_products_on_categories", using: :gin
     t.index ["created_at"], name: "index_products_on_created_at"

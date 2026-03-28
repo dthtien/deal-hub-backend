@@ -3,6 +3,7 @@
 class ApplicationController < ActionController::API
   include Authenticatable
   include RequestLogger
+  include GeoIp
 
   rescue_from ActiveRecord::RecordNotFound do |_e|
     render json: { error: 'Not found' }, status: :not_found

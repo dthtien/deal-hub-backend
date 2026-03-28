@@ -493,6 +493,7 @@ module Api
       end
 
       def recommended
+        session_id = params[:session_id].to_s
         prefs = begin
           JSON.parse(params[:preferences].to_s)
         rescue
@@ -505,27 +506,87 @@ module Api
         min_price   = price_range[0].to_f
         max_price   = price_range[1].to_f
 
-        if categories.empty? && stores.empty?
-          products = Product.where(expired: false)
-                            .order(deal_score: :desc)
-                            .limit(20)
-          return render json: { products: products.map(&:as_json) }
+        # Factor in voted deals
+        voted_product_ids = Vote.where(session_id: session_id).pluck(:product_id) if session_id.present?
+        voted_product_ids ||= []
+        if voted_product_ids.any?
+          voted_products = Product.where(id: voted_product_ids).select(:categories, :store)
+          voted_categories = voted_products.flat_map { |p| Array(p.categories) }.uniq.first(5)
+          voted_stores = voted_products.map(&:store).compact.uniq.first(5)
+          categories = (categories + voted_categories).uniq.first(10)
+          stores = (stores + voted_stores).uniq.first(10)
         end
 
-        all = Product.where(expired: false).limit(200).order(deal_score: :desc)
+        # Factor in comparison history
+        comparison_product_ids = []
+        if session_id.present?
+          cs = ComparisonSession.where(session_id: session_id).order(created_at: :desc).first
+          comparison_product_ids = Array(cs&.product_ids).map(&:to_i)
+        end
+        if comparison_product_ids.any?
+          compared_products = Product.where(id: comparison_product_ids).select(:categories, :store)
+          comp_categories = compared_products.flat_map { |p| Array(p.categories) }.uniq.first(5)
+          comp_stores = compared_products.map(&:store).compact.uniq.first(5)
+          categories = (categories + comp_categories).uniq.first(10)
+          stores = (stores + comp_stores).uniq.first(10)
+        end
+
+        # Exclude already saved
+        saved_ids = []
+        if session_id.present?
+          saved_ids = SavedDeal.where(session_id: session_id).pluck(:product_id)
+        end
+
+        if categories.empty? && stores.empty?
+          products = Product.where(expired: false)
+                            .where.not(id: saved_ids)
+                            .order(deal_score: :desc)
+                            .limit(20)
+          return render json: { products: products.map { |p| p.as_json.merge('match_reason' => 'Top deals for you') } }
+        end
+
+        all = Product.where(expired: false)
+                     .where.not(id: saved_ids)
+                     .limit(300)
+                     .order(deal_score: :desc)
 
         scored = all.map do |p|
           score = 0
-          score += 3 if categories.any? && (Array(p.categories) & categories).any?
-          score += 2 if stores.any? && stores.include?(p.store)
-          if max_price > 0 && p.price
-            score += 1 if p.price >= min_price && p.price <= max_price
+          reasons = []
+
+          cat_match = categories.any? && (Array(p.categories) & categories).any?
+          if cat_match
+            score += 3
+            matched_cat = (Array(p.categories) & categories).first
+            reasons << "Because you like #{matched_cat} deals"
           end
-          [p, score]
+
+          store_match = stores.any? && stores.include?(p.store)
+          if store_match
+            score += 2
+            reasons << "Because you saved #{p.store} deals"
+          end
+
+          if voted_product_ids.any? && cat_match
+            score += 1
+            reasons << 'Similar to deals you voted on'
+          end
+
+          if max_price > 0 && p.price
+            if p.price >= min_price && p.price <= max_price
+              score += 1
+              reasons << "Matches your $#{min_price.to_i}-$#{max_price.to_i} budget"
+            end
+          end
+
+          reason = reasons.first || 'Recommended for you'
+          [p, score, reason]
         end
 
-        top = scored.sort_by { |_, s| -s }.first(20).map(&:first)
-        render json: { products: top.map(&:as_json) }
+        top = scored.select { |_, s, _| s > 0 }.sort_by { |_, s, _| -s }.first(20)
+        render json: {
+          products: top.map { |p, _, reason| p.as_json.merge('match_reason' => reason) }
+        }
       end
 
       def ai_summary

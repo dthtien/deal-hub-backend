@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
+  get "track/open/:token" => "track#open", as: :track_open
   get "health" => "health#show"
   get "sitemap.xml"       => "sitemap#index",         defaults: { format: :xml }
   get "sitemap_index.xml" => "sitemap#sitemap_index", defaults: { format: :xml }
@@ -78,6 +79,12 @@ Rails.application.routes.draw do
     resources :api_keys, only: %i[index create destroy]
     get 'dashboard/stats', to: 'dashboard#stats', as: :admin_dashboard_stats
     resources :notification_logs, only: %i[index]
+    resources :comments, only: %i[index] do
+      member do
+        post :approve
+        post :reject
+      end
+    end
     resources :subscribers, only: %i[index] do
       member do
         post :unsubscribe
@@ -166,7 +173,11 @@ Rails.application.routes.draw do
         end
         resources :price_histories, only: :index
         resources :price_alerts, only: :create
-        resources :comments, only: %i[index create]
+        resources :comments, only: %i[index create] do
+          member do
+            post :report
+          end
+        end
         resource :analysis, only: :show, controller: 'deal_analyses'
         resource :vote, only: %i[show create], controller: 'votes'
         resource :rating, only: %i[show create], controller: 'deal_ratings'
@@ -205,6 +216,7 @@ Rails.application.routes.draw do
       end
       resources :push_subscriptions, only: %i[create destroy]
       resource :leaderboard, only: :show
+      get 'leaderboard/shares', to: 'leaderboard#shares', as: :leaderboard_shares
       resources :search, only: [] do
         collection do
           get :suggestions

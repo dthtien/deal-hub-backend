@@ -72,5 +72,8 @@ pidfile: tmp/pids/sidekiq_development.pid
     re_engagement:
       cron: "0 10 * * 1"
       class: "ReEngagementJob"
+    watchlist_notifier:
+      cron: "0 * * * *"
+      class: "WatchlistNotifierJob"
 
 

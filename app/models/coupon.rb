@@ -20,4 +20,11 @@ class Coupon < ApplicationRecord
     return nil unless discount_value.present?
     discount_type == 'fixed' ? "Save $#{discount_value.to_i}" : "#{discount_value.to_i}% off"
   end
+
+  def min_purchase
+    return min_purchase_amount.to_f if respond_to?(:min_purchase_amount) && min_purchase_amount.present?
+    # fall back to parsing the legacy minimum_spend string if present
+    return nil unless minimum_spend.present?
+    minimum_spend.to_s.gsub(/[^0-9.]/, '').to_f
+  end
 end

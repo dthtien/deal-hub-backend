@@ -22,6 +22,7 @@ module Api
             expires_at:     nil,
             discount_type:  nil,
             discount_value: nil,
+            min_purchase:   nil,
             store:          nil,
             reason:         'Coupon code not found.'
           }
@@ -33,6 +34,7 @@ module Api
             expires_at:     coupon.expires_at,
             discount_type:  coupon.discount_type,
             discount_value: coupon.discount_value,
+            min_purchase:   coupon.min_purchase,
             store:          coupon.store,
             reason:         'Coupon has expired.'
           }
@@ -44,6 +46,7 @@ module Api
             expires_at:     coupon.expires_at,
             discount_type:  coupon.discount_type,
             discount_value: coupon.discount_value,
+            min_purchase:   coupon.min_purchase,
             store:          coupon.store,
             reason:         'Coupon is no longer active.'
           }
@@ -54,6 +57,7 @@ module Api
           expires_at:     coupon.expires_at,
           discount_type:  coupon.discount_type,
           discount_value: coupon.discount_value,
+          min_purchase:   coupon.min_purchase,
           store:          coupon.store,
           description:    coupon.description,
           discount_label: coupon.discount_label,
