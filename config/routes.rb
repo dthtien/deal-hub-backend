@@ -60,6 +60,7 @@ Rails.application.routes.draw do
     get 'analytics', to: 'analytics#index'
     get 'analytics/click_heatmap', to: 'analytics#click_heatmap', as: :admin_click_heatmap
     get 'analytics/affiliate', to: 'analytics#affiliate', as: :admin_affiliate_analytics
+    get 'analytics/revenue', to: 'analytics#revenue', as: :admin_revenue_analytics
     get 'reports/stores', to: 'reports#stores', as: :admin_reports_stores
     get 'search', to: 'search#index'
     resources :notification_logs, only: %i[index]

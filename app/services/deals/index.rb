@@ -82,8 +82,16 @@ module Deals
     def filter_by_states
       return if states.blank?
 
-      state_values = [states.values].flatten
-      @products = products.where('available_states && array[?]::varchar[]', state_values)
+      state_values = states.is_a?(Hash) ? [states.values].flatten : Array(states)
+      state_values = state_values.compact.map(&:to_s).select(&:present?)
+      return if state_values.empty?
+
+      # Products with empty available_states are available everywhere
+      # Products with non-empty available_states must include the requested state
+      @products = products.where(
+        'available_states = \'{}\' OR available_states && array[?]::varchar[]',
+        state_values
+      )
     end
 
     def filter_by_tags

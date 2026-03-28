@@ -57,5 +57,8 @@ pidfile: tmp/pids/sidekiq_development.pid
     coupon_expiry_notifier:
       cron: "0 10 * * *"
       class: "CouponExpiryNotifierJob"
+    personalised_email:
+      cron: "0 21 * * *"
+      class: "PersonalisedEmailJob"
 
 

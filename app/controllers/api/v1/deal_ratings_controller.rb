@@ -10,7 +10,16 @@ module Api
         count = ratings.count
         session_id = params[:session_id]
         user_rating = session_id.present? ? ratings.find_by(session_id: session_id)&.rating : nil
-        render json: { average: average, count: count, user_rating: user_rating }
+
+        distribution = build_distribution(ratings)
+
+        render json: {
+          avg_rating: average,
+          average: average,
+          count: count,
+          distribution: distribution,
+          user_rating: user_rating
+        }
       rescue ActiveRecord::RecordNotFound
         render json: { error: 'Not found' }, status: :not_found
       end
@@ -25,9 +34,13 @@ module Api
 
         if rating.save
           ratings = product.deal_ratings
+          distribution = build_distribution(ratings)
+          average = ratings.average(:rating)&.to_f&.round(1) || 0.0
           render json: {
-            average: ratings.average(:rating)&.to_f&.round(1) || 0.0,
+            avg_rating: average,
+            average: average,
             count: ratings.count,
+            distribution: distribution,
             user_rating: rating_value
           }
         else
@@ -35,6 +48,13 @@ module Api
         end
       rescue ActiveRecord::RecordNotFound
         render json: { error: 'Not found' }, status: :not_found
+      end
+
+      private
+
+      def build_distribution(ratings)
+        counts = ratings.group(:rating).count
+        (1..5).each_with_object({}) { |star, h| h[star] = counts[star] || 0 }
       end
     end
   end

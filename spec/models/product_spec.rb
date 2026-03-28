@@ -41,7 +41,9 @@ RSpec.describe Product, :model, type: :model do
         image_urls: [],
         price_prediction: nil,
         share_count: 0,
-        view_count: 0
+        view_count: 0,
+        avg_rating: 0.0,
+        rating_count: 0
       )
       expect(product.as_json).to match(expected)
     end

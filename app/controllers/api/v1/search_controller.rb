@@ -1,6 +1,10 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class SearchController < ApplicationController
+      POPULAR_PRICE_POINTS = [50, 100, 200].freeze
+
       def suggestions
         q = params[:q].to_s.strip
         if q.length < 2
@@ -27,11 +31,16 @@ module Api
                               .limit(3)
                               .pluck(:query)
 
+        popular_under_price = build_popular_under_price(q)
+        new_arrivals = build_new_arrivals(q)
+
         render json: {
           products: products.map { |d| { id: d.id, name: d.name, price: d.price, store: d.store, image_url: d.image_url, discount: d.discount } },
           stores: stores,
           categories: categories,
-          trending: trending
+          trending: trending,
+          popular_under_price: popular_under_price,
+          new_arrivals: new_arrivals
         }
       end
 
@@ -61,6 +70,31 @@ module Api
             avg_result_count: q.avg_result_count
           }
         }
+      end
+
+      private
+
+      def build_popular_under_price(q)
+        POPULAR_PRICE_POINTS.filter_map do |price_point|
+          deal = Product.where("name ILIKE ?", "%#{q}%")
+                        .where(expired: false)
+                        .where('price <= ?', price_point)
+                        .where('discount > 0')
+                        .order(discount: :desc)
+                        .select(:id, :name, :price, :store, :discount)
+                        .first
+          next unless deal
+          { price_point: price_point, id: deal.id, name: deal.name, price: deal.price, store: deal.store, discount: deal.discount }
+        end.first(3)
+      end
+
+      def build_new_arrivals(q)
+        Product.where("name ILIKE ?", "%#{q}%")
+               .where(expired: false)
+               .order(created_at: :desc)
+               .limit(2)
+               .select(:id, :name, :price, :store, :image_url, :created_at)
+               .map { |d| { id: d.id, name: d.name, price: d.price, store: d.store, image_url: d.image_url, created_at: d.created_at } }
       end
     end
   end

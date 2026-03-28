@@ -78,6 +78,65 @@ module Admin
       render json: { affiliate_stats: @affiliate_stats }
     end
 
+    def revenue
+      now = Time.current
+      this_month_start = now.beginning_of_month
+      last_month_start = 1.month.ago.beginning_of_month
+      last_month_end   = last_month_start.end_of_month
+      conversion_rate  = 0.02
+
+      this_month_clicks = ClickTracking.where('created_at >= ?', this_month_start).count
+      last_month_clicks = ClickTracking.where(created_at: last_month_start..last_month_end).count
+
+      avg_product_price = Product.where(expired: false).average(:price)&.to_f&.round(2) || 0.0
+      avg_commission_rate = 0.04
+
+      estimated_revenue = (this_month_clicks * avg_commission_rate * avg_product_price * conversion_rate).round(2)
+      last_month_revenue = (last_month_clicks * avg_commission_rate * avg_product_price * conversion_rate).round(2)
+
+      mom_change = if last_month_revenue > 0
+        (((estimated_revenue - last_month_revenue) / last_month_revenue) * 100).round(1)
+      else
+        0.0
+      end
+
+      stores = Product.where(expired: false)
+                      .group(:store)
+                      .select(:store, 'COUNT(*) AS product_count', 'AVG(price) AS avg_price')
+
+      per_store = stores.map do |row|
+        store = row.store
+        click_count = ClickTracking.where(store: store).where('created_at >= ?', this_month_start).count
+        sample = Product.where(store: store, expired: false).first
+        rate = sample&.commission_rate_value || avg_commission_rate
+        store_avg_price = row.avg_price.to_f
+        store_revenue = (click_count * rate * store_avg_price * conversion_rate).round(2)
+        {
+          store: store,
+          clicks_this_month: click_count,
+          avg_price: store_avg_price.round(2),
+          commission_rate: rate,
+          estimated_revenue: store_revenue
+        }
+      end.sort_by { |s| -s[:estimated_revenue] }
+
+      render json: {
+        this_month: {
+          clicks: this_month_clicks,
+          avg_commission_rate: avg_commission_rate,
+          avg_product_price: avg_product_price,
+          conversion_rate: conversion_rate,
+          estimated_revenue: estimated_revenue
+        },
+        last_month: {
+          clicks: last_month_clicks,
+          estimated_revenue: last_month_revenue
+        },
+        mom_change_percent: mom_change,
+        per_store: per_store
+      }
+    end
+
     def click_heatmap
       rows = ActiveRecord::Base.connection.execute(<<~SQL)
         SELECT

@@ -59,6 +59,14 @@ class Product < ApplicationRecord
     click_trackings.count
   end
 
+  def avg_rating
+    deal_ratings.average(:rating)&.to_f&.round(1) || 0.0
+  end
+
+  def rating_count
+    deal_ratings.count
+  end
+
   def average_price_90_days
     avg = price_histories.last_90_days.average(:price)
     avg&.to_f
@@ -252,7 +260,9 @@ class Product < ApplicationRecord
       'flash_expires_at' => flash_expires_at,
       'updated_at' => updated_at.strftime(DATE_FORMAT),
       'created_at' => created_at.strftime(DATE_FORMAT),
-      price_prediction: price_prediction_value
+      price_prediction: price_prediction_value,
+      avg_rating: avg_rating,
+      rating_count: rating_count
     )
 
     if currency_code && currency_code != 'AUD' && EXCHANGE_RATES.key?(currency_code)
