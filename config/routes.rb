@@ -149,6 +149,7 @@ Rails.application.routes.draw do
           post :share
           get :price_prediction
           get :expiry_prediction
+          get :price_analytics
         end
         collection do
           get :trending
@@ -182,7 +183,9 @@ Rails.application.routes.draw do
         end
       end
       get 'categories', to: 'categories#index'
+      get 'categories/trending', to: 'categories#trending'
       get 'categories/:name/top_deals', to: 'categories#top_deals', as: :category_top_deals
+      resources :comparison_sessions, only: %i[create index]
       post 'category_alerts', to: 'category_alerts#create'
       delete 'category_alerts', to: 'category_alerts#destroy'
       get 'analytics/clicks', to: 'analytics#clicks'

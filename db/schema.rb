@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_29_200001) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_30_100001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -94,6 +94,14 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_29_200001) do
     t.text "body", null: false
     t.datetime "created_at", null: false
     t.index ["product_id"], name: "index_comments_on_product_id"
+  end
+
+  create_table "comparison_sessions", force: :cascade do |t|
+    t.string "session_id", null: false
+    t.integer "product_ids", default: [], array: true
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["created_at"], name: "index_comparison_sessions_on_created_at"
+    t.index ["session_id"], name: "index_comparison_sessions_on_session_id"
   end
 
   create_table "coupon_submissions", force: :cascade do |t|

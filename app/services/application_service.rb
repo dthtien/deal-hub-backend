@@ -120,6 +120,11 @@ class ApplicationService
       bundle_keywords = /\b(pack|set|bundle|kit|combo|twin|duo|trio)\b/i
       attrs[:is_bundle] = attrs[:name].to_s.match?(bundle_keywords)
 
+      # Auto-generate tags from name + categories (Feature 5 - deal tagging automation)
+      existing_tags = Array(attrs[:tags])
+      auto_tags = TagExtractor.extract(name: attrs[:name].to_s, categories: attrs[:categories])
+      attrs[:tags] = (existing_tags + auto_tags).uniq.first(10)
+
       product.assign_attributes(attrs)
 
       begin

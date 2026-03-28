@@ -34,6 +34,21 @@ class RecalculateDealScoresJob
     base_score = discount_score + vote_score + price_drop_bonus
     recency = product.recency_score
 
-    (base_score * 0.7 + recency * 0.3).round(2)
+    base = (base_score * 0.7 + recency * 0.3).round(2)
+
+    # ML enhancements
+    rating_bonus = 0.0
+    avg_r = product.avg_rating.to_f
+    if avg_r > 0
+      rating_bonus = ((avg_r - 3) * 5).clamp(-10.0, 10.0)
+    end
+
+    community_bonus = product.rating_count.to_i > 5 ? 3.0 : 0.0
+
+    stock_penalty = product.in_stock == false ? -20.0 : 0.0
+
+    quality_bonus = product.quality_score.to_f * 0.1
+
+    (base + rating_bonus + community_bonus + stock_penalty + quality_bonus).round(2)
   end
 end

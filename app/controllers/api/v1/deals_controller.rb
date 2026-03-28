@@ -579,6 +579,61 @@ module Api
         render json: { error: 'Not found' }, status: :not_found
       end
 
+      def price_analytics
+        product = Product.find(params[:id])
+        records = product.price_histories.order(recorded_at: :desc).limit(100).pluck(:price).map(&:to_f).reject { |p| p <= 0 }
+
+        if records.empty?
+          return render json: {
+            avg_price: product.price.to_f,
+            min_price: product.price.to_f,
+            max_price: product.price.to_f,
+            price_volatility: 0.0,
+            trend: 'stable',
+            total_records: 0
+          }
+        end
+
+        avg = records.sum / records.size
+        min_price = records.min
+        max_price = records.max
+
+        variance = records.sum { |p| (p - avg)**2 } / records.size
+        std_dev = Math.sqrt(variance)
+        volatility = avg > 0 ? (std_dev / avg).round(4) : 0.0
+
+        last10 = records.first(10).reverse
+        trend = if last10.size >= 3
+          n = last10.size.to_f
+          x_mean = (n - 1) / 2.0
+          y_mean = last10.sum / n
+          numerator = last10.each_with_index.sum { |y, i| (i - x_mean) * (y - y_mean) }
+          denominator = last10.each_with_index.sum { |_, i| (i - x_mean)**2 }
+          slope = denominator > 0 ? numerator / denominator : 0.0
+          threshold = avg * 0.01
+          if slope > threshold
+            'rising'
+          elsif slope < -threshold
+            'falling'
+          else
+            'stable'
+          end
+        else
+          'stable'
+        end
+
+        render json: {
+          avg_price: avg.round(2),
+          min_price: min_price.round(2),
+          max_price: max_price.round(2),
+          price_volatility: volatility,
+          trend: trend,
+          total_records: records.size
+        }
+      rescue ActiveRecord::RecordNotFound
+        render json: { error: 'Not found' }, status: :not_found
+      end
+
       def price_prediction
         product = Product.find(params[:id])
 
