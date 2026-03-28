@@ -12,6 +12,9 @@ Rails.application.routes.draw do
   get "feed.xml"    => "feed#index"
   get "robots.txt"  => "robots#index", defaults: { format: :text }
 
+  # GraphQL
+  post '/graphql', to: 'graphql#execute'
+
   # Admin
   namespace :admin do
     root to: 'dashboard#index'
@@ -31,6 +34,7 @@ Rails.application.routes.draw do
         post :bulk_expire
       end
     end
+    post 'coupons/generate', to: 'coupon_generate#create', as: :generate_coupons
     resources :coupons do
       collection do
         get  :import
@@ -67,6 +71,7 @@ Rails.application.routes.draw do
     get 'analytics/affiliate', to: 'analytics#affiliate', as: :admin_affiliate_analytics
     get 'analytics/revenue', to: 'analytics#revenue', as: :admin_revenue_analytics
     get 'reports/stores', to: 'reports#stores', as: :admin_reports_stores
+    get 'reports/deal_performance', to: 'reports#deal_performance', as: :admin_reports_deal_performance
     get 'search', to: 'search#index'
     resources :notification_logs, only: %i[index]
     resources :subscribers, only: %i[index] do
@@ -109,6 +114,7 @@ Rails.application.routes.draw do
       get 'deals/top_picks', to: 'deals#top_picks'
       get 'deals/freshness_stats', to: 'deals#freshness_stats'
       get 'tags', to: 'tags#index'
+      get 'deals/popular', to: 'deals#popular'
       get 'deals/hot', to: 'deals#hot'
       get 'deals/fresh', to: 'deals#fresh'
       get 'deals/deal_of_the_day', to: 'deals#deal_of_the_day'
@@ -213,6 +219,8 @@ Rails.application.routes.draw do
           post :bulk
         end
       end
+      get  'notification_preferences', to: 'notification_preferences#show'
+      put  'notification_preferences', to: 'notification_preferences#update'
       get 'activity', to: 'activity#index'
       get  'preferences', to: 'preferences#show'
       post 'preferences', to: 'preferences#create'

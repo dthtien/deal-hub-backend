@@ -2,6 +2,66 @@
 
 module Admin
   class ReportsController < BaseController
+    def deal_performance
+      page     = (params[:page] || 1).to_i
+      per_page = 25
+      offset   = (page - 1) * per_page
+
+      sort_col = %w[view_count click_count save_count vote_count comment_count share_count ctr conversion_rate].include?(params[:sort]) ? params[:sort] : 'view_count'
+      sort_dir = params[:dir] == 'asc' ? 'asc' : 'desc'
+
+      products = Product.where(expired: false)
+                        .order(created_at: :desc)
+                        .limit(1000)
+                        .to_a
+
+      rows = products.map do |p|
+        views    = p.view_count.to_i
+        clicks   = p.click_count.to_i
+        saves    = SavedDeal.where(product_id: p.id).count
+        votes    = p.votes.count
+        comments = p.comments.count
+        shares   = p.share_count.to_i
+        ctr      = views > 0 ? (clicks.to_f / views * 100).round(2) : 0.0
+        conv     = (clicks.to_f * 0.05).round(2)
+
+        {
+          id:              p.id,
+          name:            p.name,
+          store:           p.store,
+          price:           p.price.to_f,
+          discount:        p.discount.to_f,
+          view_count:      views,
+          click_count:     clicks,
+          save_count:      saves,
+          vote_count:      votes,
+          comment_count:   comments,
+          share_count:     shares,
+          ctr:             ctr,
+          conversion_rate: conv,
+          time_on_page:    'N/A'
+        }
+      end
+
+      rows.sort_by! { |r| r[sort_col.to_sym] || 0 }
+      rows.reverse! if sort_dir == 'desc'
+
+      total     = rows.size
+      paginated = rows[offset, per_page] || []
+
+      render json: {
+        deals: paginated,
+        metadata: {
+          page: page,
+          per_page: per_page,
+          total_count: total,
+          total_pages: (total.to_f / per_page).ceil,
+          sort: sort_col,
+          dir: sort_dir
+        }
+      }
+    end
+
     def stores
       week_ago = 1.week.ago
       two_weeks_ago = 2.weeks.ago

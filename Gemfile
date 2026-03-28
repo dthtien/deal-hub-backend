@@ -46,6 +46,7 @@ gem "bootsnap", require: false
 gem "rack-cors"
 gem 'gush', '~> 4.2'
 gem "anthropic"
+gem 'graphql', '~> 2.3'
 gem 'webpush'
 gem 'omniauth-google-oauth2', '~> 1.1'
 gem 'omniauth-rails_csrf_protection', '~> 1.0'

@@ -232,6 +232,12 @@ class Product < ApplicationRecord
     raw.clamp(0, 100).round(2)
   end
 
+  def popularity_score
+    days = [(Time.current - updated_at) / 1.day, 0].max
+    decay = 1.0 / (1.0 + days)
+    (heat_index.to_f * decay).round(4)
+  end
+
   def as_json(options = {})
     currency_code = options.delete(:currency)
     base = super(options).merge(
@@ -261,6 +267,7 @@ class Product < ApplicationRecord
       'flash_expires_at' => flash_expires_at,
       'updated_at' => updated_at.strftime(DATE_FORMAT),
       'created_at' => created_at.strftime(DATE_FORMAT),
+      popularity_score: popularity_score,
       price_prediction: price_prediction_value,
       avg_rating: avg_rating,
       rating_count: rating_count

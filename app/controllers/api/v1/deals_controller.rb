@@ -733,6 +733,18 @@ module Api
         render json: { error: 'Product not found' }, status: :not_found
       end
 
+      def popular
+        products = Rails.cache.fetch('popular_deals_v1', expires_in: 15.minutes) do
+          Product.where(expired: false)
+                 .order(updated_at: :desc)
+                 .limit(200)
+                 .to_a
+                 .sort_by { |p| -p.popularity_score }
+                 .first(20)
+        end
+        render json: { products: products.map(&:as_json) }
+      end
+
       def high_quality
         page     = (params[:page] || 1).to_i
         per_page = 20
