@@ -92,16 +92,41 @@ module Api
           avg_discount = products.where('discount > 0').average(:discount)&.to_f&.round(1) || 0.0
           best = products.order(discount: :desc).first
           prices = products.where('price IS NOT NULL').pluck(:price).map(&:to_f)
+
+          # trending_score: clicks in last 24h / total products
+          clicks_24h = ClickTracking.where(store: store).where('created_at >= ?', 24.hours.ago).count
+          trending_score = total > 0 ? (clicks_24h.to_f / total).round(4) : 0.0
+
+          # freshness: products updated in last 6h / total
+          fresh_count = products.where('updated_at >= ?', 6.hours.ago).count
+          freshness = total > 0 ? (fresh_count.to_f / total * 100).round(1) : 0.0
+
+          # value_score: avg discount * stock_rate
+          in_stock_count = products.where(in_stock: true).count
+          stock_rate = total > 0 ? (in_stock_count.to_f / total) : 0.0
+          value_score = (avg_discount * stock_rate).round(2)
+
           {
             store: store,
             total_deals: total,
             avg_discount: avg_discount,
             best_deal: best&.as_json,
-            price_range: prices.any? ? { min: prices.min.round(2), max: prices.max.round(2) } : nil
+            price_range: prices.any? ? { min: prices.min.round(2), max: prices.max.round(2) } : nil,
+            trending_score: trending_score,
+            freshness: freshness,
+            value_score: value_score
           }
         end
 
-        render json: { comparison: result }
+        # Compute winners per category
+        winners = {}
+        %w[avg_discount trending_score freshness value_score].each do |metric|
+          values = result.map { |s| [s[:store], s[metric.to_sym]] }
+          best_store = values.max_by { |_, v| v.to_f }&.first
+          winners[metric] = best_store
+        end
+
+        render json: { comparison: result, winners: winners }
       end
 
       def inventory

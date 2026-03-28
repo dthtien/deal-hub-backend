@@ -9,7 +9,7 @@ class CleanupExpiredDealsJob < ApplicationJob
     count = Product.where(store: ACTIVE_STORES)
                    .where(expired: false)
                    .where("updated_at < ?", 3.days.ago)
-                   .update_all(expired: true)
+                   .update_all(expired: true, status: 'expired')
     Rails.logger.info "CleanupExpiredDealsJob: marked #{count} products as expired"
     count
   end

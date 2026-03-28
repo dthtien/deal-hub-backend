@@ -19,6 +19,7 @@ module Api
               product_id: a.product_id,
               product_name: a.product&.name,
               current_price: a.product&.price,
+              status: a.status.presence || 'active',
               created_at: a.created_at
             }
           end
@@ -53,6 +54,42 @@ module Api
         render json: { ok: true }
       rescue ActiveRecord::RecordNotFound
         render json: { error: 'Not found' }, status: :not_found
+      end
+
+      # DELETE /api/v1/price_alerts/bulk
+      # Body: { email: "...", product_ids: [1, 2, 3] }
+      def bulk_destroy
+        email = params[:email].to_s.strip
+        product_ids = Array(params[:product_ids]).map(&:to_i)
+
+        if email.blank?
+          return render json: { error: 'email param required' }, status: :unprocessable_entity
+        end
+
+        scope = PriceAlert.where(email: email)
+        scope = scope.where(product_id: product_ids) if product_ids.any?
+        deleted = scope.delete_all
+
+        render json: { ok: true, deleted: deleted }
+      end
+
+      # PATCH /api/v1/price_alerts/bulk_status
+      # Body: { email: "...", status: "paused" | "active" }
+      def bulk_status
+        email  = params[:email].to_s.strip
+        status = params[:status].to_s.strip
+
+        if email.blank?
+          return render json: { error: 'email param required' }, status: :unprocessable_entity
+        end
+
+        allowed_statuses = %w[active paused]
+        unless allowed_statuses.include?(status)
+          return render json: { error: "status must be one of: #{allowed_statuses.join(', ')}" }, status: :unprocessable_entity
+        end
+
+        updated = PriceAlert.where(email: email).update_all(status: status)
+        render json: { ok: true, updated: updated, status: status }
       end
 
       def bulk

@@ -299,7 +299,8 @@ class Product < ApplicationRecord
       popularity_score: popularity_score,
       price_prediction: price_prediction_value,
       avg_rating: avg_rating,
-      rating_count: rating_count
+      rating_count: rating_count,
+      status: status.presence || (expired? ? 'expired' : 'active')
     )
 
     if currency_code && currency_code != 'AUD' && EXCHANGE_RATES.key?(currency_code)

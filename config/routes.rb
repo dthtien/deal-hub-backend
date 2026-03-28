@@ -93,6 +93,7 @@ Rails.application.routes.draw do
         post :unsubscribe
       end
       collection do
+        get :export
         post :import
       end
     end
@@ -147,6 +148,7 @@ Rails.application.routes.draw do
         end
       end
       get 'trending_searches', to: 'trending_searches#index'
+      get 'trending_keywords', to: 'trending_keywords#index'
       resources :deals, only: %i[index show] do
         member do
           get :redirect
@@ -184,6 +186,7 @@ Rails.application.routes.draw do
         resource :analysis, only: :show, controller: 'deal_analyses'
         resource :vote, only: %i[show create], controller: 'votes'
         resource :rating, only: %i[show create], controller: 'deal_ratings'
+        resource :sentiment, only: :show, controller: 'deal_sentiments'
       end
       resources :collections, only: %i[index show], param: :slug
       resource :metadata, only: :show
@@ -242,6 +245,8 @@ Rails.application.routes.draw do
       resources :price_alerts, only: %i[destroy index] do
         collection do
           post :bulk
+          delete :bulk_destroy
+          patch :bulk_status
         end
       end
       get  'notification_preferences', to: 'notification_preferences#show'

@@ -40,6 +40,32 @@ module Admin
       end
     end
 
+    def export
+      respond_to do |format|
+        format.csv do
+          response.headers['Content-Type'] = 'text/csv'
+          response.headers['Content-Disposition'] = "attachment; filename=\"subscribers_#{Date.today}.csv\""
+
+          self.response_body = Enumerator.new do |yielder|
+            headers = %w[email status segment preferences confirmed_at created_at]
+            yielder << CSV.generate_line(headers)
+
+            Subscriber.order(:id).find_each(batch_size: 500) do |sub|
+              row = [
+                sub.email,
+                sub.status,
+                sub.segment,
+                sub.preferences.present? ? sub.preferences.to_json : '',
+                sub.confirmed_at&.strftime('%Y-%m-%d %H:%M:%S'),
+                sub.created_at.strftime('%Y-%m-%d %H:%M:%S')
+              ]
+              yielder << CSV.generate_line(row)
+            end
+          end
+        end
+      end
+    end
+
     def unsubscribe
       subscriber = Subscriber.find(params[:id])
       subscriber.update!(status: 'unsubscribed')

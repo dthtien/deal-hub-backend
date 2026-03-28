@@ -121,6 +121,7 @@ module Deals
       unless @params[:include_out_of_stock].present?
         @products = @products.where(in_stock: true)
       end
+      filter_by_status
       filter_by_brands
       filter_by_categories
       filter_by_price
@@ -128,6 +129,11 @@ module Deals
       filter_by_stores
       filter_by_states
       filter_by_tags
+    end
+
+    def filter_by_status
+      return if @params[:status].blank?
+      @products = @products.where(status: @params[:status])
     end
 
     def track_search

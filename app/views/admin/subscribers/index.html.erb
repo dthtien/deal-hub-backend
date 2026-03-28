@@ -3,6 +3,8 @@
 <div class="flex items-center justify-between mb-6">
   <h1 class="text-2xl font-bold text-gray-900">Subscribers <span class="text-gray-400 font-normal text-lg">(<%= number_with_delimiter(@total) %>)</span></h1>
   <div class="flex items-center gap-3">
+    <%= link_to "Export CSV", export_admin_subscribers_path(format: :csv),
+        class: "bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors" %>
     <button onclick="document.getElementById('import-modal').classList.remove('hidden')"
       class="bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
       Import CSV

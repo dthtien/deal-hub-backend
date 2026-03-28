@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_30_200002) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_31_100002) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -217,8 +217,10 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_30_200002) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "keyword"
+    t.string "status", default: "active"
     t.index ["email"], name: "index_price_alerts_on_email"
     t.index ["product_id", "triggered"], name: "index_price_alerts_on_product_id_and_triggered"
+    t.index ["status"], name: "index_price_alerts_on_status"
   end
 
   create_table "price_histories", force: :cascade do |t|
@@ -264,6 +266,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_30_200002) do
     t.boolean "is_bundle", default: false, null: false
     t.integer "bundle_quantity", default: 1, null: false
     t.decimal "price_per_unit", precision: 10, scale: 2
+    t.string "status", default: "active"
     t.index ["brand"], name: "products_brand_gin_index", opclass: :gin_trgm_ops, using: :gin
     t.index ["categories"], name: "index_products_on_categories", using: :gin
     t.index ["created_at"], name: "index_products_on_created_at"
@@ -279,6 +282,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_30_200002) do
     t.index ["name"], name: "index_products_on_name"
     t.index ["name"], name: "products_name_gin_index", opclass: :gin_trgm_ops, using: :gin
     t.index ["specifications"], name: "index_products_on_specifications", using: :gin
+    t.index ["status"], name: "index_products_on_status"
     t.index ["store", "expired"], name: "index_products_on_store_and_expired"
     t.index ["store"], name: "index_products_on_store"
     t.index ["store_product_id", "store"], name: "index_products_on_store_product_id_and_store", unique: true

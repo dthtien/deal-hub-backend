@@ -50,6 +50,26 @@ class PriceAlertMailer < ApplicationMailer
     mail(to: @alert.email, subject: subject_text)
   end
 
+  def deal_expiring_soon(email, product)
+    @email = email
+    @product = product
+    @site_url = ENV.fetch('SITE_URL', 'https://www.ozvfy.com')
+    @deal_url = "#{@site_url}/deals/#{@product.id}"
+    @unsubscribe_url = "#{@site_url}/unsubscribe?email=#{CGI.escape(email)}"
+    @expires_at = @product.flash_expires_at
+
+    subject_text = "Deal expiring soon! #{@product.name.truncate(45)}"
+    log = NotificationLog.create!(
+      notification_type: 'deal_expiring_soon',
+      recipient: email,
+      subject: subject_text,
+      status: 'sent'
+    )
+    @tracking_pixel_url = tracking_pixel_url(0, log.id)
+
+    mail(to: email, subject: subject_text)
+  end
+
   def daily_digest(email, alerts)
     @email = email
     @alerts = alerts
