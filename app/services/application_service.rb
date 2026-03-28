@@ -149,6 +149,33 @@ class ApplicationService
       auto_tags = TagExtractor.extract(name: attrs[:name].to_s, categories: attrs[:categories])
       attrs[:tags] = (existing_tags + auto_tags).uniq.first(10)
 
+      # Auto-tag from price history (Loop 43 Feature 4)
+      price_history_tags = []
+      if product.persisted?
+        all_histories = product.price_histories.order(recorded_at: :asc).to_a
+        if all_histories.any?
+          first_price = all_histories.first.price.to_f
+          min_ever = all_histories.map { |h| h.price.to_f }.min
+
+          # big-drop: current price dropped > 30% vs first recorded price
+          if first_price > 0 && new_price < first_price * 0.70
+            price_history_tags << 'big-drop'
+          end
+
+          # all-time-low: current price is lowest ever
+          if new_price <= min_ever
+            price_history_tags << 'all-time-low'
+          end
+
+          # stable-price: 3rd+ consecutive crawl with same price
+          recent3 = all_histories.last(3)
+          if recent3.size >= 3 && recent3.map { |h| h.price.to_f }.uniq.size == 1
+            price_history_tags << 'stable-price'
+          end
+        end
+      end
+      attrs[:tags] = (Array(attrs[:tags]) + price_history_tags).uniq.first(12)
+
       product.assign_attributes(attrs)
 
       begin

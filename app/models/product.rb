@@ -192,6 +192,12 @@ class Product < ApplicationRecord
     votes.where(value: 1).count
   end
 
+  def community_score
+    days_old = [(Time.current - created_at) / 1.day, 1.0].max
+    saves = SavedDeal.where(product_id: id).count rescue 0
+    ((upvotes.to_f * 3 + comments.count.to_f * 2 + saves.to_f * 2 + share_count.to_f) / days_old).round(2)
+  end
+
   AWIN_STORES = [ASOS, JD_SPORTS].freeze
 
   SHIPPING_DAYS = {
@@ -364,6 +370,7 @@ class Product < ApplicationRecord
       'updated_at' => updated_at.strftime(DATE_FORMAT),
       'created_at' => created_at.strftime(DATE_FORMAT),
       popularity_score: popularity_score,
+      community_score: community_score,
       price_prediction: price_prediction_value,
       avg_rating: avg_rating,
       rating_count: rating_count,

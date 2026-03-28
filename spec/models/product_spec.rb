@@ -48,6 +48,7 @@ RSpec.describe Product, :model, type: :model do
         avg_rating: 0.0,
         rating_count: 0,
         popularity_score: an_instance_of(Float),
+        community_score: an_instance_of(Float),
         status: an_instance_of(String),
         going_fast: false,
         discount_tier: nil,

@@ -151,6 +151,7 @@ Rails.application.routes.draw do
       get 'deals/bundles', to: 'deals#bundles'
       get 'deals/price_watch', to: 'deals#price_watch'
       get 'deals/compare_prices', to: 'deals#compare_prices'
+      get 'deals/community_picks', to: 'deals#community_picks'
       post 'errors', to: 'errors#create'
       get 'exchange_rates', to: 'exchange_rates#index'
       resources :store_follows, only: %i[index create destroy] do
@@ -175,6 +176,7 @@ Rails.application.routes.draw do
           get :expiry_prediction
           get :price_analytics
           get :score_history
+          get :elasticity
         end
         collection do
           get :trending

@@ -85,9 +85,12 @@ module Api
       end
 
       def show
-        response.set_header('Cache-Control', 'public, max-age=300, stale-while-revalidate=60')
         product = Product.find(params[:id])
-        render json: product
+        response.set_header('Last-Modified', product.updated_at.httpdate)
+        response.set_header('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=60')
+        if stale?(last_modified: product.updated_at, public: true)
+          render json: product
+        end
       rescue ActiveRecord::RecordNotFound
         render json: { error: 'Not found' }, status: :not_found
       end
@@ -1194,6 +1197,80 @@ module Api
                            .map { |h| { score: h.score.to_f, recorded_at: h.recorded_at.iso8601 } }
 
         render json: { score_history: histories.reverse }
+      end
+
+      def community_picks
+        products = Rails.cache.fetch('community_picks_v1', expires_in: 15.minutes) do
+          Product.where(expired: false)
+                 .includes(:votes, :comments)
+                 .limit(200)
+                 .to_a
+                 .sort_by { |p| -p.community_score }
+                 .first(20)
+                 .map(&:as_json)
+        end
+        render json: { products: products }
+      end
+
+      def elasticity
+        product = Product.find(params[:id])
+        cache_key = "elasticity_v1_#{product.id}"
+        data = Rails.cache.fetch(cache_key, expires_in: 1.hour) do
+          histories = product.price_histories.order(recorded_at: :asc).to_a
+          current_views = product.view_count.to_i
+
+          if histories.size < 3
+            next {
+              elastic: false,
+              sensitivity: 'low',
+              insight: 'Not enough price history to analyse elasticity.'
+            }
+          end
+
+          # Find major price changes (>5% drop)
+          changes = []
+          histories.each_cons(2) do |older, newer|
+            old_p = older.price.to_f
+            new_p = newer.price.to_f
+            next if old_p <= 0
+            pct_change = (old_p - new_p) / old_p
+            next unless pct_change.abs >= 0.05
+            changes << { at: newer.recorded_at, pct_change: pct_change }
+          end
+
+          if changes.empty?
+            next {
+              elastic: false,
+              sensitivity: 'low',
+              insight: 'Price has been stable - no significant changes to analyse.'
+            }
+          end
+
+          # Use view_count as proxy; more changes means higher engagement sensitivity
+          avg_drop = changes.sum { |c| c[:pct_change] } / changes.size
+          sensitivity = if changes.size >= 3 && avg_drop > 0.15
+            'high'
+          elsif changes.size >= 2 || avg_drop > 0.08
+            'medium'
+          else
+            'low'
+          end
+
+          elastic = sensitivity != 'low'
+          insight = case sensitivity
+          when 'high'
+            "The community responds strongly to price changes on this deal."
+          when 'medium'
+            "Moderate price sensitivity - shoppers notice when this deal changes."
+          else
+            "This deal shows low price sensitivity."
+          end
+
+          { elastic: elastic, sensitivity: sensitivity, insight: insight }
+        end
+        render json: data
+      rescue ActiveRecord::RecordNotFound
+        render json: { error: 'Not found' }, status: :not_found
       end
 
       def vpp_compatible

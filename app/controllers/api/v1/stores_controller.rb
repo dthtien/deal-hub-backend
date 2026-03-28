@@ -30,7 +30,19 @@ module Api
       def index
         response.set_header('Cache-Control', 'public, max-age=3600')
 
-        stores = Rails.cache.fetch('stores_index_v3', expires_in: 1.hour) do
+        stores = Rails.cache.fetch('stores_index_v4', expires_in: 1.hour) do
+          # Loyalty score: repeat_clickers / total_unique_clickers per store
+          loyalty_by_store = {}
+          ClickTracking.where.not(store: [nil, ''], session_id: [nil, ''])
+                       .group(:store, :session_id)
+                       .count
+                       .group_by { |(store, _session), _cnt| store }
+                       .each do |store, session_counts|
+            total_unique = session_counts.size
+            repeat = session_counts.count { |_, cnt| cnt > 1 }
+            loyalty_by_store[store] = total_unique > 0 ? (repeat.to_f / total_unique).round(4) : 0.0
+          end
+
           # Aggregate deal_count and avg_discount for all stores in one query
           stats = Product.where(expired: false)
                          .group(:store)
@@ -85,13 +97,14 @@ module Api
             store_score    = ((deal_freshness * 40) + (avg * 0.4) + (stock_rate * 20)).round(1)
 
             {
-              name:         store,
-              deal_count:   dc,
-              avg_discount: avg,
-              best_deal:    best&.as_json,
-              avg_rating:   rrow&.avg_rating.to_f,
-              review_count: rrow&.review_count.to_i,
-              store_score:  store_score
+              name:          store,
+              deal_count:    dc,
+              avg_discount:  avg,
+              best_deal:     best&.as_json,
+              avg_rating:    rrow&.avg_rating.to_f,
+              review_count:  rrow&.review_count.to_i,
+              store_score:   store_score,
+              loyalty_score: loyalty_by_store[store] || 0.0
             }
           end
 
