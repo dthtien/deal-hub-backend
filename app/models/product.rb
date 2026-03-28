@@ -403,7 +403,8 @@ class Product < ApplicationRecord
       optimized_image_url: optimized_image_url,
       trending_velocity: trending_velocity,
       price_verified: price_verified,
-      verified_at: verified_at
+      verified_at: verified_at,
+      expiry_reason: expiry_reason
     )
 
     if currency_code && currency_code != 'AUD' && EXCHANGE_RATES.key?(currency_code)

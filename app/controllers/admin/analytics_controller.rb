@@ -283,6 +283,50 @@ module Admin
       }
     end
 
+    def networks
+      awin_stores = Product::AWIN_STORES
+      cf_stores   = Product::STORES - awin_stores
+
+      result = {}
+      {
+        'awin'               => awin_stores,
+        'commission_factory' => cf_stores
+      }.each do |network, stores|
+        clicks       = ClickTracking.where(store: stores).count
+        this_month   = ClickTracking.where(store: stores).where('created_at >= ?', Time.current.beginning_of_month).count
+        avg_price    = Product.where(store: stores, expired: false).average(:price)&.to_f&.round(2) || 0.0
+        rate         = network == 'awin' ? 0.06 : 0.04
+        conversion   = 0.02
+        revenue      = (this_month * rate * avg_price * conversion).round(2)
+        rpc          = clicks > 0 ? (revenue.to_f / clicks).round(4) : 0.0
+        products     = Product.where(store: stores, expired: false).count
+
+        result[network] = {
+          network: network,
+          stores: stores,
+          total_clicks: clicks,
+          clicks_this_month: this_month,
+          avg_product_price: avg_price,
+          commission_rate: rate,
+          estimated_revenue: revenue,
+          revenue_per_click: rpc,
+          conversion_rate: conversion,
+          product_count: products
+        }
+      end
+
+      awin = result['awin']
+      cf   = result['commission_factory']
+      recommended = awin[:revenue_per_click] >= cf[:revenue_per_click] ? 'awin' : 'commission_factory'
+      recommended_label = recommended == 'awin' ? 'Awin' : 'Commission Factory'
+
+      render json: {
+        networks: result,
+        recommendation: "Focus on #{recommended_label} for better ROI",
+        recommended_network: recommended
+      }
+    end
+
     def click_heatmap
       rows = ActiveRecord::Base.connection.execute(<<~SQL)
         SELECT

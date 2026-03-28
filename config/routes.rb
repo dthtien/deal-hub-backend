@@ -86,6 +86,8 @@ Rails.application.routes.draw do
     get 'analytics/revenue_events', to: 'analytics#revenue_events', as: :admin_revenue_events
     get 'analytics/coupons', to: 'analytics#coupons', as: :admin_coupon_analytics
     get 'analytics/funnel', to: 'analytics#funnel', as: :admin_funnel_analytics
+    get 'analytics/networks', to: 'analytics#networks', as: :admin_analytics_networks
+    resources :spotlights, only: %i[index show create update destroy]
     get 'ab_tests', to: 'ab_tests#index', as: :admin_ab_tests
     get 'reports/stores', to: 'reports#stores', as: :admin_reports_stores
     get 'reports/deal_performance', to: 'reports#deal_performance', as: :admin_reports_deal_performance
@@ -289,6 +291,9 @@ Rails.application.routes.draw do
       namespace :referrals do
       end
       get 'referrals/link', to: 'referrals#link'
+      get 'referrals/stats', to: 'referrals#stats'
+      get 'spotlights', to: 'spotlights#index'
+      get 'cart/estimate', to: 'cart#estimate'
       namespace :insurances do
         resources :quotes, only: %w[create show]
         resources :addresses, only: :index

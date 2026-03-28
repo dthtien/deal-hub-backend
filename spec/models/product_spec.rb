@@ -56,7 +56,8 @@ RSpec.describe Product, :model, type: :model do
         optimized_image_url: anything,
         trending_velocity: an_instance_of(Float),
         price_verified: nil,
-        verified_at: nil
+        verified_at: nil,
+        expiry_reason: nil
       )
       expect(product.as_json).to match(expected)
     end

@@ -198,6 +198,19 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_04_100001) do
     t.index ["product_id"], name: "index_deal_score_histories_on_product_id"
   end
 
+  create_table "deal_spotlights", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.string "title", null: false
+    t.text "description"
+    t.datetime "featured_until"
+    t.integer "position", default: 0, null: false
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["active", "position"], name: "index_deal_spotlights_on_active_and_position"
+    t.index ["product_id"], name: "index_deal_spotlights_on_product_id"
+  end
+
   create_table "deal_submissions", force: :cascade do |t|
     t.string "title", null: false
     t.string "url", null: false
@@ -294,6 +307,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_04_100001) do
     t.jsonb "share_breakdown", default: {}
     t.boolean "price_verified"
     t.datetime "verified_at"
+    t.string "expiry_reason"
     t.index ["brand"], name: "products_brand_gin_index", opclass: :gin_trgm_ops, using: :gin
     t.index ["categories"], name: "index_products_on_categories", using: :gin
     t.index ["created_at"], name: "index_products_on_created_at"
@@ -387,6 +401,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_04_100001) do
     t.integer "click_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "converted_at"
+    t.integer "conversion_count", default: 0, null: false
     t.index ["code"], name: "index_referrals_on_code", unique: true
     t.index ["session_id"], name: "index_referrals_on_session_id"
   end
@@ -517,4 +533,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_04_100001) do
     t.datetime "updated_at", null: false
     t.index ["active"], name: "index_webhooks_on_active"
   end
+
+  add_foreign_key "deal_spotlights", "products"
 end
