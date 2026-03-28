@@ -54,7 +54,9 @@ RSpec.describe Product, :model, type: :model do
         discount_tier: nil,
         shipping_info: anything,
         optimized_image_url: anything,
-        trending_velocity: an_instance_of(Float)
+        trending_velocity: an_instance_of(Float),
+        price_verified: nil,
+        verified_at: nil
       )
       expect(product.as_json).to match(expected)
     end

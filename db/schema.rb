@@ -64,8 +64,12 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_04_100001) do
     t.string "utm_source"
     t.string "utm_medium"
     t.string "utm_campaign"
+    t.string "funnel_stage"
+    t.string "session_id"
     t.index ["clicked_at"], name: "index_click_trackings_on_clicked_at"
+    t.index ["funnel_stage"], name: "index_click_trackings_on_funnel_stage"
     t.index ["product_id"], name: "index_click_trackings_on_product_id"
+    t.index ["session_id"], name: "index_click_trackings_on_session_id"
     t.index ["store"], name: "index_click_trackings_on_store"
   end
 
@@ -288,6 +292,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_04_100001) do
     t.boolean "going_fast", default: false, null: false
     t.jsonb "metadata", default: {}
     t.jsonb "share_breakdown", default: {}
+    t.boolean "price_verified"
+    t.datetime "verified_at"
     t.index ["brand"], name: "products_brand_gin_index", opclass: :gin_trgm_ops, using: :gin
     t.index ["categories"], name: "index_products_on_categories", using: :gin
     t.index ["created_at"], name: "index_products_on_created_at"

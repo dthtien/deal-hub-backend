@@ -85,6 +85,8 @@ Rails.application.routes.draw do
     get 'analytics/revenue', to: 'analytics#revenue', as: :admin_revenue_analytics
     get 'analytics/revenue_events', to: 'analytics#revenue_events', as: :admin_revenue_events
     get 'analytics/coupons', to: 'analytics#coupons', as: :admin_coupon_analytics
+    get 'analytics/funnel', to: 'analytics#funnel', as: :admin_funnel_analytics
+    get 'ab_tests', to: 'ab_tests#index', as: :admin_ab_tests
     get 'reports/stores', to: 'reports#stores', as: :admin_reports_stores
     get 'reports/deal_performance', to: 'reports#deal_performance', as: :admin_reports_deal_performance
     get 'search', to: 'search#index'
@@ -156,6 +158,7 @@ Rails.application.routes.draw do
       get 'deals/price_watch', to: 'deals#price_watch'
       get 'deals/compare_prices', to: 'deals#compare_prices'
       get 'deals/community_picks', to: 'deals#community_picks'
+      get 'feed', to: 'feed#personalised'
       post 'errors', to: 'errors#create'
       get 'exchange_rates', to: 'exchange_rates#index'
       resources :store_follows, only: %i[index create destroy] do
@@ -183,6 +186,8 @@ Rails.application.routes.draw do
           get :price_analytics
           get :score_history
           get :elasticity
+          get :cluster
+          post :funnel
         end
         collection do
           get :trending

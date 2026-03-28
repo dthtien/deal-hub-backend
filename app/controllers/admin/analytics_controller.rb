@@ -226,6 +226,63 @@ module Admin
       }
     end
 
+    def funnel
+      # Aggregate funnel stages
+      stages = %w[view click purchase_intent]
+
+      stage_counts = ClickTracking
+        .where(funnel_stage: stages)
+        .group(:funnel_stage)
+        .count
+
+      views    = stage_counts['view'].to_i
+      clicks   = stage_counts['click'].to_i
+      purchase = stage_counts['purchase_intent'].to_i
+
+      click_rate    = views > 0    ? (clicks.to_f / views * 100).round(2)    : 0.0
+      purchase_rate = clicks > 0   ? (purchase.to_f / clicks * 100).round(2) : 0.0
+      overall_rate  = views > 0    ? (purchase.to_f / views * 100).round(2)  : 0.0
+
+      # Per-store breakdown
+      store_rows = ClickTracking
+        .where(funnel_stage: stages)
+        .where.not(store: nil)
+        .group(:store, :funnel_stage)
+        .count
+
+      stores_data = {}
+      store_rows.each do |(store, stage), cnt|
+        stores_data[store] ||= { 'view' => 0, 'click' => 0, 'purchase_intent' => 0 }
+        stores_data[store][stage] = cnt
+      end
+
+      per_store = stores_data.map do |store, counts|
+        v = counts['view'].to_i
+        c = counts['click'].to_i
+        p = counts['purchase_intent'].to_i
+        {
+          store: store,
+          views: v,
+          clicks: c,
+          purchase_intents: p,
+          click_rate: v > 0 ? (c.to_f / v * 100).round(2) : 0.0,
+          purchase_rate: c > 0 ? (p.to_f / c * 100).round(2) : 0.0
+        }
+      end.sort_by { |s| -s[:views] }
+
+      render json: {
+        funnel: {
+          views: views,
+          clicks: clicks,
+          purchase_intents: purchase,
+          click_rate: click_rate,
+          purchase_rate: purchase_rate,
+          overall_conversion_rate: overall_rate
+        },
+        per_store: per_store
+      }
+    end
+
     def click_heatmap
       rows = ActiveRecord::Base.connection.execute(<<~SQL)
         SELECT

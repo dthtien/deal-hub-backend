@@ -401,7 +401,9 @@ class Product < ApplicationRecord
       discount_tier: discount_tier,
       shipping_info: shipping_info,
       optimized_image_url: optimized_image_url,
-      trending_velocity: trending_velocity
+      trending_velocity: trending_velocity,
+      price_verified: price_verified,
+      verified_at: verified_at
     )
 
     if currency_code && currency_code != 'AUD' && EXCHANGE_RATES.key?(currency_code)

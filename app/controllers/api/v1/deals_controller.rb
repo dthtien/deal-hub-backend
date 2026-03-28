@@ -1360,6 +1360,64 @@ module Api
         render json: { products: products }
       end
 
+      # GET /api/v1/deals/:id/cluster
+      def cluster
+        deal = Product.find(params[:id])
+        currency = params[:currency].presence
+
+        unless deal.brand.present?
+          return render json: { products: [], count: 0, brand: nil }
+        end
+
+        min_price = deal.price * 0.8
+        max_price = deal.price * 1.2
+
+        cluster_deals = Product
+          .where(expired: false)
+          .where(brand: deal.brand)
+          .where(price: min_price..max_price)
+          .where.not(id: deal.id)
+          .where.not(store: deal.store)
+          .order(deal_score: :desc)
+          .limit(10)
+
+        render json: {
+          products: cluster_deals.map { |p| p.as_json(currency: currency) },
+          count: cluster_deals.size,
+          brand: deal.brand
+        }
+      rescue ActiveRecord::RecordNotFound
+        render json: { error: 'Not found' }, status: :not_found
+      end
+
+      # POST /api/v1/deals/:id/funnel
+      def funnel
+        deal = Product.find(params[:id])
+        stage = params[:stage].to_s
+        session_id = params[:session_id].to_s
+
+        valid_stages = %w[view click purchase_intent]
+        unless valid_stages.include?(stage)
+          return render json: { error: "Invalid stage. Must be one of: #{valid_stages.join(', ')}" }, status: :unprocessable_entity
+        end
+
+        ClickTracking.create!(
+          product_id: deal.id,
+          store: deal.store,
+          session_id: session_id.presence,
+          funnel_stage: stage,
+          clicked_at: Time.current,
+          ip_address: request.remote_ip,
+          user_agent: request.user_agent
+        )
+
+        render json: { ok: true, stage: stage }
+      rescue ActiveRecord::RecordNotFound
+        render json: { error: 'Not found' }, status: :not_found
+      rescue ActiveRecord::RecordInvalid => e
+        render json: { error: e.message }, status: :unprocessable_entity
+      end
+
       private
 
       BULK_MAX_IDS = 20
