@@ -34,6 +34,8 @@ RSpec.describe Product, :model, type: :model do
         best_deal: false,
         price_trend: :stable,
         is_bundle: false,
+        bundle_quantity: an_instance_of(Integer),
+        price_per_unit: nil,
         in_stock: true,
         ai_recommendation: nil,
         ai_confidence: nil,

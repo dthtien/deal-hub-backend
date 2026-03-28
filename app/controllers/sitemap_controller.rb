@@ -60,11 +60,70 @@ class SitemapController < ApplicationController
   def sitemap_index
     xml = String.new("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
     xml << "<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n"
-    ['/sitemap.xml', '/sitemap_deals.xml', '/sitemap_stores.xml'].each do |loc|
+    [
+      '/sitemap.xml',
+      '/sitemap_deals.xml',
+      '/sitemap_stores.xml',
+      '/sitemap_brands.xml',
+      '/sitemap_collections.xml',
+      '/sitemap_categories.xml'
+    ].each do |loc|
       xml << "  <sitemap><loc>#{SITE_URL}#{loc}</loc></sitemap>\n"
     end
     xml << "</sitemapindex>"
     render plain: xml, content_type: 'application/xml'
+  end
+
+  def sitemap_brands
+    brands = Product.where.not(brand: [nil, ''])
+                    .group(:brand)
+                    .order('COUNT(*) DESC')
+                    .limit(100)
+                    .pluck(:brand)
+
+    xml = String.new("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+    xml << "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n"
+    brands.each do |brand|
+      xml << "  <url><loc>#{SITE_URL}/brands/#{CGI.escape(brand)}</loc><changefreq>daily</changefreq><priority>0.7</priority></url>\n"
+    end
+    xml << "</urlset>"
+    render plain: xml, content_type: 'application/xml'
+  rescue => e
+    Rails.logger.error("SitemapController#sitemap_brands error: #{e.message}")
+    render plain: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"></urlset>", content_type: 'application/xml'
+  end
+
+  def sitemap_collections
+    collections = Collection.where(active: true).select(:slug, :updated_at)
+
+    xml = String.new("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+    xml << "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n"
+    collections.each do |col|
+      lastmod = col.updated_at&.strftime('%Y-%m-%d') || Date.today.to_s
+      xml << "  <url><loc>#{SITE_URL}/collections/#{CGI.escape(col.slug)}</loc><lastmod>#{lastmod}</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>\n"
+    end
+    xml << "</urlset>"
+    render plain: xml, content_type: 'application/xml'
+  rescue => e
+    Rails.logger.error("SitemapController#sitemap_collections error: #{e.message}")
+    render plain: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"></urlset>", content_type: 'application/xml'
+  end
+
+  def sitemap_categories
+    categories = Product.where("array_length(categories, 1) > 0")
+                        .pluck(:categories).flatten.tally
+                        .sort_by { |_, c| -c }.map(&:first)
+
+    xml = String.new("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+    xml << "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n"
+    categories.each do |cat|
+      xml << "  <url><loc>#{SITE_URL}/categories/#{CGI.escape(cat)}</loc><changefreq>daily</changefreq><priority>0.6</priority></url>\n"
+    end
+    xml << "</urlset>"
+    render plain: xml, content_type: 'application/xml'
+  rescue => e
+    Rails.logger.error("SitemapController#sitemap_categories error: #{e.message}")
+    render plain: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"></urlset>", content_type: 'application/xml'
   end
 
   def sitemap_deals

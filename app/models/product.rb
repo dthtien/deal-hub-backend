@@ -238,6 +238,33 @@ class Product < ApplicationRecord
     (heat_index.to_f * decay).round(4)
   end
 
+  # Parse bundle quantity from product name
+  # Handles: "2 for $X", "Buy 2 get 1 free", "Twin pack", "3 Pack", "2-Pack"
+  def detect_bundle_quantity
+    n = name.to_s
+    qty = if n =~ /\b(\d+)\s*for\s*\$?\d/i
+      $1.to_i
+    elsif n =~ /buy\s*(\d+)\s*get/i
+      $1.to_i + 1
+    elsif n =~ /\btwin\s*pack\b/i
+      2
+    elsif n =~ /\b(\d+)\s*[\-\s]?pack\b/i
+      $1.to_i
+    elsif n =~ /\bpack\s+of\s+(\d+)\b/i
+      $1.to_i
+    else
+      1
+    end
+    [qty, 1].max
+  end
+
+  def computed_price_per_unit
+    qty = bundle_quantity.to_i
+    return nil unless qty > 1 && price.to_f > 0
+
+    (price.to_f / qty).round(2)
+  end
+
   def as_json(options = {})
     currency_code = options.delete(:currency)
     base = super(options).merge(
@@ -256,6 +283,8 @@ class Product < ApplicationRecord
       tags: tags || [],
       price_trend: price_trend,
       is_bundle: is_bundle,
+      bundle_quantity: bundle_quantity.to_i,
+      price_per_unit: computed_price_per_unit,
       in_stock: in_stock,
       quality_score: quality_score,
       ai_recommendation: ai_recommendation,

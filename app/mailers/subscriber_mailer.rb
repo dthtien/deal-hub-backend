@@ -14,9 +14,16 @@ class SubscriberMailer < ApplicationMailer
     @categories = Array(prefs['categories'])
     @stores = Array(prefs['stores'])
 
-    mail(
-      to: subscriber.email,
-      subject: "Your Personalised Deals from OzVFY - Today's Top Picks"
+    subject_text = "Your Personalised Deals from OzVFY - Today's Top Picks"
+
+    log = NotificationLog.create!(
+      notification_type: 'personalised_digest',
+      recipient: subscriber.email,
+      subject: subject_text,
+      status: 'sent'
     )
+    @tracking_pixel_url = tracking_pixel_url(subscriber.id, log.id)
+
+    mail(to: subscriber.email, subject: subject_text)
   end
 end

@@ -13,10 +13,16 @@ class DealsMailer < ApplicationMailer
     @site_url = ENV.fetch('SITE_URL', 'https://www.ozvfy.com')
     @unsubscribe_url = "#{@site_url}/unsubscribe?token=#{subscriber.unsubscribe_token}"
 
-    mail(
-      to: subscriber.email,
-      subject: "🔥 This Week's Top Deals on OzVFY"
+    subject_text = "This Week's Top Deals on OzVFY"
+    log = NotificationLog.create!(
+      notification_type: 'weekly_digest',
+      recipient: subscriber.email,
+      subject: subject_text,
+      status: 'sent'
     )
+    @tracking_pixel_url = tracking_pixel_url(subscriber.id, log.id)
+
+    mail(to: subscriber.email, subject: subject_text)
   end
 
   def keyword_alert(alert, product)

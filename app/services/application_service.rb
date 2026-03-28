@@ -50,13 +50,17 @@ class ApplicationService
   ensure
     duration = Time.current - start_time
     begin
+      found = @crawl_products_found.to_i
+      new_count = @crawl_products_new.to_i
+      yield_rate = found > 0 ? (new_count.to_f / found).round(4) : 0.0
       CrawlLog.create!(
         store:             store,
-        products_found:    @crawl_products_found.to_i,
-        products_new:      @crawl_products_new.to_i,
+        products_found:    found,
+        products_new:      new_count,
         products_updated:  @crawl_products_updated.to_i,
         duration_seconds:  duration.round(2),
-        crawled_at:        Time.current
+        crawled_at:        Time.current,
+        yield_rate:        yield_rate
       )
     rescue => e
       Rails.logger.error "wrap_with_crawl_log - failed to save CrawlLog: #{e.message}"
@@ -116,9 +120,29 @@ class ApplicationService
       # Detect deal expiry: price went back up to/above old_price (discount gone)
       attrs[:expired] = old_price > 0 && new_price >= old_price
 
-      # Bundle detection: scan product name for bundle keywords
+      # Bundle detection v2: scan product name for bundle keywords and quantity
       bundle_keywords = /\b(pack|set|bundle|kit|combo|twin|duo|trio)\b/i
       attrs[:is_bundle] = attrs[:name].to_s.match?(bundle_keywords)
+
+      # Detect bundle quantity and compute price_per_unit
+      product_name = attrs[:name].to_s
+      qty = if product_name =~ /\b(\d+)\s*for\s*\$?\d/i
+        $1.to_i
+      elsif product_name =~ /buy\s*(\d+)\s*get/i
+        $1.to_i + 1
+      elsif product_name =~ /\btwin\s*pack\b/i
+        2
+      elsif product_name =~ /\b(\d+)\s*[\-\s]?pack\b/i
+        $1.to_i
+      elsif product_name =~ /\bpack\s+of\s+(\d+)\b/i
+        $1.to_i
+      else
+        1
+      end
+      qty = [qty, 1].max
+      attrs[:bundle_quantity] = qty
+      attrs[:is_bundle] = true if qty > 1
+      attrs[:price_per_unit] = qty > 1 ? (attrs[:price].to_f / qty).round(2) : nil
 
       # Auto-generate tags from name + categories (Feature 5 - deal tagging automation)
       existing_tags = Array(attrs[:tags])

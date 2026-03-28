@@ -9,7 +9,10 @@ Rails.application.routes.draw do
   get "sitemap.xml"       => "sitemap#index",         defaults: { format: :xml }
   get "sitemap_index.xml" => "sitemap#sitemap_index", defaults: { format: :xml }
   get "sitemap_deals.xml" => "sitemap#sitemap_deals", defaults: { format: :xml }
-  get "sitemap_stores.xml"=> "sitemap#sitemap_stores",defaults: { format: :xml }
+  get "sitemap_stores.xml"      => "sitemap#sitemap_stores",      defaults: { format: :xml }
+  get "sitemap_brands.xml"      => "sitemap#sitemap_brands",      defaults: { format: :xml }
+  get "sitemap_collections.xml" => "sitemap#sitemap_collections",  defaults: { format: :xml }
+  get "sitemap_categories.xml"  => "sitemap#sitemap_categories",   defaults: { format: :xml }
   get "r/:code" => "referrals#redirect", as: :referral_redirect
   get "feed.xml"    => "feed#index"
   get "robots.txt"  => "robots#index", defaults: { format: :text }

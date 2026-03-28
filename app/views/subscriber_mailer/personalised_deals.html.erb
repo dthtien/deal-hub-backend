@@ -44,6 +44,9 @@
       <a href="<%= @preferences_url %>" style="color: #ea580c;">Update preferences</a> &nbsp;|&nbsp;
       <a href="<%= @unsubscribe_url %>" style="color: #6b7280;">Unsubscribe</a>
     </p>
+    <% if defined?(@tracking_pixel_url) && @tracking_pixel_url %>
+      <img src="<%= @tracking_pixel_url %>" width="1" height="1" alt="" style="display:block;width:1px;height:1px;border:0;" />
+    <% end %>
   </div>
 </body>
 </html>

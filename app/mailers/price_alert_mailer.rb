@@ -10,10 +10,16 @@ class PriceAlertMailer < ApplicationMailer
     @deal_url = "#{@site_url}/deals/#{@product.id}"
     @unsubscribe_url = "#{@site_url}/unsubscribe?email=#{CGI.escape(@alert.email)}"
 
-    mail(
-      to: @alert.email,
-      subject: "Your target price is already met for #{@product.name.truncate(50)}"
+    subject_text = "Your target price is already met for #{@product.name.truncate(50)}"
+    log = NotificationLog.create!(
+      notification_type: 'price_alert',
+      recipient: @alert.email,
+      subject: subject_text,
+      status: 'sent'
     )
+    @tracking_pixel_url = tracking_pixel_url(0, log.id)
+
+    mail(to: @alert.email, subject: subject_text)
   end
 
   def alert_triggered(alert, product)
@@ -32,10 +38,16 @@ class PriceAlertMailer < ApplicationMailer
 
     @product_image = @product.image_url.presence || @product.image_urls&.first
 
-    mail(
-      to: @alert.email,
-      subject: "Price alert! #{@product.name.truncate(40)} dropped to $#{@product.price}"
+    subject_text = "Price alert! #{@product.name.truncate(40)} dropped to $#{@product.price}"
+    log = NotificationLog.create!(
+      notification_type: 'price_alert',
+      recipient: @alert.email,
+      subject: subject_text,
+      status: 'sent'
     )
+    @tracking_pixel_url = tracking_pixel_url(0, log.id)
+
+    mail(to: @alert.email, subject: subject_text)
   end
 
   def daily_digest(email, alerts)
@@ -47,19 +59,14 @@ class PriceAlertMailer < ApplicationMailer
 
     subject_line = "Your daily price alert digest - #{alerts.size} deal#{alerts.size == 1 ? '' : 's'} matched!"
 
-    message = mail(to: email, subject: subject_line)
+    log = NotificationLog.create!(
+      notification_type: 'price_alert_digest',
+      recipient: email,
+      subject: subject_line,
+      status: 'sent'
+    )
+    @tracking_pixel_url = tracking_pixel_url(0, log.id)
 
-    begin
-      NotificationLog.create!(
-        notification_type: 'price_alert_digest',
-        recipient:         email,
-        subject:           subject_line,
-        status:            'sent'
-      )
-    rescue StandardError => e
-      Rails.logger.error("[PriceAlertMailer] Failed to log notification: #{e.message}")
-    end
-
-    message
+    mail(to: email, subject: subject_line)
   end
 end
