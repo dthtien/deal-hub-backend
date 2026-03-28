@@ -38,6 +38,7 @@ Rails.application.routes.draw do
         post :bulk_action
         post :bulk_expire
         patch :bulk_update_products
+        post :merge
       end
     end
     post 'coupons/generate', to: 'coupon_generate#create', as: :generate_coupons
@@ -72,6 +73,7 @@ Rails.application.routes.draw do
     end
     resources :crawlers, only: %i[index]
     resources :crawl_logs, only: %i[index]
+    get 'crawl_schedule', to: 'crawl_schedule#index'
     get 'analytics', to: 'analytics#index'
     get 'analytics/click_heatmap', to: 'analytics#click_heatmap', as: :admin_click_heatmap
     get 'analytics/affiliate', to: 'analytics#affiliate', as: :admin_affiliate_analytics
@@ -82,6 +84,7 @@ Rails.application.routes.draw do
     resources :api_keys, only: %i[index create destroy]
     get 'dashboard/stats', to: 'dashboard#stats', as: :admin_dashboard_stats
     resources :notification_logs, only: %i[index]
+    get 'notifications/queue', to: 'notifications#queue', as: :admin_notifications_queue
     resources :comments, only: %i[index] do
       member do
         post :approve
@@ -163,6 +166,7 @@ Rails.application.routes.draw do
           get :price_prediction
           get :expiry_prediction
           get :price_analytics
+          get :score_history
         end
         collection do
           get :trending
@@ -175,6 +179,7 @@ Rails.application.routes.draw do
           get :this_week
           get :deal_of_the_week
           get :most_shared
+          get :live_feed
         end
         resources :price_histories, only: :index
         resources :price_alerts, only: :create

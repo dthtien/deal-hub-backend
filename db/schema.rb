@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_31_100002) do
+ActiveRecord::Schema[8.0].define(version: 2026_04_01_100002) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -179,6 +179,16 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_31_100002) do
     t.index ["reason"], name: "index_deal_reports_on_reason"
   end
 
+  create_table "deal_score_histories", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.decimal "score", precision: 8, scale: 2
+    t.datetime "recorded_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id", "recorded_at"], name: "index_deal_score_histories_on_product_id_and_recorded_at"
+    t.index ["product_id"], name: "index_deal_score_histories_on_product_id"
+  end
+
   create_table "deal_submissions", force: :cascade do |t|
     t.string "title", null: false
     t.string "url", null: false
@@ -267,6 +277,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_31_100002) do
     t.integer "bundle_quantity", default: 1, null: false
     t.decimal "price_per_unit", precision: 10, scale: 2
     t.string "status", default: "active"
+    t.tsvector "search_vector"
     t.index ["brand"], name: "products_brand_gin_index", opclass: :gin_trgm_ops, using: :gin
     t.index ["categories"], name: "index_products_on_categories", using: :gin
     t.index ["created_at"], name: "index_products_on_created_at"
@@ -281,6 +292,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_31_100002) do
     t.index ["is_bundle"], name: "index_products_on_is_bundle"
     t.index ["name"], name: "index_products_on_name"
     t.index ["name"], name: "products_name_gin_index", opclass: :gin_trgm_ops, using: :gin
+    t.index ["search_vector"], name: "index_products_on_search_vector", using: :gin
     t.index ["specifications"], name: "index_products_on_specifications", using: :gin
     t.index ["status"], name: "index_products_on_status"
     t.index ["store", "expired"], name: "index_products_on_store_and_expired"

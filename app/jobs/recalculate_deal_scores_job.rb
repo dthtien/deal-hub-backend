@@ -7,10 +7,16 @@ class RecalculateDealScoresJob
 
   def perform
     products = Product.where(expired: false)
+    now = Time.current
 
     products.find_each do |product|
       score = calculate_score(product)
       product.update_columns(deal_score: score.round(2))
+      DealScoreHistory.create!(
+        product_id: product.id,
+        score: score.round(2),
+        recorded_at: now
+      )
     end
   end
 

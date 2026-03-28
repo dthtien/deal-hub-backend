@@ -140,5 +140,37 @@ module Admin
     rescue JSON::ParserError
       render json: { error: 'Invalid JSON' }, status: :bad_request
     end
+
+    def merge
+      body_params = request.content_type&.include?('application/json') ? JSON.parse(request.body.read) : params.to_unsafe_h
+      primary_id   = body_params['primary_id'].to_i
+      duplicate_id = body_params['duplicate_id'].to_i
+
+      if primary_id.blank? || duplicate_id.blank? || primary_id == duplicate_id
+        return render json: { error: 'primary_id and duplicate_id required and must differ' }, status: :unprocessable_entity
+      end
+
+      keeper    = Product.find(primary_id)
+      duplicate = Product.find(duplicate_id)
+
+      # Transfer associations
+      Vote.where(product_id: duplicate.id).each do |vote|
+        vote.update_columns(product_id: keeper.id) unless Vote.exists?(product_id: keeper.id, session_id: vote.session_id)
+      end
+      Comment.where(product_id: duplicate.id).update_all(product_id: keeper.id)
+      SavedDeal.where(product_id: duplicate.id).each do |sd|
+        sd.update_columns(product_id: keeper.id) unless SavedDeal.exists?(product_id: keeper.id, session_id: sd.session_id)
+      end
+      PriceHistory.where(product_id: duplicate.id).update_all(product_id: keeper.id)
+      ClickTracking.where(product_id: duplicate.id).update_all(product_id: keeper.id)
+
+      duplicate.delete
+
+      render json: { message: "Product #{duplicate_id} merged into #{primary_id}.", primary_id: primary_id }
+    rescue ActiveRecord::RecordNotFound => e
+      render json: { error: e.message }, status: :not_found
+    rescue JSON::ParserError
+      render json: { error: 'Invalid JSON' }, status: :bad_request
+    end
   end
 end

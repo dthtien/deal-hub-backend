@@ -50,24 +50,28 @@ module Deals
       return if query.blank?
 
       q = query.strip
-      quoted = ActiveRecord::Base.connection.quote(q.downcase)
+      conn = ActiveRecord::Base.connection
 
-      # Match across name, description, brand, tags, and categories
-      @products = @products.where('name ILIKE ?', "%#{q}%")
-                           .or(@products.where('description ILIKE ?', "%#{q}%"))
-                           .or(@products.where('brand ILIKE ?', "%#{q}%"))
-                           .or(@products.where('tags::text ILIKE ?', "%#{q}%"))
-                           .or(@products.where('categories::text ILIKE ?', "%#{q}%"))
+      # Use full-text search with search_vector if available, fallback to ILIKE
+      tsquery = q.split.map { |w| conn.quote(w + ':*') }.join(' & ')
 
-      # Weighted ranking:
-      # Exact name match: 10, name contains: 5, brand: 3, tags: 2, categories: 1
+      @products = @products.where(
+        "search_vector @@ to_tsquery('english', ?) OR name ILIKE ? OR brand ILIKE ? OR description ILIKE ?",
+        tsquery.gsub("'", "''"),
+        "%#{q}%",
+        "%#{q}%",
+        "%#{q}%"
+      )
+
+      quoted = conn.quote(q.downcase)
       rank_sql = Arel.sql(<<~SQL.squish)
         (
+          CASE WHEN search_vector IS NOT NULL
+            THEN ts_rank(search_vector, to_tsquery('english', #{conn.quote(tsquery.gsub("'", "''"))})) * 10
+            ELSE 0 END +
           CASE WHEN LOWER(name) = #{quoted} THEN 10 ELSE 0 END +
-          CASE WHEN LOWER(name) LIKE #{ActiveRecord::Base.connection.quote("%#{q.downcase}%")} AND LOWER(name) != #{quoted} THEN 5 ELSE 0 END +
-          CASE WHEN LOWER(COALESCE(brand,'')) LIKE #{ActiveRecord::Base.connection.quote("%#{q.downcase}%")} THEN 3 ELSE 0 END +
-          CASE WHEN tags::text ILIKE #{ActiveRecord::Base.connection.quote("%#{q}%")} THEN 2 ELSE 0 END +
-          CASE WHEN categories::text ILIKE #{ActiveRecord::Base.connection.quote("%#{q}%")} THEN 1 ELSE 0 END
+          CASE WHEN LOWER(name) LIKE #{conn.quote("%#{q.downcase}%")} AND LOWER(name) != #{quoted} THEN 5 ELSE 0 END +
+          CASE WHEN LOWER(COALESCE(brand,'')) LIKE #{conn.quote("%#{q.downcase}%")} THEN 3 ELSE 0 END
         ) DESC, deal_score DESC
       SQL
 

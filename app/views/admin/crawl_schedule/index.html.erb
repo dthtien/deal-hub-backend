@@ -1,0 +1,54 @@
+<% content_for :title, "Crawl Schedule" %>
+
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-2xl font-bold text-gray-900">Crawl Schedule</h1>
+  <span class="text-sm text-gray-500">As of <%= Time.current.strftime('%d %b %Y %H:%M') %> AEST</span>
+</div>
+
+<div class="bg-white rounded-xl shadow-sm overflow-hidden">
+  <table class="w-full text-sm">
+    <thead class="bg-gray-50 border-b border-gray-200">
+      <tr>
+        <th class="px-4 py-3 text-left font-semibold text-gray-700">Store</th>
+        <th class="px-4 py-3 text-left font-semibold text-gray-700">Last Crawled</th>
+        <th class="px-4 py-3 text-left font-semibold text-gray-700">Next Scheduled</th>
+        <th class="px-4 py-3 text-right font-semibold text-gray-700">Frequency</th>
+        <th class="px-4 py-3 text-right font-semibold text-gray-700">Expected Products</th>
+        <th class="px-4 py-3 text-center font-semibold text-gray-700">Status</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-100">
+      <% @schedule.each do |s| %>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-3 font-medium text-gray-900"><%= s[:store] %></td>
+          <td class="px-4 py-3 text-gray-600">
+            <%= s[:last_crawled] ? s[:last_crawled].strftime('%d %b %H:%M') : '<span class="text-gray-400">Never</span>'.html_safe %>
+          </td>
+          <td class="px-4 py-3 text-gray-600">
+            <% if s[:next_scheduled] %>
+              <%= s[:next_scheduled].strftime('%d %b %H:%M') %>
+              <% if s[:next_scheduled] > Time.current %>
+                <span class="text-xs text-gray-400 ml-1">(in <%= distance_of_time_in_words(Time.current, s[:next_scheduled]) %>)</span>
+              <% end %>
+            <% else %>
+              <span class="text-gray-400">Pending first crawl</span>
+            <% end %>
+          </td>
+          <td class="px-4 py-3 text-right text-gray-600">Every <%= s[:freq_hours] %>h</td>
+          <td class="px-4 py-3 text-right text-gray-600">
+            <%= s[:expected_products] ? number_with_delimiter(s[:expected_products]) : '-' %>
+          </td>
+          <td class="px-4 py-3 text-center">
+            <% if s[:last_crawled].nil? %>
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-600">Pending</span>
+            <% elsif s[:overdue] %>
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-700">Overdue</span>
+            <% else %>
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-700">On Schedule</span>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

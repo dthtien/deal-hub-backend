@@ -35,6 +35,7 @@ class Product < ApplicationRecord
   has_many :collection_items, dependent: :destroy
   has_many :collections, through: :collection_items
   has_many :deal_reports, dependent: :destroy
+  has_many :deal_score_histories, dependent: :destroy
 
   validates :name, presence: true
   validates :price, presence: true
@@ -123,7 +124,9 @@ class Product < ApplicationRecord
     'USD' => 0.64,
     'GBP' => 0.51,
     'EUR' => 0.59,
-    'NZD' => 1.08
+    'NZD' => 1.08,
+    'SGD' => 0.86,
+    'CAD' => 0.87
   }.freeze
 
   CURRENCY_SYMBOLS = {
@@ -131,7 +134,9 @@ class Product < ApplicationRecord
     'USD' => '$',
     'GBP' => '£',
     'EUR' => '€',
-    'NZD' => 'NZ$'
+    'NZD' => 'NZ$',
+    'SGD' => 'S$',
+    'CAD' => 'C$'
   }.freeze
 
   def freshness_score

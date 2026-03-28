@@ -75,5 +75,14 @@ pidfile: tmp/pids/sidekiq_development.pid
     watchlist_notifier:
       cron: "0 * * * *"
       class: "WatchlistNotifierJob"
+    watchlist_digest:
+      cron: "0 9 * * 0"
+      class: "WatchlistDigestJob"
+    coupon_scraper:
+      cron: "0 5 * * 0"
+      class: "CouponScraperJob"
+    deduplicate_deals:
+      cron: "0 4 * * *"
+      class: "DeduplicateDealJob"
 
 

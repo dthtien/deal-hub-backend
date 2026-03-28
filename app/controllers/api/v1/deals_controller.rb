@@ -1,13 +1,14 @@
 module Api
   module V1
     class DealsController < ApplicationController
+      include ActionController::Live
       def index
         response.set_header('Cache-Control', 'public, max-age=60')
         service = Deals::Index.call(params)
         currency = params[:currency].presence
 
         render json: {
-          products: service.paginate.collection.map { |p| p.as_json(currency: currency) },
+          products: service.paginate.collection.map { |p| select_fields(p.as_json(currency: currency)) },
           metadata: service.paginate.metadata
         }
       end
@@ -968,6 +969,19 @@ module Api
         render json: { comparison: comparison }
       end
 
+      private
+
+      def select_fields(json_hash)
+        return json_hash unless params[:fields].present?
+
+        requested = params[:fields].to_s.split(',').map(&:strip).reject(&:blank?)
+        return json_hash if requested.empty?
+
+        json_hash.slice(*requested)
+      end
+
+      public
+
       def freshness_stats
         now = Time.current
         base = Product.where(expired: false)
@@ -984,6 +998,62 @@ module Api
           older: older,
           as_of: now.iso8601
         }
+      end
+
+      def live_feed
+        response.headers['Content-Type'] = 'text/event-stream'
+        response.headers['Cache-Control'] = 'no-cache'
+        response.headers['X-Accel-Buffering'] = 'no'
+        response.headers['Access-Control-Allow-Origin'] = '*'
+
+        sse = ActionController::Live::SSE.new(response.stream, retry: 3000)
+
+        begin
+          deadline = Time.current + 60.seconds
+          last_heartbeat = Time.current
+
+          loop do
+            break if Time.current >= deadline
+
+            cached_key = "live_feed_latest_#{(Time.current.to_i / 5)}"
+            new_deals = Rails.cache.fetch(cached_key, expires_in: 5.seconds) do
+              Product.where(expired: false)
+                     .where('created_at >= ?', 30.seconds.ago)
+                     .order(created_at: :desc)
+                     .limit(5)
+                     .map { |p| p.as_json }
+            end
+
+            if new_deals.any?
+              new_deals.each do |deal|
+                sse.write(deal.to_json, event: 'new_deal')
+              end
+            end
+
+            if Time.current - last_heartbeat >= 10.seconds
+              sse.write({ type: 'heartbeat', timestamp: Time.current.iso8601 }.to_json, event: 'heartbeat')
+              last_heartbeat = Time.current
+            end
+
+            sleep 2
+          end
+        rescue ActionController::Live::ClientDisconnected
+          # client disconnected - normal
+        rescue StandardError => e
+          Rails.logger.error("SSE live_feed error: #{e.message}")
+        ensure
+          sse.close
+        end
+      end
+
+      def score_history
+        product = Product.find(params[:id])
+        histories = product.deal_score_histories
+                           .order(recorded_at: :desc)
+                           .limit(30)
+                           .map { |h| { score: h.score.to_f, recorded_at: h.recorded_at.iso8601 } }
+
+        render json: { score_history: histories.reverse }
       end
     end
   end
