@@ -13,6 +13,15 @@ module Admin
       @products = scope.order(created_at: :desc).offset((@page - 1) * PER_PAGE).limit(PER_PAGE)
       @stores = Product.distinct.pluck(:store).compact.sort
       @total_pages = (@total / PER_PAGE.to_f).ceil
+
+      # Detect potential duplicates in this page
+      product_keys = @products.map { |p| [p.store, p.name.to_s.downcase.strip] }
+      dup_keys = Product.select('store, LOWER(TRIM(name)) AS norm_name, COUNT(*) AS cnt')
+                        .group('store, LOWER(TRIM(name))')
+                        .having('COUNT(*) > 1')
+                        .map { |r| [r.store, r.norm_name] }
+                        .to_set
+      @duplicate_product_ids = @products.select { |p| dup_keys.include?([p.store, p.name.to_s.downcase.strip]) }.map(&:id).to_set
     end
 
     def update

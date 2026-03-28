@@ -59,7 +59,12 @@
             <input type="checkbox" form="bulk-form" name="ids[]" value="<%= product.id %>" class="product-checkbox rounded border-gray-300" />
           </td>
           <td class="px-4 py-3">
-            <a href="/deals/<%= product.id %>" target="_blank" class="text-orange-600 hover:underline font-medium"><%= truncate(product.name, length: 60) %></a>
+            <a href="/deals/<%= product.id %>" target="_blank" class="text-orange-600 hover:underline font-medium"><%= truncate(product.name, length: 55) %></a>
+            <% if @duplicate_product_ids.include?(product.id) %>
+              <span class="ml-1 inline-block text-xs px-1.5 py-0.5 bg-amber-100 text-amber-700 rounded font-semibold" title="Another product with same name+store exists">
+                ⚠️ Possible duplicate
+              </span>
+            <% end %>
           </td>
           <td class="px-4 py-3 text-gray-600"><%= product.store %></td>
           <td class="px-4 py-3 text-right font-semibold">$<%= product.price %></td>
@@ -83,8 +88,16 @@
               <% end %>
             <% end %>
           </td>
-          <td class="px-4 py-3 text-center">
+          <td class="px-4 py-3 text-center flex items-center gap-1 justify-center">
             <a href="<%= admin_product_path(product) %>" class="text-blue-500 text-xs hover:underline">Edit</a>
+            <% if @duplicate_product_ids.include?(product.id) %>
+              <button
+                class="text-amber-600 text-xs hover:underline merge-btn"
+                data-product-id="<%= product.id %>"
+                data-product-name="<%= product.name.gsub('"', '&quot;') %>"
+                data-store="<%= product.store %>"
+              >Merge</button>
+            <% end %>
           </td>
         </tr>
       <% end %>
@@ -148,5 +161,27 @@
     const data = await res.json();
     alert(data.message);
     window.location.reload();
+  });
+
+  // Merge duplicate handler
+  document.querySelectorAll('.merge-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const productId = btn.getAttribute('data-product-id');
+      const productName = btn.getAttribute('data-product-name');
+      const store = btn.getAttribute('data-store');
+      const primaryId = prompt(
+        `Merge product #${productId} ("${productName}", ${store}) into which product ID?\n\nEnter the PRIMARY product ID to keep:`
+      );
+      if (!primaryId || isNaN(Number(primaryId))) return;
+      if (!confirm(`Merge #${productId} into #${primaryId}? This will delete #${productId}.`)) return;
+      const res = await fetch('<%= merge_admin_products_path %>', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
+        body: JSON.stringify({ primary_id: Number(primaryId), duplicate_id: Number(productId) })
+      });
+      const data = await res.json();
+      alert(data.message || data.error);
+      if (data.message) window.location.reload();
+    });
   });
 </script>
