@@ -25,8 +25,9 @@ class RecalculateDealScoresJob
   def calculate_score(product)
     discount_score = product.discount.to_f * 0.4
 
-    upvotes = Vote.where(product_id: product.id, vote_type: 'up').count
-    downvotes = Vote.where(product_id: product.id, vote_type: 'down').count
+    # votes.value > 0 = upvote, < 0 = downvote
+    upvotes   = Vote.where(product_id: product.id).where("value > 0").count
+    downvotes = Vote.where(product_id: product.id).where("value < 0").count
     total_votes = upvotes + downvotes
     vote_ratio = total_votes > 0 ? upvotes.to_f / total_votes : 0
     vote_score = vote_ratio * 30
@@ -42,7 +43,6 @@ class RecalculateDealScoresJob
 
     base = (base_score * 0.7 + recency * 0.3).round(2)
 
-    # ML enhancements
     rating_bonus = 0.0
     avg_r = product.avg_rating.to_f
     if avg_r > 0
@@ -50,10 +50,8 @@ class RecalculateDealScoresJob
     end
 
     community_bonus = product.rating_count.to_i > 5 ? 3.0 : 0.0
-
-    stock_penalty = product.in_stock == false ? -20.0 : 0.0
-
-    quality_bonus = product.quality_score.to_f * 0.1
+    stock_penalty   = product.in_stock == false ? -20.0 : 0.0
+    quality_bonus   = product.quality_score.to_f * 0.1
 
     (base + rating_bonus + community_bonus + stock_penalty + quality_bonus).round(2)
   end
