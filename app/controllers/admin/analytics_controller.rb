@@ -14,7 +14,7 @@ module Admin
       @top_clicked = Product
         .joins(:click_trackings)
         .group('products.id', 'products.name', 'products.store')
-        .order('COUNT(click_trackings.id) DESC')
+        .order(Arel.sql('COUNT(click_trackings.id) DESC'))
         .limit(10)
         .pluck('products.id', 'products.name', 'products.store', 'COUNT(click_trackings.id) AS click_count')
         .map { |id, name, store, cnt| { id: id, name: name, store: store, click_count: cnt } }

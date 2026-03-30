@@ -48,7 +48,7 @@ module Api
           .joins(:click_trackings)
           .where(click_trackings: { clicked_at: 48.hours.ago.. })
           .group('products.id')
-          .order('COUNT(click_trackings.id) DESC')
+          .order(Arel.sql('COUNT(click_trackings.id) DESC'))
           .limit(counts[:trending])
 
         # 20% — new arrivals
@@ -67,7 +67,7 @@ module Api
           .joins(:votes)
           .where(votes: { created_at: 7.days.ago.. })
           .group('products.id')
-          .order('COUNT(votes.id) DESC')
+          .order(Arel.sql('COUNT(votes.id) DESC'))
           .limit(counts[:community])
           .select('products.*')
 

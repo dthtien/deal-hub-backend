@@ -77,7 +77,7 @@ class SitemapController < ApplicationController
   def sitemap_brands
     brands = Product.where.not(brand: [nil, ''])
                     .group(:brand)
-                    .order('COUNT(*) DESC')
+                    .order(Arel.sql('COUNT(*) DESC'))
                     .limit(100)
                     .pluck(:brand)
 

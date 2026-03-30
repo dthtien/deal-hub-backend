@@ -11,7 +11,7 @@ module Api
             .where('created_at >= ?', 24.hours.ago)
             .where.not(store: [nil, ''])
             .group(:store)
-            .order('COUNT(*) DESC')
+            .order(Arel.sql('COUNT(*) DESC'))
             .limit(5)
             .count
 

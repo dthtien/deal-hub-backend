@@ -19,7 +19,7 @@ module Api
                           .joins(:price_alerts)
                           .where(price_alerts: { status: 'active' })
                           .group('products.id')
-                          .order('COUNT(price_alerts.id) DESC')
+                          .order(Arel.sql('COUNT(price_alerts.id) DESC'))
                           .limit(20)
                           .select('products.*, COUNT(price_alerts.id) AS watcher_count')
 
