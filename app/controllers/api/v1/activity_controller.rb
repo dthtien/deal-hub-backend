@@ -49,7 +49,7 @@ module Api
 
         # Hot deals (high vote products in last 24h)
         hot_votes = Vote
-          .where(vote_type: 'up', created_at: 24.hours.ago..)
+          .where("value > 0").where(created_at: 24.hours.ago..)
           .group(:product_id)
           .having('count(*) >= 3')
           .count

@@ -219,7 +219,7 @@ module Api
                                       .group(:product_id)
                                       .count
 
-          upvote_counts = Vote.where(vote_type: 'up', created_at: since..)
+          upvote_counts = Vote.where("value > 0").where(created_at: since..)
                               .group(:product_id)
                               .count
 

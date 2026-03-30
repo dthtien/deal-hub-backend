@@ -63,7 +63,7 @@ module Types
       since = 24.hours.ago
 
       click_counts  = ClickTracking.where(clicked_at: since..).group(:product_id).count
-      upvote_counts = Vote.where(vote_type: 'up', created_at: since..).group(:product_id).count
+      upvote_counts = Vote.where("value > 0").where(created_at: since..).group(:product_id).count
 
       scored_ids = (click_counts.keys | upvote_counts.keys).uniq
       return [] if scored_ids.empty?
