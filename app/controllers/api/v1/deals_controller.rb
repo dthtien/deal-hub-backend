@@ -4,6 +4,17 @@ module Api
       include ActionController::Live
       def index
         response.set_header('Cache-Control', 'public, max-age=60')
+
+        if params[:query].blank? && params[:stores].blank? && params[:categories].blank?
+          cache_key = "deals_index_v2_p#{params[:page]||1}_pp#{params[:per_page]||20}_#{(params[:order]||{}).to_json}"
+          cached = Rails.cache.fetch(cache_key, expires_in: 3.minutes) do
+            service = Deals::Index.call(params)
+            { products: service.paginate.collection.map { |p| select_fields(p.as_json) },
+              metadata: service.paginate.metadata }
+          end
+          render json: cached and return
+        end
+
         service = Deals::Index.call(params)
         currency = params[:currency].presence
 
