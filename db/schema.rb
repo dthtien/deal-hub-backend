@@ -314,10 +314,12 @@ ActiveRecord::Schema[8.0].define(version: 2026_04_04_100001) do
     t.index ["deal_score"], name: "index_products_on_deal_score"
     t.index ["description"], name: "products_description_gin_index", opclass: :gin_trgm_ops, using: :gin
     t.index ["discount"], name: "index_products_on_discount"
+    t.index ["expired", "deal_score"], name: "index_products_on_expired_and_deal_score"
     t.index ["expired", "discount"], name: "index_products_on_expired_and_discount"
     t.index ["expired"], name: "index_products_on_expired"
     t.index ["featured"], name: "index_products_on_featured"
     t.index ["flash_deal", "flash_expires_at"], name: "index_products_on_flash_deal_and_flash_expires_at"
+    t.index ["going_fast", "expired"], name: "index_products_on_going_fast_and_expired"
     t.index ["in_stock"], name: "index_products_on_in_stock"
     t.index ["is_bundle"], name: "index_products_on_is_bundle"
     t.index ["metadata"], name: "index_products_on_metadata", using: :gin
