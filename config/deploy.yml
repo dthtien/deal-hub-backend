@@ -75,9 +75,6 @@ env:
     - JWT_SECRET
     - ADMIN_USERNAME
     - ADMIN_PASSWORD
-    - SMTP_HOST
-    - SMTP_PORT
-    - SMTP_DOMAIN
     - SMTP_USERNAME
     - SMTP_PASSWORD
 
