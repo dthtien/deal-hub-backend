@@ -5,6 +5,8 @@ require 'csv'
 module Api
   module V1
     class PriceHistoriesController < ApplicationController
+      include ActionController::MimeResponds
+
       def index
         product = Product.find(params[:deal_id])
 
