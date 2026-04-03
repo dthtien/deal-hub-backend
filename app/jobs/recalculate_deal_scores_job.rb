@@ -11,7 +11,8 @@ class RecalculateDealScoresJob
 
     products.find_each do |product|
       score = calculate_score(product)
-      product.update_columns(deal_score: score.round(2))
+      going_fast = product.view_count.to_i > 100 || product.click_count.to_i > 20
+      product.update_columns(deal_score: score.round(2), going_fast: going_fast)
       DealScoreHistory.create!(
         product_id: product.id,
         score: score.round(2),

@@ -89,3 +89,6 @@ pidfile: tmp/pids/sidekiq_development.pid
     deal_verification:
       cron: "0 8 * * *"
       class: "DealVerificationJob"
+    going_fast_detector:
+      cron: "*/15 * * * *"
+      class: "GoingFastDetectorJob"
