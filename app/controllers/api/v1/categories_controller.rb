@@ -17,30 +17,18 @@ module Api
       ].freeze
 
       def index
-        response.set_header('Cache-Control', 'public, max-age=3600')
+        response.set_header('Cache-Control', 'public, max-age=600')
 
-        raw_categories = Product.where(expired: false)
-                                .pluck('DISTINCT(categories)')
-                                .flatten
-                                .uniq
-                                .compact
-
-        # Count products per bucket
-        bucket_counts = Hash.new(0)
-        raw_categories.each do |raw|
-          bucket = map_to_bucket(raw)
-          next unless bucket
-
-          count = Product.where(expired: false)
-                         .where('categories @> ARRAY[?]::varchar[]', raw)
-                         .count
-          bucket_counts[bucket] += count
+        categories = Rails.cache.fetch('categories_v2', expires_in: 10.minutes) do
+          Product.where(expired: false)
+                 .where.not(categories: nil)
+                 .pluck(:categories)
+                 .flatten
+                 .tally
+                 .sort_by { |_, v| -v }
+                 .first(10)
+                 .map { |name, count| { name: name, deal_count: count } }
         end
-
-        categories = CATEGORY_BUCKETS.map do |bucket|
-          { name: bucket[:name], slug: bucket[:slug], count: bucket_counts[bucket[:name]] }
-        end.select { |c| c[:count] > 0 }
-           .sort_by { |c| -c[:count] }
 
         render json: { categories: categories }
       end
