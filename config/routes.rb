@@ -13,7 +13,8 @@ Rails.application.routes.draw do
   get "sitemap_stores.xml"      => "sitemap#sitemap_stores",      defaults: { format: :xml }
   get "sitemap_brands.xml"      => "sitemap#sitemap_brands",      defaults: { format: :xml }
   get "sitemap_collections.xml" => "sitemap#sitemap_collections",  defaults: { format: :xml }
-  get "sitemap_categories.xml"  => "sitemap#sitemap_categories",   defaults: { format: :xml }
+  get "sitemap_categories.xml"    => "sitemap#sitemap_categories",    defaults: { format: :xml }
+  get "sitemap_best_prices.xml"   => "sitemap#sitemap_best_prices",   defaults: { format: :xml }
   get "r/:code" => "referrals#redirect", as: :referral_redirect
   get "feed.xml"              => "feed#index"
   get "stores/:name/feed.xml" => "feed#store", as: :store_feed, constraints: { name: /[^\/]+/ }
@@ -292,6 +293,8 @@ Rails.application.routes.draw do
       end
       get 'referrals/link', to: 'referrals#link'
       get 'referrals/stats', to: 'referrals#stats'
+      get 'seo/best_price/:slug', to: 'seo#best_price', as: :seo_best_price
+      get 'seo/popular_searches', to: 'seo#popular_searches'
       get 'spotlights', to: 'spotlights#index'
       get 'cart/estimate', to: 'cart#estimate'
       namespace :insurances do

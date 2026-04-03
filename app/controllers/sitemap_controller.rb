@@ -66,12 +66,36 @@ class SitemapController < ApplicationController
       '/sitemap_stores.xml',
       '/sitemap_brands.xml',
       '/sitemap_collections.xml',
-      '/sitemap_categories.xml'
+      '/sitemap_categories.xml',
+      '/sitemap_best_prices.xml'
     ].each do |loc|
       xml << "  <sitemap><loc>#{SITE_URL}#{loc}</loc></sitemap>\n"
     end
     xml << "</sitemapindex>"
     render plain: xml, content_type: 'application/xml'
+  end
+
+  def sitemap_best_prices
+    products = Product.where(expired: false)
+                      .order(deal_score: :desc, view_count: :desc)
+                      .limit(200)
+                      .pluck(:name, :updated_at)
+
+    slugs = products.map { |name, updated|
+      [name.downcase.gsub(/[^a-z0-9]+/, '-').gsub(/-+/, '-').gsub(/^-|-$/, ''), updated]
+    }.uniq { |slug, _| slug }
+
+    xml = String.new("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+    xml << "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n"
+    slugs.each do |slug, updated|
+      lastmod = updated&.to_date&.to_s || Date.today.to_s
+      xml << "  <url><loc>#{SITE_URL}/best-price/#{CGI.escape(slug)}</loc><lastmod>#{lastmod}</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>\n"
+    end
+    xml << "</urlset>"
+    render plain: xml, content_type: 'application/xml'
+  rescue => e
+    Rails.logger.error("SitemapController#sitemap_best_prices error: #{e.message}")
+    render plain: "<?xml version=\"1.0\" encoding=\"UTF-8\"?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"></urlset>", content_type: 'application/xml'
   end
 
   def sitemap_brands
