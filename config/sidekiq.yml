@@ -92,3 +92,6 @@ pidfile: tmp/pids/sidekiq_development.pid
     going_fast_detector:
       cron: "*/15 * * * *"
       class: "GoingFastDetectorJob"
+    weekly_newsletter:
+      cron: "0 22 * * 0"
+      class: "WeeklyNewsletterJob"
