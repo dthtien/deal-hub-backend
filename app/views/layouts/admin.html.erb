@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OzVFY Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+  <nav class="bg-gray-900 text-white px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-6">
+      <span class="font-bold text-orange-400 text-lg">OzVFY Admin</span>
+      <a href="/admin" class="text-sm text-gray-300 hover:text-white">Dashboard</a>
+      <a href="/admin/coupons" class="text-sm text-gray-300 hover:text-white">Coupons</a>
+      <a href="/admin/coupon_submissions" class="text-sm text-gray-300 hover:text-white">Coupon Submissions</a>
+      <a href="/admin/deal_submissions" class="text-sm text-gray-300 hover:text-white">Submissions</a>
+      <a href="/admin/products" class="text-sm text-gray-300 hover:text-white">Products</a>
+      <a href="/admin/crawlers" class="text-sm text-gray-300 hover:text-white">Crawlers</a>
+      <a href="/admin/crawl_logs" class="text-sm text-gray-300 hover:text-white">Crawl Logs</a>
+      <a href="/admin/crawl_schedule" class="text-sm text-gray-300 hover:text-white">Crawl Schedule</a>
+      <a href="/admin/subscribers" class="text-sm text-gray-300 hover:text-white">Subscribers</a>
+      <a href="/admin/deal_reports" class="text-sm text-gray-300 hover:text-white">Reports</a>
+      <a href="/admin/analytics" class="text-sm text-gray-300 hover:text-white">Analytics</a>
+      <a href="/admin/notification_logs" class="text-sm text-gray-300 hover:text-white">Notif Logs</a>
+      <a href="/admin/notifications/queue" class="text-sm text-gray-300 hover:text-white">Queue</a>
+      <a href="/admin/reports/stores" class="text-sm text-gray-300 hover:text-white">Store Report</a>
+    </div>
+    <div class="flex items-center gap-3">
+      <form action="/admin/search" method="get" class="flex items-center gap-2">
+        <input
+          type="text"
+          name="q"
+          placeholder="Search products, subscribers, coupons..."
+          value="<%= params[:q] %>"
+          class="bg-gray-800 text-white text-xs rounded-lg px-3 py-1.5 w-56 border border-gray-700 focus:outline-none focus:border-orange-400 placeholder-gray-500"
+        />
+        <button type="submit" class="text-xs bg-orange-500 hover:bg-orange-600 text-white px-3 py-1.5 rounded-lg font-semibold">Search</button>
+      </form>
+      <a href="https://www.ozvfy.com" target="_blank" class="text-xs text-gray-400 hover:text-white">← View site</a>
+    </div>
+  </nav>
+
+  <main class="max-w-6xl mx-auto px-6 py-8">
+    <% if flash[:notice] %>
+      <div class="bg-green-100 border border-green-300 text-green-800 px-4 py-3 rounded-lg mb-6 text-sm">
+        <%= flash[:notice] %>
+      </div>
+    <% end %>
+    <%= yield %>
+  </main>
+</body>
+</html>
