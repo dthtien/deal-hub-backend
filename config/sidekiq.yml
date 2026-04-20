@@ -1,10 +1,103 @@
-:schedule:
-  record_price_history:
-    cron: "0 2 * * *"  # 2am daily — after scrapers run
-    class: RecordPriceHistoryJob
-    description: "Snapshot current prices for all products"
-
-  price_alert_check:
-    cron: "30 2 * * *"  # 2:30am daily — after price history recorded
-    class: PriceAlertCheckJob
-    description: "Check price alerts and notify users"
+:concurrency: 5
+production:
+  :concurrency: 10
+pidfile: tmp/pids/sidekiq_development.pid
+:queues:
+  - critical
+  - default
+  - gush
+  - low
+:scheduler:
+  :schedule:
+    craw_all:
+      cron: "0 6,9,12,15,18 * * *"
+      class: "Crawlers::DistributeJob"
+    post_bargain:
+      cron: "30 6,9,12,15,18 * * *"
+      class: "PostBargainJob"
+    telegram_deals:
+      cron: "30 6,9,12,15,18 * * *"
+      class: "TelegramDealsJob"
+    price_alert_checker:
+      cron: "0 7,13,19 * * *"
+      class: "PriceAlertCheckerJob"
+    price_drop_notifier:
+      cron: "45 6,9,12,15,18 * * *"
+      class: "PriceDropNotifierJob"
+    cleanup_expired_deals:
+      cron: "0 2 * * *"
+      class: "CleanupExpiredDealsJob"
+    keyword_alert_checker:
+      cron: "50 6,9,12,15,18 * * *"
+      class: "KeywordAlertCheckerJob"
+    cleanup_expired_coupons:
+      cron: "0 1 * * *"
+      class: "CleanupExpiredCouponsJob"
+    prune_old_price_histories:
+      cron: "0 3 * * 0"
+      class: "PruneOldPriceHistoriesJob"
+    recalculate_deal_scores:
+      cron: "*/30 * * * *"
+      class: "RecalculateDealScoresJob"
+    affiliate_health_check:
+      cron: "0 4 * * *"
+      class: "AffiliateHealthCheckJob"
+    auto_price_monitor:
+      cron: "50 6,9,12,15,18 * * *"
+      class: "AutoPriceMonitorJob"
+    affiliate_validator:
+      cron: "0 3 * * *"
+      class: "AffiliateValidatorJob"
+    personalised_digest:
+      cron: "0 22 * * *"
+      class: "PersonalisedDigestJob"
+    daily_alert_digest:
+      cron: "0 23 * * *"
+      class: "DailyAlertDigestJob"
+    category_alert_checker:
+      cron: "55 6,9,12,15,18 * * *"
+      class: "CategoryAlertCheckerJob"
+    weekly_store_report:
+      cron: "0 21 * * 0"
+      class: "WeeklyStoreReportJob"
+    coupon_expiry_notifier:
+      cron: "0 10 * * *"
+      class: "CouponExpiryNotifierJob"
+    personalised_email:
+      cron: "0 21 * * *"
+      class: "PersonalisedEmailJob"
+    update_collections:
+      cron: "0 5 * * *"
+      class: "UpdateCollectionsJob"
+    re_engagement:
+      cron: "0 10 * * 1"
+      class: "ReEngagementJob"
+    watchlist_notifier:
+      cron: "0 * * * *"
+      class: "WatchlistNotifierJob"
+    watchlist_digest:
+      cron: "0 9 * * 0"
+      class: "WatchlistDigestJob"
+    coupon_scraper:
+      cron: "0 5 * * 0"
+      class: "CouponScraperJob"
+    deduplicate_deals:
+      cron: "0 4 * * *"
+      class: "DeduplicateDealJob"
+    deal_verification:
+      cron: "0 8 * * *"
+      class: "DealVerificationJob"
+    going_fast_detector:
+      cron: "*/15 * * * *"
+      class: "GoingFastDetectorJob"
+    weekly_newsletter:
+      cron: "0 22 * * 0"
+      class: "WeeklyNewsletterJob"
+    record_price_history:
+      cron: "0 2 * * *"
+      class: RecordPriceHistoryJob
+      description: "Snapshot current prices for all products"
+    price_alert_check:
+      cron: "30 2 * * *"
+      class: PriceAlertCheckJob
+      description: "Check price alerts and notify users"
