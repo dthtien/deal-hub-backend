@@ -47,4 +47,20 @@ RSpec.describe Deals::Index do
       )
     end
   end
+
+  context 'with ActionController::Parameters (indexed arrays from the frontend, e.g. stores[0]=...)' do
+    let(:params) do
+      ActionController::Parameters.new(
+        'stores' => { '0' => 'store' },
+        'categories' => { '0' => 'category', '1' => 'category2' },
+        'brands' => { '0' => 'brand' },
+        'min_price' => '10',
+        'max_price' => '100'
+      )
+    end
+
+    it 'filters without raising a cast error' do
+      expect(service.products).to eq([product1])
+    end
+  end
 end

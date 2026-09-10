@@ -42,7 +42,7 @@ module Deals
 
     def filter_by_stores
       return if stores.blank?
-      store_list = stores.is_a?(Hash) ? [stores.values].flatten : Array(stores)
+      store_list = stores.respond_to?(:values) ? stores.values.flatten : Array(stores)
       @products = products.where(store: store_list)
     end
 
@@ -81,7 +81,7 @@ module Deals
     def filter_by_categories
       return if categories.blank?
 
-      cat_list = categories.is_a?(Hash) ? [categories.values].flatten : Array(categories)
+      cat_list = categories.respond_to?(:values) ? categories.values.flatten : Array(categories)
       @products = @products.where('categories && array[?]::varchar[]', cat_list)
     end
 
@@ -98,7 +98,7 @@ module Deals
     def filter_by_states
       return if states.blank?
 
-      state_values = states.is_a?(Hash) ? [states.values].flatten : Array(states)
+      state_values = states.respond_to?(:values) ? states.values.flatten : Array(states)
       state_values = state_values.compact.map(&:to_s).select(&:present?)
       return if state_values.empty?
 
@@ -113,7 +113,7 @@ module Deals
     def filter_by_tags
       return if tags.blank?
 
-      tag_list = tags.is_a?(Hash) ? [tags.values].flatten : Array(tags)
+      tag_list = tags.respond_to?(:values) ? tags.values.flatten : Array(tags)
       return if tag_list.empty?
 
       @products = products.where('tags && array[?]::varchar[]', tag_list)
