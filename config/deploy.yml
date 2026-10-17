@@ -11,12 +11,18 @@ servers:
       - 67.219.97.246
     options:
       network: "private"
+      # Box (~1 GB) is shared with gkeyboard (gkb.ozvfy.com); keep this app capped.
+      memory: 180m
+      memory-swap: 360m
   job:
     hosts:
       - 67.219.97.246
-    cmd: bundle exec sidekiq -C config/sidekiq.yml
+    # -c 3 overrides the production concurrency of 10 in sidekiq.yml to save memory.
+    cmd: bundle exec sidekiq -C config/sidekiq.yml -c 3
     options:
       network: "private"
+      memory: 320m
+      memory-swap: 640m
 
 
 # Credentials for your image host.
@@ -35,10 +41,14 @@ accessories:
     roles:
       - web
       - job
+    # noeviction is required by Sidekiq; maxmemory keeps Redis bounded.
+    cmd: redis-server --maxmemory 64mb --maxmemory-policy noeviction
     directories:
       - redis:/data
     options:
       network: "private"
+      memory: 96m
+      memory-swap: 192m
 
   postgres:
     image: postgres:15
@@ -51,8 +61,11 @@ accessories:
         - POSTGRES_USER
     directories:
       - data:/var/lib/postgresql/data
+    # shared_buffers=32MB, max_connections=30 are set via ALTER SYSTEM (persisted in the data volume).
     options:
       network: "private"
+      memory: 96m
+      memory-swap: 192m
 
 env:
   clear:
