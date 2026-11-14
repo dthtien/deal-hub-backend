@@ -42,3 +42,53 @@ jobs:
 
       - name: Run tests
         run: bundle exec rspec
+
+  # Builds the ARM64 image for the Kubernetes cluster and pushes it to GHCR.
+  # Runs only for pushes to main, and only after every job above has passed,
+  # so every image is tested code. Two tags are pushed:
+  #   main-<commit time, UTC>-<short sha>   the release tag; the newest one is deployed automatically
+  #   <full commit sha>                     for looking up an exact commit
+  image:
+    needs: [ test ]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # Native ARM runner: no emulation, so gems with C extensions compile at full speed.
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      packages: write
+    concurrency:
+      group: image-main
+      cancel-in-progress: false
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Work out the tags
+        id: tags
+        run: |
+          stamp=$(TZ=UTC git show -s --format=%cd --date=format-local:%Y%m%d%H%M%S HEAD)
+          echo "release=main-$stamp-${GITHUB_SHA:0:7}" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/arm64
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}:${{ steps.tags.outputs.release }}
+            ghcr.io/${{ github.repository }}:${{ github.sha }}
+          cache-from: type=gha,scope=arm64
+          cache-to: type=gha,scope=arm64,mode=max
