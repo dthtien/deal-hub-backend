@@ -9,6 +9,7 @@ class WeeklyNewsletterJob < ApplicationJob
       .where('updated_at >= ?', 7.days.ago)
       .order(deal_score: :desc, discount: :desc)
       .limit(10)
+      .to_a # the mail is queued with deliver_later, which cannot serialize a Relation
 
     return if deals.empty?
 
@@ -19,6 +20,7 @@ class WeeklyNewsletterJob < ApplicationJob
       .where('updated_at >= ?', 7.days.ago)
       .order(discount: :desc)
       .limit(5)
+      .to_a
 
     # Deal of the week
     aest_week = Time.current.in_time_zone('Australia/Sydney').to_date.beginning_of_week
@@ -39,6 +41,7 @@ class WeeklyNewsletterJob < ApplicationJob
       .where('flash_expires_at > ?', Time.current)
       .order(:flash_expires_at)
       .limit(5)
+      .to_a
 
     # Top 5 price drops since last week
     price_drop_products = Product
@@ -53,6 +56,7 @@ class WeeklyNewsletterJob < ApplicationJob
       .group('products.id')
       .order(Arel.sql('drop_amount DESC'))
       .limit(5)
+      .to_a
 
     # New stores this week (stores that had NO products before this week)
     all_store_names = Product.distinct.pluck(:store).compact.reject(&:blank?)
