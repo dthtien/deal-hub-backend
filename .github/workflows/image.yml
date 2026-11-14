@@ -1,16 +1,20 @@
 name: Image
 
-# Builds the ARM64 container image for the Kubernetes cluster (Oracle Ampere nodes)
-# and pushes it to GHCR as ghcr.io/<owner>/deal-hub-backend:<commit sha>.
-# This runs alongside the Kamal deploy and does not change it.
+# Builds the ARM64 container image for the Kubernetes cluster and pushes it to
+# GHCR. It runs only after the tests have passed on main, so every image is
+# tested code. Two tags are pushed:
+#   main-<commit time, UTC>-<short sha>   the release tag; the newest one is deployed automatically
+#   <full commit sha>                     for looking up an exact commit
 on:
-  push:
-    branches: [ main, k8s-image ]
+  workflow_run:
+    workflows: [ CI ]
+    types: [ completed ]
+    branches: [ main ]
   workflow_dispatch:
 
 concurrency:
-  group: image-${{ github.ref }}
-  cancel-in-progress: true
+  group: image-main
+  cancel-in-progress: false
 
 permissions:
   contents: read
@@ -18,6 +22,9 @@ permissions:
 
 jobs:
   build:
+    if: >-
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') ||
+      (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')
     # Native ARM runner: no emulation, so gems with C extensions compile at full speed.
     runs-on: ubuntu-24.04-arm
     timeout-minutes: 30
@@ -25,6 +32,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - name: Work out the tags
+        id: tags
+        run: |
+          sha=$(git rev-parse HEAD)
+          stamp=$(TZ=UTC git show -s --format=%cd --date=format-local:%Y%m%d%H%M%S HEAD)
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+          echo "release=main-$stamp-${sha:0:7}" >> "$GITHUB_OUTPUT"
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -43,7 +60,7 @@ jobs:
           platforms: linux/arm64
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}:${{ github.sha }}
-            ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+            ghcr.io/${{ github.repository }}:${{ steps.tags.outputs.release }}
+            ghcr.io/${{ github.repository }}:${{ steps.tags.outputs.sha }}
           cache-from: type=gha,scope=arm64
           cache-to: type=gha,scope=arm64,mode=max
