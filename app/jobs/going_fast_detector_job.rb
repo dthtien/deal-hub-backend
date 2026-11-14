@@ -10,12 +10,22 @@ class GoingFastDetectorJob < ApplicationJob
   VIEW_COUNT_THRESHOLD = 50
   RECENT_WINDOW = 1.hour
   FLASH_DEAL_DISCOUNT_THRESHOLD = 30
+  # SQL equivalent of Product#heat_index (a Ruby method, there is no heat_index column).
+  # Keep in sync with app/models/product.rb.
+  HEAT_INDEX_SQL = <<~SQL.squish
+    ROUND(
+      products.view_count * 0.3 +
+      (SELECT COUNT(*) FROM votes WHERE votes.product_id = products.id AND votes.value = 1) * 0.5 +
+      (SELECT COUNT(*) FROM click_trackings WHERE click_trackings.product_id = products.id) * 0.2 +
+      products.share_count * 0.4
+    )
+  SQL
 
   def perform
     fast_products = Product
       .where(expired: false)
       .where(
-        'heat_index > ? OR (view_count >= ? AND updated_at >= ?)',
+        "#{HEAT_INDEX_SQL} > ? OR (view_count >= ? AND updated_at >= ?)",
         HEAT_INDEX_THRESHOLD,
         VIEW_COUNT_THRESHOLD,
         RECENT_WINDOW.ago

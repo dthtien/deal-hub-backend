@@ -53,11 +53,14 @@ module Deals
       conn = ActiveRecord::Base.connection
 
       # Use full-text search with search_vector if available, fallback to ILIKE
-      tsquery = q.split.map { |w| conn.quote(w + ':*') }.join(' & ')
+      # Each word becomes a quoted tsquery lexeme with a prefix flag, e.g. 'handheld':* & 'vac':*
+      # Inside the quotes ' and \ are doubled (tsquery escaping), so quotes and operators in user
+      # input stay plain text. SQL quoting is left to the bind parameter and conn.quote below.
+      tsquery = q.split.map { |w| "'#{w.gsub(/['\\]/) { |c| c * 2 }}':*" }.join(' & ')
 
       @products = @products.where(
         "search_vector @@ to_tsquery('english', ?) OR name ILIKE ? OR brand ILIKE ? OR description ILIKE ?",
-        tsquery.gsub("'", "''"),
+        tsquery,
         "%#{q}%",
         "%#{q}%",
         "%#{q}%"
@@ -67,7 +70,7 @@ module Deals
       rank_sql = Arel.sql(<<~SQL.squish)
         (
           CASE WHEN search_vector IS NOT NULL
-            THEN ts_rank(search_vector, to_tsquery('english', #{conn.quote(tsquery.gsub("'", "''"))})) * 10
+            THEN ts_rank(search_vector, to_tsquery('english', #{conn.quote(tsquery)})) * 10
             ELSE 0 END +
           CASE WHEN LOWER(name) = #{quoted} THEN 10 ELSE 0 END +
           CASE WHEN LOWER(name) LIKE #{conn.quote("%#{q.downcase}%")} AND LOWER(name) != #{quoted} THEN 5 ELSE 0 END +
@@ -75,7 +78,8 @@ module Deals
         ) DESC, deal_score DESC
       SQL
 
-      @products = @products.order(rank_sql)
+      # with_order: false (metadata) plucks DISTINCT columns, which PostgreSQL rejects with this ORDER BY
+      @products = @products.order(rank_sql) if with_order
     end
 
     def filter_by_categories

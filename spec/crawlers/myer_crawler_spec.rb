@@ -21,4 +21,17 @@ RSpec.describe MyerCrawler do
       expect(crawler.data.first).to include(*%w[id name brand])
     end
   end
+
+  describe '#crawl_all when the first page has no productTotalCount' do
+    before do
+      stub_request(:get, %r{\Ahttps://api-online.myer.com.au/v3/product})
+        .to_return(status: 403, body: '{}')
+    end
+
+    it do
+      expect { crawler.crawl_all }
+        .to raise_error(RuntimeError, /MyerCrawler - first page has no productTotalCount \(status 403\)/)
+      expect(crawler.data).to be_empty
+    end
+  end
 end
