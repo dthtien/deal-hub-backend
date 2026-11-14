@@ -32,6 +32,9 @@ class MyerCrawler < ApplicationCrawler
   def parse(response)
     result = JSON.parse(response.body)
     total_count = result['productTotalCount']
+    if total_pages == TOTAL_PAGES_UNKNOWN && total_count.nil?
+      raise "MyerCrawler - first page has no productTotalCount (status #{response.status.inspect}): #{response.body.to_s.truncate(200)}"
+    end
     if total_pages == TOTAL_PAGES_UNKNOWN && total_count.positive?
       all_pages = (total_count / PAGE_SIZE.to_f).ceil
       @total_pages = all_pages > MAX_PAGES ? MAX_PAGES : all_pages

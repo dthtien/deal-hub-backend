@@ -11,19 +11,7 @@ module Api
         product = Product.find(params[:deal_id])
 
         respond_to do |format|
-          format.json do
-            histories = product.price_histories.recent.limit(30)
-            render json: {
-              price_histories: histories.map { |h|
-                {
-                  price: h.price,
-                  old_price: h.old_price,
-                  discount: h.discount,
-                  recorded_at: h.recorded_at
-                }
-              }
-            }
-          end
+          format.json { render json: price_histories_json(product) }
 
           format.csv do
             histories = product.price_histories.order(recorded_at: :desc).limit(365)
@@ -42,7 +30,27 @@ module Api
                       type: 'text/csv',
                       disposition: "attachment; filename=\"price-history-#{product.id}.csv\""
           end
+
+          # Like the rest of the API, answer JSON when no known format is asked for
+          # (crawlers and browsers arrive as HTML and used to get UnknownFormat).
+          format.any { render json: price_histories_json(product) }
         end
+      end
+
+      private
+
+      def price_histories_json(product)
+        histories = product.price_histories.recent.limit(30)
+        {
+          price_histories: histories.map { |h|
+            {
+              price: h.price,
+              old_price: h.old_price,
+              discount: h.discount,
+              recorded_at: h.recorded_at
+            }
+          }
+        }
       end
     end
   end
