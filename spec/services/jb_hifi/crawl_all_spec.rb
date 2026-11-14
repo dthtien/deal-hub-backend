@@ -103,4 +103,38 @@ RSpec.describe JbHifi::CrawlAll do
       expect(Product.where(store_product_id: '654321').exists?).to be_falsey
     end
   end
+
+  describe '#call with a new deal over 40% off' do
+    let(:crawler) do
+      instance_double(
+        JbHifiCrawler,
+        crawl_all: true,
+        data: [
+          {
+            title: 'Product 6',
+            pricing: { displayPriceInc: 50, wasPrice: 100 },
+            sku: '222222',
+            product: { brand: 'brand' },
+            product_image: 'https://example.com/image.jpg',
+            handle: 'seo-path-6',
+            display: { keyFeatures: ['description'] },
+            category_hierarchy: ['category']
+          }.with_indifferent_access
+        ]
+      )
+    end
+
+    before do
+      NotificationWebhookJob.clear
+      allow(JbHifiCrawler).to receive(:new).and_return(crawler)
+    end
+
+    it do
+      expect { service.call }.to change { NotificationWebhookJob.jobs.size }.by(1)
+
+      product = Product.find_by(store_product_id: '222222')
+      expect(product.discount).to eq 50.0
+      expect(NotificationWebhookJob.jobs.last['args']).to eq [product.id]
+    end
+  end
 end
