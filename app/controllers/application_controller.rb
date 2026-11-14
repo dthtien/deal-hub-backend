@@ -6,14 +6,9 @@ class ApplicationController < ActionController::API
   include GeoIp
   include Cacheable
 
-  rescue_from ActiveRecord::RecordNotFound do |_e|
-    render json: { error: 'Not found' }, status: :not_found
-  end
-
-  rescue_from ActionController::ParameterMissing do |e|
-    render json: { error: e.message }, status: :unprocessable_entity
-  end
-
+  # rescue_from handlers are searched from the last one declared to the first,
+  # so this catch-all has to stay above the specific handlers. Declared after
+  # them it would take their exceptions too and answer 500 for all of them.
   if Rails.env.production?
     rescue_from StandardError do |e|
       Rails.logger.error(
@@ -21,5 +16,13 @@ class ApplicationController < ActionController::API
       )
       render json: { error: 'Internal server error' }, status: :internal_server_error
     end
+  end
+
+  rescue_from ActiveRecord::RecordNotFound do |_e|
+    render json: { error: 'Not found' }, status: :not_found
+  end
+
+  rescue_from ActionController::ParameterMissing do |e|
+    render json: { error: e.message }, status: :unprocessable_entity
   end
 end

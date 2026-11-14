@@ -25,13 +25,13 @@ module Admin
       action = params[:action_name].to_s
       result = case action
                when 'run_crawl'
-                 Crawlers::DistributeJob.perform_later
+                 Crawlers::DistributeJob.perform_async
                  { message: 'Crawl job queued.' }
                when 'clear_cache'
                  Rails.cache.clear
                  { message: 'Cache cleared.' }
                when 'send_digest'
-                 WatchlistDigestJob.perform_later
+                 WatchlistDigestJob.perform_async
                  { message: 'Digest job queued.' }
                else
                  { error: "Unknown action: #{action}" }
