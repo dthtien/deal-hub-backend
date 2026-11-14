@@ -43,5 +43,13 @@ RSpec.describe Api::V1::PriceHistoriesController, type: :controller do
       expect(response.media_type).to eq('text/csv')
       expect(response.body).to start_with('date,price,old_price,recorded_at')
     end
+
+    # Not rescued in the action: answered by rescue_from in ApplicationController
+    it 'returns 404 JSON for an unknown deal' do
+      get :index, params: { deal_id: 0 }
+
+      expect(response).to have_http_status(:not_found)
+      expect(JSON.parse(response.body)).to eq('error' => 'Not found')
+    end
   end
 end
