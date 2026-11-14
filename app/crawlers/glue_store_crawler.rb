@@ -43,7 +43,10 @@ class GlueStoreCrawler < ApplicationCrawler
   end
 
   def parse(response)
-    result = JSON.parse(response.body)['results'].first
+    result = JSON.parse(response.body)['results']&.first
+    if result.nil?
+      raise "GlueStoreCrawler - unexpected response (status #{response.status}): #{response.body.to_s.truncate(200)}"
+    end
 
     @total_pages = result['nbPages'] if total_pages == TOTAL_PAGES_UNKNOWN
     @current_page += 1

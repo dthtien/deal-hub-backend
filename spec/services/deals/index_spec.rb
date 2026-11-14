@@ -63,4 +63,47 @@ RSpec.describe Deals::Index do
       expect(service.products).to eq([product1])
     end
   end
+
+  context 'with a search query' do
+    let(:params) { { query: query } }
+    let!(:vacuum) { create(:product, name: 'Handheld Stick Vacuum') }
+    let(:results) { described_class.new(params).call.products.to_a }
+
+    before do
+      Product.where(id: vacuum.id).update_all("search_vector = to_tsvector('english', name)")
+    end
+
+    context 'with a single word' do
+      let(:query) { 'handheld' }
+
+      it 'does not raise a tsquery syntax error' do
+        expect(results).to eq([vacuum])
+      end
+    end
+
+    context 'with several word prefixes in any order' do
+      let(:query) { 'vac hand' }
+
+      it 'matches through the search vector' do
+        expect(results).to eq([vacuum])
+      end
+    end
+
+    context 'with quotes, backslashes and tsquery operators' do
+      let(:query) { "hand' & (vac | !stick):* \\ <->" }
+
+      it 'treats them as plain text' do
+        expect(results).to eq([vacuum])
+      end
+    end
+
+    context 'without ordering, as the metadata endpoint calls it' do
+      let(:query) { 'handheld' }
+
+      it 'allows the DISTINCT plucks' do
+        unordered = described_class.new(params, with_order: false).call
+        expect(unordered.products.stores).to eq([vacuum.store])
+      end
+    end
+  end
 end

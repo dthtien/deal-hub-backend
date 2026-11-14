@@ -21,4 +21,17 @@ RSpec.describe GlueStoreCrawler do
       expect(crawler.data.first).to include('title', 'price', 'sku')
     end
   end
+
+  describe '#crawl_all when the response has no results' do
+    before do
+      stub_request(:post, %r{\Ahttps://aw7pfg4ytn-dsn.algolia.net/1/indexes/\*/queries})
+        .to_return(status: 429, body: { message: 'Too Many Requests', status: 429 }.to_json)
+    end
+
+    it do
+      expect { crawler.crawl_all }
+        .to raise_error(RuntimeError, /GlueStoreCrawler - unexpected response \(status 429\)/)
+      expect(crawler.data).to be_empty
+    end
+  end
 end
