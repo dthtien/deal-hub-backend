@@ -203,7 +203,7 @@ class ApplicationService
 
       # Fire webhook notification for new deals with high discount
       if is_new && product.discount.to_f > 40
-        NotificationWebhookJob.perform_later(product.id)
+        NotificationWebhookJob.perform_async(product.id)
       end
 
       # Freshness webhooks: deal.new and deal.price_drop
