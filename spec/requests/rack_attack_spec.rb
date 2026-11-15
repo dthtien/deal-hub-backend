@@ -18,22 +18,25 @@ RSpec.describe 'Rate limiting', type: :request do
   end
 
   describe 'networks that send crawler swarms' do
-    it 'gives every address in the network one shared allowance of 10 requests a minute' do
-      statuses = (1..12).map { |i| hit("43.173.#{i}.#{i}") } # twelve different addresses, one network
+    it 'limits each address in the network to 10 requests a minute' do
+      statuses = (1..12).map { hit('43.173.1.1') }
 
       expect(statuses.first(10)).to all(satisfy { |s| s != 429 })
       expect(statuses.last(2)).to eq([429, 429])
+      expect(hit('43.173.1.2')).not_to eq(429) # a neighbour has its own allowance
     end
 
-    it 'counts each listed network separately' do
-      10.times { |i| hit("43.172.0.#{i + 1}") }
+    it 'cuts a swarm off at the shared ceiling of 300 a minute for the network' do
+      # 301 different addresses, one request each: nobody exceeds the per-address limit
+      statuses = (0..300).map { |i| hit("43.173.#{i / 250}.#{(i % 250) + 1}") }
 
-      expect(hit('43.172.0.99')).to eq(429)
-      expect(hit('161.120.180.5')).not_to eq(429)
+      expect(statuses.first(300)).to all(satisfy { |s| s != 429 })
+      expect(statuses.last).to eq(429)
+      expect(hit('161.120.180.5')).not_to eq(429) # the other network is counted separately
     end
 
     it 'does not touch addresses outside the listed networks' do
-      10.times { |i| hit("43.173.0.#{i + 1}") }
+      12.times { hit('43.173.0.9') }
 
       expect(hit('203.0.113.7')).not_to eq(429)
       expect(Rack::Attack.throttled_network('203.0.113.7')).to be_nil
