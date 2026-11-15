@@ -3,11 +3,15 @@
 require 'rails_helper'
 
 RSpec.describe 'Rate limiting', type: :request do
+  include ActiveSupport::Testing::TimeHelpers
+
   # The test environment uses a null cache, so give Rack::Attack a real one here.
+  # Limits are counted per calendar minute, so hold the clock mid-minute: a run
+  # of 300 requests that crossed a minute boundary would start a new count.
   around do |example|
     original = Rack::Attack.cache.store
     Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
-    example.run
+    travel_to(Time.utc(2026, 1, 1, 12, 0, 30)) { example.run }
   ensure
     Rack::Attack.cache.store = original
   end
