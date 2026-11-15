@@ -34,6 +34,9 @@ module DealHubApi
     # Required for OmniAuth Google OAuth (needs session middleware)
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore, key: '_deal_hub_session'
+    # The /admin pages are server-rendered and show flash messages, which API
+    # only mode leaves out
+    config.middleware.use ActionDispatch::Flash
     config.active_job.queue_adapter = :sidekiq
     config.active_support.to_time_preserves_timezone = :zone
   end
