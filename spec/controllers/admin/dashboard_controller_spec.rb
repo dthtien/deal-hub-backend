@@ -1,14 +1,10 @@
 require 'rails_helper'
+require_relative '../../support/admin_credentials'
 
 RSpec.describe 'Admin Dashboard', type: :request do
-  let(:headers) do
-    {
-      'Authorization' => ActionController::HttpAuthentication::Basic.encode_credentials(
-        ENV.fetch('ADMIN_USERNAME', 'admin'),
-        ENV.fetch('ADMIN_PASSWORD', 'changeme')
-      )
-    }
-  end
+  let(:headers) { admin_auth_header('admin', 'test-password') }
+
+  around { |example| with_admin_credentials('admin', 'test-password') { example.run } }
 
   describe 'POST /admin/dashboard/quick_action' do
     it 'queues the crawl distribution job' do
