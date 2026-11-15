@@ -9,17 +9,22 @@ class Rack::Attack
   end
 
   # Networks that have sent swarms of crawler traffic: thousands of addresses,
-  # each making only a few requests, so the per-address limit never applies.
-  # Every address in one of these networks shares that network's allowance.
-  # Override with THROTTLED_NETWORKS, a comma separated list of CIDR ranges
-  # (set it to an empty string to switch this off).
+  # each making only a few requests. Two kinds of limit apply to them.
+  # Override the list with THROTTLED_NETWORKS, a comma separated list of CIDR
+  # ranges (set it to an empty string to switch both off).
   #   43.160.0.0/12 and 161.120.176.0/20: Tencent Cloud (Aceville Pte Ltd)
   THROTTLED_NETWORKS = ENV.fetch('THROTTLED_NETWORKS', '43.160.0.0/12,161.120.176.0/20')
                           .split(',').map(&:strip).reject(&:empty?)
                           .to_h { |cidr| [cidr, IPAddr.new(cidr)] }.freeze
 
-  # Allowance per network. All three apply at once.
-  NETWORK_LIMITS = [[10, 1.minute], [100, 20.minutes], [200, 1.hour]].freeze
+  # 1. Per address: tighter than the general limit, because we cannot tell a
+  #    real visitor on these networks from a crawler. All three apply at once.
+  NETWORK_ADDRESS_LIMITS = [[10, 1.minute], [100, 20.minutes], [200, 1.hour]].freeze
+
+  # 2. Per network: a ceiling shared by every address in the network. Ordinary
+  #    traffic from these networks is well under 20 requests a minute, while a
+  #    swarm sends 1,400 to 3,700, with no single address exceeding limit 1.
+  NETWORK_CEILING_PER_MINUTE = Integer(ENV.fetch('THROTTLED_NETWORK_CEILING', 300))
 
   def self.throttled_network(ip)
     address = IPAddr.new(ip.to_s)
@@ -29,10 +34,14 @@ class Rack::Attack
     nil
   end
 
-  NETWORK_LIMITS.each do |limit, period|
-    throttle("network/#{period.to_i}s", limit: limit, period: period) do |req|
-      throttled_network(req.ip) if req.path.start_with?('/api/')
+  NETWORK_ADDRESS_LIMITS.each do |limit, period|
+    throttle("network-address/#{period.to_i}s", limit: limit, period: period) do |req|
+      req.ip if req.path.start_with?('/api/') && throttled_network(req.ip)
     end
+  end
+
+  throttle('network-ceiling/60s', limit: NETWORK_CEILING_PER_MINUTE, period: 1.minute) do |req|
+    throttled_network(req.ip) if req.path.start_with?('/api/')
   end
 
   # General API throttle: 60 req/min per IP
