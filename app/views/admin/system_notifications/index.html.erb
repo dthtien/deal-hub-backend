@@ -57,11 +57,11 @@
 <% if @total_pages > 1 %>
   <div class="flex items-center justify-center gap-2 mt-6">
     <% if @page > 1 %>
-      <%= link_to "Previous", admin_notifications_path(page: @page - 1), class: "px-4 py-2 rounded-lg border border-gray-200 text-sm font-semibold text-gray-600 hover:border-gray-300 transition-colors" %>
+      <%= link_to "Previous", admin_admin_notifications_path(page: @page - 1), class: "px-4 py-2 rounded-lg border border-gray-200 text-sm font-semibold text-gray-600 hover:border-gray-300 transition-colors" %>
     <% end %>
     <span class="text-sm text-gray-500">Page <%= @page %> of <%= @total_pages %></span>
     <% if @page < @total_pages %>
-      <%= link_to "Next", admin_notifications_path(page: @page + 1), class: "px-4 py-2 rounded-lg border border-gray-200 text-sm font-semibold text-gray-600 hover:border-gray-300 transition-colors" %>
+      <%= link_to "Next", admin_admin_notifications_path(page: @page + 1), class: "px-4 py-2 rounded-lg border border-gray-200 text-sm font-semibold text-gray-600 hover:border-gray-300 transition-colors" %>
     <% end %>
   </div>
 <% end %>
@@ -69,7 +69,7 @@
 <script>
   (function() {
     var interval = setInterval(function() {
-      fetch('<%= admin_notifications_path(format: :json, page: 1) %>', { headers: { Accept: 'application/json' } })
+      fetch('<%= admin_admin_notifications_path(format: :json, page: 1) %>', { headers: { Accept: 'application/json' } })
         .then(function(r) { return r.json(); })
         .then(function(data) {
           document.getElementById('notif-last-updated').textContent =

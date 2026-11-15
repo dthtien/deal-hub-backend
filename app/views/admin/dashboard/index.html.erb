@@ -199,7 +199,7 @@
       var msgEl = document.getElementById('quick-action-msg');
       btn.disabled = true;
       msgEl.textContent = 'Working...';
-      fetch('<%= admin_dashboard_quick_action_path %>', {
+      fetch('<%= admin_admin_dashboard_quick_action_path %>', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -245,7 +245,7 @@
 
   function fetchStats() {
     if (paused) return;
-    fetch('<%= admin_dashboard_stats_path %>', { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+    fetch('<%= admin_admin_dashboard_stats_path %>', { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
       .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
       .then(function(data) {
         lastUpdatedAt = Date.now();
