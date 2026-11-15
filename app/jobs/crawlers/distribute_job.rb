@@ -5,19 +5,17 @@ module Crawlers
     def perform
       Rails.logger.info 'Distributing crawl jobs with adaptive scheduling!'
 
-      # Paused on 2026-11-15, both failing on every run for months:
+      # Paused on 2026-11-15, failing on every run for months:
       # - Glue Store: the shop is offline ("Launching November" holding page) and its
       #   Algolia index glueprodau_products no longer exists. No products since 2026-06.
-      # - Myer: api-online.myer.com.au answers 404 "Page not found" for the listing
-      #   endpoint, so the crawler needs rewriting for their current API. None since 2026-07.
-      # To resume one, fix its crawler and add it back to this list:
+      # To resume it, fix its crawler and add it back to this list:
       #   Product::GLUE_STORE => Crawlers::GlueStoreJob,
-      #   Product::MYER       => Crawlers::MyerJob,
       jobs = {
         Product::OFFICE_WORKS     => Crawlers::OfficeWorksJob,
         Product::JB_HIFI          => Crawlers::JbHifiJob,
         Product::CULTURE_KINGS    => Crawlers::CultureKingsJob,
         Product::JD_SPORTS        => Crawlers::JdSportsJob,
+        Product::MYER             => Crawlers::MyerJob,
         Product::THE_GOOD_GUYS    => Crawlers::TheGoodGuysJob,
         Product::ASOS             => Crawlers::AsosJob,
         Product::THE_ICONIC       => Crawlers::TheIconicJob,
