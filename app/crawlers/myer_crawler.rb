@@ -1,12 +1,21 @@
 # frozen_string_literal: true
 
+# Myer's JSON listing API (api-online.myer.com.au/v3/product/cat/byseo/...) answers
+# 404 "Page not found" since 2026-07. The public sale page is server rendered and
+# embeds the same listing payload (productTotalCount, productList) in its
+# __NEXT_DATA__ script, 48 products per page, paginated with ?pageNumber=N.
 class MyerCrawler < ApplicationCrawler
-  PAGE_SIZE = 100
+  LISTING_PATH = 'c/offers/sale-all'
+  PAGE_SIZE = 48
   MAX_PAGES = 20
+  MAX_RETRIES = 3
+  PAGE_DELAY = 1 # seconds between listing pages
+  # Stand-in for a response when every attempt raised (timeout, connection reset...)
+  FailedResponse = Struct.new(:status, :body)
   attr_reader :data
 
   def initialize
-    super('https://api-online.myer.com.au')
+    super('https://www.myer.com.au')
     @total_pages = TOTAL_PAGES_UNKNOWN
     @current_page = 0
     @data = []
@@ -30,42 +39,60 @@ class MyerCrawler < ApplicationCrawler
   attr_reader :total_pages, :current_page
 
   def parse(response)
-    result = JSON.parse(response.body)
+    result = listing_from(response.body)
     total_count = result['productTotalCount']
     if total_pages == TOTAL_PAGES_UNKNOWN && total_count.nil?
       raise "MyerCrawler - first page has no productTotalCount (status #{response.status.inspect}): #{response.body.to_s.truncate(200)}"
     end
     if total_pages == TOTAL_PAGES_UNKNOWN && total_count.positive?
-      all_pages = (total_count / PAGE_SIZE.to_f).ceil
+      per_page = result['productsPerPage'].to_i
+      per_page = PAGE_SIZE unless per_page.positive?
+      all_pages = (total_count / per_page.to_f).ceil
       @total_pages = all_pages > MAX_PAGES ? MAX_PAGES : all_pages
     end
 
-    result['productList'] || []
+    products = result['productList'] || []
+    if products.empty?
+      # crawl_all stops here, so say why: a refused or changed page must not look like a short listing
+      Rails.logger.error "MyerCrawler - page #{current_page} returned no products (status #{response.status.inspect}), stopping with #{data.size} products collected"
+    end
+    products
+  end
+
+  # The listing is the dehydrated react-query entry whose key starts with "category",
+  # e.g. ["category", "/offers/sale-all", 1, [], "relevance"].
+  def listing_from(html)
+    script = Nokogiri::HTML(html.to_s, nil, 'UTF-8').at_css('script#__NEXT_DATA__')
+    return {} if script.nil?
+
+    queries = JSON.parse(script.text).dig('props', 'pageProps', 'dehydratedState', 'queries')
+    query = Array(queries).find { |q| Array(q['queryKey']).first == 'category' }
+    listing = query&.dig('state', 'data')
+    listing.is_a?(Hash) ? listing : {}
+  rescue JSON::ParserError, TypeError
+    {}
   end
 
   def fetch_list
-    retry_count ||= 0
     @current_page += 1
-    client.get('v3/product/cat/byseo/sale-all', params) do |req|
-      req.headers['Content-Type'] = 'application/json'
-      req.headers['Accept'] = 'application/json'
-      req.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
+    sleep PAGE_DELAY if current_page > 1
+    attempts = 0
+    begin
+      client.get(LISTING_PATH, params) do |req|
+        req.headers['Accept'] = 'text/html,application/xhtml+xml'
+        req.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
+      end
+    rescue StandardError => e
+      attempts += 1
+      retry if attempts <= MAX_RETRIES
+
+      Rails.logger.error "MyerCrawler - page #{current_page} failed after #{attempts} attempts: #{e.class} #{e.message}"
+      FailedResponse.new(nil, '')
     end
-  rescue StandardError => _e
-    if retry_count < 3
-      retry_count += 1
-      retry
-    end
-    OpenStruct.new(body: '{}')
   end
 
+  # The first page is the bare listing URL, exactly as the site links to it.
   def params
-    {
-      pageNumber: current_page,
-      pageSize: PAGE_SIZE,
-      facets: nil,
-      categoryUrlId: '/offers/sale-all',
-      variants: 'ff91b023-bce8-436e-a512-b7d2c365258e:46213aff-6657-45b4-b17b-84d0c5a9f725'
-    }
+    current_page > 1 ? { pageNumber: current_page } : {}
   end
 end
