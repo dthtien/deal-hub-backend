@@ -25,6 +25,7 @@ class SitemapController < ApplicationController
       ['/deals/expiring', 'hourly', '0.9'],
       ['/deals/bundles', 'daily', '0.8'],
       ['/feed.xml', 'hourly', '0.8'],
+      ['/black-friday', 'daily', '0.9'],
       ['/sales-calendar', 'weekly', '0.7'],
       ['/coupons', 'weekly', '0.7'],
       ['/about', 'monthly', '0.6'],
