@@ -46,8 +46,8 @@ RSpec.describe 'Rate limiting', type: :request do
   end
 
   describe "Google's crawlers" do
-    it 'are not held to the general 60 a minute' do
-      statuses = (1..80).map { hit('108.177.2.97') } # one of Google's published special-crawler addresses
+    it 'are not held to the general 300 a minute' do
+      statuses = (1..320).map { hit('108.177.2.97') } # one of Google's published special-crawler addresses
 
       expect(statuses).to all(satisfy { |s| s != 429 })
     end
@@ -61,10 +61,10 @@ RSpec.describe 'Rate limiting', type: :request do
     end
   end
 
-  it 'still limits a single ordinary address to 60 requests a minute' do
-    statuses = (1..61).map { hit('203.0.113.9') }
+  it 'limits a single ordinary address to 300 requests a minute' do
+    statuses = (1..301).map { hit('203.0.113.9') }
 
-    expect(statuses.first(60)).to all(satisfy { |s| s != 429 })
+    expect(statuses.first(300)).to all(satisfy { |s| s != 429 })
     expect(statuses.last).to eq(429)
   end
 end
