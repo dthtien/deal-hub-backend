@@ -66,8 +66,13 @@ class Rack::Attack
     req.ip if req.path.start_with?('/api/') && trusted_crawler?(req.ip)
   end
 
-  # General API throttle: 60 req/min per IP
-  throttle('api/ip', limit: 60, period: 1.minute) do |req|
+  # General API throttle per address. The website makes many API calls per page
+  # (one page of deals is well over 100), and a household shares one address,
+  # so this has to allow a few page loads a minute. API_RATE_LIMIT_PER_MINUTE
+  # overrides it.
+  GENERAL_LIMIT_PER_MINUTE = Integer(ENV.fetch('API_RATE_LIMIT_PER_MINUTE', 300))
+
+  throttle('api/ip', limit: GENERAL_LIMIT_PER_MINUTE, period: 1.minute) do |req|
     req.ip if req.path.start_with?('/api/') && !trusted_crawler?(req.ip)
   end
 
