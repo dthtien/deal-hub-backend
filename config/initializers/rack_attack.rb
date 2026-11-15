@@ -44,9 +44,31 @@ class Rack::Attack
     throttled_network(req.ip) if req.path.start_with?('/api/')
   end
 
+  # Google's own crawlers and fetchers, from the address lists Google publishes
+  # (config/google_crawler_networks.yml). They render our pages for search, so
+  # one of their addresses makes many API calls a minute on behalf of many pages.
+  # They are exempt from the general limit below and get a much higher one.
+  # TRUSTED_CRAWLER_NETWORKS adds more ranges (comma separated CIDR).
+  TRUSTED_CRAWLER_NETWORKS = (
+    YAML.load_file(Rails.root.join('config/google_crawler_networks.yml')).fetch('networks') +
+    ENV.fetch('TRUSTED_CRAWLER_NETWORKS', '').split(',').map(&:strip).reject(&:empty?)
+  ).map { |cidr| IPAddr.new(cidr) }.freeze
+  TRUSTED_CRAWLER_LIMIT_PER_MINUTE = 600
+
+  def self.trusted_crawler?(ip)
+    address = IPAddr.new(ip.to_s)
+    TRUSTED_CRAWLER_NETWORKS.any? { |range| range.include?(address) }
+  rescue IPAddr::Error
+    false
+  end
+
+  throttle('api/trusted-crawler', limit: TRUSTED_CRAWLER_LIMIT_PER_MINUTE, period: 1.minute) do |req|
+    req.ip if req.path.start_with?('/api/') && trusted_crawler?(req.ip)
+  end
+
   # General API throttle: 60 req/min per IP
   throttle('api/ip', limit: 60, period: 1.minute) do |req|
-    req.ip if req.path.start_with?('/api/')
+    req.ip if req.path.start_with?('/api/') && !trusted_crawler?(req.ip)
   end
 
   # Subscriber creation: 5 req/min per IP

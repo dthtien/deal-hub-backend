@@ -45,6 +45,22 @@ RSpec.describe 'Rate limiting', type: :request do
     end
   end
 
+  describe "Google's crawlers" do
+    it 'are not held to the general 60 a minute' do
+      statuses = (1..80).map { hit('108.177.2.97') } # one of Google's published special-crawler addresses
+
+      expect(statuses).to all(satisfy { |s| s != 429 })
+    end
+
+    it 'are recognised from the published ranges only' do
+      expect(Rack::Attack.trusted_crawler?('66.249.75.166')).to be true  # Googlebot
+      expect(Rack::Attack.trusted_crawler?('108.177.2.99')).to be true   # special crawlers
+      expect(Rack::Attack.trusted_crawler?('34.22.220.76')).to be false  # a Google Cloud customer, not Google
+      expect(Rack::Attack.trusted_crawler?('203.0.113.9')).to be false
+      expect(Rack::Attack.trusted_crawler?('not an address')).to be false
+    end
+  end
+
   it 'still limits a single ordinary address to 60 requests a minute' do
     statuses = (1..61).map { hit('203.0.113.9') }
 
