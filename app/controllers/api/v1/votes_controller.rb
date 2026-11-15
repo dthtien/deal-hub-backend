@@ -3,7 +3,32 @@
 module Api
   module V1
     class VotesController < ApplicationController
-      before_action :set_product
+      before_action :set_product, except: :index
+
+      MAX_BATCH = 100
+
+      # GET /api/v1/votes?deal_ids=1,2,3
+      #
+      # Vote counts for many deals in one request, so a page of deal cards
+      # makes one call instead of one per card. Unknown ids come back as zero.
+      def index
+        ids = params[:deal_ids].to_s.split(',')
+                               .filter_map { |id| Integer(id.strip, exception: false) }
+                               .select(&:positive?).uniq.first(MAX_BATCH)
+
+        counts = Vote.where(product_id: ids).group(:product_id, :value).count
+        mine = if session_id.present?
+                 Vote.where(product_id: ids, session_id: session_id).pluck(:product_id, :value).to_h
+               else
+                 {}
+               end
+
+        votes = ids.to_h do |id|
+          [id.to_s, { upvotes: counts[[id, 1]] || 0, downvotes: counts[[id, -1]] || 0, user_vote: mine[id] }]
+        end
+
+        render json: { votes: votes }
+      end
 
       def show
         upvotes   = @product.votes.where(value: 1).count

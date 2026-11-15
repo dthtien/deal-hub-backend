@@ -171,6 +171,7 @@ Rails.application.routes.draw do
       end
       get 'trending_searches', to: 'trending_searches#index'
       get 'trending_keywords', to: 'trending_keywords#index'
+      get 'votes', to: 'votes#index'
       resources :deals, only: %i[index show] do
         member do
           get :redirect
