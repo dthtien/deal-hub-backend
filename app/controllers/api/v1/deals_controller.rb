@@ -341,8 +341,8 @@ module Api
 
         base = Product
           .where(expired: false)
-          .where('expires_at IS NOT NULL AND expires_at > ? AND expires_at <= ?', Time.current, 48.hours.from_now)
-          .order(expires_at: :asc)
+          .where('flash_expires_at IS NOT NULL AND flash_expires_at > ? AND flash_expires_at <= ?', Time.current, 48.hours.from_now)
+          .order(flash_expires_at: :asc)
 
         total    = base.count
         products = base.limit(per_page).offset(offset)
