@@ -40,7 +40,12 @@ RSpec.describe 'Trusted proxies' do
 
     expect(robots).to match(/^User-agent: GPTBot$/)
     expect(robots).to match(/^User-agent: Reflectionbot$/)
+    expect(robots).to match(/^User-agent: ElevenlabsCrawler$/)
     expect(robots).not_to match(/^User-agent: Googlebot$/)
-    expect(robots.split(/^User-agent: \*$/).last).not_to match(%r{^Disallow: /$})
+
+    everyone = robots.split(/^User-agent: \*$/).last
+    expect(everyone).not_to match(%r{^Disallow: /$})
+    expect(everyone).not_to match(%r{^Disallow: /api/?$}) # search engines render pages with it
+    expect(everyone).to match(%r{^Disallow: /\*\.csv\$$})
   end
 end

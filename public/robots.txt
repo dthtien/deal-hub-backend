@@ -22,6 +22,7 @@ User-agent: Omgilibot
 User-agent: ImagesiftBot
 User-agent: Timpibot
 User-agent: PetalBot
+User-agent: ElevenlabsCrawler
 Disallow: /
 
 # SEO and market research crawlers
@@ -33,8 +34,11 @@ User-agent: DataForSeoBot
 User-agent: BLEXBot
 Disallow: /
 
-# Everyone else, including search engines
+# Everyone else, including search engines. The rest of /api/ stays open:
+# search engines call it while rendering the site's pages. File downloads
+# (price history CSVs) are for visitors, not crawlers.
 User-agent: *
 Disallow: /admin
 Disallow: /api/v1/auth/
 Disallow: /auth/
+Disallow: /*.csv$
