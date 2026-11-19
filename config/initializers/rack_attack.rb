@@ -76,6 +76,31 @@ class Rack::Attack
     req.ip if req.path.start_with?('/api/') && !trusted_crawler?(req.ip)
   end
 
+  # File downloads (price history CSVs). A visitor downloads one now and then;
+  # scrapers collect them by the hundred from many addresses. So there is a
+  # per-address limit and a shared ceiling across all addresses.
+  CSV_LIMITS_PER_ADDRESS = [[5, 1.minute], [20, 1.hour]].freeze
+  CSV_CEILING_PER_MINUTE = Integer(ENV.fetch('CSV_DOWNLOADS_PER_MINUTE', 30))
+
+  # The CSV can be asked for by extension, by ?format=csv or by Accept header
+  def self.csv_download?(req)
+    return false unless (req.get? || req.head?) && req.path.start_with?('/api/')
+
+    req.path.end_with?('.csv') ||
+      req.GET['format'].to_s.casecmp?('csv') ||
+      req.get_header('HTTP_ACCEPT').to_s.include?('text/csv')
+  end
+
+  CSV_LIMITS_PER_ADDRESS.each do |limit, period|
+    throttle("api/csv/#{period.to_i}s", limit: limit, period: period) do |req|
+      req.ip if csv_download?(req)
+    end
+  end
+
+  throttle('api/csv/all', limit: CSV_CEILING_PER_MINUTE, period: 1.minute) do |req|
+    'all' if csv_download?(req)
+  end
+
   # Subscriber creation: 5 req/min per IP
   throttle('api/subscribers', limit: 5, period: 1.minute) do |req|
     req.ip if req.path == '/api/v1/subscribers' && req.post?

@@ -65,6 +65,50 @@ RSpec.describe 'Rate limiting', type: :request do
     end
   end
 
+  describe 'price history CSV downloads' do
+    def download(ip, deal_id = 1)
+      get "/api/v1/deals/#{deal_id}/price_histories.csv", headers: { 'REMOTE_ADDR' => ip }
+      response.status
+    end
+
+    it 'allows an address 5 a minute and 20 an hour' do
+      statuses = (1..6).map { download('203.0.113.20') }
+      expect(statuses.first(5)).to all(satisfy { |s| s != 429 })
+      expect(statuses.last).to eq(429)
+      expect(hit('203.0.113.20')).not_to eq(429) # the rest of the API is unaffected
+
+      # 5 a minute for 4 minutes is 20 in the hour; the 21st is refused
+      hourly = (1..4).flat_map do
+        travel 1.minute
+        (1..5).map { download('203.0.113.21') }
+      end
+      expect(hourly).to all(satisfy { |s| s != 429 })
+      travel 1.minute
+      expect(download('203.0.113.21')).to eq(429)
+    end
+
+    it 'counts the CSV however it is asked for' do
+      ip = '203.0.113.30'
+      get '/api/v1/deals/1/price_histories', params: { format: 'csv' }, headers: { 'REMOTE_ADDR' => ip }
+      get '/api/v1/deals/1/price_histories', headers: { 'REMOTE_ADDR' => ip, 'HTTP_ACCEPT' => 'text/csv' }
+      head '/api/v1/deals/1/price_histories.csv', headers: { 'REMOTE_ADDR' => ip }
+      2.times { download(ip) }
+      expect(download(ip)).to eq(429)
+
+      # the JSON version is not a download
+      6.times { get '/api/v1/deals/1/price_histories', headers: { 'REMOTE_ADDR' => '203.0.113.31' } }
+      expect(response.status).not_to eq(429)
+    end
+
+    it 'caps downloads from all addresses together at 30 a minute' do
+      statuses = (1..31).map { |i| download("198.51.100.#{i}", i) }
+
+      expect(statuses.first(30)).to all(satisfy { |s| s != 429 })
+      expect(statuses.last).to eq(429)
+      expect(hit('198.51.100.99')).not_to eq(429)
+    end
+  end
+
   it 'limits a single ordinary address to 300 requests a minute' do
     statuses = (1..301).map { hit('203.0.113.9') }
 
