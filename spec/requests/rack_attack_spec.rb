@@ -87,6 +87,19 @@ RSpec.describe 'Rate limiting', type: :request do
       expect(download('203.0.113.21')).to eq(429)
     end
 
+    it 'counts the CSV however it is asked for' do
+      ip = '203.0.113.30'
+      get '/api/v1/deals/1/price_histories', params: { format: 'csv' }, headers: { 'REMOTE_ADDR' => ip }
+      get '/api/v1/deals/1/price_histories', headers: { 'REMOTE_ADDR' => ip, 'HTTP_ACCEPT' => 'text/csv' }
+      head '/api/v1/deals/1/price_histories.csv', headers: { 'REMOTE_ADDR' => ip }
+      2.times { download(ip) }
+      expect(download(ip)).to eq(429)
+
+      # the JSON version is not a download
+      6.times { get '/api/v1/deals/1/price_histories', headers: { 'REMOTE_ADDR' => '203.0.113.31' } }
+      expect(response.status).not_to eq(429)
+    end
+
     it 'caps downloads from all addresses together at 30 a minute' do
       statuses = (1..31).map { |i| download("198.51.100.#{i}", i) }
 

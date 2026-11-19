@@ -82,8 +82,13 @@ class Rack::Attack
   CSV_LIMITS_PER_ADDRESS = [[5, 1.minute], [20, 1.hour]].freeze
   CSV_CEILING_PER_MINUTE = Integer(ENV.fetch('CSV_DOWNLOADS_PER_MINUTE', 30))
 
+  # The CSV can be asked for by extension, by ?format=csv or by Accept header
   def self.csv_download?(req)
-    req.get? && req.path.start_with?('/api/') && req.path.end_with?('.csv')
+    return false unless (req.get? || req.head?) && req.path.start_with?('/api/')
+
+    req.path.end_with?('.csv') ||
+      req.GET['format'].to_s.casecmp?('csv') ||
+      req.get_header('HTTP_ACCEPT').to_s.include?('text/csv')
   end
 
   CSV_LIMITS_PER_ADDRESS.each do |limit, period|

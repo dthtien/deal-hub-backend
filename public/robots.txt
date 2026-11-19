@@ -42,3 +42,5 @@ Disallow: /admin
 Disallow: /api/v1/auth/
 Disallow: /auth/
 Disallow: /*.csv$
+Disallow: /*.csv?
+Disallow: /*format=csv
