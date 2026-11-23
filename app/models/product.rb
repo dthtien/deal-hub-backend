@@ -362,7 +362,7 @@ class Product < ApplicationRecord
 
   def as_json(options = {})
     currency_code = options.delete(:currency)
-    base = super(options).merge(
+    base = super(options).merge({
       store_url:,
       click_count:,
       deal_score:,
@@ -405,7 +405,7 @@ class Product < ApplicationRecord
       price_verified: price_verified,
       verified_at: verified_at,
       expiry_reason: expiry_reason
-    )
+    }.stringify_keys)
 
     if currency_code && currency_code != 'AUD' && EXCHANGE_RATES.key?(currency_code)
       rate = EXCHANGE_RATES[currency_code]
