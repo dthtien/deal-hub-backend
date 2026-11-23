@@ -38,6 +38,5 @@ module DealHubApi
     # only mode leaves out
     config.middleware.use ActionDispatch::Flash
     config.active_job.queue_adapter = :sidekiq
-    config.active_support.to_time_preserves_timezone = :zone
   end
 end
