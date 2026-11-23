@@ -1,9 +1,9 @@
 source "https://rubygems.org"
 
-ruby "3.4.2"
+ruby "4.0.10"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 8.0.2"
+gem "rails", "~> 8.1.4"
 
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
@@ -13,7 +13,7 @@ gem "pg_search"
 gem "puma", ">= 5.0"
 
 gem 'redis', '~> 5.1'
-gem 'sidekiq', '~> 7.2.4'
+gem 'sidekiq', '~> 7.3'
 gem 'sidekiq-scheduler'
 gem 'faraday', '~> 2.9.0'
 # nokogiri is already a transitive dependency
@@ -45,12 +45,12 @@ gem "bootsnap", require: false
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin Ajax possible
 gem "rack-cors"
-gem 'gush', '~> 4.2'
+gem 'gush', '~> 5.0'
 gem "anthropic"
 gem 'graphql', '~> 2.3'
 gem 'webpush'
 gem 'omniauth-google-oauth2', '~> 1.1'
-gem 'omniauth-rails_csrf_protection', '~> 1.0'
+gem 'omniauth-rails_csrf_protection', '~> 2.0'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

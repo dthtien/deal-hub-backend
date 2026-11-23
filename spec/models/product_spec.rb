@@ -21,7 +21,7 @@ RSpec.describe Product, :model, type: :model do
         'updated_at' => product.updated_at.strftime(::Product::DATE_FORMAT),
         'created_at' => product.created_at.strftime(::Product::DATE_FORMAT),
         'commission_rate' => a_kind_of(Numeric).or(a_kind_of(String))
-      ).merge(
+      ).merge({
         store_url: nil,
         click_count: 0,
         deal_score: 0,
@@ -58,8 +58,16 @@ RSpec.describe Product, :model, type: :model do
         price_verified: nil,
         verified_at: nil,
         expiry_reason: nil
-      )
+      }.stringify_keys)
       expect(product.as_json).to match(expected)
+    end
+
+    it 'serializes to JSON with the computed values replacing the stored columns' do
+      product = create(:product, deal_score: 42, tags: nil)
+
+      json = JSON.parse(product.to_json)
+
+      expect(json).to include('deal_score' => product.deal_score, 'tags' => [])
     end
   end
 
