@@ -160,6 +160,9 @@ GEM
     hkdf (0.3.0)
     i18n (1.14.4)
       concurrent-ruby (~> 1.0)
+    image_processing (1.14.0)
+      mini_magick (>= 4.9.5, < 6)
+      ruby-vips (>= 2.0.17, < 3)
     io-console (0.9.5)
     irb (1.19.0)
       pp (>= 0.6.0)
@@ -181,6 +184,8 @@ GEM
       net-pop
       net-smtp
     marcel (1.0.4)
+    mini_magick (5.4.0)
+      logger
     mini_mime (1.1.5)
     mini_portile2 (2.8.8)
     minitest (6.1.0)
@@ -349,6 +354,9 @@ GEM
       rspec-mocks (~> 3.13)
       rspec-support (~> 3.13)
     rspec-support (3.13.1)
+    ruby-vips (2.3.0)
+      ffi (~> 1.12)
+      logger
     rufus-scheduler (3.9.1)
       fugit (~> 1.1, >= 1.1.6)
     securerandom (0.4.1)
@@ -417,6 +425,7 @@ DEPENDENCIES
   faraday (~> 2.9.0)
   graphql (~> 2.3)
   gush (~> 5.0)
+  image_processing (~> 1.2)
   jwt (~> 2.8)
   omniauth-google-oauth2 (~> 1.1)
   omniauth-rails_csrf_protection (~> 2.0)
